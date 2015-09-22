@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LogicStub", "LogicStub\LogicStub.vcxproj", "{1A855D7C-7E0B-44F2-B8C6-679F5C6BB873}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UI", "UI\UI.vcxproj", "{D93019A4-45E5-46A5-BCC1-AD816456254A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A855D7C-7E0B-44F2-B8C6-679F5C6BB873}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1A855D7C-7E0B-44F2-B8C6-679F5C6BB873}.Debug|Win32.Build.0 = Debug|Win32
+		{1A855D7C-7E0B-44F2-B8C6-679F5C6BB873}.Release|Win32.ActiveCfg = Release|Win32
+		{1A855D7C-7E0B-44F2-B8C6-679F5C6BB873}.Release|Win32.Build.0 = Release|Win32
+		{D93019A4-45E5-46A5-BCC1-AD816456254A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D93019A4-45E5-46A5-BCC1-AD816456254A}.Debug|Win32.Build.0 = Debug|Win32
+		{D93019A4-45E5-46A5-BCC1-AD816456254A}.Release|Win32.ActiveCfg = Release|Win32
+		{D93019A4-45E5-46A5-BCC1-AD816456254A}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
