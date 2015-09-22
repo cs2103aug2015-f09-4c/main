@@ -1,5 +1,5 @@
 #ifndef SWIFT_TASK_H_
-#define SWIFT_TASK_H_
+#define SWIFT_TASK_H_ 
 
 #include <vector>
 #include <string>
@@ -86,7 +86,7 @@ public:
 	int getEndDateTime() {
 		return endDateTime;
 	} 
-};
+}
 
 class Task{
 private:
