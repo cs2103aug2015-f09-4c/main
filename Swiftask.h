@@ -1,3 +1,6 @@
+#ifndef SWIFT_TASK_H_
+#define SWIFT_TASK_H_ 
+
 #include <vector>
 #include <string>
 
@@ -17,7 +20,7 @@ private:
 	
 	PrimaryCommandType _primaryCommandType;
 	SecondaryCommandType _secondaryCommandType;
-	vector<string> _details;
+	std::vector<std::string> _details;
 	
 	//dateTime object to be specified later, int is used as dummy variable in the meanwhile 
 	int _startDateTime;
@@ -30,14 +33,14 @@ public:
 	}
 	
 	//for operation without date and time
-	CommandTokens(PrimaryCommandType command1, SecondaryCommandType command2, vector<string> details) {
+	CommandTokens(PrimaryCommandType command1, SecondaryCommandType command2, std::vector<std::string> details) {
 		_primaryCommandType = command1;
 		_secondaryCommandType = command2;
 		_details = details;
 	}
 	
 	//for operation with either start or end dateTime, int is used as dummy variable in the meanwhile
-	CommandTokens(PrimaryCommandType command1, SecondaryCommandType command2, vector<string> details, int dateTime) {
+	CommandTokens(PrimaryCommandType command1, SecondaryCommandType command2, std::vector<std::string> details, int dateTime) {
 		_primaryCommandType = command1;
 		_secondaryCommandType = command2;
 		_details = details;
@@ -46,7 +49,7 @@ public:
 	}
 	
 	//for operation with both date and time, int is used as dummy variable in the meanwhile
-	CommandTokens(PrimaryCommandType command1, SecondaryCommandType command2, vector<string> details, int startDateTime, int endDateTime) {
+	CommandTokens(PrimaryCommandType command1, SecondaryCommandType command2, std::vector<std::string> details, int startDateTime, int endDateTime) {
 		_primaryCommandType = command1;
 		_secondaryCommandType = command2;
 		_details = details;
@@ -71,7 +74,7 @@ public:
 		return _secondaryCommandType;
 	}
 	
-	vector<string>& getDetails() {
+	std::vector<std::string>& getDetails() {
 		return _details;
 	}
 	
@@ -83,10 +86,55 @@ public:
 	int getEndDateTime() {
 		return endDateTime;
 	} 
-	
-	
-	
-	
-	
 }
+
+class Task{
+private:
+	std::string _taskText;
+	
+	//dateTime object to be specified, use int as dummy variable
+	int _startDateTime;
+	int _endDateTime;
+
+public:
+	Task(string taskText, int startDateTime, int endDateTime) {
+		_taskText = taskText;
+		_startDateTime = startDateTime;
+		_endDateTime = endDateTime;
+	}
+
+	std::string getTaskText() {
+		return _taskText;
+	}
+
+	//int to be replace by dateTime object
+	int getStartDateTime() {
+		return _startDateTime;
+	}
+
+	int getEndDateTime() {
+		return _endDateTime;
+	}
+};
+
+class UIFeedback() {
+private:
+	std::vector<Task> _tasksForDisplay;
+	std::string _feedbackMessage;
+public:
+	UIFeedback(std::vector<Task>& tasksForDisplay, std::string feedbackMessage) {
+		_tasksForDisplay = tasksForDisplay;
+		_feedback = feedbackMessage;
+	}
+
+	std::vector<std::string>& getTasksForDisplay() {
+		return _tasksForDisplay;
+	}
+
+	std::string getFeedbackMessage() {
+		return _feedbackMessage;
+	}
+}
+
+#endif
 
