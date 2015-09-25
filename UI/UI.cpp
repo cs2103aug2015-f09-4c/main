@@ -1,5 +1,5 @@
 #include "UI.h"
-#include "Logic.h"
+#include "..\LogicStub\Logic.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -11,4 +11,4 @@ void main(array<String^>^ args) {
 
 	UI::Swiftask mainWindow;
 	Application::Run(%mainWindow);
-}
+}

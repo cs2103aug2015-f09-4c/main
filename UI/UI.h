@@ -1,6 +1,6 @@
 #pragma once
 #include <msclr\marshal_cppstd.h>
-#include "Logic.h"
+#include "..\LogicStub\Logic.h"
 
 namespace UI {
 
