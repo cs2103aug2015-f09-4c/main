@@ -1,5 +1,7 @@
 #include <fstream>
-#include "..\..\Swiftask.h"
+#include "..\..\APIContracts\CommandTokens.h"
+#include "..\..\APIContracts\Task.h"
+#include "..\..\APIContracts\UIFeedback.h"
 #include "Logic.h"
 
 class StorageHandler {

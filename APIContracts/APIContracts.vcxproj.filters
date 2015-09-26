@@ -15,18 +15,24 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="StorageHandler.h">
+    <ClInclude Include="CommandTokens.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CommandCreator.h">
+    <ClInclude Include="Task.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Logic.h">
+    <ClInclude Include="UIFeedback.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="test.cpp">
+    <ClCompile Include="CommandTokens.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Task.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UIFeedback.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
