@@ -15,6 +15,7 @@
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
     <RootNamespace>UI</RootNamespace>
+    <ProjectName>Swiftask</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -79,16 +80,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="UI.cpp" />
+    <ClCompile Include="Swiftask.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="UI.h">
+    <ClInclude Include="Swiftask.h">
       <FileType>CppForm</FileType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="UI.resx">
-      <DependentUpon>UI.h</DependentUpon>
+    <EmbeddedResource Include="Swiftask.resx">
+      <DependentUpon>Swiftask.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
