@@ -2,8 +2,14 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LogicStub", "LogicStub\LogicStub.vcxproj", "{1A855D7C-7E0B-44F2-B8C6-679F5C6BB873}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1A7DEB8B-9BEF-40EB-9CED-EC4676369E05} = {1A7DEB8B-9BEF-40EB-9CED-EC4676369E05}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UI", "UI\UI.vcxproj", "{D93019A4-45E5-46A5-BCC1-AD816456254A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1A7DEB8B-9BEF-40EB-9CED-EC4676369E05} = {1A7DEB8B-9BEF-40EB-9CED-EC4676369E05}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Logic", "Logic\Logic\Logic.vcxproj", "{1A7DEB8B-9BEF-40EB-9CED-EC4676369E05}"
 EndProject
