@@ -82,16 +82,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Swiftask.cpp" />
+    <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Swiftask.h">
+    <ClInclude Include="UI.h">
       <FileType>CppForm</FileType>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Swiftask.resx">
-      <DependentUpon>Swiftask.h</DependentUpon>
+    <EmbeddedResource Include="UI.resx">
+      <DependentUpon>UI.h</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

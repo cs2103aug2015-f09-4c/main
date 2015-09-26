@@ -1,5 +1,5 @@
 #include "UI.h"
-#include "..\LogicStub\Logic.h"
+#include "Logic.h"
 
 using namespace System;
 using namespace System::Windows::Forms;

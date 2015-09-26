@@ -15,17 +15,17 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Swiftask.h">
+    <ClInclude Include="UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Swiftask.resx">
+    <EmbeddedResource Include="UI.resx">
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Swiftask.cpp">
+    <ClCompile Include="UI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
