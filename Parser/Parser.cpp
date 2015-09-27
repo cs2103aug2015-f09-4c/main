@@ -27,7 +27,7 @@ CommandTokens Parser::parse(std::string userInput) {
 PrimaryCommandType Parser::extractPrimaryCommand(std::string userInput) {
 	PrimaryCommandType commandType = Invalid;
 	if (std::regex_match(userInput,
-		std::regex("[A][D][D] .*",std::regex_constants::ECMAScript | std::regex_constants::icase ))) {
+		std::regex("[A][D][D] .*", std::regex_constants::ECMAScript | std::regex_constants::icase ))) {
 		commandType = Add;
 
 	}/* else if (std::regex_match(userInput, std::regex("[Dd][Ee][Ll][Ee][Tt][Ee] .*"))) {
@@ -53,16 +53,22 @@ void Parser::extractAddCommand(std::string userInput) {
 }
 
 bool Parser::hasStartAndEndDate(std::string userInput) {
-	return std::regex_match(userInput, std::regex(".* [Ff][Rr][Oo][Mm] .*[Tt][Oo] .*"));
+	return std::regex_match(userInput,
+		std::regex(".* [F][R][O][M] .*[T][O] .*",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
 }
 
 bool Parser::hasEndDate(std::string userInput) {
-	return std::regex_match(userInput, std::regex(".* [Bb][Yy] .*"));
+	return std::regex_match(userInput,
+		std::regex(".* [B][Y] .*",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
 }
 
 void Parser::extractAddCommandWithStartAndEndDate(std::string userInput) {
 	std::smatch matchResults;
-	std::regex_match(userInput, matchResults, std::regex("[Aa][Dd][Dd] (.*) [Ff][Rr][Oo][Mm] (.*) [Tt][Oo] (.*)"));
+	std::regex_match(userInput, matchResults,
+		std::regex("[A][D][D] (.*) [F][R][O][M] (.*) [T][O] (.*)",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
 
 	_commandTokens.setTaskName(matchResults[1]);
 	_commandTokens.setStartDateTime(parseDate(matchResults[2]));
@@ -71,16 +77,25 @@ void Parser::extractAddCommandWithStartAndEndDate(std::string userInput) {
 
 void Parser::extractAddCommandWithEndDate(std::string userInput) {
 	std::smatch matchResults;
-	std::regex_match(userInput, matchResults, std::regex("[Aa][Dd][Dd] (.*) [Bb][Yy] (.*)"));
+	std::regex_match(userInput, matchResults,
+		std::regex("[A][D][D] (.*) [B][Y] (.*)",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+
+	_commandTokens.setTaskName(matchResults[1]);
+	_commandTokens.setEndDateTime(parseDate(matchResults[2]));
 }
 
 void Parser::extractAddCommandFloating(std::string userInput) {
 	std::smatch matchResults;
-	std::regex_match(userInput, matchResults, std::regex("[Aa][Dd][Dd] (.*)"));
+	std::regex_match(userInput, matchResults,
+		std::regex("[A][D][D] (.*)",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+
+	_commandTokens.setTaskName(matchResults[1]);
 }
 
-int Parser::parseDate(std::string dateString) {
+boost::posix_time::ptime Parser::parseDate(std::string dateString) {
 	// TODO implement properly
-	int dateInt = 20150927;
-	return dateInt;
+	boost::posix_time::ptime ptimePlaceholder(boost::posix_time::time_from_string(dateString));
+	return ptimePlaceholder;
 }

@@ -30,5 +30,5 @@ private:
 	void extractAddCommandWithEndDate(std::string userInput);
 	void extractAddCommandFloating(std::string userInput);
 
-	int parseDate(std::string dateString);
+	boost::posix_time::ptime parseDate(std::string dateString);
 };
