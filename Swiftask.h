@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include "boost/date_time/posix_time/posix_time.hpp"
+//#include "boost/date_time/posix_time/posix_time.hpp"
 
 // Command Type for main groups of operation
 enum PrimaryCommandType {
@@ -98,6 +98,26 @@ private:
 	int _endDateTime;
 
 public:
+	Task() {
+		_taskText = "";
+		_startDateTime = -1;
+		_endDateTime = -1;
+	}
+
+	Task(std::string taskText) {
+		_taskText = taskText;
+		//invalid date time to indicate no date time
+		_startDateTime = -1;
+		_endDateTime = -1;
+	}
+
+	Task(std::string taskText, int endDateTime) {
+		_taskText = taskText;
+		_endDateTime = endDateTime;
+		//invalid date time to indicate no start date time
+		_startDateTime = -1;
+	}
+
 	Task(std::string taskText, int startDateTime, int endDateTime) {
 		_taskText = taskText;
 		_startDateTime = startDateTime;
@@ -123,6 +143,9 @@ private:
 	std::vector<Task> _tasksForDisplay;
 	std::string _feedbackMessage;
 public:
+	UIFeedback() {
+	}
+
 	UIFeedback(std::vector<Task>& tasksForDisplay, std::string feedbackMessage) {
 		_tasksForDisplay = tasksForDisplay;
 		_feedbackMessage = feedbackMessage;

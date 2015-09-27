@@ -6,26 +6,28 @@
 #include "StorageHandler.h"
 #include "CommandCreator.h"
 
-const string MESSAGE_INVALID_COMMAND = "Invalid Command. No change is made.";
+const std::string MESSAGE_INVALID_COMMAND = "Invalid Command. No change is made.";
 
 class Logic {
 private:
-	StorageHandler _storageHandler(string filePath);
+	StorageHandler* _storageHandler;
 	CommandCreator _commandCreator;
+	Parser _parser;
 	std::vector<Task> currentDisplay;
 	std::string _fileName;
 
 public:
-	Logic(string fileName)  {
+	Logic(std::string fileName)  {
 		_fileName = fileName;
+		_storageHandler = new StorageHandler(fileName);
 	}
 
-	UIFeedback executeCommand(userString) {
-		CommandTokens commandTokens= Parser.parse(userString);
-		if (commandTokens.isValid() {
-			Command command= _commandCreator.process(commandTokens);
-			UIFeedback feedback = _storageHandler.process(command);
-			currentDisplay = feedback.getTaskForDisplay();
+	UIFeedback executeCommand(std::string userString) {
+		CommandTokens commandTokens= _parser.parse(userString);
+		if (commandTokens.isValid()) {
+			Command* command= _commandCreator.process(commandTokens);
+			UIFeedback feedback = command->execute(_storageHandler);
+			currentDisplay = feedback.getTasksForDisplay();
 			return feedback;
 		} else {
 			UIFeedback feedback(currentDisplay, MESSAGE_INVALID_COMMAND);
