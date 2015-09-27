@@ -21,9 +21,6 @@
     <ClInclude Include="CommandCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Swiftask.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Logic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
