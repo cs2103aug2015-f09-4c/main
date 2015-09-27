@@ -1,7 +1,7 @@
 #include "CommandTokens.h"
 
 //default constructor, used for invalid command
-CommandTokens::CommandTokens() { 
+CommandTokens::CommandTokens() {
 	_primaryCommandType = Invalid;
 }
 
@@ -61,7 +61,7 @@ int CommandTokens::getStartDateTime() {
 
 int CommandTokens::getEndDateTime() {
 	return _endDateTime;
-} 
+}
 
 void CommandTokens::setPrimaryCommand(PrimaryCommandType newPrimaryCommand) {
 	_primaryCommandType = newPrimaryCommand;

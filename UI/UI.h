@@ -1,6 +1,6 @@
 #pragma once
 #include <msclr\marshal_cppstd.h>
-#include "Logic.h"
+#include "..\LogicStub\Logic.h"
 
 namespace UI {
 
@@ -16,7 +16,7 @@ namespace UI {
 	/// </summary>
 	public ref class Swiftask : public System::Windows::Forms::Form
 	{
-	private: 
+	private:
 		bool isEntered;
 		Logic* logic;
 	public:
@@ -43,9 +43,9 @@ namespace UI {
 			}
 		}
 	private: System::Windows::Forms::DataGridView^  outputBox;
-	protected: 
+	protected:
 
-	protected: 
+	protected:
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Task;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Start;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  End;
@@ -75,13 +75,13 @@ namespace UI {
 			this->results = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->outputBox))->BeginInit();
 			this->SuspendLayout();
-			// 
+			//
 			// outputBox
-			// 
+			//
 			this->outputBox->AllowUserToAddRows = false;
 			this->outputBox->AllowUserToDeleteRows = false;
 			this->outputBox->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->outputBox->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(4) {this->Task, this->Start, 
+			this->outputBox->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(4) {this->Task, this->Start,
 				this->End, this->Tags});
 			this->outputBox->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->outputBox->Location = System::Drawing::Point(0, 0);
@@ -89,34 +89,34 @@ namespace UI {
 			this->outputBox->ReadOnly = true;
 			this->outputBox->Size = System::Drawing::Size(444, 261);
 			this->outputBox->TabIndex = 0;
-			// 
+			//
 			// Task
-			// 
+			//
 			this->Task->HeaderText = L"Task";
 			this->Task->Name = L"Task";
 			this->Task->ReadOnly = true;
-			// 
+			//
 			// Start
-			// 
+			//
 			this->Start->HeaderText = L"Start";
 			this->Start->Name = L"Start";
 			this->Start->ReadOnly = true;
-			// 
+			//
 			// End
-			// 
+			//
 			this->End->HeaderText = L"End";
 			this->End->Name = L"End";
 			this->End->ReadOnly = true;
-			// 
+			//
 			// Tags
-			// 
+			//
 			this->Tags->HeaderText = L"Tags";
 			this->Tags->Name = L"Tags";
 			this->Tags->ReadOnly = true;
-			// 
+			//
 			// commandBox
-			// 
-			this->commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(7) {L"add", L"clear", L"delete", 
+			//
+			this->commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(7) {L"add", L"clear", L"delete",
 				L"display", L"exit", L"search", L"sort"});
 			this->commandBox->AutoCompleteMode = System::Windows::Forms::AutoCompleteMode::Suggest;
 			this->commandBox->AutoCompleteSource = System::Windows::Forms::AutoCompleteSource::CustomSource;
@@ -126,9 +126,9 @@ namespace UI {
 			this->commandBox->Size = System::Drawing::Size(444, 20);
 			this->commandBox->TabIndex = 1;
 			this->commandBox->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Swiftask::commandBox_KeyDown);
-			// 
+			//
 			// results
-			// 
+			//
 			this->results->AutoSize = true;
 			this->results->Dock = System::Windows::Forms::DockStyle::Bottom;
 			this->results->Location = System::Drawing::Point(0, 228);
@@ -136,9 +136,9 @@ namespace UI {
 			this->results->Size = System::Drawing::Size(253, 13);
 			this->results->TabIndex = 2;
 			this->results->Text = L"Switask is ready. Enter command below to continue.";
-			// 
+			//
 			// Swiftask
-			// 
+			//
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(444, 261);

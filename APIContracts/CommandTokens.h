@@ -49,13 +49,13 @@ public:
 	int getEndDateTime();
 	void setEndDateTime(int newEndDateTime);
 
-private:	
+private:
 	PrimaryCommandType _primaryCommandType;
 	SecondaryCommandType _secondaryCommandType;
 	std::string _taskName;
 	std::vector<std::string> _details;
 
-	//dateTime object to be specified later, int is used as dummy variable in the meanwhile 
+	//dateTime object to be specified later, int is used as dummy variable in the meanwhile
 	int _startDateTime;
 	int _endDateTime;
 };
