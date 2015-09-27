@@ -80,10 +80,10 @@ void CommandTokens::setDetails(std::vector< std::string > newDetails) {
 	_details = newDetails;
 }
 
-void CommandTokens::setStartDateTime(int newStartDateTime) {
+void CommandTokens::setStartDateTime(boost::posix_time::ptime newStartDateTime) {
 	_startDateTime = newStartDateTime;
 }
 
-void CommandTokens::setEndDateTime(int newEndDateTime) {
+void CommandTokens::setEndDateTime(boost::posix_time::ptime newEndDateTime) {
 	_endDateTime = newEndDateTime;
 }
