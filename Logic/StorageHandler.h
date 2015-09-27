@@ -2,9 +2,9 @@
 #define STORAGE_HANDLER_H
 
 #include <fstream>
-#include "..\..\APIContracts\CommandTokens.h"
-#include "..\..\APIContracts\Task.h"
-#include "..\..\APIContracts\UIFeedback.h"
+#include "..\APIContracts\CommandTokens.h"
+#include "..\APIContracts\Task.h"
+#include "..\APIContracts\UIFeedback.h"
 #include "Logic.h"
 
 class StorageHandler {

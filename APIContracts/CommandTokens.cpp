@@ -1,4 +1,5 @@
 #include "CommandTokens.h"
+#include "boost/date_time/posix_time/posix_time.hpp"
 
 	//default constructor, used for invalid command
 	CommandTokens::CommandTokens() { 
@@ -13,7 +14,7 @@
 	}
 	
 	//for operation with either start or end dateTime, int is used as dummy variable in the meanwhile
-	CommandTokens::CommandTokens(PrimaryCommandType command1, SecondaryCommandType command2, std::vector<std::string> details, int dateTime) {
+	CommandTokens::CommandTokens(PrimaryCommandType command1, SecondaryCommandType command2, std::vector<std::string> details, boost::posix_time::ptime dateTime) {
 		_primaryCommandType = command1;
 		_secondaryCommandType = command2;
 		_details = details;
@@ -22,7 +23,7 @@
 	}
 	
 	//for operation with both date and time, int is used as dummy variable in the meanwhile
-	CommandTokens::CommandTokens(PrimaryCommandType command1, SecondaryCommandType command2, std::vector<std::string> details, int startDateTime, int endDateTime) {
+	CommandTokens::CommandTokens(PrimaryCommandType command1, SecondaryCommandType command2, std::vector<std::string> details, boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime) {
 		_primaryCommandType = command1;
 		_secondaryCommandType = command2;
 		_details = details;
@@ -52,10 +53,10 @@
 	}
 	
 	//int is used as dummy variable for dateTime
-	int CommandTokens::getStartDateTime() {
+	boost::posix_time::ptime CommandTokens::getStartDateTime() {
 		return _startDateTime;
 	}
 	
-	int CommandTokens::getEndDateTime() {
+	boost::posix_time::ptime CommandTokens::getEndDateTime() {
 		return _endDateTime;
 	} 

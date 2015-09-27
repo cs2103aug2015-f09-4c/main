@@ -3,7 +3,9 @@
 
 #include <cstdio>
 #include "StorageHandler.h"
-#include "..\..\Swiftask.h"
+#include "..\APIContracts\CommandTokens.h"
+#include "..\APIContracts\Task.h"
+#include "..\APIContracts\UIFeedback.h"
 
 const std::string MESSAGE_INVALID = "Invalid command line. Please key in another command";
 const std::string MESSAGE_ADD_SUCCESS = "\"%s\" have been added succesfully.\nStart Date Time: %s\nEnd Date Time: %s"; 

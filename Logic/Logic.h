@@ -1,9 +1,9 @@
 #ifndef LOGIC_H_
 #define LOGIC_H_
 
-#include "..\..\APIContracts\CommandTokens.h"
-#include "..\..\APIContracts\Task.h"
-#include "..\..\APIContracts\UIFeedback.h"
+#include "..\APIContracts\CommandTokens.h"
+#include "..\APIContracts\Task.h"
+#include "..\APIContracts\UIFeedback.h"
 #include "Parser.h"
 #include "StorageHandler.h"
 #include "CommandCreator.h"
