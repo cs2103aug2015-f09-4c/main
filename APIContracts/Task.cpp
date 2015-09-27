@@ -2,7 +2,7 @@
 
 #include <string>
 
-	Task::Task(std::string taskText, int startDateTime, int endDateTime) {
+	Task::Task(std::string taskText, boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime) {
 		_taskText = taskText;
 		_startDateTime = startDateTime;
 		_endDateTime = endDateTime;
@@ -13,10 +13,10 @@
 	}
 
 	//int to be replace by dateTime object
-	int Task::getStartDateTime() {
+	boost::posix_time::ptime Task::getStartDateTime() {
 		return _startDateTime;
 	}
 
-	int Task::getEndDateTime() {
+	boost::posix_time::ptime Task::getEndDateTime() {
 		return _endDateTime;
 	}

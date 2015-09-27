@@ -7,18 +7,18 @@
 class Task
 {
 public:
-	Task(std::string taskText, int startDateTime, int endDateTime);
+	Task(std::string taskText, boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime);
 	std::string getTaskText();
 
 	//int to be replace by dateTime object
-	int getStartDateTime();
-	int getEndDateTime();
+	boost::posix_time::ptime getStartDateTime();
+	boost::posix_time::ptime getEndDateTime();
 
 private:
 	std::string _taskText;
 
 	//dateTime object to be specified, use int as dummy variable
-	int _startDateTime;
-	int _endDateTime;
+	boost::posix_time::ptime _startDateTime;
+	boost::posix_time::ptime _endDateTime;
 };
 
