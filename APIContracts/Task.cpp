@@ -2,6 +2,18 @@
 
 #include <string>
 
+	Task::Task() {
+	}
+
+	Task::Task(std::string taskText) {
+		_taskText = taskText;
+	}
+
+	Task::Task(std::string taskText, boost::posix_time::ptime endDateTime) {
+		_taskText = taskText;
+		_endDateTime = endDateTime;
+	}
+
 	Task::Task(std::string taskText, boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime) {
 		_taskText = taskText;
 		_startDateTime = startDateTime;

@@ -1,12 +1,15 @@
 #pragma once
 
 // TODO this include may not belong here, move it
-#include "boost/date_time/posix_time/posix_time.hpp"
+#include "../boost/date_time/posix_time/posix_time.hpp"
 
 
 class Task
 {
 public:
+	Task();
+	Task(std::string taskText);
+	Task(std::string taskText, boost::posix_time::ptime endDateTime);
 	Task(std::string taskText, boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime);
 	std::string getTaskText();
 

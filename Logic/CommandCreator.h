@@ -3,9 +3,7 @@
 
 #include <cstdio>
 #include "StorageHandler.h"
-#include "..\APIContracts\CommandTokens.h"
-#include "..\APIContracts\Task.h"
-#include "..\APIContracts\UIFeedback.h"
+
 
 const std::string MESSAGE_INVALID = "Invalid command line. Please key in another command";
 const std::string MESSAGE_ADD_SUCCESS = "\"%s\" have been added succesfully.\nStart Date Time: %s\nEnd Date Time: %s"; 
@@ -67,8 +65,8 @@ public:
 		} else {
 			storageHandler->add(_task);
 			std::string taskText = _task.getTaskText();
-			std::string startDateTime = std::to_string(_task.getStartDateTime());
-			std::string endDateTime = std::to_string(_task.getEndDateTime());
+			std::string startDateTime = boost::posix_time::to_simple_string(_task.getStartDateTime());
+			std::string endDateTime = boost::posix_time::to_simple_string(_task.getEndDateTime());
 			char buffer[255];
 			sprintf_s(buffer, MESSAGE_ADD_SUCCESS.c_str(), taskText, startDateTime, endDateTime);
 			feedback = new UIFeedback(storageHandler->getAllTask(), std::string(buffer));
@@ -94,7 +92,7 @@ class CommandCreator {
 private:
 	static Command* processByPrimaryCommandType(CommandTokens commandTokens) {
 		PrimaryCommandType command1 = commandTokens.getPrimaryCommand();
-		Command* returnCommand;
+		Command* returnCommand = NULL;
 		switch (command1) {
 		case PrimaryCommandType::Add:
 			returnCommand = new AddCommand(processAddCommand(commandTokens));
@@ -107,7 +105,7 @@ private:
 	}
 
 	static AddCommand processAddCommand(CommandTokens commandTokens) {
-		AddCommand* returnCommand;
+		AddCommand* returnCommand = NULL;
 		SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
 		Task* task = NULL;
 		switch (command2) {

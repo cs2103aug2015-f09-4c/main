@@ -5,7 +5,6 @@
 #include "..\APIContracts\CommandTokens.h"
 #include "..\APIContracts\Task.h"
 #include "..\APIContracts\UIFeedback.h"
-#include "Logic.h"
 
 class StorageHandler {
 private:
@@ -31,6 +30,8 @@ private:
 		std::ofstream saveFile(fileName);
 		for (size_t i = 0 ; i < Tasks.size() ; ++i) {
 			saveFile << Tasks[i].getTaskText() << "\n";
+			saveFile << boost::posix_time::to_simple_string(Tasks[i].getStartDateTime()) << "\n";
+			saveFile << boost::posix_time::to_simple_string(Tasks[i].getEndDateTime()) << "\n";
 		}
 		return;
 	}
