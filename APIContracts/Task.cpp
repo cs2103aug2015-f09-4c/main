@@ -24,7 +24,18 @@
 		return _taskText;
 	}
 
-	//int to be replace by dateTime object
+	bool Task::operator== (Task another) {
+		if (this->_taskText != another._taskText) {
+			return false;
+		} else if (this->_startDateTime != another._startDateTime) {
+			return false;
+		} else if (this->_endDateTime != another._endDateTime) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	boost::posix_time::ptime Task::getStartDateTime() {
 		return _startDateTime;
 	}

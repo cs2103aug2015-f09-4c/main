@@ -12,7 +12,7 @@
 		_details = details;
 	}
 	
-	//for operation with either start or end dateTime, int is used as dummy variable in the meanwhile
+	//for operation with either start or end dateTime
 	CommandTokens::CommandTokens(PrimaryCommandType command1, SecondaryCommandType command2, std::vector<std::string> details, boost::posix_time::ptime dateTime) {
 		_primaryCommandType = command1;
 		_secondaryCommandType = command2;
@@ -21,7 +21,7 @@
 		_endDateTime = dateTime;
 	}
 	
-	//for operation with both date and time, int is used as dummy variable in the meanwhile
+	//for operation with both start and end dateTime
 	CommandTokens::CommandTokens(PrimaryCommandType command1, SecondaryCommandType command2, std::vector<std::string> details, boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime) {
 		_primaryCommandType = command1;
 		_secondaryCommandType = command2;
@@ -33,8 +33,7 @@
 	bool CommandTokens::isValid() {
 		if (_primaryCommandType==Invalid) {
 			return false;
-		} 
-		else {
+		} else {
 			return true;
 		}
 	}
@@ -51,7 +50,6 @@
 		return _details;
 	}
 	
-	//int is used as dummy variable for dateTime
 	boost::posix_time::ptime CommandTokens::getStartDateTime() {
 		return _startDateTime;
 	}
