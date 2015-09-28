@@ -3,7 +3,7 @@
 // TODO this include may not belong here, move it
 #include "../boost/date_time/posix_time/posix_time.hpp"
 
-
+namespace API{
 class Task
 {
 public:
@@ -32,4 +32,4 @@ private:
 	boost::posix_time::ptime _startDateTime;
 	boost::posix_time::ptime _endDateTime;
 };
-
+}

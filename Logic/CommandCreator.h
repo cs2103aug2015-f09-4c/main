@@ -3,6 +3,7 @@
 
 #include <cstdio>
 #include "Command.h"
+using namespace API;
 
 class CommandCreator {
 private:

@@ -85,7 +85,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CommandTokens.cpp" />
-    <ClCompile Include="Task.cpp" />
+    <ClCompile Include="Task.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="UIFeedback.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

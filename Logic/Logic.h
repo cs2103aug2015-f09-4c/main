@@ -7,6 +7,7 @@
 #include "../ParserStub/Parser.h"
 #include "StorageHandler.h"
 #include "CommandCreator.h"
+using namespace API;
 
 const std::string MESSAGE_INVALID_COMMAND = "Invalid Command. No change is made.";
 

@@ -61,7 +61,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+<<<<<<< HEAD
       <AdditionalIncludeDirectories>C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\LogicStub;D:\NUS Study Material\Semester 5\CS2103\main\Logic;$(Solutiondir);D:\NUS Study Material\Semester 5\CS2103\main\APIContracts;D:\NUS Study Material\Semester 5\CS2103\main\ParserStub;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+=======
+      <AdditionalIncludeDirectories>C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\boost;C:\Users\User\Documents\Visual Studio 2012\Projects\libboost_date_time-vc110-mt-gd-1_55;C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\APIContracts;C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\Logic;D:\NUS Study Material\Semester 5\CS2103\main\LogicStub;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+>>>>>>> ace80b19d26b677055ac680f04ca5e6154c0b25b
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -89,7 +95,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="UI.cpp" />
+    <ClCompile Include="UI.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UI.h">
@@ -104,6 +113,14 @@
   <ItemGroup>
     <ProjectReference Include="..\APIContracts\APIContracts.vcxproj">
       <Project>{1ae49b26-3e8b-4ad7-9798-126614368f60}</Project>
+    </ProjectReference>
+<<<<<<< HEAD
+    <ProjectReference Include="..\Logic\Logic.vcxproj">
+      <Project>{1a7deb8b-9bef-40eb-9ced-ec4676369e05}</Project>
+=======
+    <ProjectReference Include="..\LogicStub\LogicStub.vcxproj">
+      <Project>{1a855d7c-7e0b-44f2-b8c6-679f5c6bb873}</Project>
+>>>>>>> ace80b19d26b677055ac680f04ca5e6154c0b25b
     </ProjectReference>
     <ProjectReference Include="..\Logic\Logic.vcxproj">
       <Project>{1a7deb8b-9bef-40eb-9ced-ec4676369e05}</Project>

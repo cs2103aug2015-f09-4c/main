@@ -1,8 +1,9 @@
 #include "Task.h"
-
 #include <string>
+using namespace API;
 
 	Task::Task() {
+		_taskText = "";
 	}
 
 	Task::Task(std::string taskText) {
