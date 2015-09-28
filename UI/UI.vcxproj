@@ -51,8 +51,6 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(IncludePath)</IncludePath>
-    <LibraryPath>$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -63,9 +61,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir);C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\boost\date_time\posix_time;C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\boost\date_time;C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\boost;C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\libboost_date_time-vc110-mt-gd-1_55;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalUsingDirectories>
-      </AdditionalUsingDirectories>
+      <AdditionalIncludeDirectories>C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\boost\date_time\posix_time;C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\boost\date_time;C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\boost;C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\libboost_date_time-vc110-mt-gd-1_55;../boost;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <Link>
