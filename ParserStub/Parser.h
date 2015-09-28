@@ -1,7 +1,7 @@
 #ifndef PARSER_H_
 #define PARSER_H_
 
-#include "..\..\Swiftask.h"
+#include "../APIContracts/CommandTokens.h"
 
 class Parser{
 public:

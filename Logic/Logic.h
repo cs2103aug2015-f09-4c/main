@@ -4,9 +4,10 @@
 #include "..\APIContracts\CommandTokens.h"
 #include "..\APIContracts\Task.h"
 #include "..\APIContracts\UIFeedback.h"
-#include "Parser.h"
+#include "../ParserStub/Parser.h"
 #include "StorageHandler.h"
 #include "CommandCreator.h"
+using namespace API;
 
 const std::string MESSAGE_INVALID_COMMAND = "Invalid Command. No change is made.";
 
@@ -19,23 +20,9 @@ private:
 	std::string _fileName;
 
 public:
-	Logic(std::string fileName)  {
-		_fileName = fileName;
-		_storageHandler = new StorageHandler(fileName);
-	}
+	Logic(std::string fileName);
 
-	UIFeedback executeCommand(std::string userString) {
-		CommandTokens commandTokens= _parser.parse(userString);
-		if (commandTokens.isValid()) {
-			Command* command= _commandCreator.process(commandTokens);
-			UIFeedback feedback = command->execute(_storageHandler);
-			currentDisplay = feedback.getTasksForDisplay();
-			return feedback;
-		} else {
-			UIFeedback feedback(currentDisplay, MESSAGE_INVALID_COMMAND);
-			return feedback;
-		}
-	}
+	UIFeedback executeCommand(std::string userString);
 };
 
 #endif

@@ -1,24 +1,35 @@
 #pragma once
 
 // TODO this include may not belong here, move it
-#include "boost\date_time\posix_time\posix_time.hpp"
+#include "../boost/date_time/posix_time/posix_time.hpp"
 
-
+namespace API{
 class Task
 {
 public:
-	Task(std::string taskText, boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime);
-	std::string getTaskText();
+	//Constructor for invalid task
+	Task();
 
-	//int to be replace by dateTime object
+	//Constructor for floating task
+	Task(std::string taskText);
+
+	//Constructor for toDo task
+	Task(std::string taskText, boost::posix_time::ptime endDateTime);
+
+	//Constructor for timed task
+	Task(std::string taskText, boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime);
+
+	//Getters
+	std::string getTaskText();
 	boost::posix_time::ptime getStartDateTime();
 	boost::posix_time::ptime getEndDateTime();
 
+	//Methods
+	bool operator==(Task another);
+
 private:
 	std::string _taskText;
-
-	//dateTime object to be specified, use int as dummy variable
 	boost::posix_time::ptime _startDateTime;
 	boost::posix_time::ptime _endDateTime;
 };
-
+}

@@ -19,6 +19,7 @@ namespace LogicTest
 			Assert::AreEqual(true, command.getPrimaryCommandType() == Add);
 			Assert::AreEqual(true, command.getSecondaryCommandType() == Floating);
 			Assert::AreEqual(std::string(""), command.getTask().getTaskText());
+			boost::posix_time::ptime time; 
 		}
 	};
 

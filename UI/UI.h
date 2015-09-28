@@ -1,6 +1,6 @@
 #pragma once
 #include <msclr\marshal_cppstd.h>
-#include "..\LogicStub\Logic.h"
+#include "../Logic/Logic.h"
 
 namespace UI {
 
@@ -16,7 +16,7 @@ namespace UI {
 	/// </summary>
 	public ref class Swiftask : public System::Windows::Forms::Form
 	{
-	private:
+	private: 
 		bool isEntered;
 		Logic* logic;
 	public:
@@ -27,7 +27,7 @@ namespace UI {
 			//TODO: Add the constructor code here
 			//
 			isEntered = false;
-			logic = new Logic;
+			logic = new Logic("mytextfile.txt");
 		}
 
 	protected:
@@ -43,9 +43,9 @@ namespace UI {
 			}
 		}
 	private: System::Windows::Forms::DataGridView^  outputBox;
-	protected:
+	protected: 
 
-	protected:
+	protected: 
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Task;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Start;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  End;
@@ -158,7 +158,8 @@ namespace UI {
 					 if (isEntered) {
 						 System::String ^str1, ^str2, ^str3, ^str4;
 						 System::String^ managed;
-						 Feedback feedback;
+						 UIFeedback feedback;
+						 API::Task task();
 
 						 managed = commandBox->Text;
 						 commandBox->Text = "";
@@ -166,7 +167,7 @@ namespace UI {
 						 std::string unmanaged = msclr::interop::marshal_as<std::string>(managed);
 						 feedback = logic->executeCommand(unmanaged);
 
-						 managed = gcnew String(feedback.results.c_str());
+						 managed = gcnew String(feedback.getFeedbackMessage().c_str());
 						 results->Text = managed;
 						 delete managed;
 
@@ -174,12 +175,27 @@ namespace UI {
 							 outputBox->Rows->RemoveAt(0);
 						 }
 
-						 for (std::vector<std::vector<std::string> >::iterator it = feedback.lines.begin(); it < feedback.lines.end(); it++) {
-							 str1 = gcnew String((*it)[0].c_str());
-							 str2 = gcnew String((*it)[1].c_str());
-							 str3 = gcnew String((*it)[2].c_str());
-							 str4 = gcnew String((*it)[3].c_str());
+						 for (std::vector<API::Task>::iterator it = feedback.getTasksForDisplay().begin(); it < feedback.getTasksForDisplay().end(); it++) {
+							 str1 = gcnew String((*it).getTaskText().c_str());
+
+							 if (!(*it).getStartDateTime().is_not_a_date_time()) {
+								 str2 = gcnew String(to_simple_string((*it).getStartDateTime()).c_str());
+							 } else {
+								 str2 = gcnew String("-");
+							 }
+
+							 if (!(*it).getEndDateTime().is_not_a_date_time()) {
+								 str3 = gcnew String(to_simple_string((*it).getEndDateTime()).c_str());
+							 } else {
+								 str3 = gcnew String("-");
+							 }
+
+							 // Tags not supported yet
+							 // str4 = gcnew String((*it).getTags.c_str());
+							 str4 = gcnew String("-");
+
 							 outputBox->Rows->Add(str1, str2, str3, str4);
+
 							 delete str1;
 							 delete str2;
 							 delete str3;
