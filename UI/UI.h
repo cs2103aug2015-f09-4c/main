@@ -1,6 +1,5 @@
 #pragma once
 #include <msclr\marshal_cppstd.h>
-#include "../boost/date_time/posix_time/posix_time.hpp"
 #include "../Logic/Logic.h"
 
 namespace UI {
@@ -176,17 +175,17 @@ namespace UI {
 							 outputBox->Rows->RemoveAt(0);
 						 }
 
-						 for (std::vector<API::Task>::iterator it = feedback.getTasksForDisplay.begin(); it < feedback.getTasksForDisplay.end(); it++) {
-							 str1 = gcnew String(to_simple_string((*it).getTaskText).c_str());
+						 for (std::vector<API::Task>::iterator it = feedback.getTasksForDisplay().begin(); it < feedback.getTasksForDisplay().end(); it++) {
+							 str1 = gcnew String((*it).getTaskText().c_str());
 
-							 if (!(*it).getStartDateTime.is_not_a_date_time()) {
-								 str2 = gcnew String(to_simple_string((*it).getStartDateTime).c_str());
+							 if (!(*it).getStartDateTime().is_not_a_date_time()) {
+								 str2 = gcnew String(to_simple_string((*it).getStartDateTime()).c_str());
 							 } else {
 								 str2 = gcnew String("-");
 							 }
 
-							 if (!(*it).getEndDateTime.is_not_a_date_time()) {
-								 str3 = gcnew String(to_simple_string((*it).getEndDateTime).c_str());
+							 if (!(*it).getEndDateTime().is_not_a_date_time()) {
+								 str3 = gcnew String(to_simple_string((*it).getEndDateTime()).c_str());
 							 } else {
 								 str3 = gcnew String("-");
 							 }
