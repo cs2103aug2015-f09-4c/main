@@ -3,6 +3,7 @@
 
 #include <cstdio>
 #include "Command.h"
+using namespace Swiftask;
 
 class CommandCreator {
 private:

@@ -2,6 +2,7 @@
 #define COMMAND_H_
 
 #include "StorageHandler.h"
+using namespace Swiftask;
 
 const std::string MESSAGE_INVALID = "Invalid command line. Please key in another command";
 
