@@ -69,7 +69,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
     </ClCompile>
@@ -93,6 +93,9 @@
     <ClCompile Include="unittest1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\APIContracts\APIContracts.vcxproj">
+      <Project>{1ae49b26-3e8b-4ad7-9798-126614368f60}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Logic\Logic.vcxproj">
       <Project>{1a7deb8b-9bef-40eb-9ced-ec4676369e05}</Project>
     </ProjectReference>

@@ -1,5 +1,4 @@
 #include "UI.h"
-#include "Logic.h"
 
 using namespace System;
 using namespace System::Windows::Forms;

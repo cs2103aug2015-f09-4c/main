@@ -8,6 +8,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LogicStub", "LogicStub\Logi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Swiftask", "UI\UI.vcxproj", "{D93019A4-45E5-46A5-BCC1-AD816456254A}"
 	ProjectSection(ProjectDependencies) = postProject
+		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED} = {76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}
 		{1A7DEB8B-9BEF-40EB-9CED-EC4676369E05} = {1A7DEB8B-9BEF-40EB-9CED-EC4676369E05}
 	EndProjectSection
 EndProject
@@ -15,28 +16,48 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "APIContracts", "APIContract
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Logic", "Logic\Logic.vcxproj", "{1A7DEB8B-9BEF-40EB-9CED-EC4676369E05}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParserStub", "ParserStub\ParserStub.vcxproj", "{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LogicTest", "LogicTest\LogicTest.vcxproj", "{F9899107-D5F2-4C7E-82D2-2996CA696ACB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
+		Logic|Win32 = Logic|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{1A855D7C-7E0B-44F2-B8C6-679F5C6BB873}.Debug|Win32.ActiveCfg = Debug|Win32
-		{1A855D7C-7E0B-44F2-B8C6-679F5C6BB873}.Debug|Win32.Build.0 = Debug|Win32
+		{1A855D7C-7E0B-44F2-B8C6-679F5C6BB873}.Logic|Win32.ActiveCfg = Logic|Win32
 		{1A855D7C-7E0B-44F2-B8C6-679F5C6BB873}.Release|Win32.ActiveCfg = Release|Win32
 		{1A855D7C-7E0B-44F2-B8C6-679F5C6BB873}.Release|Win32.Build.0 = Release|Win32
 		{D93019A4-45E5-46A5-BCC1-AD816456254A}.Debug|Win32.ActiveCfg = Debug|Win32
 		{D93019A4-45E5-46A5-BCC1-AD816456254A}.Debug|Win32.Build.0 = Debug|Win32
+		{D93019A4-45E5-46A5-BCC1-AD816456254A}.Logic|Win32.ActiveCfg = Logic|Win32
 		{D93019A4-45E5-46A5-BCC1-AD816456254A}.Release|Win32.ActiveCfg = Release|Win32
 		{D93019A4-45E5-46A5-BCC1-AD816456254A}.Release|Win32.Build.0 = Release|Win32
 		{1AE49B26-3E8B-4AD7-9798-126614368F60}.Debug|Win32.ActiveCfg = Debug|Win32
 		{1AE49B26-3E8B-4AD7-9798-126614368F60}.Debug|Win32.Build.0 = Debug|Win32
+		{1AE49B26-3E8B-4AD7-9798-126614368F60}.Logic|Win32.ActiveCfg = Logic|Win32
+		{1AE49B26-3E8B-4AD7-9798-126614368F60}.Logic|Win32.Build.0 = Logic|Win32
 		{1AE49B26-3E8B-4AD7-9798-126614368F60}.Release|Win32.ActiveCfg = Release|Win32
 		{1AE49B26-3E8B-4AD7-9798-126614368F60}.Release|Win32.Build.0 = Release|Win32
 		{1A7DEB8B-9BEF-40EB-9CED-EC4676369E05}.Debug|Win32.ActiveCfg = Debug|Win32
 		{1A7DEB8B-9BEF-40EB-9CED-EC4676369E05}.Debug|Win32.Build.0 = Debug|Win32
+		{1A7DEB8B-9BEF-40EB-9CED-EC4676369E05}.Logic|Win32.ActiveCfg = Logic|Win32
+		{1A7DEB8B-9BEF-40EB-9CED-EC4676369E05}.Logic|Win32.Build.0 = Logic|Win32
 		{1A7DEB8B-9BEF-40EB-9CED-EC4676369E05}.Release|Win32.ActiveCfg = Release|Win32
 		{1A7DEB8B-9BEF-40EB-9CED-EC4676369E05}.Release|Win32.Build.0 = Release|Win32
+		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}.Debug|Win32.ActiveCfg = Debug|Win32
+		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}.Debug|Win32.Build.0 = Debug|Win32
+		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}.Logic|Win32.ActiveCfg = Release|Win32
+		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}.Logic|Win32.Build.0 = Release|Win32
+		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}.Release|Win32.ActiveCfg = Release|Win32
+		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}.Release|Win32.Build.0 = Release|Win32
+		{F9899107-D5F2-4C7E-82D2-2996CA696ACB}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F9899107-D5F2-4C7E-82D2-2996CA696ACB}.Logic|Win32.ActiveCfg = Release|Win32
+		{F9899107-D5F2-4C7E-82D2-2996CA696ACB}.Release|Win32.ActiveCfg = Release|Win32
+		{F9899107-D5F2-4C7E-82D2-2996CA696ACB}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,6 +1,19 @@
 #include "Task.h"
-
 #include <string>
+using namespace API;
+
+	Task::Task() {
+		_taskText = "";
+	}
+
+	Task::Task(std::string taskText) {
+		_taskText = taskText;
+	}
+
+	Task::Task(std::string taskText, boost::posix_time::ptime endDateTime) {
+		_taskText = taskText;
+		_endDateTime = endDateTime;
+	}
 
 	Task::Task(std::string taskText, boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime) {
 		_taskText = taskText;
@@ -12,7 +25,18 @@
 		return _taskText;
 	}
 
-	//int to be replace by dateTime object
+	bool Task::operator== (Task another) {
+		if (this->_taskText != another._taskText) {
+			return false;
+		} else if (this->_startDateTime != another._startDateTime) {
+			return false;
+		} else if (this->_endDateTime != another._endDateTime) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	boost::posix_time::ptime Task::getStartDateTime() {
 		return _startDateTime;
 	}
