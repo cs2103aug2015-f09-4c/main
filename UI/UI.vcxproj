@@ -61,7 +61,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\boost;C:\Users\User\Documents\Visual Studio 2012\Projects\libboost_date_time-vc110-mt-gd-1_55;C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\APIContracts;C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\Logic;D:\NUS Study Material\Semester 5\CS2103\main\LogicStub;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\boost\date_time\posix_time;C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\boost\date_time;C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\boost;C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\libboost_date_time-vc110-mt-gd-1_55;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -70,6 +70,7 @@
       <AdditionalDependencies />
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>main</EntryPointSymbol>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

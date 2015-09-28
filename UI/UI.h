@@ -1,6 +1,6 @@
 #pragma once
 #include <msclr\marshal_cppstd.h>
-#include "Task.h"
+#include "../boost/date_time/posix_time/posix_time.hpp"
 #include "../Logic/Logic.h"
 
 namespace UI {
