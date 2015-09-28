@@ -51,6 +51,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>..\libboost_date_time-vc110-mt-gd-1_55;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -61,7 +63,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\boost\date_time\posix_time;C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\boost\date_time;C:\Users\User\Documents\Visual Studio 2012\Projects\SwiftaskGUI\boost;../boost;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../libboost_date_time-vc110-mt-gd-1_55;../boost;$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -111,11 +113,11 @@
     <ProjectReference Include="..\APIContracts\APIContracts.vcxproj">
       <Project>{1ae49b26-3e8b-4ad7-9798-126614368f60}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\LogicStub\LogicStub.vcxproj">
-      <Project>{1a855d7c-7e0b-44f2-b8c6-679f5c6bb873}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Logic\Logic.vcxproj">
       <Project>{1a7deb8b-9bef-40eb-9ced-ec4676369e05}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\ParserStub\ParserStub.vcxproj">
+      <Project>{76b9e185-0872-4ed1-adc8-f4d595cdf7ed}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
