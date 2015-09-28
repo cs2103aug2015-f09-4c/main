@@ -103,7 +103,7 @@ public:
 			std::string startDateTime = boost::posix_time::to_simple_string(task.getStartDateTime());
 			std::string endDateTime = boost::posix_time::to_simple_string(task.getEndDateTime());
 			char buffer[255];
-			sprintf_s(buffer, MESSAGE_ADD_SUCCESS.c_str(), taskText, startDateTime, endDateTime);
+			sprintf_s(buffer, MESSAGE_ADD_SUCCESS.c_str(), taskText.c_str(), startDateTime.c_str(), endDateTime.c_str());
 			feedbackMessage = std::string(buffer);
 			 
 		} else {
