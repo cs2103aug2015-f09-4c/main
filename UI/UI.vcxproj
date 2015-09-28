@@ -154,8 +154,8 @@
     <ProjectReference Include="..\Logic\Logic.vcxproj">
       <Project>{1a7deb8b-9bef-40eb-9ced-ec4676369e05}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\ParserStub\ParserStub.vcxproj">
-      <Project>{76b9e185-0872-4ed1-adc8-f4d595cdf7ed}</Project>
+    <ProjectReference Include="..\Parser\Parser.vcxproj">
+      <Project>{782e2cf2-7039-470a-a129-d00573b80dc9}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
