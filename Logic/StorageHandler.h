@@ -6,7 +6,7 @@
 #include "..\APIContracts\CommandTokens.h"
 #include "..\APIContracts\Task.h"
 #include "..\APIContracts\UIFeedback.h"
-using namespace Swiftask;
+using namespace API;
 
 enum Display_Type {
 	Display_All, Display_By_Name, Display_By_Start, Display_By_End

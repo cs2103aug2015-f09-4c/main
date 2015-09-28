@@ -1,6 +1,6 @@
 #include "Task.h"
 #include <string>
-using namespace Swiftask;
+using namespace API;
 
 	Task::Task() {
 		_taskText = "";

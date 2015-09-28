@@ -3,7 +3,7 @@
 // TODO this include may not belong here, move it
 #include "../boost/date_time/posix_time/posix_time.hpp"
 
-namespace Swiftask{
+namespace API{
 class Task
 {
 public:
