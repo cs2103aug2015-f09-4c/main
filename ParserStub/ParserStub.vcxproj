@@ -77,9 +77,6 @@
     <ProjectReference Include="..\APIContracts\APIContracts.vcxproj">
       <Project>{1ae49b26-3e8b-4ad7-9798-126614368f60}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Logic\Logic.vcxproj">
-      <Project>{1a7deb8b-9bef-40eb-9ced-ec4676369e05}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Parser.cpp" />
