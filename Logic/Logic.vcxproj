@@ -113,6 +113,11 @@
   <ItemGroup>
     <ClCompile Include="Logic.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Parser\Parser.vcxproj">
+      <Project>{782e2cf2-7039-470a-a129-d00573b80dc9}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
