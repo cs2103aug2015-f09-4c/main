@@ -71,7 +71,7 @@ private:
 	}
 
 	void findConflict(std::string& feedbackMessage, Task task) {
-		for (int i = 0 ; i < Tasks.size() ; ++i) {
+		for (unsigned i = 0 ; i < Tasks.size() ; ++i) {
 		}
 	}
 
