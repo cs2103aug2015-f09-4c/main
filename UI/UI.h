@@ -80,14 +80,16 @@ namespace UI {
 			// 
 			this->outputBox->AllowUserToAddRows = false;
 			this->outputBox->AllowUserToDeleteRows = false;
+			this->outputBox->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
+				| System::Windows::Forms::AnchorStyles::Left) 
+				| System::Windows::Forms::AnchorStyles::Right));
 			this->outputBox->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->outputBox->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(4) {this->Task, this->Start, 
 				this->End, this->Tags});
-			this->outputBox->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->outputBox->Location = System::Drawing::Point(0, 0);
+			this->outputBox->Location = System::Drawing::Point(0, 1);
 			this->outputBox->Name = L"outputBox";
 			this->outputBox->ReadOnly = true;
-			this->outputBox->Size = System::Drawing::Size(444, 261);
+			this->outputBox->Size = System::Drawing::Size(444, 201);
 			this->outputBox->TabIndex = 0;
 			// 
 			// Task
