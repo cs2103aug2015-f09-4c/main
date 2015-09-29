@@ -12,6 +12,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F9899107-D5F2-4C7E-82D2-2996CA696ACB}</ProjectGuid>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>LogicTest</RootNamespace>
   </PropertyGroup>

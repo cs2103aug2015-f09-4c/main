@@ -16,6 +16,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{782E2CF2-7039-470A-A129-D00573B80DC9}</ProjectGuid>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <RootNamespace>Parser</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

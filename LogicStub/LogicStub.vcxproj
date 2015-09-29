@@ -20,6 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{1A855D7C-7E0B-44F2-B8C6-679F5C6BB873}</ProjectGuid>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <RootNamespace>LogicStub</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

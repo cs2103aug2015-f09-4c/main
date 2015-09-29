@@ -16,6 +16,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{AC623718-42C9-4E63-9D5E-AAE90F28F6F2}</ProjectGuid>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ParserTest</RootNamespace>
   </PropertyGroup>
