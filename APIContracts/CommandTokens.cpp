@@ -46,6 +46,10 @@
 		return _secondaryCommandType;
 	}
 
+std::string CommandTokens::getTaskName() {
+	return _taskName;
+}
+
 	std::vector<std::string>& CommandTokens::getDetails() {
 		return _details;
 	}
@@ -57,3 +61,27 @@
 	boost::posix_time::ptime CommandTokens::getEndDateTime() {
 		return _endDateTime;
 	}
+
+void CommandTokens::setPrimaryCommand(PrimaryCommandType newPrimaryCommand) {
+	_primaryCommandType = newPrimaryCommand;
+}
+
+void CommandTokens::setSecondaryCommand(SecondaryCommandType newSecondaryCommand) {
+	_secondaryCommandType = newSecondaryCommand;
+}
+
+void CommandTokens::setTaskName(std::string newTaskName) {
+	_taskName = newTaskName;
+}
+
+void CommandTokens::setDetails(std::vector< std::string > newDetails) {
+	_details = newDetails;
+}
+
+void CommandTokens::setStartDateTime(boost::posix_time::ptime newStartDateTime) {
+	_startDateTime = newStartDateTime;
+}
+
+void CommandTokens::setEndDateTime(boost::posix_time::ptime newEndDateTime) {
+	_endDateTime = newEndDateTime;
+}

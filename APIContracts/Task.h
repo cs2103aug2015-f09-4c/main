@@ -15,15 +15,15 @@ public:
 
 	//Constructor for toDo task
 	Task(std::string taskText, boost::posix_time::ptime endDateTime);
-	
+
 	//Constructor for timed task
 	Task(std::string taskText, boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime);
-	
+
 	//Getters
 	std::string getTaskText();
 	boost::posix_time::ptime getStartDateTime();
 	boost::posix_time::ptime getEndDateTime();
-	
+
 	//Methods
 	bool operator==(Task another);
 
