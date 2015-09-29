@@ -4,7 +4,7 @@
 #include "..\APIContracts\CommandTokens.h"
 #include "..\APIContracts\Task.h"
 #include "..\APIContracts\UIFeedback.h"
-#include "../ParserStub/Parser.h"
+#include "..\Parser/Parser.h"
 #include "StorageHandler.h"
 #include "CommandCreator.h"
 using namespace API;
