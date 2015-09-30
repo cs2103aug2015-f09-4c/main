@@ -43,6 +43,7 @@ public:
 		
 	void extractDeleteAllCommand(void);
 	void extractDeleteFromToCommand(std::string userInput);
+	void extractDeleteIndex(std::string userInput);
 
 	boost::posix_time::ptime parseDate(std::string dateString);
 };

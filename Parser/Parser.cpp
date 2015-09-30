@@ -62,9 +62,9 @@ void Parser::extractDeleteCommand(std::string userInput) {
 
 	} else if (isDeleteFloating(userInput)) {
 
-	} else if (isDeleteIndex(userInput)) {
-
-	}*/
+	}*/ else if (isDeleteIndex(userInput)) {
+		extractDeleteIndex(userInput);
+	}
 }
 
 // returns true if userInput contains "delete all", followed by whitespaces;
@@ -80,6 +80,12 @@ bool Parser::isDeleteAll(std::string userInput) {
 bool Parser::isDeleteFromTo(std::string userInput) {
 	return std::regex_match(userInput,
 		std::regex("delete from .{1,} to .{1,}",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+}
+
+bool Parser::isDeleteIndex(std::string userInput) {
+	return std::regex_match(userInput,
+		std::regex("delete [0-9]{1,}",
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
 }
 
@@ -99,6 +105,18 @@ void Parser::extractDeleteFromToCommand(std::string userInput) {
 	_commandTokens.setEndDateTime(parseDate(matchResults[2]));
 }
 
+void Parser::extractDeleteIndex(std::string userInput) {	
+	// TODO: check if there is a secondary command type
+	// _commandTokens.setSecondaryCommand(SecondaryCommandType::Timed);
+
+	std::smatch matchResults;
+	std::regex_match(userInput, matchResults,
+		std::regex("delete ([0-9]{1,})",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+
+	std::vector< std::string > newDetails;
+	newDetails.push_back(matchResults[1]);
+}
 
 // TODO: implement
 void Parser::extractEditCommand(std::string userInput) {
