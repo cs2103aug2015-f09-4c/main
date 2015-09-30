@@ -161,7 +161,7 @@ namespace UI {
 						 System::String ^str1, ^str2, ^str3, ^str4;
 						 System::String^ managed;
 						 UIFeedback feedback;
-						 API::Task task();
+						 API::Task task;
 
 						 managed = commandBox->Text;
 						 commandBox->Text = "";
