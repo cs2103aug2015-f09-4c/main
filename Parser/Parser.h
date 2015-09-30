@@ -8,8 +8,7 @@
 
 // used to parse user input into CommandTokens for Logic to execute appropriate
 // commands;
-class Parser
-{
+class Parser {
 public:
 	CommandTokens parse(std::string userInput);
 	bool isAddCommand(std::string& userInput);
@@ -41,6 +40,9 @@ public:
 	void extractActivityTask(std::string userInput);
 	void extractTodoTask(std::string userInput);
 	void extractFloatingTask(std::string userInput);
+		
+	void extractDeleteAllCommand(void);
+	void extractDeleteFromToCommand(std::string userInput);
 
 	boost::posix_time::ptime parseDate(std::string dateString);
 };

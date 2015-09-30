@@ -33,13 +33,10 @@ PrimaryCommandType Parser::extractPrimaryCommand(std::string userInput) {
 	PrimaryCommandType commandType = Invalid;
 	if (isAddCommand(userInput)) {
 		commandType = Add;
-
 	} else if (isDeleteCommand(userInput)) {
 		commandType = Delete;
-
 	} else if (isEditCommand(userInput)) {
 		commandType = Edit;
-
 	} else if (isDisplayCommand(userInput)) {
 		commandType = Display;
 	}
@@ -58,17 +55,50 @@ void Parser::extractAddCommand(std::string userInput) {
 
 void Parser::extractDeleteCommand(std::string userInput) {
 	if (isDeleteAll(userInput)) {
-
+		extractDeleteAllCommand();
 	} else if (isDeleteFromTo(userInput)) {
-
-	} else if (isDeleteBy(userInput)) {
+		extractDeleteFromToCommand(userInput);
+	} /*else if (isDeleteBy(userInput)) {
 
 	} else if (isDeleteFloating(userInput)) {
 
 	} else if (isDeleteIndex(userInput)) {
 
-	}
+	}*/
 }
+
+// returns true if userInput contains "delete all", followed by whitespaces;
+// case-insensitive
+bool Parser::isDeleteAll(std::string userInput) {
+	return std::regex_match(userInput,
+		std::regex("delete all *",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+}
+
+// returns true if userInput contains "from" and subsequently "to";
+// case-insensitive
+bool Parser::isDeleteFromTo(std::string userInput) {
+	return std::regex_match(userInput,
+		std::regex("delete from .{1,} to .{1,}",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+}
+
+void Parser::extractDeleteAllCommand() {
+	_commandTokens.setSecondaryCommand(All);
+}
+
+void Parser::extractDeleteFromToCommand(std::string userInput) {	
+	_commandTokens.setSecondaryCommand(SecondaryCommandType::Timed);
+
+	std::smatch matchResults;
+	std::regex_match(userInput, matchResults,
+		std::regex("delete from (.{1,}) to (.{1,})",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+
+	_commandTokens.setStartDateTime(parseDate(matchResults[1]));
+	_commandTokens.setEndDateTime(parseDate(matchResults[2]));
+}
+
 
 // TODO: implement
 void Parser::extractEditCommand(std::string userInput) {
