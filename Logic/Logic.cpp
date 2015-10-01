@@ -6,6 +6,7 @@ Logic::Logic(std::string fileName)  {
 }
 
 UIFeedback Logic::executeCommand(std::string userString) {
+	_parser = new Parser;
 	CommandTokens commandTokens= _parser->parse(userString);
 	if (commandTokens.isValid()) {
 		Command* command= _commandCreator.process(commandTokens);
