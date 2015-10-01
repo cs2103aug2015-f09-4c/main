@@ -15,10 +15,10 @@ namespace LogicTest
 			details.push_back("");
 			CommandTokens tokens(Add, Floating, details);
 			CommandCreator creator;
-			AddCommand command = creator.testProcessAddCommand(tokens);
-			Assert::AreEqual(true, command.getPrimaryCommandType() == Add);
-			Assert::AreEqual(true, command.getSecondaryCommandType() == Floating);
-			Assert::AreEqual(std::string(""), command.getTask().getTaskText());
+			AddCommand* command = creator.testProcessAddCommand(tokens);
+			Assert::AreEqual(true, command->getPrimaryCommandType() == Add);
+			Assert::AreEqual(true, command->getSecondaryCommandType() == Floating);
+			Assert::AreEqual(std::string(""), command->getTask().getTaskText());
 			boost::posix_time::ptime time; 
 		}
 	};

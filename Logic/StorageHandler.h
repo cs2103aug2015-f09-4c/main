@@ -9,118 +9,58 @@
 using namespace API;
 
 enum Display_Type {
-	Display_All, Display_By_Name, Display_By_Start, Display_By_End
+	displayAll, displayFloat, displayTimed, displayTodo
 };
 
-const std::string MESSAGE_ADD_SUCCESS = "\"%s\" have been added succesfully.\nStart Date Time: %s\nEnd Date Time: %s"; 
-const std::string MESSAGE_ADD_EMPTY = "Task text cannot be empty.";
-const std::string MESSAGE_ADD_DUPLICATE = "Duplicate task is found. New task is not added.";
+enum Sort_Type {
+	sortByEntryOrder, sortByName, sortByStart, sortByEnd
+};
 
 class StorageHandler {
 private:
+	//Tasks is always sorted by Entry Order, the order of task being added
 	std::vector<Task> Tasks;
+	//TasksToDisplay is filtered out from Tasks and sorted based on _displayMode and _sortMode
 	std::vector<Task> TasksToDisplay;
+	//_fileName/Path for saving
 	std::string _fileName;
+	Display_Type _displayMode;
+	Sort_Type _sortMode;
 
-	//save and load are to be supported after we determine the save file format
-	//below are template assuming save file is in txt format.
-	/*
-	void loadFromSaveFile(std::string fileName) {
-		saveToSaveFile(_fileName);
-		Tasks.clear();
-		std::ifstream loadFile(fileName);
-		if (loadFile.is_open()) {
-			while (!loadFile.eof())
-			{
-				std::string taskText;
-				std::string startDateTimeString;
-				std::string endDateTimeString;
-				
-				std::getline(loadFile,taskText);
-				
-				std::getline(loadFile,startDateTimeString);
-				boost::posix_time::ptime startDateTime = boost::posix_time::time_from_string(startDateTimeString);
-				
-				std::getline(loadFile,endDateTimeString);
-				boost::posix_time::ptime endDateTime = boost::posix_time::time_from_string(endDateTimeString);
-				
-				Tasks.push_back(Task(taskText, startDateTime, endDateTime));
-			}
-		}
-	}
-	*/
+	//If the task fit _displayMode, return true, else return false
+	bool isValidForDisplay(Task task);
 
-	/*
-	void saveToSaveFile(std::string fileName) {
-		std::ofstream saveFile(fileName);
-		for (size_t i = 0 ; i < Tasks.size() ; ++i) {
-			saveFile << Tasks[i].getTaskText() << "\n";
-			saveFile << boost::posix_time::to_simple_string(Tasks[i].getStartDateTime()) << "\n";
-			saveFile << boost::posix_time::to_simple_string(Tasks[i].getEndDateTime()) << "\n";
-		}
-		return;
-	}
-	*/
+	//comparator functions for sorting
+	static bool sortByStartDateTime (Task task1, Task task2);
+	static bool sortByEndDateTime (Task task1, Task task2);
+	static bool sortByName (Task task1, Task task2);
 
-	bool isContain(Task task) {
-		if (std::find(Tasks.begin(), Tasks.end(), task) == Tasks.end()) {
-			return false;
-		} else {
-			return true;
-		}
-	}
+	//Filter tasks from Tasks into TasksToDisplay based on _displayMode
+	//Post-condition: Tasks in TasksToDisplay is sorted by entry order
+	void reformTasksToDisplay();
 
-	void findConflict(std::string& feedbackMessage, Task task) {
-		for (unsigned i = 0 ; i < Tasks.size() ; ++i) {
-		}
-	}
+	//Pre-condition : TasksToDisplay is in sortByEntryOrder
+	//Post-condition: TasksToDisplay is sorted according to _sortMode
+	//              : The sort is stable
+	void sortTasksToDisplay();
+
+	//update TasksToDisplay based on _displayMode and _sortMode
+	void updateDisplay();
 
 public:
-	StorageHandler(std::string fileName){
-		_fileName = fileName;
+	StorageHandler(std::string fileName);
 
-		//to be included after we finalized save file format
-		//loadFromSaveFile(_fileName);
-	}
+	std::vector<Task>& getAllTasks();
 
-	std::vector<Task>& getAllTasks() {
-		return Tasks;
-	}
+	std::vector<Task>& getTasksToDisplay();
 
-	std::vector<Task>& getTasksToDisplay() {
-		return Tasks;
-	}
+	void add(Task task);
+	Task remove(size_t index);
 
-	std::string add(Task task) {
-		std::string feedbackMessage;
+	bool isDuplicate(Task task);
 
-		//Empty task text is not allowed.
-		if (task.getTaskText().size() < 1) {
-			feedbackMessage = MESSAGE_ADD_EMPTY;
-		} else if (!isContain(task)) {
-			Tasks.push_back(task);
-			std::string taskText = task.getTaskText();
-			std::string startDateTime = boost::posix_time::to_simple_string(task.getStartDateTime());
-			std::string endDateTime = boost::posix_time::to_simple_string(task.getEndDateTime());
-			char buffer[255];
-			sprintf_s(buffer, MESSAGE_ADD_SUCCESS.c_str(), taskText.c_str(), startDateTime.c_str(), endDateTime.c_str());
-			feedbackMessage = std::string(buffer);
-			 
-		} else {
-			feedbackMessage = MESSAGE_ADD_DUPLICATE; 
-		}
-		return feedbackMessage;
-	}
 
-	std::vector<Task> remove(Task task) {
-		//to do
-		return Tasks;
-	}
-
-	std::vector<Task> getDisplay(Display_Type type) {
-		//to do
-		return Tasks;
-	}	
+	std::vector<Task> changeDisplay(Display_Type type);
 };
 
 #endif

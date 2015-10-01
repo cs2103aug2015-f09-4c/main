@@ -6,14 +6,14 @@ Logic::Logic(std::string fileName)  {
 }
 
 UIFeedback Logic::executeCommand(std::string userString) {
-	CommandTokens commandTokens= _parser.parse(userString);
+	CommandTokens commandTokens= _parser->parse(userString);
 	if (commandTokens.isValid()) {
 		Command* command= _commandCreator.process(commandTokens);
 		UIFeedback feedback = command->execute(_storageHandler);
-		currentDisplay = feedback.getTasksForDisplay();
+		delete command;
 		return feedback;
 	} else {
-		UIFeedback feedback(currentDisplay, MESSAGE_INVALID_COMMAND);
+		UIFeedback feedback(_storageHandler->getTasksToDisplay(), MESSAGE_INVALID_COMMAND);
 		return feedback;
 	}
 }

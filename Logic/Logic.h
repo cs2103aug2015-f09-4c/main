@@ -4,7 +4,7 @@
 #include "..\APIContracts\CommandTokens.h"
 #include "..\APIContracts\Task.h"
 #include "..\APIContracts\UIFeedback.h"
-#include "..\Parser/Parser.h"
+#include "..\Parser\Parser.h"
 #include "StorageHandler.h"
 #include "CommandCreator.h"
 using namespace API;
@@ -15,8 +15,7 @@ class Logic {
 private:
 	StorageHandler* _storageHandler;
 	CommandCreator _commandCreator;
-	Parser _parser;
-	std::vector<Task> currentDisplay;
+	Parser* _parser;
 	std::string _fileName;
 
 public:
