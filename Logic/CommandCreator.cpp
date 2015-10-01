@@ -57,8 +57,6 @@ DeleteCommand* CommandCreator::processDeleteCommand(CommandTokens commandTokens)
 	return returnCommand;
 }
 
-
-
 CommandCreator::CommandCreator() {
 }
 

@@ -25,7 +25,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Logic", "Logic\Logic.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParserStub", "ParserStub\ParserStub.vcxproj", "{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LogicTest", "LogicTest\LogicTest.vcxproj", "{F9899107-D5F2-4C7E-82D2-2996CA696ACB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LogicTest", "LogicTest\LogicTest.vcxproj", "{89941BAF-E111-4C33-B922-E080298EB1D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +59,7 @@ Global
 		{782E2CF2-7039-470A-A129-D00573B80DC9}.Debug|Win32.ActiveCfg = Debug|Win32
 		{782E2CF2-7039-470A-A129-D00573B80DC9}.Debug|Win32.Build.0 = Debug|Win32
 		{782E2CF2-7039-470A-A129-D00573B80DC9}.logicTest|Win32.ActiveCfg = Release|Win32
+		{782E2CF2-7039-470A-A129-D00573B80DC9}.logicTest|Win32.Build.0 = Release|Win32
 		{782E2CF2-7039-470A-A129-D00573B80DC9}.parserTest|Win32.ActiveCfg = ParserUnitTest|Win32
 		{782E2CF2-7039-470A-A129-D00573B80DC9}.parserTest|Win32.Build.0 = ParserUnitTest|Win32
 		{782E2CF2-7039-470A-A129-D00573B80DC9}.Release|Win32.ActiveCfg = Release|Win32
@@ -79,18 +80,18 @@ Global
 		{1A7DEB8B-9BEF-40EB-9CED-EC4676369E05}.Release|Win32.Build.0 = Release|Win32
 		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}.Debug|Win32.ActiveCfg = Debug|Win32
 		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}.logicTest|Win32.ActiveCfg = Release|Win32
-		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}.logicTest|Win32.Build.0 = Release|Win32
 		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}.parserTest|Win32.ActiveCfg = Release|Win32
 		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}.parserTest|Win32.Build.0 = Release|Win32
 		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}.Release|Win32.ActiveCfg = Release|Win32
 		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}.Release|Win32.Build.0 = Release|Win32
-		{F9899107-D5F2-4C7E-82D2-2996CA696ACB}.Debug|Win32.ActiveCfg = Debug|Win32
-		{F9899107-D5F2-4C7E-82D2-2996CA696ACB}.logicTest|Win32.ActiveCfg = Release|Win32
-		{F9899107-D5F2-4C7E-82D2-2996CA696ACB}.logicTest|Win32.Build.0 = Release|Win32
-		{F9899107-D5F2-4C7E-82D2-2996CA696ACB}.parserTest|Win32.ActiveCfg = Release|Win32
-		{F9899107-D5F2-4C7E-82D2-2996CA696ACB}.parserTest|Win32.Build.0 = Release|Win32
-		{F9899107-D5F2-4C7E-82D2-2996CA696ACB}.Release|Win32.ActiveCfg = Release|Win32
-		{F9899107-D5F2-4C7E-82D2-2996CA696ACB}.Release|Win32.Build.0 = Release|Win32
+		{89941BAF-E111-4C33-B922-E080298EB1D8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{89941BAF-E111-4C33-B922-E080298EB1D8}.Debug|Win32.Build.0 = Debug|Win32
+		{89941BAF-E111-4C33-B922-E080298EB1D8}.logicTest|Win32.ActiveCfg = Release|Win32
+		{89941BAF-E111-4C33-B922-E080298EB1D8}.logicTest|Win32.Build.0 = Release|Win32
+		{89941BAF-E111-4C33-B922-E080298EB1D8}.parserTest|Win32.ActiveCfg = Release|Win32
+		{89941BAF-E111-4C33-B922-E080298EB1D8}.parserTest|Win32.Build.0 = Release|Win32
+		{89941BAF-E111-4C33-B922-E080298EB1D8}.Release|Win32.ActiveCfg = Release|Win32
+		{89941BAF-E111-4C33-B922-E080298EB1D8}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

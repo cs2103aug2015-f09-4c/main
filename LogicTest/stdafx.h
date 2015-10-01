@@ -4,7 +4,6 @@
 //
 
 #pragma once
-#define TESTMODE
 
 #include "targetver.h"
 
@@ -12,5 +11,4 @@
 #include "CppUnitTest.h"
 
 // TODO: reference additional headers your program requires here
-#include "Logic.h"
-#include "../boost/date_time/posix_time/posix_time.hpp"
+#include "..\Logic\Logic.h"

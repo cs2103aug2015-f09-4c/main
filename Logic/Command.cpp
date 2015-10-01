@@ -37,8 +37,8 @@ UIFeedback AddCommand::execute(StorageHandler* storageHandler) {
 	UIFeedback* feedback;
 	if (_task.getTaskText().size() < 1) {
 		feedback = new UIFeedback(storageHandler->getTasksToDisplay(), MESSAGE_ADD_EMPTY);
-	} else if (storageHandler->isDuplicate(_task)) {
-		feedback = new UIFeedback(storageHandler->getTasksToDisplay(), MESSAGE_ADD_DUPLICATE);
+	//} else if (storageHandler->isDuplicate(_task)) {
+	//	feedback = new UIFeedback(storageHandler->getTasksToDisplay(), MESSAGE_ADD_DUPLICATE);
 	} else {
 		storageHandler->add(_task);
 		std::string taskText = _task.getTaskText();

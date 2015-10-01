@@ -41,6 +41,7 @@ public:
 	AddCommand (SecondaryCommandType type2, Task task);
 	UIFeedback execute(StorageHandler* storageHandler);
 	bool isValid();
+
 	Task getTask();
 };
 
