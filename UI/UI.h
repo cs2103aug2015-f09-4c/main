@@ -73,7 +73,6 @@ namespace UI {
 			this->Tags = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->commandBox = (gcnew System::Windows::Forms::TextBox());
 			this->results = (gcnew System::Windows::Forms::Label());
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->outputBox))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// outputBox
@@ -149,7 +148,6 @@ namespace UI {
 			this->Controls->Add(this->outputBox);
 			this->Name = L"Swiftask";
 			this->Text = L"Swiftask";
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->outputBox))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
