@@ -15,7 +15,7 @@ class Logic {
 private:
 	StorageHandler* _storageHandler;
 	CommandCreator _commandCreator;
-	Parser* _parser;
+	Parser _parser;
 	std::string _fileName;
 
 public:

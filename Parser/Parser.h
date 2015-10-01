@@ -15,11 +15,12 @@ public:
 	bool isDeleteCommand(std::string& userInput);
 	bool isEditCommand(std::string& userInput);
 	bool isDisplayCommand(std::string& userInput);
+	Parser(void);
 	private:
 	CommandTokens _commandTokens;
 
 	// constructor made private to prevent instantiation
-	Parser(void);
+
 
 	PrimaryCommandType extractPrimaryCommand(std::string userInput);
 
