@@ -14,6 +14,15 @@ int main(array<String^>^ args) {
 	return EXIT_SUCCESS;
 }
 
+void UI::Swiftask::updateResults(void) {
+
+	System::String^ managed = gcnew String((*feedback).getFeedbackMessage().c_str());
+	results->Text = managed;
+	delete managed;
+
+	return;
+}
+
 void UI::Swiftask::updateOutputBox(void) {
 	clearOutputBox();
 	displayInOutputBox();
@@ -51,7 +60,7 @@ void UI::Swiftask::displayInOutputBox(void) {
 		// if ((*it).getTags != "") {
 		// 	str4 = gcnew String((*it).getTags.c_str());
 		// } else {
-			str4 = gcnew String("-");
+		str4 = gcnew String("-");
 		// }
 		outputBox->Rows->Add(str1, str2, str3, str4);
 

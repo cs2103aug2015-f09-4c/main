@@ -33,6 +33,7 @@ namespace UI {
 			feedback = new UIFeedback;
 			task = new API::Task;
 		}
+	private: void updateResults(void);
 	private: void updateOutputBox(void);
 	private: void clearOutputBox(void);
 	private: void displayInOutputBox(void);
@@ -170,14 +171,12 @@ namespace UI {
 						 commandBox->Text = "";
 
 						 std::string unmanaged = msclr::interop::marshal_as<std::string>(managed);
+						 
 						 (*feedback) = logic->executeCommand(unmanaged);
 
 						 assert(feedback != NULL);
 
-						 managed = gcnew String((*feedback).getFeedbackMessage().c_str());
-						 results->Text = managed;
-						 delete managed;
-
+						 updateResults();
 						 updateOutputBox();
 
 						 isEntered = false;
