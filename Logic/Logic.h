@@ -1,12 +1,11 @@
 #ifndef LOGIC_H_
 #define LOGIC_H_
 
-#include "..\APIContracts\CommandTokens.h"
-#include "..\APIContracts\Task.h"
-#include "..\APIContracts\UIFeedback.h"
-#include "..\Parser\Parser.h"
+#include "Task.h"
+#include "UIFeedback.h"
 #include "StorageHandler.h"
 #include "CommandCreator.h"
+#include "..\Parser\Parser.h"
 using namespace API;
 
 const std::string MESSAGE_INVALID_COMMAND = "Invalid Command. No change is made.";
