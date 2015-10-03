@@ -1,6 +1,6 @@
 #pragma once
 #include <msclr\marshal_cppstd.h>
-#include "../Logic/Logic.h"
+#include "..\Logic\Logic.h"
 
 namespace UI {
 
@@ -19,6 +19,8 @@ namespace UI {
 	private: 
 		bool isEntered;
 		Logic* logic;
+		UIFeedback* feedback;
+		API::Task* task;
 	public:
 		Swiftask(void)
 		{
@@ -28,7 +30,12 @@ namespace UI {
 			//
 			isEntered = false;
 			logic = new Logic("mytextfile.txt");
+			feedback = new UIFeedback;
+			task = new API::Task;
 		}
+	private: void updateOutputBox(void);
+	private: void clearOutputBox(void);
+	private: void displayInOutputBox(void);
 
 	protected:
 		/// <summary>
@@ -153,54 +160,25 @@ namespace UI {
 
 		}
 #pragma endregion
+
 	private: System::Void commandBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 				 if (e->KeyCode == Keys::Enter) {
 					 if (isEntered) {
-						 System::String ^str1, ^str2, ^str3, ^str4;
 						 System::String^ managed;
-						 UIFeedback feedback;
-						 API::Task task;
 
 						 managed = commandBox->Text;
 						 commandBox->Text = "";
 
 						 std::string unmanaged = msclr::interop::marshal_as<std::string>(managed);
-						 feedback = logic->executeCommand(unmanaged);
+						 (*feedback) = logic->executeCommand(unmanaged);
 
-						 managed = gcnew String(feedback.getFeedbackMessage().c_str());
+						 assert(feedback != NULL);
+
+						 managed = gcnew String((*feedback).getFeedbackMessage().c_str());
 						 results->Text = managed;
 						 delete managed;
 
-						 while (outputBox->DisplayedRowCount(true)) {
-							 outputBox->Rows->RemoveAt(0);
-						 }
-
-						 for (std::vector<API::Task>::iterator it = feedback.getTasksForDisplay().begin(); it < feedback.getTasksForDisplay().end(); it++) {
-							 str1 = gcnew String((*it).getTaskText().c_str());
-
-							 if (!(*it).getStartDateTime().is_not_a_date_time()) {
-								 str2 = gcnew String(to_simple_string((*it).getStartDateTime()).c_str());
-							 } else {
-								 str2 = gcnew String("-");
-							 }
-
-							 if (!(*it).getEndDateTime().is_not_a_date_time()) {
-								 str3 = gcnew String(to_simple_string((*it).getEndDateTime()).c_str());
-							 } else {
-								 str3 = gcnew String("-");
-							 }
-
-							 // Tags not supported yet
-							 // str4 = gcnew String((*it).getTags.c_str());
-							 str4 = gcnew String("-");
-
-							 outputBox->Rows->Add(str1, str2, str3, str4);
-
-							 delete str1;
-							 delete str2;
-							 delete str3;
-							 delete str4;
-						 }
+						 updateOutputBox();
 
 						 isEntered = false;
 					 } else {
