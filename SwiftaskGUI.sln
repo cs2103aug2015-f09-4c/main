@@ -8,7 +8,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LogicStub", "LogicStub\Logi
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Swiftask", "UI\UI.vcxproj", "{D93019A4-45E5-46A5-BCC1-AD816456254A}"
 	ProjectSection(ProjectDependencies) = postProject
-		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED} = {76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}
 		{1A7DEB8B-9BEF-40EB-9CED-EC4676369E05} = {1A7DEB8B-9BEF-40EB-9CED-EC4676369E05}
 	EndProjectSection
 EndProject
@@ -22,10 +21,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParserTest", "ParserTest\Pa
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Logic", "Logic\Logic.vcxproj", "{1A7DEB8B-9BEF-40EB-9CED-EC4676369E05}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ParserStub", "ParserStub\ParserStub.vcxproj", "{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LogicTest", "LogicTest\LogicTest.vcxproj", "{89941BAF-E111-4C33-B922-E080298EB1D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,20 +74,6 @@ Global
 		{1A7DEB8B-9BEF-40EB-9CED-EC4676369E05}.parserTest|Win32.Build.0 = ParserUnitTest|Win32
 		{1A7DEB8B-9BEF-40EB-9CED-EC4676369E05}.Release|Win32.ActiveCfg = Release|Win32
 		{1A7DEB8B-9BEF-40EB-9CED-EC4676369E05}.Release|Win32.Build.0 = Release|Win32
-		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}.Debug|Win32.ActiveCfg = Debug|Win32
-		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}.logicTest|Win32.ActiveCfg = Release|Win32
-		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}.parserTest|Win32.ActiveCfg = Release|Win32
-		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}.parserTest|Win32.Build.0 = Release|Win32
-		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}.Release|Win32.ActiveCfg = Release|Win32
-		{76B9E185-0872-4ED1-ADC8-F4D595CDF7ED}.Release|Win32.Build.0 = Release|Win32
-		{89941BAF-E111-4C33-B922-E080298EB1D8}.Debug|Win32.ActiveCfg = Debug|Win32
-		{89941BAF-E111-4C33-B922-E080298EB1D8}.Debug|Win32.Build.0 = Debug|Win32
-		{89941BAF-E111-4C33-B922-E080298EB1D8}.logicTest|Win32.ActiveCfg = Release|Win32
-		{89941BAF-E111-4C33-B922-E080298EB1D8}.logicTest|Win32.Build.0 = Release|Win32
-		{89941BAF-E111-4C33-B922-E080298EB1D8}.parserTest|Win32.ActiveCfg = Release|Win32
-		{89941BAF-E111-4C33-B922-E080298EB1D8}.parserTest|Win32.Build.0 = Release|Win32
-		{89941BAF-E111-4C33-B922-E080298EB1D8}.Release|Win32.ActiveCfg = Release|Win32
-		{89941BAF-E111-4C33-B922-E080298EB1D8}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
