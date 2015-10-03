@@ -2,6 +2,7 @@
 #define COMMAND_CREATOR_H
 
 #include <cstdio>
+#include "..\Parser\Parser.h"
 #include "Command.h"
 using namespace API;
 

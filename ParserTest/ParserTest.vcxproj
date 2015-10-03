@@ -129,9 +129,6 @@
     <ClCompile Include="ParserTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\APIContracts\APIContracts.vcxproj">
-      <Project>{1ae49b26-3e8b-4ad7-9798-126614368f60}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Parser\Parser.vcxproj">
       <Project>{782e2cf2-7039-470a-a129-d00573b80dc9}</Project>
     </ProjectReference>

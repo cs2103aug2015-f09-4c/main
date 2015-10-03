@@ -1,7 +1,7 @@
 #pragma once
 
 #include <regex>
-#include "../APIContracts/CommandTokens.h"
+#include "CommandTokens.h"
 
 // TODO: for testing purposes only
 #define private public

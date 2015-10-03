@@ -120,12 +120,16 @@
     <ClInclude Include="CommandCreator.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="StorageHandler.h" />
+    <ClInclude Include="Task.h" />
+    <ClInclude Include="UIFeedback.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Command.cpp" />
     <ClCompile Include="CommandCreator.cpp" />
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="StorageHandler.cpp" />
+    <ClCompile Include="Task.cpp" />
+    <ClCompile Include="UIFeedback.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Parser\Parser.vcxproj">
