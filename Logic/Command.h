@@ -70,5 +70,18 @@ public:
 	UIFeedback DeleteCommand::execute(StorageHandler* storageHandler);
 };
 
+class EditCommand: public Command {
+public:
+	EditCommand(SecondaryCommandType);
+	virtual UIFeedback Command::execute(StorageHandler* storageHandler) = 0;
+};
 
+class EditNameCommand: public EditCommand {
+private:
+	std::string _newTaskName;
+	std::string _oldTaskName; //for undo later
+public:
+	EditNameCommand(std::string newTaskName);
+	UIFeedback EditCommand::execute(StorageHandler*);
+};
 #endif

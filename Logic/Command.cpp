@@ -114,3 +114,15 @@ UIFeedback InvalidDeleteCommand::execute(StorageHandler* storageHandler) {
 	UIFeedback feedback(storageHandler->getTasksToDisplay(), MESSAGE_INVALID_COMMAND);
 	return feedback;
 }
+
+EditCommand::EditCommand(SecondaryCommandType type2) : Command(PrimaryCommandType::Edit) {
+	_type2 = type2;
+}
+
+EditNameCommand::EditNameCommand(std::string newTaskName):EditCommand(None) {
+	_newTaskName = newTaskName;
+}
+
+UIFeedback EditNameCommand::execute(StorageHandler* storageHandler) {
+	return UIFeedback();
+}
