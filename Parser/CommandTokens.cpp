@@ -85,3 +85,11 @@ void CommandTokens::setStartDateTime(boost::posix_time::ptime newStartDateTime) 
 void CommandTokens::setEndDateTime(boost::posix_time::ptime newEndDateTime) {
 	_endDateTime = newEndDateTime;
 }
+
+int CommandTokens::getIndex() {
+	return _index;
+}
+
+void CommandTokens::setIndex(int newIndex) {
+	_index = newIndex;
+}
