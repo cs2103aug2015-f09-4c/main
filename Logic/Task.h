@@ -26,6 +26,7 @@ public:
 
 	//Methods
 	bool operator==(Task another);
+	bool isValid();
 
 private:
 	std::string _taskText;

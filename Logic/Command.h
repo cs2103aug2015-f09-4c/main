@@ -4,80 +4,68 @@
 #include "StorageHandler.h"
 using namespace API;
 
+//Feedback message for invalid command type
 const std::string MESSAGE_INVALID = "Invalid command line. Please key in another command";
+
+//Feedback message for different add operation result
+const std::string MESSAGE_ADD_SUCCESS = "\"%s\" have been added succesfully.\nStart Date Time: %s\nEnd Date Time: %s"; 
+const std::string MESSAGE_ADD_EMPTY = "Task text cannot be empty.";
+const std::string MESSAGE_ADD_DUPLICATE = "Duplicate task is found. New task is not added.";
+
+//Feedback message for different delete operation result
+const std::string MESSAGE_DELETE_INDEX_SUCCESS = "Task at index %i have been deleted successfully.";
+const std::string MESSAGE_DELETE_INDEX_FAIL = "No task is found at index %i.";
 
 class Command {
 protected:
 	PrimaryCommandType _type1;
 	SecondaryCommandType _type2;
 public:
-	Command(PrimaryCommandType type) {
-		_type1 = type;
-	}
-
-	PrimaryCommandType getPrimaryCommandType() {
-		return _type1;
-	}
-
-	SecondaryCommandType getSecondaryCommandType() {
-		return _type2;
-	}
-
-	bool isValid() {
-		if (_type1 == PrimaryCommandType::Invalid) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-
+	Command(PrimaryCommandType type);
+	PrimaryCommandType getPrimaryCommandType();
+	SecondaryCommandType getSecondaryCommandType();
+	bool isValid();
 	virtual UIFeedback execute(StorageHandler* a) = 0;
 };
 
 class InvalidCommand: public Command {
 public:
-	InvalidCommand () : Command(PrimaryCommandType::Invalid) {
-	}
-
-	UIFeedback execute(StorageHandler* storageHandler) {
-		UIFeedback feedback(storageHandler->getAllTasks(), MESSAGE_INVALID);
-		return feedback;
-	}
+	InvalidCommand ();
+	UIFeedback execute(StorageHandler* storageHandler);
 };
 
 class AddCommand: public Command {
 private:
 	Task _task;
-
 public:
-	AddCommand (SecondaryCommandType type2, Task task) : Command(PrimaryCommandType::Add) {
-		_type2 = type2;
-		_task = task;
-	}
+	AddCommand (SecondaryCommandType type2, Task task);
+	UIFeedback execute(StorageHandler* storageHandler);
+	bool isValid();
 
-	UIFeedback Command::execute(StorageHandler* storageHandler) {
-		UIFeedback* feedback;
-		if (_task.getTaskText().size() < 1) {
-			feedback = new UIFeedback(storageHandler->getAllTasks(), MESSAGE_ADD_EMPTY);
-		} else {
-			std::string feedbackMessage = storageHandler->add(_task);
-			feedback = new UIFeedback(storageHandler->getAllTasks(), feedbackMessage);
-		}
-		return *feedback;
-	}
-
-	bool isValid() {
-		if (_type2 == SecondaryCommandType::None) {
-			return false;
-		} else {
-			return Command::isValid();
-		}
-	}
-
-	Task getTask() {
-		return _task;
-	}
-
+	Task getTask();
 };
+
+class DeleteCommand: public Command{
+public:
+	DeleteCommand (SecondaryCommandType type2);
+	virtual UIFeedback Command::execute(StorageHandler* storageHandler) = 0;
+	bool isValid();
+};
+
+class IndexDeleteCommand: public DeleteCommand{
+private:
+	size_t _index;
+	Task _taskDeleted;
+public:
+	IndexDeleteCommand(size_t index);
+	UIFeedback DeleteCommand::execute(StorageHandler* storageHandler);
+};
+
+class InvalidDeleteCommand: public DeleteCommand {
+public:
+	InvalidDeleteCommand();
+	UIFeedback DeleteCommand::execute(StorageHandler* storageHandler);
+};
+
 
 #endif

@@ -37,6 +37,14 @@ using namespace API;
 		}
 	}
 
+	bool Task::isValid() {
+		if (_taskText.size() < 1) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	boost::posix_time::ptime Task::getStartDateTime() {
 		return _startDateTime;
 	}

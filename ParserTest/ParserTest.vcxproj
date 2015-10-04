@@ -58,6 +58,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(SolutionDir);$(VCInstallDir)lib;$(VCInstallDir)atlmfc\lib;$(WindowsSDK_LibraryPath_x86);</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ParserUnitTest|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -70,9 +71,10 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir);$(VCInstallDir)UnitTest\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <UseFullPaths>true</UseFullPaths>
+      <AdditionalUsingDirectories>%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -127,9 +129,6 @@
     <ClCompile Include="ParserTest.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\APIContracts\APIContracts.vcxproj">
-      <Project>{1ae49b26-3e8b-4ad7-9798-126614368f60}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Parser\Parser.vcxproj">
       <Project>{782e2cf2-7039-470a-a129-d00573b80dc9}</Project>
     </ProjectReference>
