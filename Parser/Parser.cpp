@@ -1,5 +1,7 @@
 #include "Parser.h"
 
+// TODO: tidy regex to use icase
+
 Parser::Parser(void) {
 	CommandTokens _commandTokens;
 }
@@ -60,21 +62,69 @@ void Parser::tokeniseDeleteCommand(std::string userInput) {
 		tokeniseDeleteFromToCommand(userInput);
 	} else if (isDeleteBy(userInput)) {
 		tokeniseDeleteByCommand(userInput);
-	} else if (isDeleteFloating(userInput)) {
-		tokeniseDeleteFloatingCommand(userInput);
 	} else if (isDeleteIndex(userInput)) {
 		tokeniseDeleteIndex(userInput);
 	}
 }
 
-// TODO: figure out how this is supposed to work
-void Parser::tokeniseDeleteFloatingCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(SecondaryCommandType::Floating);
+
+void Parser::tokeniseEditCommand(std::string userInput) {
+	if (isEditName(userInput)) {
+		tokeniseEditNameCommand(userInput);
+	} else if (isEditStartDate(userInput)) {
+		tokeniseEditStartDateCommand(userInput);
+	} else if (isEditEndDate(userInput)) {
+		tokeniseEditEndDateCommand(userInput);
+	}
+}
+
+void Parser::tokeniseEditEndDateCommand(std::string userInput) {
+	_commandTokens.setSecondaryCommand(SecondaryCommandType::End);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-		std::regex("delete floating (.{1,})",
+		std::regex("edit end (.{1,}) (.*)",
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+		
+	int index = stoi(matchResults[1]);
+	_commandTokens.setIndex(index);
+
+	boost::posix_time::ptime endDate = parseDate(matchResults[2]);
+	_commandTokens.setEndDateTime(endDate);
+}
+
+void Parser::tokeniseEditStartDateCommand(std::string userInput) {
+	_commandTokens.setSecondaryCommand(SecondaryCommandType::Start);
+
+	std::smatch matchResults;
+	std::regex_match(userInput, matchResults,
+		std::regex("edit start (.{1,}) (.*)",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+		
+	int index = stoi(matchResults[1]);
+	_commandTokens.setIndex(index);
+
+	boost::posix_time::ptime startDate = parseDate(matchResults[2]);
+	_commandTokens.setStartDateTime(startDate);
+}
+
+void Parser::tokeniseEditNameCommand(std::string userInput) {
+	_commandTokens.setSecondaryCommand(SecondaryCommandType::Name);
+
+	std::smatch matchResults;
+	std::regex_match(userInput, matchResults,
+		std::regex("edit name (.{1,}) (.*)",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+		
+	int index = stoi(matchResults[1]);
+	_commandTokens.setIndex(index);
+
+	_commandTokens.setTaskName(matchResults[2]);
+
+	// TODO: remove this when all using taskName
+	std::vector< std::string > newDetails;
+	newDetails.push_back(matchResults[2]);
+	_commandTokens.setDetails(newDetails);
 }
 
 void Parser::tokeniseDeleteByCommand(std::string userInput) {
@@ -86,14 +136,6 @@ void Parser::tokeniseDeleteByCommand(std::string userInput) {
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
 		
 	_commandTokens.setEndDateTime(parseDate(matchResults[1]));
-}
-
-// TODO: determine how the command works and implement properly (i.e., what
-// exactly is the user supposed to enter
-bool Parser::isDeleteFloating(std::string userInput) {
-	return std::regex_match(userInput,
-		std::regex("delete floating .*",
-		std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 bool Parser::isDeleteBy(std::string userInput) {
@@ -142,7 +184,6 @@ void Parser::tokeniseDeleteFromToCommand(std::string userInput) {
 }
 
 void Parser::tokeniseDeleteIndex(std::string userInput) {
-	// TODO: check if there is a secondary command type
 	_commandTokens.setSecondaryCommand(SecondaryCommandType::Index);
 
 	std::smatch matchResults;
@@ -154,17 +195,6 @@ void Parser::tokeniseDeleteIndex(std::string userInput) {
 	_commandTokens.setIndex(index);
 }
 
-void Parser::tokeniseEditCommand(std::string userInput) {
-	std::smatch matchResults;
-	std::regex_match(userInput, matchResults,
-		std::regex("edit ([0-9]{1,})",
-		std::regex_constants::ECMAScript | std::regex_constants::icase ));
-
-	int index = stoi(matchResults[1]);
-	_commandTokens.setIndex(index);
-}
-
-// TODO: implement
 void Parser::tokeniseDisplayCommand(std::string userInput) {
 	if (isDisplayAll(userInput)) {
 		tokeniseDisplayAllCommand();
@@ -193,7 +223,7 @@ void Parser::tokeniseDisplayByCommand(std::string userInput) {
 	std::regex_match(userInput, matchResults,
 		std::regex("display by (.{1,})",
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
-		
+
 	_commandTokens.setEndDateTime(parseDate(matchResults[1]));
 }
 

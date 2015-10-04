@@ -63,6 +63,15 @@ private:
 	void tokeniseDisplayByCommand(std::string userInput);
 	void tokeniseDisplayFloatingCommand(std::string userInput);
 
+	// identifiers to determine the exact type of EDIT command called
+	bool isEditName(std::string userInput);
+	bool isEditStartDate(std::string userInput);
+	bool isEditEndDate(std::string userInput);
+	// tokenisers for the various types of EDIT commands
+	void tokeniseEditNameCommand(std::string userInput);
+	void tokeniseEditStartDateCommand(std::string userInput);
+	void tokeniseEditEndDateCommand(std::string userInput);
+
 	// parses user input data/time string into ptime format
 	boost::posix_time::ptime parseDate(std::string dateString);
 };
