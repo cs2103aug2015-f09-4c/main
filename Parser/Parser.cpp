@@ -143,7 +143,7 @@ void Parser::tokeniseDeleteFromToCommand(std::string userInput) {
 
 void Parser::tokeniseDeleteIndex(std::string userInput) {
 	// TODO: check if there is a secondary command type
-	// _commandTokens.setSecondaryCommand(SecondaryCommandType::Timed);
+	_commandTokens.setSecondaryCommand(SecondaryCommandType::Index);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
