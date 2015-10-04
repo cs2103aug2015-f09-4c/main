@@ -125,8 +125,8 @@ namespace UI {
 			// 
 			// commandBox
 			// 
-			this->commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(7) {L"add", L"clear", L"delete", 
-				L"display", L"exit", L"search", L"sort"});
+			this->commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(7) {L"add ", L"clear ", L"delete ", 
+				L"display ", L"exit ", L"search ", L"sort "});
 			this->commandBox->AutoCompleteMode = System::Windows::Forms::AutoCompleteMode::Suggest;
 			this->commandBox->AutoCompleteSource = System::Windows::Forms::AutoCompleteSource::CustomSource;
 			this->commandBox->Dock = System::Windows::Forms::DockStyle::Bottom;
@@ -164,29 +164,23 @@ namespace UI {
 
 	private: System::Void commandBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 				 if (e->KeyCode == Keys::Enter) {
-					 if (isEntered) {
-						 System::String^ managed;
+					 System::String^ managed;
 
-						 managed = commandBox->Text;
-						 commandBox->Text = "";
+					 managed = commandBox->Text;
+					 commandBox->Text = "";
 
-						 std::string unmanaged = msclr::interop::marshal_as<std::string>(managed);
-						 
-						 (*feedback) = logic->executeCommand(unmanaged);
+					 std::string unmanaged = msclr::interop::marshal_as<std::string>(managed);
 
-						 assert(feedback != NULL);
+					 (*feedback) = logic->executeCommand(unmanaged);
 
-						 updateResults();
-						 updateOutputBox();
+					 assert(feedback != NULL);
 
-						 isEntered = false;
-					 } else {
-						 results->Text = "Enter again to continue";
-					 }
-					 isEntered = true;
-				 } else {
-					 isEntered = false;
+					 updateResults();
+					 updateOutputBox();
 				 }
+
+				 return;
 			 }
+
 	};
 }
