@@ -11,20 +11,10 @@ enum PrimaryCommandType {
 
 // Command Type to further specify the operation
 enum SecondaryCommandType {
-	None, Floating, Timed, Todo, All, Complete, Incomplete, Index
+	None, Floating, Timed, Todo, All, Complete, Incomplete, Index, Name, Start, End
 };
 
-class CommandTokens
-{
-private:
-	PrimaryCommandType _primaryCommandType;
-	SecondaryCommandType _secondaryCommandType;
-	std::string _taskName;
-	std::vector<std::string> _details;
-	boost::posix_time::ptime _startDateTime;
-	boost::posix_time::ptime _endDateTime;
-	int _index;
-
+class CommandTokens {
 public:
 	//default constructor, used for invalid command
 	CommandTokens();
@@ -39,25 +29,30 @@ public:
 	CommandTokens(PrimaryCommandType command1, SecondaryCommandType command2, std::vector<std::string> details, boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime);
 
 	bool isValid();
+	void resetMemberVariables();
 
 	PrimaryCommandType getPrimaryCommand();
-	void setPrimaryCommand(PrimaryCommandType newPrimaryCommand);
-
 	SecondaryCommandType getSecondaryCommand();
-	void setSecondaryCommand(SecondaryCommandType newSecondaryCommand);
-
 	std::string getTaskName();
-	void setTaskName(std::string newTaskName);
-
 	std::vector<std::string>& getDetails();
-	void setDetails(std::vector< std::string > newDetails);
-
 	boost::posix_time::ptime getStartDateTime();
-	void setStartDateTime(boost::posix_time::ptime newStartDateTime);
-
 	boost::posix_time::ptime getEndDateTime();
-	void setEndDateTime(boost::posix_time::ptime newEndDateTime);
-
 	int getIndex();
+
+	void setPrimaryCommand(PrimaryCommandType newPrimaryCommand);
+	void setSecondaryCommand(SecondaryCommandType newSecondaryCommand);
+	void setTaskName(std::string newTaskName);
+	void setDetails(std::vector< std::string > newDetails);
+	void setStartDateTime(boost::posix_time::ptime newStartDateTime);
+	void setEndDateTime(boost::posix_time::ptime newEndDateTime);
 	void setIndex(int newIndex);
+
+private:
+	PrimaryCommandType _primaryCommandType;
+	SecondaryCommandType _secondaryCommandType;
+	std::string _taskName;
+	std::vector<std::string> _details;
+	boost::posix_time::ptime _startDateTime;
+	boost::posix_time::ptime _endDateTime;
+	int _index;
 };
