@@ -38,7 +38,7 @@ Task StorageHandler::remove(size_t index) {
 		return Task();		
 	}
 
-	Task taskToDelete = TasksToDisplay[index];
+	Task taskToDelete = TasksToDisplay[index-1];
 
 	std::vector<Task>::iterator iter = std::find(Tasks.begin(),Tasks.end(), taskToDelete);
 

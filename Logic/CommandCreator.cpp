@@ -43,13 +43,12 @@ AddCommand* CommandCreator::processAddCommand(CommandTokens commandTokens) {
 DeleteCommand* CommandCreator::processDeleteCommand(CommandTokens commandTokens) {
 	DeleteCommand* returnCommand = NULL;
 	SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
-	std::vector<std::string> details = commandTokens.getDetails(); 
+	int index = commandTokens.getIndex(); 
 	switch (command2) {
 	case SecondaryCommandType::Index:
-		if (std::stoi(details[0]) < 1) {
+		if (index < 1) {
 			returnCommand = new InvalidDeleteCommand();
 		} else {
-			size_t index = std::stoi(details[0]); 
 			returnCommand = new IndexDeleteCommand(index);
 		}
 		break;
