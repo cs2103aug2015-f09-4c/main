@@ -24,4 +24,3 @@ private:
 	// adapter method to DateParser class
 	boost::posix_time::ptime parseDate(std::string dateString);
 };
-

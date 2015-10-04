@@ -2,7 +2,7 @@
 
 //default constructor, used for invalid command
 CommandTokens::CommandTokens() {
-	_primaryCommandType = Invalid;
+	resetMemberVariables();
 }
 
 //for operation without date and time

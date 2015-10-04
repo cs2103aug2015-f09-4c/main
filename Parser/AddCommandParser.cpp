@@ -44,8 +44,11 @@ void AddCommandParser::tokeniseAddActivityCommand(std::string userInput) {
 		std::regex("add (.{1,}) from (.{1,}) TO (.{1,})",
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
 
+	std::string taskName = matchResults[1];
+	_commandTokens.setTaskName(taskName);
+
 	std::vector< std::string > newDetails;
-	newDetails.push_back(matchResults[1]);
+	newDetails.push_back(taskName);
 	_commandTokens.setDetails(newDetails);
 
 	_commandTokens.setStartDateTime(parseDate(matchResults[2]));
@@ -61,6 +64,9 @@ void AddCommandParser::tokeniseAddTodoCommand(std::string userInput) {
 	std::regex_match(userInput, matchResults,
 		std::regex("add (.{1,}) by (.{1,})",
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+	
+	std::string taskName = matchResults[1];
+	_commandTokens.setTaskName(taskName);
 
 	std::vector< std::string > newDetails;
 	newDetails.push_back(matchResults[1]);
@@ -77,6 +83,9 @@ void AddCommandParser::tokeniseAddFloatingCommand(std::string userInput) {
 	std::regex_match(userInput, matchResults,
 		std::regex("add (.{1,})",
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+	
+	std::string taskName = matchResults[1];
+	_commandTokens.setTaskName(taskName);
 
 	std::vector< std::string > newDetails;
 	newDetails.push_back(matchResults[1]);
