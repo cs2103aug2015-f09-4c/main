@@ -24,11 +24,13 @@ void StorageHandler::add(Task task) {
 }
 
 bool StorageHandler::isDuplicate(Task task) {
-	if (std::find(Tasks.begin(), Tasks.end(), task) == Tasks.end()) {
-		return false;
-	} else {
-		return true;
+	size_t n = Tasks.size();
+	for (size_t i = 0 ; i < n ; ++i) {
+		if (Tasks[i] == task) {
+			return true;
+		}
 	}
+	return false;
 }
 
 Task StorageHandler::remove(size_t index) {

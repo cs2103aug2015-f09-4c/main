@@ -49,6 +49,7 @@ private:
 	void updateDisplay();
 
 public:
+	StorageHandler();
 	StorageHandler(std::string fileName);
 
 	std::vector<Task>& getAllTasks();

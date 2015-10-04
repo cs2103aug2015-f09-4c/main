@@ -10,7 +10,7 @@ using namespace API;
 
 class Logic {
 private:
-	CommandExecutor _commandExecutor;
+	CommandExecutor* _commandExecutor;
 	CommandCreator _commandCreator;
 	Parser _parser;
 	std::string _fileName;

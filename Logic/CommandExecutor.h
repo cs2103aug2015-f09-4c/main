@@ -14,10 +14,6 @@ private:
 	StorageHandler* _storageHandler;
 
 public:
-	CommandExecutor() {
-		_storageHandler = NULL;
-	}
-
 	CommandExecutor(std::string fileName) {
 		_storageHandler = new StorageHandler(fileName);
 	}
