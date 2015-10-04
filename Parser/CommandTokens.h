@@ -23,6 +23,7 @@ private:
 	std::vector<std::string> _details;
 	boost::posix_time::ptime _startDateTime;
 	boost::posix_time::ptime _endDateTime;
+	int _index;
 
 public:
 	//default constructor, used for invalid command
@@ -56,4 +57,7 @@ public:
 
 	boost::posix_time::ptime getEndDateTime();
 	void setEndDateTime(boost::posix_time::ptime newEndDateTime);
+
+	int getIndex();
+	void setIndex(int newIndex);
 };
