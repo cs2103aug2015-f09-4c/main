@@ -5,7 +5,7 @@
 using namespace API;
 
 //Feedback message for invalid command type
-const std::string MESSAGE_INVALID = "Invalid command line. Please key in another command";
+const std::string MESSAGE_INVALID_COMMAND = "Invalid Command. No change is made.";
 
 //Feedback message for different add operation result
 const std::string MESSAGE_ADD_SUCCESS = "\"%s\" have been added succesfully.\nStart Date Time: %s\nEnd Date Time: %s"; 
@@ -20,12 +20,15 @@ class Command {
 protected:
 	PrimaryCommandType _type1;
 	SecondaryCommandType _type2;
+	bool _statusExecuted;
 public:
 	Command(PrimaryCommandType type);
 	PrimaryCommandType getPrimaryCommandType();
 	SecondaryCommandType getSecondaryCommandType();
 	bool isValid();
+	bool isExecutedSuccessfully();
 	virtual UIFeedback execute(StorageHandler* a) = 0;
+	~Command() {}
 };
 
 class InvalidCommand: public Command {

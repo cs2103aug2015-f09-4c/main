@@ -2,6 +2,7 @@
 
 Command::Command(PrimaryCommandType type) {
 	_type1 = type;
+	_statusExecuted = false;
 }
 
 PrimaryCommandType Command::getPrimaryCommandType() {
@@ -20,11 +21,19 @@ bool Command::isValid() {
 	}
 }
 
+bool Command::isExecutedSuccessfully() {
+	return _statusExecuted;
+}
+
 InvalidCommand::InvalidCommand() : Command(PrimaryCommandType::Invalid){
 }
 
 UIFeedback InvalidCommand::execute(StorageHandler* storageHandler) {
-	UIFeedback feedback(storageHandler->getTasksToDisplay(), MESSAGE_INVALID);
+	UIFeedback feedback(storageHandler->getTasksToDisplay(), MESSAGE_INVALID_COMMAND);
+
+	//to specify this is invalid command
+	_statusExecuted = false;
+	
 	return feedback;
 }
 
@@ -37,8 +46,8 @@ UIFeedback AddCommand::execute(StorageHandler* storageHandler) {
 	UIFeedback* feedback;
 	if (_task.getTaskText().size() < 1) {
 		feedback = new UIFeedback(storageHandler->getTasksToDisplay(), MESSAGE_ADD_EMPTY);
-	//} else if (storageHandler->isDuplicate(_task)) {
-	//	feedback = new UIFeedback(storageHandler->getTasksToDisplay(), MESSAGE_ADD_DUPLICATE);
+	} else if (storageHandler->isDuplicate(_task)) {
+		feedback = new UIFeedback(storageHandler->getTasksToDisplay(), MESSAGE_ADD_DUPLICATE);
 	} else {
 		storageHandler->add(_task);
 		std::string taskText = _task.getTaskText();
@@ -48,6 +57,7 @@ UIFeedback AddCommand::execute(StorageHandler* storageHandler) {
 		sprintf_s(buffer, MESSAGE_ADD_SUCCESS.c_str(), taskText.c_str(), startDateTime.c_str(), endDateTime.c_str());
 		std::string feedbackMessage(buffer);
 		feedback = new UIFeedback(storageHandler->getTasksToDisplay(), feedbackMessage);
+		_statusExecuted = true;
 	}
 	return *feedback;
 }
@@ -101,6 +111,6 @@ InvalidDeleteCommand::InvalidDeleteCommand() : DeleteCommand(SecondaryCommandTyp
 }
 
 UIFeedback InvalidDeleteCommand::execute(StorageHandler* storageHandler) {
-	UIFeedback feedback(storageHandler->getAllTasks(), MESSAGE_INVALID);
+	UIFeedback feedback(storageHandler->getTasksToDisplay(), MESSAGE_INVALID_COMMAND);
 	return feedback;
 }

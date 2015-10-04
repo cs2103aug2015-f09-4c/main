@@ -118,6 +118,7 @@
   <ItemGroup>
     <ClInclude Include="Command.h" />
     <ClInclude Include="CommandCreator.h" />
+    <ClInclude Include="CommandExecutor.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="StorageHandler.h" />
     <ClInclude Include="Task.h" />

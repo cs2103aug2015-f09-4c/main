@@ -2,18 +2,17 @@
 
 Logic::Logic(std::string fileName)  {
 	_fileName = fileName;
-	_storageHandler = new StorageHandler(fileName);
+	_commandExecutor = CommandExecutor(fileName);
 }
 
 UIFeedback Logic::executeCommand(std::string userString) {
 	CommandTokens commandTokens= _parser.parse(userString);
 	if (commandTokens.isValid()) {
 		Command* command= _commandCreator.process(commandTokens);
-		UIFeedback feedback = command->execute(_storageHandler);
-		//delete command;
+		UIFeedback feedback = _commandExecutor.execute(command);
 		return feedback;
 	} else {
-		UIFeedback feedback(_storageHandler->getTasksToDisplay(), MESSAGE_INVALID_COMMAND);
+		UIFeedback feedback = _commandExecutor.execute(&InvalidCommand());
 		return feedback;
 	}
 }

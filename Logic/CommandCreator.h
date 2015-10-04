@@ -4,8 +4,7 @@
 #include <cstdio>
 #include "..\Parser\Parser.h"
 #include "Command.h"
-using namespace API;
-
+;
 class CommandCreator {
 private:
 	static Command* processByPrimaryCommandType(CommandTokens commandTokens);
