@@ -6,21 +6,21 @@ Parser::Parser(void) {
 
 CommandTokens Parser::parse(std::string userInput) {
 
-	PrimaryCommandType primaryCommand = extractPrimaryCommand(userInput);
+	PrimaryCommandType primaryCommand = parsePrimaryCommand(userInput);
 	_commandTokens.setPrimaryCommand(primaryCommand);
 
 	switch (primaryCommand) {
 	case Add:
-		extractAddCommand(userInput);
+		tokeniseAddCommand(userInput);
 		break;
 	case Delete:
-		extractDeleteCommand(userInput);
+		tokeniseDeleteCommand(userInput);
 		break;
 	case Edit:
-		extractEditCommand(userInput);
+		tokeniseEditCommand(userInput);
 		break;
 	case Display:
-		extractDisplayCommand(userInput);
+		tokeniseDisplayCommand(userInput);
 		break;
 	case Invalid:
 		return _commandTokens;
@@ -29,7 +29,7 @@ CommandTokens Parser::parse(std::string userInput) {
 	return _commandTokens;
 }
 
-PrimaryCommandType Parser::extractPrimaryCommand(std::string userInput) {
+PrimaryCommandType Parser::parsePrimaryCommand(std::string userInput) {
 	PrimaryCommandType commandType = Invalid;
 	if (isAddCommand(userInput)) {
 		commandType = Add;
@@ -43,29 +43,65 @@ PrimaryCommandType Parser::extractPrimaryCommand(std::string userInput) {
 	return commandType;
 }
 
-void Parser::extractAddCommand(std::string userInput) {
-	if (isActivityTask(userInput)) {
-		extractActivityTask(userInput);
-	} else if (isTodoTask(userInput)) {
-		extractTodoTask(userInput);
+void Parser::tokeniseAddCommand(std::string userInput) {
+	if (isAddActivityTask(userInput)) {
+		tokeniseActivityTask(userInput);
+	} else if (isAddTodoTask(userInput)) {
+		tokeniseTodoTask(userInput);
 	} else {
-		extractFloatingTask(userInput);
+		tokeniseFloatingTask(userInput);
 	}
 }
 
-void Parser::extractDeleteCommand(std::string userInput) {
+void Parser::tokeniseDeleteCommand(std::string userInput) {
 	if (isDeleteAll(userInput)) {
-		extractDeleteAllCommand();
+		tokeniseDeleteAllCommand();
 	} else if (isDeleteFromTo(userInput)) {
-		extractDeleteFromToCommand(userInput);
-	} /*else if (isDeleteBy(userInput)) {
-
+		tokeniseDeleteFromToCommand(userInput);
+	} else if (isDeleteBy(userInput)) {
+		tokeniseDeleteByCommand(userInput);
 	} else if (isDeleteFloating(userInput)) {
-
+		tokeniseDeleteFloatingCommand(userInput);
 	} else if (isDeleteIndex(userInput)) {
-
-	}*/
+		tokeniseDeleteIndex(userInput);
+	}
 }
+
+// TODO: figure out how this is supposed to work
+void Parser::tokeniseDeleteFloatingCommand(std::string userInput) {
+	_commandTokens.setSecondaryCommand(SecondaryCommandType::Floating);
+
+	std::smatch matchResults;
+	std::regex_match(userInput, matchResults,
+		std::regex("delete floating (.{1,})",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+}
+
+void Parser::tokeniseDeleteByCommand(std::string userInput) {
+	_commandTokens.setSecondaryCommand(SecondaryCommandType::Todo);
+
+	std::smatch matchResults;
+	std::regex_match(userInput, matchResults,
+		std::regex("delete by (.{1,})",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+		
+	_commandTokens.setEndDateTime(parseDate(matchResults[1]));
+}
+
+// TODO: determine how the command works and implement properly (i.e., what
+// exactly is the user supposed to enter
+bool Parser::isDeleteFloating(std::string userInput) {
+	return std::regex_match(userInput,
+		std::regex("delete floating .*",
+		std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
+bool Parser::isDeleteBy(std::string userInput) {
+	return std::regex_match(userInput,
+		std::regex("delete by .*",
+		std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
 
 // returns true if userInput contains "delete all", followed by whitespaces;
 // case-insensitive
@@ -83,11 +119,17 @@ bool Parser::isDeleteFromTo(std::string userInput) {
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
 }
 
-void Parser::extractDeleteAllCommand() {
+bool Parser::isDeleteIndex(std::string userInput) {
+	return std::regex_match(userInput,
+		std::regex("delete [0-9]{1,}",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+}
+
+void Parser::tokeniseDeleteAllCommand() {
 	_commandTokens.setSecondaryCommand(All);
 }
 
-void Parser::extractDeleteFromToCommand(std::string userInput) {	
+void Parser::tokeniseDeleteFromToCommand(std::string userInput) {
 	_commandTokens.setSecondaryCommand(SecondaryCommandType::Timed);
 
 	std::smatch matchResults;
@@ -99,13 +141,105 @@ void Parser::extractDeleteFromToCommand(std::string userInput) {
 	_commandTokens.setEndDateTime(parseDate(matchResults[2]));
 }
 
+void Parser::tokeniseDeleteIndex(std::string userInput) {
+	// TODO: check if there is a secondary command type
+	// _commandTokens.setSecondaryCommand(SecondaryCommandType::Timed);
 
-// TODO: implement
-void Parser::extractEditCommand(std::string userInput) {
+	std::smatch matchResults;
+	std::regex_match(userInput, matchResults,
+		std::regex("delete ([0-9]{1,})",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+
+	int index = stoi(matchResults[1]);
+	_commandTokens.setIndex(index);
+}
+
+void Parser::tokeniseEditCommand(std::string userInput) {
+	std::smatch matchResults;
+	std::regex_match(userInput, matchResults,
+		std::regex("edit ([0-9]{1,})",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+
+	int index = stoi(matchResults[1]);
+	_commandTokens.setIndex(index);
 }
 
 // TODO: implement
-void Parser::extractDisplayCommand(std::string userInput) {
+void Parser::tokeniseDisplayCommand(std::string userInput) {
+	if (isDisplayAll(userInput)) {
+		tokeniseDisplayAllCommand();
+	} else if (isDisplayFromTo(userInput)) {
+		tokeniseDisplayFromToCommand(userInput);
+	} else if (isDisplayBy(userInput)) {
+		tokeniseDisplayByCommand(userInput);
+	} else if (isDisplayFloating(userInput)) {
+		tokeniseDisplayFloatingCommand(userInput);
+	}
+}
+
+void Parser::tokeniseDisplayFloatingCommand(std::string userInput) {
+	_commandTokens.setSecondaryCommand(SecondaryCommandType::Floating);
+
+	std::smatch matchResults;
+	std::regex_match(userInput, matchResults,
+		std::regex("display floating (.{1,})",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+}
+
+void Parser::tokeniseDisplayByCommand(std::string userInput) {
+	_commandTokens.setSecondaryCommand(SecondaryCommandType::Todo);
+
+	std::smatch matchResults;
+	std::regex_match(userInput, matchResults,
+		std::regex("display by (.{1,})",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+		
+	_commandTokens.setEndDateTime(parseDate(matchResults[1]));
+}
+
+void Parser::tokeniseDisplayAllCommand() {
+	_commandTokens.setSecondaryCommand(All);
+}
+
+void Parser::tokeniseDisplayFromToCommand(std::string userInput) {
+	_commandTokens.setSecondaryCommand(SecondaryCommandType::Timed);
+
+	std::smatch matchResults;
+	std::regex_match(userInput, matchResults,
+		std::regex("Display from (.{1,}) to (.{1,})",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+
+	_commandTokens.setStartDateTime(parseDate(matchResults[1]));
+	_commandTokens.setEndDateTime(parseDate(matchResults[2]));
+}
+
+bool Parser::isDisplayFloating(std::string userInput) {
+	return std::regex_match(userInput,
+		std::regex("Display floating .*",
+		std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
+bool Parser::isDisplayBy(std::string userInput) {
+	return std::regex_match(userInput,
+		std::regex("Display by .*",
+		std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
+
+// returns true if userInput contains "iisplay all", followed by whitespaces;
+// case-insensitive
+bool Parser::isDisplayAll(std::string userInput) {
+	return std::regex_match(userInput,
+		std::regex("Display all *",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+}
+
+// returns true if userInput contains "from" and subsequently "to";
+// case-insensitive
+bool Parser::isDisplayFromTo(std::string userInput) {
+	return std::regex_match(userInput,
+		std::regex("Display from .{1,} to .{1,}",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
 }
 
 bool Parser::isAddCommand(std::string& userInput) {
@@ -127,14 +261,14 @@ bool Parser::isDisplayCommand(std::string& userInput) {
 
 // returns true if userInput contains "from" and subsequently "to";
 // case-insensitive
-bool Parser::isActivityTask(std::string userInput) {
+bool Parser::isAddActivityTask(std::string userInput) {
 	return std::regex_match(userInput,
 		std::regex(".* [F][R][O][M] .*[T][O] .*",
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
 }
 
 // returns true if userInput contains "by"; case-insensitive
-bool Parser::isTodoTask(std::string userInput) {
+bool Parser::isAddTodoTask(std::string userInput) {
 	return std::regex_match(userInput,
 		std::regex(".* [B][Y] .*",
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
@@ -142,7 +276,7 @@ bool Parser::isTodoTask(std::string userInput) {
 
 // extract taskName, startDateTime, and endDateTime; and call the setters on
 // _commandTokens to set these three fields
-void Parser::extractActivityTask(std::string userInput) {
+void Parser::tokeniseActivityTask(std::string userInput) {
 	_commandTokens.setSecondaryCommand(SecondaryCommandType::Timed);
 
 	std::smatch matchResults;
@@ -160,7 +294,7 @@ void Parser::extractActivityTask(std::string userInput) {
 
 // extract taskName, and endDateTime; and call the setters on _commandTokens
 // to set these two fields
-void Parser::extractTodoTask(std::string userInput) {
+void Parser::tokeniseTodoTask(std::string userInput) {
 	_commandTokens.setSecondaryCommand(SecondaryCommandType::Todo);
 
 	std::smatch matchResults;
@@ -176,7 +310,7 @@ void Parser::extractTodoTask(std::string userInput) {
 }
 
 // extract taskName; and call the setter on _commandTokens to set this field
-void Parser::extractFloatingTask(std::string userInput) {
+void Parser::tokeniseFloatingTask(std::string userInput) {
 	_commandTokens.setSecondaryCommand(SecondaryCommandType::Floating);
 
 	std::smatch matchResults;
