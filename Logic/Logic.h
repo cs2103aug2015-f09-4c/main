@@ -19,6 +19,8 @@ public:
 	Logic(std::string fileName);
 
 	UIFeedback executeCommand(std::string userString);
+
+	virtual ~Logic();
 };
 
 #endif

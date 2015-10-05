@@ -17,3 +17,7 @@ UIFeedback Logic::executeCommand(std::string userString) {
 		return feedback;
 	}
 }
+
+Logic::~Logic() {
+	delete _commandExecutor;
+}

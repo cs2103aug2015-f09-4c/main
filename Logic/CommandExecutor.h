@@ -27,10 +27,20 @@ public:
 	}
 
 	~CommandExecutor() {
+		while (!_commandExecuted.empty()) {
+			delete _commandExecuted.top();
+			_commandExecuted.top() = NULL;
+			_commandExecuted.pop();
+		}
+		while (!_commandUndoed.empty()) {
+			delete _commandUndoed.top();
+			_commandUndoed.top() = NULL;
+			_commandUndoed.pop();
+		}
 		delete _storageHandler;
 		_storageHandler = NULL;
 	}
 
-}
+};
 
 #endif

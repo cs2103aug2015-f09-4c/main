@@ -10,6 +10,9 @@ Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens
 	case PrimaryCommandType::Delete:
 		returnCommand = processDeleteCommand(commandTokens);
 		break;
+	case PrimaryCommandType::Edit:
+		returnCommand = processEditCommand(commandTokens);
+		break;
 	case PrimaryCommandType::Invalid:
 		returnCommand = new InvalidCommand();
 		break;
@@ -52,6 +55,24 @@ DeleteCommand* CommandCreator::processDeleteCommand(CommandTokens commandTokens)
 			returnCommand = new IndexDeleteCommand(index);
 		}
 		break;
+	}
+	return returnCommand;
+}
+
+EditCommand* CommandCreator::processEditCommand(CommandTokens commandTokens) {
+	EditCommand* returnCommand = NULL;
+	SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
+	int index = commandTokens.getIndex();
+	switch (command2) {
+	case SecondaryCommandType::Name:
+		if (index < 1) {
+			returnCommand = new InvalidEditCommand();
+		} else {
+			returnCommand = new EditNameCommand(index, commandTokens.getTaskName());
+		}
+		break;
+	case SecondaryCommandType::Start:
+		returnCommand = new EditStartCommand(index, commandTokens.getStartDateTime());
 	}
 	return returnCommand;
 }

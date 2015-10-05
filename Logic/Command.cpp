@@ -98,6 +98,7 @@ UIFeedback IndexDeleteCommand::execute(StorageHandler* storageHandler) {
 		sprintf_s(buffer,MESSAGE_DELETE_INDEX_SUCCESS.c_str(),_index);
 		std::string feedbackMessage(buffer);
 		feedback = new UIFeedback(storageHandler->getTasksToDisplay(),feedbackMessage);
+		_statusExecuted = true;
 	} else {
 		char buffer[255];
 		sprintf_s(buffer,MESSAGE_DELETE_INDEX_FAIL.c_str(),_index);
@@ -120,6 +121,14 @@ EditCommand::EditCommand(SecondaryCommandType type2, size_t index) : Command(Pri
 	_index = index;
 }
 
+InvalidEditCommand::InvalidEditCommand(): EditCommand(SecondaryCommandType::None, 0) {
+}
+
+UIFeedback InvalidEditCommand::execute(StorageHandler* storageHandler) {
+	UIFeedback feedback(storageHandler->getTasksToDisplay(), MESSAGE_INVALID_COMMAND);
+	return feedback;
+}
+
 EditNameCommand::EditNameCommand(size_t index, std::string newTaskText):EditCommand(SecondaryCommandType::Name, index) {
 	_newTaskText = newTaskText;
 }
@@ -136,7 +145,29 @@ UIFeedback EditNameCommand::execute(StorageHandler* storageHandler) {
 		char buffer[255];
 		sprintf_s(buffer, MESSAGE_EDIT_NAME_SUCCESS.c_str(), _oldTaskText.c_str(), _newTaskText.c_str());
 		feedbackMessage = std::string(buffer);
+		_statusExecuted = true;
 	}
+	UIFeedback feedback(storageHandler->getTasksToDisplay(), feedbackMessage);
+	return feedback;
+}
+
+EditStartCommand::EditStartCommand(size_t index, boost::posix_time::ptime newStart) : EditCommand(SecondaryCommandType::Start, index) {
+	_newStart = newStart;
+}
+
+UIFeedback EditStartCommand::execute(StorageHandler* storageHandler) {
+	std::string feedbackMessage;
+	
+	Task& taskToEdit = storageHandler -> find(_index);
+	_oldStart = taskToEdit.getStartDateTime();
+	taskToEdit.changeStartDateTime(_newStart);
+	
+	char buffer[255];
+	std::string newStartString = boost::posix_time::to_simple_string(_newStart);
+	sprintf_s(buffer, MESSAGE_EDIT_START_SUCCESS.c_str(), taskToEdit.getTaskText().c_str(), newStartString.c_str());
+	feedbackMessage = std::string(buffer);
+	
+	_statusExecuted = true;
 	
 	UIFeedback feedback(storageHandler->getTasksToDisplay(), feedbackMessage);
 	return feedback;

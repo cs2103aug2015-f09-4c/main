@@ -4,7 +4,7 @@
 #include <cstdio>
 #include "..\Parser\Parser.h"
 #include "Command.h"
-;
+
 class CommandCreator {
 private:
 	static Command* processByPrimaryCommandType(CommandTokens commandTokens);
@@ -12,6 +12,8 @@ private:
 	static AddCommand* processAddCommand(CommandTokens commandTokens);
 
 	static DeleteCommand* processDeleteCommand(CommandTokens commandTokens);
+
+	static EditCommand* processEditCommand(CommandTokens commandTokens);
 public:
 	CommandCreator();
 	Command* process(CommandTokens commandTokens);
