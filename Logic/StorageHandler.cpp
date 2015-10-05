@@ -14,12 +14,12 @@ std::vector<Task>& StorageHandler::getAllTasks() {
 }
 
 std::vector<Task>& StorageHandler::getTasksToDisplay() {
+	updateDisplay();
 	return TasksToDisplay;
 }
 
 void StorageHandler::add(Task task) {
 	Tasks.push_back(task);
-	updateDisplay();
 	return;
 }
 
@@ -46,6 +46,18 @@ Task StorageHandler::remove(size_t index) {
 	Tasks.erase(iter);
 
 	return taskToDelete;
+}
+
+Task& StorageHandler::find(size_t index) {
+	if (index > TasksToDisplay.size()) {
+		return Task();
+	}
+
+	Task taskToReturn = TasksToDisplay[index-1];
+
+	std::vector<Task>::iterator iter = std::find(Tasks.begin(), Tasks.end(), taskToReturn);
+
+	return *iter;
 }
 
 std::vector<Task> StorageHandler::changeDisplay(Display_Type type) {

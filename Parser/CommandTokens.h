@@ -11,7 +11,7 @@ enum PrimaryCommandType {
 
 // Command Type to further specify the operation
 enum SecondaryCommandType {
-	None, Floating, Timed, Todo, All, Complete, Incomplete, Index
+	None, Floating, Timed, Todo, All, Name, Start, End, Index
 };
 
 class CommandTokens

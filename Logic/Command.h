@@ -9,12 +9,16 @@ const std::string MESSAGE_INVALID_COMMAND = "Invalid Command. No change is made.
 
 //Feedback message for different add operation result
 const std::string MESSAGE_ADD_SUCCESS = "\"%s\" have been added succesfully.\nStart Date Time: %s\nEnd Date Time: %s"; 
-const std::string MESSAGE_ADD_EMPTY = "Task text cannot be empty.";
+const std::string MESSAGE_ADD_EMPTY = "Task text cannot be empty. New task is not added.";
 const std::string MESSAGE_ADD_DUPLICATE = "Duplicate task is found. New task is not added.";
 
 //Feedback message for different delete operation result
 const std::string MESSAGE_DELETE_INDEX_SUCCESS = "Task at index %i have been deleted successfully.";
 const std::string MESSAGE_DELETE_INDEX_FAIL = "No task is found at index %i.";
+
+//Feedback message for different edit operation result
+const std::string MESSAGE_EDIT_NAME_SUCCESS = "Task \"%s\"'s task text have been changed to \"%s\".";
+const std::string MESSAGE_EDIT_NAME_EMPTY = "Task text cannot be empty. Task text is not changed.";
 
 class Command {
 protected:
@@ -71,17 +75,19 @@ public:
 };
 
 class EditCommand: public Command {
+protected:
+	size_t _index;
 public:
-	EditCommand(SecondaryCommandType);
+	EditCommand(SecondaryCommandType, size_t);
 	virtual UIFeedback Command::execute(StorageHandler* storageHandler) = 0;
 };
 
 class EditNameCommand: public EditCommand {
 private:
-	std::string _newTaskName;
-	std::string _oldTaskName; //for undo later
+	std::string _newTaskText;
+	std::string _oldTaskText; //for undo later
 public:
-	EditNameCommand(std::string newTaskName);
+	EditNameCommand(size_t index, std::string newTaskText);
 	UIFeedback EditCommand::execute(StorageHandler*);
 };
 #endif

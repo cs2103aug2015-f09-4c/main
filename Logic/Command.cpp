@@ -115,14 +115,29 @@ UIFeedback InvalidDeleteCommand::execute(StorageHandler* storageHandler) {
 	return feedback;
 }
 
-EditCommand::EditCommand(SecondaryCommandType type2) : Command(PrimaryCommandType::Edit) {
+EditCommand::EditCommand(SecondaryCommandType type2, size_t index) : Command(PrimaryCommandType::Edit) {
 	_type2 = type2;
+	_index = index;
 }
 
-EditNameCommand::EditNameCommand(std::string newTaskName):EditCommand(None) {
-	_newTaskName = newTaskName;
+EditNameCommand::EditNameCommand(size_t index, std::string newTaskText):EditCommand(SecondaryCommandType::Name, index) {
+	_newTaskText = newTaskText;
 }
 
 UIFeedback EditNameCommand::execute(StorageHandler* storageHandler) {
-	return UIFeedback();
+	std::string feedbackMessage;
+	
+	if (_newTaskText.size() < 1) {
+		feedbackMessage = MESSAGE_EDIT_NAME_EMPTY;
+	} else {
+		Task& taskToEdit = storageHandler -> find(_index);
+		_oldTaskText = taskToEdit.getTaskText();
+		taskToEdit.changeTaskText(_newTaskText);
+		char buffer[255];
+		sprintf_s(buffer, MESSAGE_EDIT_NAME_SUCCESS.c_str(), _oldTaskText.c_str(), _newTaskText.c_str());
+		feedbackMessage = std::string(buffer);
+	}
+	
+	UIFeedback feedback(storageHandler->getTasksToDisplay(), feedbackMessage);
+	return feedback;
 }
