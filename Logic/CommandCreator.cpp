@@ -73,6 +73,12 @@ EditCommand* CommandCreator::processEditCommand(CommandTokens commandTokens) {
 		break;
 	case SecondaryCommandType::Start:
 		returnCommand = new EditStartCommand(index, commandTokens.getStartDateTime());
+		break;
+	case SecondaryCommandType::End:
+		returnCommand = new EditEndCommand(index, commandTokens.getEndDateTime());
+		break;
+	default:
+		returnCommand = new InvalidEditCommand();
 	}
 	return returnCommand;
 }

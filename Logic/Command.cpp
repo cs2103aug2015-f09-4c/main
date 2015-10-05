@@ -172,3 +172,25 @@ UIFeedback EditStartCommand::execute(StorageHandler* storageHandler) {
 	UIFeedback feedback(storageHandler->getTasksToDisplay(), feedbackMessage);
 	return feedback;
 }
+
+EditEndCommand::EditEndCommand(size_t index, boost::posix_time::ptime newEnd) : EditCommand(SecondaryCommandType::End, index) {
+	_newEnd = newEnd;
+}
+
+UIFeedback EditEndCommand::execute(StorageHandler* storageHandler) {
+	std::string feedbackMessage;
+	
+	Task& taskToEdit = storageHandler -> find(_index);
+	_oldEnd = taskToEdit.getEndDateTime();
+	taskToEdit.changeEndDateTime(_newEnd);
+	
+	char buffer[255];
+	std::string newEndString = boost::posix_time::to_simple_string(_newEnd);
+	sprintf_s(buffer, MESSAGE_EDIT_END_SUCCESS.c_str(), taskToEdit.getTaskText().c_str(), newEndString.c_str());
+	feedbackMessage = std::string(buffer);
+	
+	_statusExecuted = true;
+	
+	UIFeedback feedback(storageHandler->getTasksToDisplay(), feedbackMessage);
+	return feedback;
+}

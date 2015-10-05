@@ -20,6 +20,8 @@ const std::string MESSAGE_DELETE_INDEX_FAIL = "No task is found at index %i.";
 const std::string MESSAGE_EDIT_NAME_SUCCESS = "Task \"%s\" have been changed to \"%s\".";
 const std::string MESSAGE_EDIT_NAME_EMPTY = "Task text cannot be empty. Task text is not changed.";
 const std::string MESSAGE_EDIT_START_SUCCESS = "Task \"%s\" 's start date and time have been changed to \"%s\".";
+const std::string MESSAGE_EDIT_END_SUCCESS = "Task \"%s\" 's end date and time have been changed to \"%s\".";
+
 
 class Command {
 protected:
@@ -104,6 +106,15 @@ private:
 	boost::posix_time::ptime _oldStart;
 public:
 	EditStartCommand(size_t index, boost::posix_time::ptime newStart);
+	UIFeedback EditCommand::execute(StorageHandler*);
+};
+
+class EditEndCommand: public EditCommand {
+private:
+	boost::posix_time::ptime _newEnd;
+	boost::posix_time::ptime _oldEnd;
+public:
+	EditEndCommand(size_t index, boost::posix_time::ptime newEnd);
 	UIFeedback EditCommand::execute(StorageHandler*);
 };
 #endif
