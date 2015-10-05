@@ -44,7 +44,7 @@ void EditCommandParser::tokeniseEditEndDateCommand(std::string userInput) {
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-		std::regex("edit end (.{1,}) (.*)",
+		std::regex("edit end ([0-9]{1,}) (.*)",
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
 
 	int index = stoi(matchResults[1]);
@@ -59,7 +59,7 @@ void EditCommandParser::tokeniseEditStartDateCommand(std::string userInput) {
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-		std::regex("edit start (.{1,}) (.*)",
+		std::regex("edit start ([0-9]{1,}) (.*)",
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
 
 	int index = stoi(matchResults[1]);
@@ -74,7 +74,7 @@ void EditCommandParser::tokeniseEditNameCommand(std::string userInput) {
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-		std::regex("edit name (.{1,}) (.*)",
+		std::regex("edit name ([0-9]{1,}) (.*)",
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
 
 	int index = stoi(matchResults[1]);
