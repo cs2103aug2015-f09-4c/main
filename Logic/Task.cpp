@@ -4,21 +4,25 @@ using namespace API;
 
 Task::Task() {
 	_taskText = "";
+	_isComplete = false;
 }
 
 Task::Task(std::string taskText) {
 	_taskText = taskText;
+	_isComplete = false;
 }
 
 Task::Task(std::string taskText, boost::posix_time::ptime endDateTime) {
 	_taskText = taskText;
 	_endDateTime = endDateTime;
+	_isComplete = false;
 }
 
 Task::Task(std::string taskText, boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime) {
 	_taskText = taskText;
 	_startDateTime = startDateTime;
 	_endDateTime = endDateTime;
+	_isComplete = false;
 }
 
 std::string Task::getTaskText() {
@@ -51,6 +55,14 @@ bool Task::isValid() {
 	} else {
 		return true;
 	}
+}
+
+bool Task::isComplete() {
+	return _isComplete;
+}
+
+void Task::setComplete() {
+	_isComplete = true;
 }
 
 void Task::changeTaskText(std::string newTaskText) {

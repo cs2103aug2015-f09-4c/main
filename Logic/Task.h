@@ -27,15 +27,18 @@ public:
 	//Methods
 	bool operator==(Task another);
 	bool isValid();
+	bool isComplete();
 
 	//Modifiers
 	void changeTaskText(std::string newTaskText);
 	void changeStartDateTime(boost::posix_time::ptime newStartDateTime);
 	void changeEndDateTime(boost::posix_time::ptime newEndDateTime);
+	void setComplete();
 
 private:
 	std::string _taskText;
 	boost::posix_time::ptime _startDateTime;
 	boost::posix_time::ptime _endDateTime;
+	bool _isComplete;
 };
 }
