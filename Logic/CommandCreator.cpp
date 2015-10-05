@@ -10,6 +10,9 @@ Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens
 	case PrimaryCommandType::Delete:
 		returnCommand = processDeleteCommand(commandTokens);
 		break;
+	case PrimaryCommandType::Edit:
+		returnCommand = processEditCommand(commandTokens);
+		break;
 	case PrimaryCommandType::Invalid:
 		returnCommand = new InvalidCommand();
 		break;
@@ -43,16 +46,39 @@ AddCommand* CommandCreator::processAddCommand(CommandTokens commandTokens) {
 DeleteCommand* CommandCreator::processDeleteCommand(CommandTokens commandTokens) {
 	DeleteCommand* returnCommand = NULL;
 	SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
-	std::vector<std::string> details = commandTokens.getDetails(); 
+	int index = commandTokens.getIndex(); 
 	switch (command2) {
 	case SecondaryCommandType::Index:
-		if (std::stoi(details[0]) < 1) {
+		if (index < 1) {
 			returnCommand = new InvalidDeleteCommand();
 		} else {
-			size_t index = std::stoi(details[0]); 
 			returnCommand = new IndexDeleteCommand(index);
 		}
 		break;
+	}
+	return returnCommand;
+}
+
+EditCommand* CommandCreator::processEditCommand(CommandTokens commandTokens) {
+	EditCommand* returnCommand = NULL;
+	SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
+	int index = commandTokens.getIndex();
+	switch (command2) {
+	case SecondaryCommandType::Name:
+		if (index < 1) {
+			returnCommand = new InvalidEditCommand();
+		} else {
+			returnCommand = new EditNameCommand(index, commandTokens.getTaskName());
+		}
+		break;
+	case SecondaryCommandType::Start:
+		returnCommand = new EditStartCommand(index, commandTokens.getStartDateTime());
+		break;
+	case SecondaryCommandType::End:
+		returnCommand = new EditEndCommand(index, commandTokens.getEndDateTime());
+		break;
+	default:
+		returnCommand = new InvalidEditCommand();
 	}
 	return returnCommand;
 }

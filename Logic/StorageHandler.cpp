@@ -14,21 +14,23 @@ std::vector<Task>& StorageHandler::getAllTasks() {
 }
 
 std::vector<Task>& StorageHandler::getTasksToDisplay() {
+	updateDisplay();
 	return TasksToDisplay;
 }
 
 void StorageHandler::add(Task task) {
 	Tasks.push_back(task);
-	updateDisplay();
 	return;
 }
 
 bool StorageHandler::isDuplicate(Task task) {
-	if (std::find(Tasks.begin(), Tasks.end(), task) == Tasks.end()) {
-		return false;
-	} else {
-		return true;
+	size_t n = Tasks.size();
+	for (size_t i = 0 ; i < n ; ++i) {
+		if (Tasks[i] == task) {
+			return true;
+		}
 	}
+	return false;
 }
 
 Task StorageHandler::remove(size_t index) {
@@ -36,7 +38,7 @@ Task StorageHandler::remove(size_t index) {
 		return Task();		
 	}
 
-	Task taskToDelete = TasksToDisplay[index];
+	Task taskToDelete = TasksToDisplay[index-1];
 
 	std::vector<Task>::iterator iter = std::find(Tasks.begin(),Tasks.end(), taskToDelete);
 
@@ -44,6 +46,18 @@ Task StorageHandler::remove(size_t index) {
 	Tasks.erase(iter);
 
 	return taskToDelete;
+}
+
+Task& StorageHandler::find(size_t index) {
+	if (index > TasksToDisplay.size()) {
+		return Task();
+	}
+
+	Task taskToReturn = TasksToDisplay[index-1];
+
+	std::vector<Task>::iterator iter = std::find(Tasks.begin(), Tasks.end(), taskToReturn);
+
+	return *iter;
 }
 
 std::vector<Task> StorageHandler::changeDisplay(Display_Type type) {

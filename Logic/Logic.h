@@ -3,16 +3,14 @@
 
 #include "Task.h"
 #include "UIFeedback.h"
-#include "StorageHandler.h"
+#include "CommandExecutor.h"
 #include "CommandCreator.h"
 #include "..\Parser\Parser.h"
 using namespace API;
 
-const std::string MESSAGE_INVALID_COMMAND = "Invalid Command. No change is made.";
-
 class Logic {
 private:
-	StorageHandler* _storageHandler;
+	CommandExecutor* _commandExecutor;
 	CommandCreator _commandCreator;
 	Parser _parser;
 	std::string _fileName;
@@ -21,6 +19,8 @@ public:
 	Logic(std::string fileName);
 
 	UIFeedback executeCommand(std::string userString);
+
+	virtual ~Logic();
 };
 
 #endif

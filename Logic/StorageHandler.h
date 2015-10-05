@@ -49,6 +49,7 @@ private:
 	void updateDisplay();
 
 public:
+	StorageHandler();
 	StorageHandler(std::string fileName);
 
 	std::vector<Task>& getAllTasks();
@@ -57,6 +58,7 @@ public:
 
 	void add(Task task);
 	Task remove(size_t index);
+	Task& find(size_t index);
 
 	bool isDuplicate(Task task);
 

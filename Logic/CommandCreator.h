@@ -4,7 +4,6 @@
 #include <cstdio>
 #include "..\Parser\Parser.h"
 #include "Command.h"
-using namespace API;
 
 class CommandCreator {
 private:
@@ -13,6 +12,8 @@ private:
 	static AddCommand* processAddCommand(CommandTokens commandTokens);
 
 	static DeleteCommand* processDeleteCommand(CommandTokens commandTokens);
+
+	static EditCommand* processEditCommand(CommandTokens commandTokens);
 public:
 	CommandCreator();
 	Command* process(CommandTokens commandTokens);

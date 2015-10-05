@@ -2,6 +2,7 @@
 
 Command::Command(PrimaryCommandType type) {
 	_type1 = type;
+	_statusExecuted = false;
 }
 
 PrimaryCommandType Command::getPrimaryCommandType() {
@@ -20,11 +21,19 @@ bool Command::isValid() {
 	}
 }
 
+bool Command::isExecutedSuccessfully() {
+	return _statusExecuted;
+}
+
 InvalidCommand::InvalidCommand() : Command(PrimaryCommandType::Invalid){
 }
 
 UIFeedback InvalidCommand::execute(StorageHandler* storageHandler) {
-	UIFeedback feedback(storageHandler->getTasksToDisplay(), MESSAGE_INVALID);
+	UIFeedback feedback(storageHandler->getTasksToDisplay(), MESSAGE_INVALID_COMMAND);
+
+	//to specify this is invalid command
+	_statusExecuted = false;
+	
 	return feedback;
 }
 
@@ -37,8 +46,8 @@ UIFeedback AddCommand::execute(StorageHandler* storageHandler) {
 	UIFeedback* feedback;
 	if (_task.getTaskText().size() < 1) {
 		feedback = new UIFeedback(storageHandler->getTasksToDisplay(), MESSAGE_ADD_EMPTY);
-	//} else if (storageHandler->isDuplicate(_task)) {
-	//	feedback = new UIFeedback(storageHandler->getTasksToDisplay(), MESSAGE_ADD_DUPLICATE);
+	} else if (storageHandler->isDuplicate(_task)) {
+		feedback = new UIFeedback(storageHandler->getTasksToDisplay(), MESSAGE_ADD_DUPLICATE);
 	} else {
 		storageHandler->add(_task);
 		std::string taskText = _task.getTaskText();
@@ -48,6 +57,7 @@ UIFeedback AddCommand::execute(StorageHandler* storageHandler) {
 		sprintf_s(buffer, MESSAGE_ADD_SUCCESS.c_str(), taskText.c_str(), startDateTime.c_str(), endDateTime.c_str());
 		std::string feedbackMessage(buffer);
 		feedback = new UIFeedback(storageHandler->getTasksToDisplay(), feedbackMessage);
+		_statusExecuted = true;
 	}
 	return *feedback;
 }
@@ -88,6 +98,7 @@ UIFeedback IndexDeleteCommand::execute(StorageHandler* storageHandler) {
 		sprintf_s(buffer,MESSAGE_DELETE_INDEX_SUCCESS.c_str(),_index);
 		std::string feedbackMessage(buffer);
 		feedback = new UIFeedback(storageHandler->getTasksToDisplay(),feedbackMessage);
+		_statusExecuted = true;
 	} else {
 		char buffer[255];
 		sprintf_s(buffer,MESSAGE_DELETE_INDEX_FAIL.c_str(),_index);
@@ -101,6 +112,85 @@ InvalidDeleteCommand::InvalidDeleteCommand() : DeleteCommand(SecondaryCommandTyp
 }
 
 UIFeedback InvalidDeleteCommand::execute(StorageHandler* storageHandler) {
-	UIFeedback feedback(storageHandler->getAllTasks(), MESSAGE_INVALID);
+	UIFeedback feedback(storageHandler->getTasksToDisplay(), MESSAGE_INVALID_COMMAND);
+	return feedback;
+}
+
+EditCommand::EditCommand(SecondaryCommandType type2, size_t index) : Command(PrimaryCommandType::Edit) {
+	_type2 = type2;
+	_index = index;
+}
+
+InvalidEditCommand::InvalidEditCommand(): EditCommand(SecondaryCommandType::None, 0) {
+}
+
+UIFeedback InvalidEditCommand::execute(StorageHandler* storageHandler) {
+	UIFeedback feedback(storageHandler->getTasksToDisplay(), MESSAGE_INVALID_COMMAND);
+	return feedback;
+}
+
+EditNameCommand::EditNameCommand(size_t index, std::string newTaskText):EditCommand(SecondaryCommandType::Name, index) {
+	_newTaskText = newTaskText;
+}
+
+UIFeedback EditNameCommand::execute(StorageHandler* storageHandler) {
+	std::string feedbackMessage;
+	
+	if (_newTaskText.size() < 1) {
+		feedbackMessage = MESSAGE_EDIT_NAME_EMPTY;
+	} else {
+		Task& taskToEdit = storageHandler -> find(_index);
+		_oldTaskText = taskToEdit.getTaskText();
+		taskToEdit.changeTaskText(_newTaskText);
+		char buffer[255];
+		sprintf_s(buffer, MESSAGE_EDIT_NAME_SUCCESS.c_str(), _oldTaskText.c_str(), _newTaskText.c_str());
+		feedbackMessage = std::string(buffer);
+		_statusExecuted = true;
+	}
+	UIFeedback feedback(storageHandler->getTasksToDisplay(), feedbackMessage);
+	return feedback;
+}
+
+EditStartCommand::EditStartCommand(size_t index, boost::posix_time::ptime newStart) : EditCommand(SecondaryCommandType::Start, index) {
+	_newStart = newStart;
+}
+
+UIFeedback EditStartCommand::execute(StorageHandler* storageHandler) {
+	std::string feedbackMessage;
+	
+	Task& taskToEdit = storageHandler -> find(_index);
+	_oldStart = taskToEdit.getStartDateTime();
+	taskToEdit.changeStartDateTime(_newStart);
+	
+	char buffer[255];
+	std::string newStartString = boost::posix_time::to_simple_string(_newStart);
+	sprintf_s(buffer, MESSAGE_EDIT_START_SUCCESS.c_str(), taskToEdit.getTaskText().c_str(), newStartString.c_str());
+	feedbackMessage = std::string(buffer);
+	
+	_statusExecuted = true;
+	
+	UIFeedback feedback(storageHandler->getTasksToDisplay(), feedbackMessage);
+	return feedback;
+}
+
+EditEndCommand::EditEndCommand(size_t index, boost::posix_time::ptime newEnd) : EditCommand(SecondaryCommandType::End, index) {
+	_newEnd = newEnd;
+}
+
+UIFeedback EditEndCommand::execute(StorageHandler* storageHandler) {
+	std::string feedbackMessage;
+	
+	Task& taskToEdit = storageHandler -> find(_index);
+	_oldEnd = taskToEdit.getEndDateTime();
+	taskToEdit.changeEndDateTime(_newEnd);
+	
+	char buffer[255];
+	std::string newEndString = boost::posix_time::to_simple_string(_newEnd);
+	sprintf_s(buffer, MESSAGE_EDIT_END_SUCCESS.c_str(), taskToEdit.getTaskText().c_str(), newEndString.c_str());
+	feedbackMessage = std::string(buffer);
+	
+	_statusExecuted = true;
+	
+	UIFeedback feedback(storageHandler->getTasksToDisplay(), feedbackMessage);
 	return feedback;
 }
