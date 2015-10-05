@@ -1,49 +1,35 @@
 #pragma once
-
 #include <regex>
+#include <string>
 #include "CommandTokens.h"
+#include "AddCommandParser.h"
+#include "DisplayCommandParser.h"
+#include "DeleteCommandParser.h"
+#include "EditCommandParser.h"
 
 // TODO: for testing purposes only
-#define private public
+//#define private public
 
-// used to parse user input into CommandTokens for Logic to execute appropriate
-// commands;
+// tokenises user input for Logic to do the necessary processing
 class Parser {
 public:
+	Parser(void);
 	CommandTokens parse(std::string userInput);
+
+private:
+	CommandTokens _commandTokens;
+	AddCommandParser _addCommandParser;
+	DisplayCommandParser _displayCommandParser;
+	DeleteCommandParser _deleteCommandParser;
+	EditCommandParser _editCommandParser;
+
+	// extracts the primary command word
+	PrimaryCommandType parsePrimaryCommand(std::string userInput);
+
+	// examines the extracted primary command word extracted by
+	// parsePrimaryCommand()
 	bool isAddCommand(std::string& userInput);
 	bool isDeleteCommand(std::string& userInput);
 	bool isEditCommand(std::string& userInput);
 	bool isDisplayCommand(std::string& userInput);
-	Parser(void);
-	private:
-	CommandTokens _commandTokens;
-
-	// constructor made private to prevent instantiation
-
-
-	PrimaryCommandType extractPrimaryCommand(std::string userInput);
-
-	void extractAddCommand(std::string userInput);
-	void extractDeleteCommand(std::string userInput);
-	void extractEditCommand(std::string userInput);
-	void extractDisplayCommand(std::string userInput);
-
-	bool isActivityTask(std::string userInput);
-	bool isTodoTask(std::string userInput);
-
-	bool isDeleteAll(std::string userInput);
-	bool isDeleteFromTo(std::string userInput);
-	bool isDeleteBy(std::string userInput);
-	bool isDeleteFloating(std::string userInput);
-	bool isDeleteIndex(std::string userInput);
-
-	void extractActivityTask(std::string userInput);
-	void extractTodoTask(std::string userInput);
-	void extractFloatingTask(std::string userInput);
-		
-	void extractDeleteAllCommand(void);
-	void extractDeleteFromToCommand(std::string userInput);
-
-	boost::posix_time::ptime parseDate(std::string dateString);
 };

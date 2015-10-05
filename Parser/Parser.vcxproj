@@ -91,11 +91,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AddCommandParser.h" />
     <ClInclude Include="CommandTokens.h" />
+    <ClInclude Include="DateParser.h" />
+    <ClInclude Include="DeleteCommandParser.h" />
+    <ClInclude Include="DisplayCommandParser.h" />
+    <ClInclude Include="EditCommandParser.h" />
     <ClInclude Include="Parser.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AddCommandParser.cpp" />
     <ClCompile Include="CommandTokens.cpp" />
+    <ClCompile Include="DateParser.cpp" />
+    <ClCompile Include="DeleteCommandParser.cpp" />
+    <ClCompile Include="DisplayCommandParser.cpp" />
+    <ClCompile Include="EditCommandParser.cpp" />
     <ClCompile Include="Parser.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
