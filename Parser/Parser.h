@@ -3,6 +3,7 @@
 #include <string>
 #include "CommandTokens.h"
 #include "AddCommandParser.h"
+#include "CompleteCommandParser.h"
 #include "DisplayCommandParser.h"
 #include "DeleteCommandParser.h"
 #include "EditCommandParser.h"
@@ -19,6 +20,7 @@ public:
 private:
 	CommandTokens _commandTokens;
 	AddCommandParser _addCommandParser;
+	CompleteCommandParser _completeCommandParser;
 	DisplayCommandParser _displayCommandParser;
 	DeleteCommandParser _deleteCommandParser;
 	EditCommandParser _editCommandParser;
