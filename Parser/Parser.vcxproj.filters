@@ -32,6 +32,9 @@
     <ClInclude Include="DisplayCommandParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CompleteCommandParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Parser.cpp">
@@ -53,6 +56,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DisplayCommandParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CompleteCommandParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
