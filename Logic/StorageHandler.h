@@ -17,6 +17,19 @@ enum Sort_Type {
 	sortByEntryOrder, sortByName, sortByStart, sortByEnd
 };
 
+class INDEX_NOT_FOUND_EXCEPTION : public std::exception {
+private:
+	std::string _message;
+public:
+	explicit INDEX_NOT_FOUND_EXCEPTION (const int index) : std::exception() {
+		_message = std::string("No task is found at index ") + std::to_string(index);
+	}
+
+	const char* what() const throw() {
+		return _message.c_str();
+	}
+};
+
 class StorageHandler {
 private:
 	//Tasks is always sorted by Entry Order, the order of task being added
@@ -53,7 +66,6 @@ public:
 	StorageHandler(std::string fileName);
 
 	std::vector<Task>& getAllTasks();
-
 	std::vector<Task>& getTasksToDisplay();
 
 	void add(Task task);
@@ -62,8 +74,8 @@ public:
 
 	bool isDuplicate(Task task);
 
-
-	std::vector<Task> changeDisplay(Display_Type type);
+	void changeDisplayType(Display_Type type);
+	void changeSortType(Sort_Type type);
 };
 
 #endif

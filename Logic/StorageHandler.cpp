@@ -35,7 +35,7 @@ bool StorageHandler::isDuplicate(Task task) {
 
 Task StorageHandler::remove(size_t index) {
 	if (index > TasksToDisplay.size()) {
-		return Task();		
+		throw INDEX_NOT_FOUND_EXCEPTION(index);
 	}
 
 	Task taskToDelete = TasksToDisplay[index-1];
@@ -50,20 +50,22 @@ Task StorageHandler::remove(size_t index) {
 
 Task& StorageHandler::find(size_t index) {
 	if (index > TasksToDisplay.size()) {
-		return Task();
+		throw INDEX_NOT_FOUND_EXCEPTION(index);
 	}
 
 	Task taskToReturn = TasksToDisplay[index-1];
-
 	std::vector<Task>::iterator iter = std::find(Tasks.begin(), Tasks.end(), taskToReturn);
 
 	return *iter;
 }
 
-std::vector<Task> StorageHandler::changeDisplay(Display_Type type) {
-	//to do
-	return Tasks;
-}	
+void StorageHandler::changeDisplayType(Display_Type type) {
+	_displayMode = type;
+}
+
+void StorageHandler::changeSortType(Sort_Type type) {
+	_sortMode = type;
+}
 
 //save and load are to be supported after we determine the save file format
 //below are template assuming save file is in txt format.

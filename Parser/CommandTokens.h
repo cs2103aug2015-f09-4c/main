@@ -6,12 +6,12 @@
 
 // Command Type for main groups of operation
 enum PrimaryCommandType {
-	Invalid, Add, Display, Edit, Delete, Help
+	Invalid, Add, Display, Edit, Delete, Help, Complete
 };
 
 // Command Type to further specify the operation
 enum SecondaryCommandType {
-	None, Floating, Timed, Todo, All, Complete, Incomplete, Index, Name, Start, End
+	None, Floating, Timed, Todo, All, Index, Name, Start, End
 };
 
 class CommandTokens {

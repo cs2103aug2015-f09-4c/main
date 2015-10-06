@@ -91,21 +91,21 @@ IndexDeleteCommand::IndexDeleteCommand(size_t index) : DeleteCommand(SecondaryCo
 }
 
 UIFeedback IndexDeleteCommand::execute(StorageHandler* storageHandler) {
-	_taskDeleted = storageHandler->remove(_index);
-	UIFeedback *feedback = NULL;
-	if (_taskDeleted.isValid()) {
+	UIFeedback feedback;
+	try {
+		_taskDeleted = storageHandler->remove(_index);
+
+		if (_taskDeleted.isValid()) {
 		char buffer[255];
 		sprintf_s(buffer,MESSAGE_DELETE_INDEX_SUCCESS.c_str(),_index);
 		std::string feedbackMessage(buffer);
-		feedback = new UIFeedback(storageHandler->getTasksToDisplay(),feedbackMessage);
+		feedback = UIFeedback(storageHandler->getTasksToDisplay(),feedbackMessage);
 		_statusExecuted = true;
-	} else {
-		char buffer[255];
-		sprintf_s(buffer,MESSAGE_DELETE_INDEX_FAIL.c_str(),_index);
-		std::string feedbackMessage(buffer);
-		feedback = new UIFeedback(storageHandler->getTasksToDisplay(),feedbackMessage);
+		} 
+	} catch (INDEX_NOT_FOUND_EXCEPTION e) {
+		feedback = UIFeedback(storageHandler->getTasksToDisplay(), e.what());
 	}
-	return *feedback;
+	return feedback;
 }
 
 InvalidDeleteCommand::InvalidDeleteCommand() : DeleteCommand(SecondaryCommandType::None) {
@@ -191,6 +191,30 @@ UIFeedback EditEndCommand::execute(StorageHandler* storageHandler) {
 	
 	_statusExecuted = true;
 	
+	UIFeedback feedback(storageHandler->getTasksToDisplay(), feedbackMessage);
+	return feedback;
+}
+
+SetCompleteCommand::SetCompleteCommand(size_t index) : Command(PrimaryCommandType::Complete) {
+	_type2 = SecondaryCommandType::Index;
+	_index = index;
+}
+UIFeedback SetCompleteCommand::execute(StorageHandler* storageHandler) {
+	Task& taskToSet = storageHandler->find(_index);
+	std::string feedbackMessage;
+	char buffer[255];
+	
+	if (!taskToSet.isValid()) {
+		sprintf_s(buffer, MESSAGE_SET_COMPLETE_FAIL.c_str(), _index);
+	} else if (taskToSet.isComplete()) {
+		sprintf_s(buffer, MESSAGE_SET_COMPLETE_NO_CHANGE.c_str(), _index);
+	} else {
+		taskToSet.setComplete();
+		_statusExecuted = true;
+		sprintf_s(buffer, MESSAGE_SET_COMPLETE_SUCCESS.c_str(), _index);
+	}
+
+	feedbackMessage = std::string(buffer);
 	UIFeedback feedback(storageHandler->getTasksToDisplay(), feedbackMessage);
 	return feedback;
 }

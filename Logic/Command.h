@@ -22,6 +22,10 @@ const std::string MESSAGE_EDIT_NAME_EMPTY = "Task text cannot be empty. Task tex
 const std::string MESSAGE_EDIT_START_SUCCESS = "Task \"%s\" 's start date and time have been changed to \"%s\".";
 const std::string MESSAGE_EDIT_END_SUCCESS = "Task \"%s\" 's end date and time have been changed to \"%s\".";
 
+//Feedback message for set complete operation
+const std::string MESSAGE_SET_COMPLETE_SUCCESS = "Task at index %i have been set to complete.";
+const std::string MESSAGE_SET_COMPLETE_NO_CHANGE = "Task at index %i is already complete, no change is made.";
+const std::string MESSAGE_SET_COMPLETE_FAIL = "No task is found at index %i.";
 
 class Command {
 protected:
@@ -112,9 +116,17 @@ public:
 class EditEndCommand: public EditCommand {
 private:
 	boost::posix_time::ptime _newEnd;
-	boost::posix_time::ptime _oldEnd;
+	boost::posix_time::ptime _oldEnd; //for undo
 public:
 	EditEndCommand(size_t index, boost::posix_time::ptime newEnd);
 	UIFeedback EditCommand::execute(StorageHandler*);
+};
+
+class SetCompleteCommand: public Command {
+private:
+	size_t _index;
+public:
+	SetCompleteCommand(size_t index);
+	UIFeedback Command::execute(StorageHandler*);
 };
 #endif
