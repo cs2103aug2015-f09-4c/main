@@ -10,6 +10,8 @@ CommandTokens Parser::parse(std::string userInput) {
 	switch (primaryCommand) {
 	case Add:
 		return _addCommandParser.parse(userInput);
+	case Complete:
+		return _completeCommandParser.parse(userInput);
 	case Delete:
 		return _deleteCommandParser.parse(userInput);
 	case Display:
@@ -39,6 +41,11 @@ PrimaryCommandType Parser::parsePrimaryCommand(std::string userInput) {
 
 bool Parser::isAddCommand(std::string& userInput) {
 	return std::regex_match(userInput, std::regex("add .{1,}",
+		std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
+bool Parser::isCompleteCommand(std::string& userInput) {
+	return std::regex_match(userInput, std::regex("complete .{1,}",
 		std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
