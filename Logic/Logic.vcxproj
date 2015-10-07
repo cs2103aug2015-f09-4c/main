@@ -117,8 +117,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Command.h" />
+    <ClInclude Include="Command_Add.h" />
     <ClInclude Include="CommandCreator.h" />
+    <ClInclude Include="Command_Delete.h" />
+    <ClInclude Include="Command_Edit.h" />
     <ClInclude Include="CommandExecutor.h" />
+    <ClInclude Include="CommandHeader.h" />
+    <ClInclude Include="Command_Invalid.h" />
+    <ClInclude Include="Command_Set.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="StorageHandler.h" />
     <ClInclude Include="Task.h" />
@@ -126,7 +132,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Command.cpp" />
+    <ClCompile Include="Command_Add.cpp" />
     <ClCompile Include="CommandCreator.cpp" />
+    <ClCompile Include="Command_Delete.cpp" />
+    <ClCompile Include="Command_Edit.cpp" />
+    <ClCompile Include="Command_Invalid.cpp" />
+    <ClCompile Include="Command_Set.cpp" />
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="StorageHandler.cpp" />
     <ClCompile Include="Task.cpp" />
