@@ -4,21 +4,23 @@
 #include "StorageHandler.h"
 using namespace API;
 
-//Feedback message for invalid command type
-const std::string MESSAGE_INVALID_COMMAND = "Invalid Command. No change is made.";
-
+//abstract parent class for command supported. 
 class Command {
 protected:
 	PrimaryCommandType _type1;
 	SecondaryCommandType _type2;
+
+	StorageHandler* _storageHandlerExecuted;
 	bool _statusExecuted;
 public:
 	Command(PrimaryCommandType type);
-	PrimaryCommandType getPrimaryCommandType();
-	SecondaryCommandType getSecondaryCommandType();
-	bool isValid();
-	bool isExecutedSuccessfully();
+	PrimaryCommandType getPrimaryCommandType(void);
+	SecondaryCommandType getSecondaryCommandType(void);
+	bool isValid(void);
+	bool isExecutedSuccessfully(void);
 	virtual UIFeedback execute(StorageHandler* a) = 0;
+	virtual UIFeedback undo(void) = 0;
+	virtual bool canUndo(void) = 0;
 	~Command() {}
 };
 #endif

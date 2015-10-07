@@ -5,6 +5,10 @@ EditCommand::EditCommand(SecondaryCommandType type2, size_t index) : Command(Pri
 	_index = index;
 }
 
+bool EditCommand::canUndo() {
+	return true;
+}
+
 EditNameCommand::EditNameCommand(size_t index, std::string newTaskText):EditCommand(SecondaryCommandType::Name, index) {
 	_newTaskText = newTaskText;
 }
@@ -25,6 +29,11 @@ UIFeedback EditNameCommand::execute(StorageHandler* storageHandler) {
 	}
 	UIFeedback feedback(storageHandler->getTasksToDisplay(), feedbackMessage);
 	return feedback;
+}
+
+UIFeedback EditNameCommand::undo() {
+	//TODO
+	return UIFeedback();
 }
 
 EditStartCommand::EditStartCommand(size_t index, boost::posix_time::ptime newStart) : EditCommand(SecondaryCommandType::Start, index) {
@@ -49,6 +58,11 @@ UIFeedback EditStartCommand::execute(StorageHandler* storageHandler) {
 	return feedback;
 }
 
+UIFeedback EditStartCommand::undo() {
+	//TODO
+	return UIFeedback();
+}
+
 EditEndCommand::EditEndCommand(size_t index, boost::posix_time::ptime newEnd) : EditCommand(SecondaryCommandType::End, index) {
 	_newEnd = newEnd;
 }
@@ -69,4 +83,9 @@ UIFeedback EditEndCommand::execute(StorageHandler* storageHandler) {
 	
 	UIFeedback feedback(storageHandler->getTasksToDisplay(), feedbackMessage);
 	return feedback;
+}
+
+UIFeedback EditEndCommand::undo() {
+	//TODO
+	return UIFeedback();
 }

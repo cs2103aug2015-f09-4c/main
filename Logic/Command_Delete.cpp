@@ -12,6 +12,10 @@ bool DeleteCommand::isValid() {
 	}
 }
 
+bool DeleteCommand::canUndo() {
+	return true;
+}
+
 IndexDeleteCommand::IndexDeleteCommand(size_t index) : DeleteCommand(SecondaryCommandType::Index) {
 	_index = index;
 }
@@ -32,6 +36,11 @@ UIFeedback IndexDeleteCommand::execute(StorageHandler* storageHandler) {
 		feedback = UIFeedback(storageHandler->getTasksToDisplay(), e.what());
 	}
 	return feedback;
+}
+
+UIFeedback IndexDeleteCommand::undo() {
+	//TODO
+	return UIFeedback();
 }
 
 IndexDeleteCommand::~IndexDeleteCommand() {

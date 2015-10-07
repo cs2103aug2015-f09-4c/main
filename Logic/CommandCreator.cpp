@@ -34,9 +34,15 @@ AddCommand* CommandCreator::processAddCommand(CommandTokens commandTokens) {
 	AddCommand* returnCommand = NULL;
 	SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
 	Task* task = NULL;
+
+	std::string taskName = commandTokens.getDetails()[0];
+	if (taskName.empty()) {
+		throw INVALID_COMMAND_EXCEPTION(MESSAGE_ADD_EMPTY);
+	}
+
 	switch (command2) {
 	case SecondaryCommandType::Floating:
-		task = new Task((commandTokens.getDetails())[0]);
+		task = new Task(taskName);
 		returnCommand = new AddCommand(SecondaryCommandType::Floating,*task);
 		break;
 	case SecondaryCommandType::Todo:
@@ -73,19 +79,26 @@ EditCommand* CommandCreator::processEditCommand(CommandTokens commandTokens) {
 	EditCommand* returnCommand = NULL;
 	SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
 	int index = commandTokens.getIndex();
+	std::string newName = commandTokens.getTaskName();
+	boost::posix_time::ptime newStart = commandTokens.getStartDateTime();
+	boost::posix_time::ptime newEnd = commandTokens.getEndDateTime();
 	switch (command2) {
 	case SecondaryCommandType::Name:
 		if (index < 1) {
 			throw INVALID_COMMAND_EXCEPTION("Only positive index is allowed. No change is made.");
 		} else {
-			returnCommand = new EditNameCommand(index, commandTokens.getTaskName());
+			if (newName.empty()) {
+				throw INVALID_COMMAND_EXCEPTION(MESSAGE_EDIT_NAME_EMPTY);
+			} else {
+				returnCommand = new EditNameCommand(index, newName);
+			}
 		}
 		break;
 	case SecondaryCommandType::Start:
-		returnCommand = new EditStartCommand(index, commandTokens.getStartDateTime());
+		returnCommand = new EditStartCommand(index, newStart);
 		break;
 	case SecondaryCommandType::End:
-		returnCommand = new EditEndCommand(index, commandTokens.getEndDateTime());
+		returnCommand = new EditEndCommand(index, newEnd);
 		break;
 	default:
 		throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);

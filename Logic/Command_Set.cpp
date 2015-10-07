@@ -4,6 +4,7 @@ SetCompleteCommand::SetCompleteCommand(size_t index) : Command(PrimaryCommandTyp
 	_type2 = SecondaryCommandType::Index;
 	_index = index;
 }
+
 UIFeedback SetCompleteCommand::execute(StorageHandler* storageHandler) {
 	Task& taskToSet = storageHandler->find(_index);
 	std::string feedbackMessage;
@@ -22,4 +23,13 @@ UIFeedback SetCompleteCommand::execute(StorageHandler* storageHandler) {
 	feedbackMessage = std::string(buffer);
 	UIFeedback feedback(storageHandler->getTasksToDisplay(), feedbackMessage);
 	return feedback;
+}
+
+UIFeedback SetCompleteCommand::undo() {
+	//TODO
+	return UIFeedback();
+}
+
+bool SetCompleteCommand::canUndo() {
+	return true;
 }

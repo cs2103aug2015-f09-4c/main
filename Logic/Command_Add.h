@@ -12,7 +12,11 @@ private:
 public:
 	AddCommand (SecondaryCommandType type2, Task task);
 	UIFeedback execute(StorageHandler* storageHandler);
+	UIFeedback undo(void);
+
 	bool isValid();
 	Task getTask();
+	bool canUndo();
+
 	virtual ~AddCommand(void);
 };

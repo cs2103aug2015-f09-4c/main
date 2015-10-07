@@ -1,5 +1,9 @@
 #include "Command_Invalid.h"
 
+InvalidCommand::InvalidCommand(void) : Command(PrimaryCommandType::Invalid) {
+	_message = MESSAGE_INVALID_COMMAND;
+}
+
 InvalidCommand::InvalidCommand(std::string message) : Command(PrimaryCommandType::Invalid){
 	_message = message;
 }
@@ -12,3 +16,13 @@ UIFeedback InvalidCommand::execute(StorageHandler* storageHandler) {
 	
 	return feedback;
 }
+
+UIFeedback InvalidCommand::undo() {
+	return UIFeedback();
+}
+
+bool InvalidCommand::canUndo() {
+	return false;
+}
+
+

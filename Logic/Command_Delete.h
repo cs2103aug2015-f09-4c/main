@@ -9,7 +9,10 @@ class DeleteCommand: public Command{
 public:
 	DeleteCommand (SecondaryCommandType type2);
 	virtual UIFeedback Command::execute(StorageHandler* storageHandler) = 0;
+	virtual UIFeedback Command::undo() = 0;
+
 	bool isValid();
+	bool canUndo();
 };
 
 class IndexDeleteCommand: public DeleteCommand{
@@ -19,6 +22,7 @@ private:
 public:
 	IndexDeleteCommand(size_t index);
 	UIFeedback DeleteCommand::execute(StorageHandler* storageHandler);
+	UIFeedback DeleteCommand::undo(void);
 	virtual ~IndexDeleteCommand();
 };
 

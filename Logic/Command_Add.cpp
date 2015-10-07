@@ -25,6 +25,10 @@ UIFeedback AddCommand::execute(StorageHandler* storageHandler) {
 	return *feedback;
 }
 
+UIFeedback AddCommand::undo() {
+	return UIFeedback();
+}
+
 bool AddCommand::isValid() {
 	if (_type2 == SecondaryCommandType::None) {
 		return false;
@@ -37,6 +41,10 @@ Task AddCommand::getTask() {
 	return _task;
 }
 
-AddCommand::~AddCommand(void) {
-	
+bool AddCommand::canUndo() {
+	//TODO
+	return true;
+}
+
+AddCommand::~AddCommand(void) {	
 }

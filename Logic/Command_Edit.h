@@ -13,6 +13,8 @@ protected:
 public:
 	EditCommand(SecondaryCommandType, size_t);
 	virtual UIFeedback Command::execute(StorageHandler* storageHandler) = 0;
+	virtual UIFeedback Command::undo(void) = 0;
+	bool canUndo(void);
 };
 
 class EditNameCommand: public EditCommand {
@@ -22,6 +24,7 @@ private:
 public:
 	EditNameCommand(size_t index, std::string newTaskText);
 	UIFeedback EditCommand::execute(StorageHandler*);
+	UIFeedback EditCommand::undo();
 };
 
 class EditStartCommand: public EditCommand {
@@ -31,6 +34,7 @@ private:
 public:
 	EditStartCommand(size_t index, boost::posix_time::ptime newStart);
 	UIFeedback EditCommand::execute(StorageHandler*);
+	UIFeedback EditCommand::undo();
 };
 
 class EditEndCommand: public EditCommand {
@@ -40,4 +44,5 @@ private:
 public:
 	EditEndCommand(size_t index, boost::posix_time::ptime newEnd);
 	UIFeedback EditCommand::execute(StorageHandler*);
+	UIFeedback EditCommand::undo();
 };
