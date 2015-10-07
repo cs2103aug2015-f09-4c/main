@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Command.cpp" />
+    <ClCompile Include="CommandExecutor.cpp" />
     <ClCompile Include="Command_Add.cpp" />
     <ClCompile Include="CommandCreator.cpp" />
     <ClCompile Include="Command_Delete.cpp" />

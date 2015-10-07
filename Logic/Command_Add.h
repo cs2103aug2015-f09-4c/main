@@ -14,8 +14,6 @@ public:
 	UIFeedback execute(StorageHandler* storageHandler);
 	UIFeedback undo(void);
 
-	bool isValid();
-	Task getTask();
 	bool canUndo();
 
 	virtual ~AddCommand(void);
