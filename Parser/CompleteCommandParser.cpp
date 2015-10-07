@@ -9,6 +9,7 @@ CommandTokens CompleteCommandParser::parse(std::string userInput) {
 	_commandTokens.setPrimaryCommand(PrimaryCommandType::Complete);
 
 	tokeniseCompleteCommand(userInput);
+	return _commandTokens;
 }
 
 void CompleteCommandParser::tokeniseCompleteCommand(std::string userInput) {
