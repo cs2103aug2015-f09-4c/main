@@ -51,7 +51,7 @@ void UI::Swiftask::displayInOutputBox(void) {
 		convert << index;
 		num = gcnew String(convert.str().c_str());
 		convert.str(std::string());
-		
+
 		taskText = gcnew String((*it).getTaskText().c_str());
 
 		if (!(*it).getStartDateTime().is_not_a_date_time()) {
@@ -80,6 +80,12 @@ void UI::Swiftask::displayInOutputBox(void) {
 		}
 
 		outputBox->Rows->Add(num, taskText, start, end, tags, done);
+
+		if ((*it).isComplete()) {
+			outputBox->Rows[index-1]->Cells[5]->Style->ForeColor = Color::Green;
+		} else {
+			outputBox->Rows[index-1]->Cells[5]->Style->ForeColor = Color::Red;
+		}
 
 		delete num;
 		delete taskText;
