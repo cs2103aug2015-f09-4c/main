@@ -39,7 +39,7 @@ void UI::Swiftask::clearOutputBox(void) {
 }
 
 void UI::Swiftask::displayInOutputBox(void) {
-	System::String ^str1, ^str2, ^str3, ^str4, ^str5;
+	System::String ^num, ^taskText, ^start, ^end, ^tags, ^done;
 	int index = 0;
 	std::ostringstream convert;
 
@@ -49,36 +49,44 @@ void UI::Swiftask::displayInOutputBox(void) {
 		// so potential logical error (wrong numbering of tasks) may arise here.
 		index++;
 		convert << index;
-		str1 = gcnew String(convert.str().c_str());
+		num = gcnew String(convert.str().c_str());
 		convert.str(std::string());
 		
-		str2 = gcnew String((*it).getTaskText().c_str());
+		taskText = gcnew String((*it).getTaskText().c_str());
 
 		if (!(*it).getStartDateTime().is_not_a_date_time()) {
-			str3 = gcnew String(to_simple_string((*it).getStartDateTime()).c_str());
+			start = gcnew String(to_simple_string((*it).getStartDateTime()).c_str());
 		} else {
-			str3 = gcnew String("-");
+			start = gcnew String("-");
 		}
 
 		if (!(*it).getEndDateTime().is_not_a_date_time()) {
-			str4 = gcnew String(to_simple_string((*it).getEndDateTime()).c_str());
+			end = gcnew String(to_simple_string((*it).getEndDateTime()).c_str());
 		} else {
-			str4 = gcnew String("-");
+			end = gcnew String("-");
 		}
 
 		// Tags not supported yet
 		// if ((*it).getTags != "") {
 		// 	str5 = gcnew String((*it).getTags.c_str());
 		// } else {
-		str5 = gcnew String("-");
+		tags = gcnew String("-");
 		// }
-		outputBox->Rows->Add(str1, str2, str3, str4, str5);
 
-		delete str1;
-		delete str2;
-		delete str3;
-		delete str4;
-		delete str5;
+		if ((*it).isComplete()) {
+			done = gcnew String("Yes");
+		} else {
+			done = gcnew String("No");
+		}
+
+		outputBox->Rows->Add(num, taskText, start, end, tags, done);
+
+		delete num;
+		delete taskText;
+		delete start;
+		delete end;
+		delete tags;
+		delete done;
 	}
 	return;
 }

@@ -26,6 +26,24 @@ namespace UI {
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Start;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  End;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Tags;
+	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Completed;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -48,6 +66,7 @@ namespace UI {
 			feedback = new UIFeedback;
 			task = new API::Task;
 		}
+
 	private: void updateResults(void);
 	private: void updateOutputBox(void);
 	private: void clearOutputBox(void);
@@ -90,13 +109,14 @@ namespace UI {
 		void InitializeComponent(void)
 		{
 			this->outputBox = (gcnew System::Windows::Forms::DataGridView());
+			this->commandBox = (gcnew System::Windows::Forms::TextBox());
+			this->results = (gcnew System::Windows::Forms::Label());
 			this->Index = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->Tasks = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->Start = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->End = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->Tags = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->commandBox = (gcnew System::Windows::Forms::TextBox());
-			this->results = (gcnew System::Windows::Forms::Label());
+			this->Completed = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->SuspendLayout();
 			// 
 			// outputBox
@@ -107,13 +127,36 @@ namespace UI {
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->outputBox->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->outputBox->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(5) {this->Index, this->Tasks, 
-				this->Start, this->End, this->Tags});
+			this->outputBox->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(6) {this->Index, this->Tasks, 
+				this->Start, this->End, this->Tags, this->Completed});
 			this->outputBox->Location = System::Drawing::Point(0, 1);
 			this->outputBox->Name = L"outputBox";
 			this->outputBox->ReadOnly = true;
-			this->outputBox->Size = System::Drawing::Size(715, 275);
+			this->outputBox->Size = System::Drawing::Size(763, 275);
 			this->outputBox->TabIndex = 0;
+			// 
+			// commandBox
+			// 
+			this->commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(7) {L"add ", L"clear ", L"delete ", 
+				L"display ", L"exit ", L"search ", L"sort "});
+			this->commandBox->AutoCompleteMode = System::Windows::Forms::AutoCompleteMode::Suggest;
+			this->commandBox->AutoCompleteSource = System::Windows::Forms::AutoCompleteSource::CustomSource;
+			this->commandBox->Dock = System::Windows::Forms::DockStyle::Bottom;
+			this->commandBox->Location = System::Drawing::Point(0, 315);
+			this->commandBox->Name = L"commandBox";
+			this->commandBox->Size = System::Drawing::Size(763, 20);
+			this->commandBox->TabIndex = 1;
+			this->commandBox->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Swiftask::commandBox_KeyDown);
+			// 
+			// results
+			// 
+			this->results->AutoSize = true;
+			this->results->Dock = System::Windows::Forms::DockStyle::Bottom;
+			this->results->Location = System::Drawing::Point(0, 302);
+			this->results->Name = L"results";
+			this->results->Size = System::Drawing::Size(253, 13);
+			this->results->TabIndex = 2;
+			this->results->Text = L"Switask is ready. Enter command below to continue.";
 			// 
 			// Index
 			// 
@@ -150,34 +193,19 @@ namespace UI {
 			this->Tags->ReadOnly = true;
 			this->Tags->Width = 128;
 			// 
-			// commandBox
+			// Completed
 			// 
-			this->commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(7) {L"add ", L"clear ", L"delete ", 
-				L"display ", L"exit ", L"search ", L"sort "});
-			this->commandBox->AutoCompleteMode = System::Windows::Forms::AutoCompleteMode::Suggest;
-			this->commandBox->AutoCompleteSource = System::Windows::Forms::AutoCompleteSource::CustomSource;
-			this->commandBox->Dock = System::Windows::Forms::DockStyle::Bottom;
-			this->commandBox->Location = System::Drawing::Point(0, 315);
-			this->commandBox->Name = L"commandBox";
-			this->commandBox->Size = System::Drawing::Size(715, 20);
-			this->commandBox->TabIndex = 1;
-			this->commandBox->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Swiftask::commandBox_KeyDown);
-			// 
-			// results
-			// 
-			this->results->AutoSize = true;
-			this->results->Dock = System::Windows::Forms::DockStyle::Bottom;
-			this->results->Location = System::Drawing::Point(0, 302);
-			this->results->Name = L"results";
-			this->results->Size = System::Drawing::Size(253, 13);
-			this->results->TabIndex = 2;
-			this->results->Text = L"Switask is ready. Enter command below to continue.";
+			this->Completed->HeaderText = L"Done";
+			this->Completed->Name = L"Completed";
+			this->Completed->ReadOnly = true;
+			this->Completed->Resizable = System::Windows::Forms::DataGridViewTriState::True;
+			this->Completed->Width = 48;
 			// 
 			// Swiftask
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(715, 335);
+			this->ClientSize = System::Drawing::Size(763, 335);
 			this->Controls->Add(this->results);
 			this->Controls->Add(this->commandBox);
 			this->Controls->Add(this->outputBox);
