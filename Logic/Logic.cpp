@@ -7,15 +7,12 @@ Logic::Logic(std::string fileName)  {
 
 UIFeedback Logic::executeCommand(std::string userString) {
 	CommandTokens commandTokens= _parser.parse(userString);
-	if (commandTokens.isValid()) {
-		Command* command= _commandCreator.process(commandTokens);
+	
+	Command* command= _commandCreator.process(commandTokens);
 
-		UIFeedback feedback = _commandExecutor->execute(command);
-		return feedback;
-	} else {
-		UIFeedback feedback = _commandExecutor->execute(&InvalidCommand());
-		return feedback;
-	}
+	UIFeedback feedback = _commandExecutor->execute(command);
+	
+	return feedback;
 }
 
 Logic::~Logic() {

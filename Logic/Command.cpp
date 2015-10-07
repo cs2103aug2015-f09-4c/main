@@ -25,11 +25,12 @@ bool Command::isExecutedSuccessfully() {
 	return _statusExecuted;
 }
 
-InvalidCommand::InvalidCommand() : Command(PrimaryCommandType::Invalid){
+InvalidCommand::InvalidCommand(std::string message) : Command(PrimaryCommandType::Invalid){
+	_message = message;
 }
 
 UIFeedback InvalidCommand::execute(StorageHandler* storageHandler) {
-	UIFeedback feedback(storageHandler->getTasksToDisplay(), MESSAGE_INVALID_COMMAND);
+	UIFeedback feedback(storageHandler->getTasksToDisplay(), _message);
 
 	//to specify this is invalid command
 	_statusExecuted = false;
@@ -108,25 +109,9 @@ UIFeedback IndexDeleteCommand::execute(StorageHandler* storageHandler) {
 	return feedback;
 }
 
-InvalidDeleteCommand::InvalidDeleteCommand() : DeleteCommand(SecondaryCommandType::None) {
-}
-
-UIFeedback InvalidDeleteCommand::execute(StorageHandler* storageHandler) {
-	UIFeedback feedback(storageHandler->getTasksToDisplay(), MESSAGE_INVALID_COMMAND);
-	return feedback;
-}
-
 EditCommand::EditCommand(SecondaryCommandType type2, size_t index) : Command(PrimaryCommandType::Edit) {
 	_type2 = type2;
 	_index = index;
-}
-
-InvalidEditCommand::InvalidEditCommand(): EditCommand(SecondaryCommandType::None, 0) {
-}
-
-UIFeedback InvalidEditCommand::execute(StorageHandler* storageHandler) {
-	UIFeedback feedback(storageHandler->getTasksToDisplay(), MESSAGE_INVALID_COMMAND);
-	return feedback;
 }
 
 EditNameCommand::EditNameCommand(size_t index, std::string newTaskText):EditCommand(SecondaryCommandType::Name, index) {

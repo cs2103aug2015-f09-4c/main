@@ -3,20 +3,30 @@
 Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens) {
 	PrimaryCommandType command1 = commandTokens.getPrimaryCommand();
 	Command* returnCommand = NULL;
-	switch (command1) {
-	case PrimaryCommandType::Add:
-		returnCommand = processAddCommand(commandTokens);
-		break;
-	case PrimaryCommandType::Delete:
-		returnCommand = processDeleteCommand(commandTokens);
-		break;
-	case PrimaryCommandType::Edit:
-		returnCommand = processEditCommand(commandTokens);
-		break;
-	case PrimaryCommandType::Invalid:
-		returnCommand = new InvalidCommand();
-		break;
+	try {
+		switch (command1) {
+		case PrimaryCommandType::Add:
+			returnCommand = processAddCommand(commandTokens);
+			break;
+		case PrimaryCommandType::Delete:
+			returnCommand = processDeleteCommand(commandTokens);
+			break;
+		case PrimaryCommandType::Edit:
+			returnCommand = processEditCommand(commandTokens);
+			break;
+		case PrimaryCommandType::Complete:
+			returnCommand = processSetCompleteCommand(commandTokens);
+			break;
+		case PrimaryCommandType::Invalid:
+			returnCommand = new InvalidCommand(MESSAGE_INVALID_COMMAND);
+			break;
+		default:
+			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
+		}
+	} catch (INVALID_COMMAND_EXCEPTION e) {
+		returnCommand = new InvalidCommand(e.what());
 	}
+
 	return returnCommand;
 }
 
@@ -50,7 +60,7 @@ DeleteCommand* CommandCreator::processDeleteCommand(CommandTokens commandTokens)
 	switch (command2) {
 	case SecondaryCommandType::Index:
 		if (index < 1) {
-			returnCommand = new InvalidDeleteCommand();
+			throw INVALID_COMMAND_EXCEPTION("Only positive index is allowed. No change is made.");
 		} else {
 			returnCommand = new IndexDeleteCommand(index);
 		}
@@ -66,7 +76,7 @@ EditCommand* CommandCreator::processEditCommand(CommandTokens commandTokens) {
 	switch (command2) {
 	case SecondaryCommandType::Name:
 		if (index < 1) {
-			returnCommand = new InvalidEditCommand();
+			throw INVALID_COMMAND_EXCEPTION("Only positive index is allowed. No change is made.");
 		} else {
 			returnCommand = new EditNameCommand(index, commandTokens.getTaskName());
 		}
@@ -78,7 +88,25 @@ EditCommand* CommandCreator::processEditCommand(CommandTokens commandTokens) {
 		returnCommand = new EditEndCommand(index, commandTokens.getEndDateTime());
 		break;
 	default:
-		returnCommand = new InvalidEditCommand();
+		throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
+	}
+	return returnCommand;
+}
+
+SetCompleteCommand* CommandCreator::processSetCompleteCommand(CommandTokens commandTokens) {
+	SetCompleteCommand* returnCommand = NULL;
+	SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
+	int index = commandTokens.getIndex();
+	switch (command2) {
+	case SecondaryCommandType::Index:
+		if (index < 1) {
+			throw INVALID_COMMAND_EXCEPTION("Only positive index is allowed. No change is made.");
+		} else {
+			returnCommand = new SetCompleteCommand(index);
+		}
+		break;
+	default:
+		throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 	}
 	return returnCommand;
 }

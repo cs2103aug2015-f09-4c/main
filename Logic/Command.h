@@ -43,8 +43,11 @@ public:
 };
 
 class InvalidCommand: public Command {
+private:
+	//to specify the reason it is invalid
+	std::string _message; 
 public:
-	InvalidCommand ();
+	InvalidCommand (std::string _message);
 	UIFeedback execute(StorageHandler* storageHandler);
 };
 
@@ -75,24 +78,12 @@ public:
 	UIFeedback DeleteCommand::execute(StorageHandler* storageHandler);
 };
 
-class InvalidDeleteCommand: public DeleteCommand {
-public:
-	InvalidDeleteCommand();
-	UIFeedback DeleteCommand::execute(StorageHandler* storageHandler);
-};
-
 class EditCommand: public Command {
 protected:
 	size_t _index;
 public:
 	EditCommand(SecondaryCommandType, size_t);
 	virtual UIFeedback Command::execute(StorageHandler* storageHandler) = 0;
-};
-
-class InvalidEditCommand: public EditCommand {
-public:
-	InvalidEditCommand();
-	UIFeedback EditCommand::execute(StorageHandler* storageHandler);
 };
 
 class EditNameCommand: public EditCommand {
