@@ -10,6 +10,8 @@ CommandTokens Parser::parse(std::string userInput) {
 	switch (primaryCommand) {
 	case Add:
 		return _addCommandParser.parse(userInput);
+	case Complete:
+		return _completeCommandParser.parse(userInput);
 	case Delete:
 		return _deleteCommandParser.parse(userInput);
 	case Display:
