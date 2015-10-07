@@ -31,6 +31,7 @@ private:
 	// examines the extracted primary command word extracted by
 	// parsePrimaryCommand()
 	bool isAddCommand(std::string& userInput);
+	bool isCompleteCommand(std::string& userInput);
 	bool isDeleteCommand(std::string& userInput);
 	bool isEditCommand(std::string& userInput);
 	bool isDisplayCommand(std::string& userInput);
