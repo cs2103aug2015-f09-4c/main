@@ -82,9 +82,9 @@ void UI::Swiftask::displayInOutputBox(void) {
 		outputBox->Rows->Add(num, taskText, start, end, tags, done);
 
 		if ((*it).isComplete()) {
-			outputBox->Rows[index-1]->Cells[5]->Style->ForeColor = Color::Green;
+			outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->ForeColor = Color::Green;
 		} else {
-			outputBox->Rows[index-1]->Cells[5]->Style->ForeColor = Color::Red;
+			outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->ForeColor = Color::Red;
 		}
 
 		delete num;
