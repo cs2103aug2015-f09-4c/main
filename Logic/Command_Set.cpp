@@ -17,6 +17,7 @@ UIFeedback SetCompleteCommand::execute(StorageHandler* storageHandler) {
 	} else {
 		taskToSet.setComplete();
 		_statusExecuted = true;
+		storageHandler -> saveToFile();
 		sprintf_s(buffer, MESSAGE_SET_COMPLETE_SUCCESS.c_str(), _index);
 	}
 

@@ -21,6 +21,7 @@ UIFeedback AddCommand::execute(StorageHandler* storageHandler) {
 		std::string feedbackMessage(buffer);
 		feedback = UIFeedback(storageHandler->getTasksToDisplay(), feedbackMessage);
 		_statusExecuted = true;
+		storageHandler -> saveToFile();
 	}
 	return feedback;
 }

@@ -6,7 +6,7 @@ StorageHandler::StorageHandler(std::string fileName){
 	_displayMode = Display_Type::displayAll;
 	_sortMode = Sort_Type::sortByEntryOrder;
 	//to be included after we finalized save file format
-	//loadFromSaveFile(_fileName);
+	loadFromFile();
 }
 
 std::vector<Task>& StorageHandler::getAllTasks() {
@@ -67,45 +67,63 @@ void StorageHandler::changeSortType(Sort_Type type) {
 	_sortMode = type;
 }
 
-//save and load are to be supported after we determine the save file format
-//below are template assuming save file is in txt format.
-/*
-void loadFromSaveFile(std::string fileName) {
-saveToSaveFile(_fileName);
-Tasks.clear();
-std::ifstream loadFile(fileName);
-if (loadFile.is_open()) {
-while (!loadFile.eof())
-{
-std::string taskText;
-std::string startDateTimeString;
-std::string endDateTimeString;
+void StorageHandler::loadFromFile() {
+	Tasks.clear();
+	std::ifstream loadFile(_fileName);
+	if (loadFile.is_open()) {
+		
+		while (!loadFile.eof())
+		{
+			std::string taskText;
+			std::string startDateTimeString;
+			std::string endDateTimeString;
+			std::string isCompleteString;
 
-std::getline(loadFile,taskText);
+			std::getline(loadFile,taskText);
+			if (taskText.empty()) {
+				break;
+			}
 
-std::getline(loadFile,startDateTimeString);
-boost::posix_time::ptime startDateTime = boost::posix_time::time_from_string(startDateTimeString);
+			std::getline(loadFile,startDateTimeString);
+			boost::posix_time::ptime startDateTime;
+			if (startDateTimeString != "not-a-date-time") {
+				startDateTime = boost::posix_time::time_from_string(startDateTimeString);
+			}
 
-std::getline(loadFile,endDateTimeString);
-boost::posix_time::ptime endDateTime = boost::posix_time::time_from_string(endDateTimeString);
+			std::getline(loadFile,endDateTimeString);
+			boost::posix_time::ptime endDateTime;
+			if (endDateTimeString != "not-a-date-time") {
+				endDateTime = boost::posix_time::time_from_string(endDateTimeString);
+			}
 
-Tasks.push_back(Task(taskText, startDateTime, endDateTime));
-}
-}
-}
-*/
+			std::getline(loadFile, isCompleteString);
 
-/*
-void saveToSaveFile(std::string fileName) {
-std::ofstream saveFile(fileName);
-for (size_t i = 0 ; i < Tasks.size() ; ++i) {
-saveFile << Tasks[i].getTaskText() << "\n";
-saveFile << boost::posix_time::to_simple_string(Tasks[i].getStartDateTime()) << "\n";
-saveFile << boost::posix_time::to_simple_string(Tasks[i].getEndDateTime()) << "\n";
+			Task taskToAdd(taskText, startDateTime, endDateTime);
+			if (isCompleteString == "1") {
+				taskToAdd.setComplete();
+			}
+
+			Tasks.push_back(taskToAdd);
+		}
+	}
 }
-return;
+
+
+
+void StorageHandler::saveToFile() {
+	std::ofstream saveFile(_fileName);
+	for (size_t i = 0 ; i < Tasks.size() ; ++i) {
+		saveFile << Tasks[i].getTaskText() << "\n";
+		saveFile << boost::posix_time::to_simple_string(Tasks[i].getStartDateTime()) << "\n";
+		saveFile << boost::posix_time::to_simple_string(Tasks[i].getEndDateTime()) << "\n";
+		if (Tasks[i].isComplete()) {
+			saveFile << "1\n";
+		} else {
+			saveFile << "0\n";
+		}
+	}
+	return;
 }
-*/
 
 bool StorageHandler::isValidForDisplay(Task task) {
 	boost::posix_time::ptime startDateTime = task.getStartDateTime();
