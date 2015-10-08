@@ -3,7 +3,7 @@
 
 #include <cstdio>
 #include "..\Parser\Parser.h"
-#include "Command.h"
+#include "CommandHeader.h"
 
 class INVALID_COMMAND_EXCEPTION : public std::exception{
 	std::string _message;

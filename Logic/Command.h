@@ -4,120 +4,23 @@
 #include "StorageHandler.h"
 using namespace API;
 
-//Feedback message for invalid command type
-const std::string MESSAGE_INVALID_COMMAND = "Invalid Command. No change is made.";
-
-//Feedback message for different add operation result
-const std::string MESSAGE_ADD_SUCCESS = "\"%s\" have been added succesfully.\nStart Date Time: %s\nEnd Date Time: %s"; 
-const std::string MESSAGE_ADD_EMPTY = "Task text cannot be empty. New task is not added.";
-const std::string MESSAGE_ADD_DUPLICATE = "Duplicate task is found. New task is not added.";
-
-//Feedback message for different delete operation result
-const std::string MESSAGE_DELETE_INDEX_SUCCESS = "Task at index %i have been deleted successfully.";
-const std::string MESSAGE_DELETE_INDEX_FAIL = "No task is found at index %i.";
-
-//Feedback message for different edit operation result
-const std::string MESSAGE_EDIT_NAME_SUCCESS = "Task \"%s\" have been changed to \"%s\".";
-const std::string MESSAGE_EDIT_NAME_EMPTY = "Task text cannot be empty. Task text is not changed.";
-const std::string MESSAGE_EDIT_START_SUCCESS = "Task \"%s\" 's start date and time have been changed to \"%s\".";
-const std::string MESSAGE_EDIT_END_SUCCESS = "Task \"%s\" 's end date and time have been changed to \"%s\".";
-
-//Feedback message for set complete operation
-const std::string MESSAGE_SET_COMPLETE_SUCCESS = "Task at index %i have been set to complete.";
-const std::string MESSAGE_SET_COMPLETE_NO_CHANGE = "Task at index %i is already complete, no change is made.";
-const std::string MESSAGE_SET_COMPLETE_FAIL = "No task is found at index %i.";
-
+//abstract parent class for command supported. 
 class Command {
 protected:
 	PrimaryCommandType _type1;
 	SecondaryCommandType _type2;
+
+	StorageHandler* _storageHandlerExecuted;
 	bool _statusExecuted;
 public:
 	Command(PrimaryCommandType type);
-	PrimaryCommandType getPrimaryCommandType();
-	SecondaryCommandType getSecondaryCommandType();
-	bool isValid();
-	bool isExecutedSuccessfully();
+	PrimaryCommandType getPrimaryCommandType(void);
+	SecondaryCommandType getSecondaryCommandType(void);
+	bool isValid(void);
+	bool isExecutedSuccessfully(void);
 	virtual UIFeedback execute(StorageHandler* a) = 0;
+	virtual UIFeedback undo(void) = 0;
+	virtual bool canUndo(void) = 0;
 	~Command() {}
-};
-
-class InvalidCommand: public Command {
-private:
-	//to specify the reason it is invalid
-	std::string _message; 
-public:
-	InvalidCommand (std::string _message);
-	UIFeedback execute(StorageHandler* storageHandler);
-};
-
-class AddCommand: public Command {
-private:
-	Task _task;
-public:
-	AddCommand (SecondaryCommandType type2, Task task);
-	UIFeedback execute(StorageHandler* storageHandler);
-	bool isValid();
-
-	Task getTask();
-};
-
-class DeleteCommand: public Command{
-public:
-	DeleteCommand (SecondaryCommandType type2);
-	virtual UIFeedback Command::execute(StorageHandler* storageHandler) = 0;
-	bool isValid();
-};
-
-class IndexDeleteCommand: public DeleteCommand{
-private:
-	size_t _index;
-	Task _taskDeleted;
-public:
-	IndexDeleteCommand(size_t index);
-	UIFeedback DeleteCommand::execute(StorageHandler* storageHandler);
-};
-
-class EditCommand: public Command {
-protected:
-	size_t _index;
-public:
-	EditCommand(SecondaryCommandType, size_t);
-	virtual UIFeedback Command::execute(StorageHandler* storageHandler) = 0;
-};
-
-class EditNameCommand: public EditCommand {
-private:
-	std::string _newTaskText;
-	std::string _oldTaskText; //for undo later
-public:
-	EditNameCommand(size_t index, std::string newTaskText);
-	UIFeedback EditCommand::execute(StorageHandler*);
-};
-
-class EditStartCommand: public EditCommand {
-private:
-	boost::posix_time::ptime _newStart;
-	boost::posix_time::ptime _oldStart;
-public:
-	EditStartCommand(size_t index, boost::posix_time::ptime newStart);
-	UIFeedback EditCommand::execute(StorageHandler*);
-};
-
-class EditEndCommand: public EditCommand {
-private:
-	boost::posix_time::ptime _newEnd;
-	boost::posix_time::ptime _oldEnd; //for undo
-public:
-	EditEndCommand(size_t index, boost::posix_time::ptime newEnd);
-	UIFeedback EditCommand::execute(StorageHandler*);
-};
-
-class SetCompleteCommand: public Command {
-private:
-	size_t _index;
-public:
-	SetCompleteCommand(size_t index);
-	UIFeedback Command::execute(StorageHandler*);
 };
 #endif

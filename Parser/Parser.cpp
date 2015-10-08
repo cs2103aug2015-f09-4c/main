@@ -35,6 +35,8 @@ PrimaryCommandType Parser::parsePrimaryCommand(std::string userInput) {
 		commandType = Edit;
 	} else if (isDisplayCommand(userInput)) {
 		commandType = Display;
+	} else if (isCompleteCommand(userInput)) {
+		commandType = Complete;
 	}
 	return commandType;
 }
