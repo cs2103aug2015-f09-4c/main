@@ -31,6 +31,7 @@ UIFeedback IndexDeleteCommand::execute(StorageHandler* storageHandler) {
 		std::string feedbackMessage(buffer);
 		feedback = UIFeedback(storageHandler->getTasksToDisplay(),feedbackMessage);
 		_statusExecuted = true;
+		storageHandler -> saveToFile();
 		} 
 	} catch (INDEX_NOT_FOUND_EXCEPTION e) {
 		feedback = UIFeedback(storageHandler->getTasksToDisplay(), e.what());

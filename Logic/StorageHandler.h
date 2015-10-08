@@ -76,6 +76,9 @@ public:
 
 	void changeDisplayType(Display_Type type);
 	void changeSortType(Sort_Type type);
+
+	void saveToFile ();
+	void loadFromFile ();
 };
 
 #endif
