@@ -44,8 +44,8 @@ namespace UI {
 			feedback = new UIFeedback;
 
 			// to load the saved file if any
-			logic->executeCommand("");
-			updateOutputBox();
+			(*feedback) = logic->executeCommand("");
+			displayInOutputBox();
 		}
 		// Gets user input command from commandBox and return it in std::string
 		// Clears the commandBox
