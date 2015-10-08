@@ -15,18 +15,17 @@ namespace UI {
 	/// <summary>
 	/// Summary for Swiftask
 	/// </summary>
+
 	enum OutputBoxColumn {
-			NUM, TASKTEXT, START, END, TAGS, DONE
-		};
+		NUM, TASKTEXT, START, END, TAGS, DONE
+	};
 
 	public ref class Swiftask : public System::Windows::Forms::Form
 	{
 	private: 
-		bool isEntered;
 		Logic* logic;
 		UIFeedback* feedback;
-		API::Task* task;
-		
+
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Index;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Tasks;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Start;
@@ -41,12 +40,15 @@ namespace UI {
 			//
 			//TODO: Add the constructor code here
 			//
-			isEntered = false;
 			logic = new Logic("mytextfile.txt");
 			feedback = new UIFeedback;
-			task = new API::Task;
 		}
+		// Gets user input command from commandBox and return it in std::string
+		// Clears the commandBox
+	private: std:: string getStdStringCommand(void);
 
+		// Processes after the command is executed that update the UI components and their helper functions
+	private: void updateUI(void);
 	private: void updateResults(void);
 	private: void updateOutputBox(void);
 	private: void clearOutputBox(void);
@@ -193,21 +195,16 @@ namespace UI {
 		}
 #pragma endregion
 
+		// When the enter key is pressed, UI will take in the command string and call logic->executeCommand.
+		// A UIFeedback obj is returned from logic->executeCommand and the UI is updated.
 	private: System::Void commandBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 				 if (e->KeyCode == Keys::Enter) {
-					 System::String^ managed;
 
-					 managed = commandBox->Text;
-					 commandBox->Text = "";
-
-					 std::string unmanaged = msclr::interop::marshal_as<std::string>(managed);
-
-					 (*feedback) = logic->executeCommand(unmanaged);
+					 (*feedback) = logic->executeCommand(getStdStringCommand());
 
 					 assert(feedback != NULL);
 
-					 updateResults();
-					 updateOutputBox();
+					 updateUI();
 				 }
 
 				 return;

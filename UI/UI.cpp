@@ -14,6 +14,22 @@ int main(array<String^>^ args) {
 	return EXIT_SUCCESS;
 }
 
+std::string UI::Swiftask::getStdStringCommand(void) {
+	System::String^ managed;
+
+	managed = commandBox->Text;
+	commandBox->Text = "";
+
+	return msclr::interop::marshal_as<std::string>(managed);
+}
+
+void UI::Swiftask::updateUI(void) {
+	updateResults();
+	updateOutputBox();
+
+	return;
+}
+
 void UI::Swiftask::updateResults(void) {
 
 	System::String^ managed = gcnew String((*feedback).getFeedbackMessage().c_str());
