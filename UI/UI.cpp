@@ -103,6 +103,9 @@ void UI::Swiftask::displayInOutputBox(void) {
 			outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->ForeColor = Color::Red;
 		}
 
+		// Index->HeaderCell->Style->ForeColor = Color::Black;
+		// Work-in-Progress 08/10/15
+
 		delete num;
 		delete taskText;
 		delete start;

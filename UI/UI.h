@@ -42,6 +42,10 @@ namespace UI {
 			//
 			logic = new Logic("mytextfile.txt");
 			feedback = new UIFeedback;
+
+			// to load the saved file if any
+			logic->executeCommand("");
+			updateOutputBox();
 		}
 		// Gets user input command from commandBox and return it in std::string
 		// Clears the commandBox
@@ -104,6 +108,7 @@ namespace UI {
 			this->outputBox->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
+			this->outputBox->BackgroundColor = System::Drawing::SystemColors::ControlLightLight;
 			this->outputBox->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->outputBox->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(6) {this->Index, this->Tasks, 
 				this->Start, this->End, this->Tags, this->Completed});
@@ -183,6 +188,7 @@ namespace UI {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->BackColor = System::Drawing::SystemColors::ControlLightLight;
 			this->ClientSize = System::Drawing::Size(763, 335);
 			this->Controls->Add(this->results);
 			this->Controls->Add(this->commandBox);
@@ -199,7 +205,7 @@ namespace UI {
 		// A UIFeedback obj is returned from logic->executeCommand and the UI is updated.
 	private: System::Void commandBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 				 if (e->KeyCode == Keys::Enter) {
-
+					 
 					 (*feedback) = logic->executeCommand(getStdStringCommand());
 
 					 assert(feedback != NULL);
