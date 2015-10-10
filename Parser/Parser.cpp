@@ -18,6 +18,9 @@ CommandTokens Parser::parse(std::string userInput) {
 		return _displayCommandParser.parse(userInput);
 	case Edit:
 		return _editCommandParser.parse(userInput);
+	case Undo:
+		_commandTokens.setPrimaryCommand(primaryCommand);
+		return _commandTokens;
 	case Invalid:
 		return _commandTokens;
 	default:
@@ -37,6 +40,8 @@ PrimaryCommandType Parser::parsePrimaryCommand(std::string userInput) {
 		commandType = Display;
 	} else if (isCompleteCommand(userInput)) {
 		commandType = Complete;
+	} else if (isUndoCommand(userInput)) {
+		commandType = Undo;
 	}
 	return commandType;
 }
@@ -63,5 +68,10 @@ bool Parser::isDisplayCommand(std::string& userInput) {
 
 bool Parser::isEditCommand(std::string& userInput) {
 	return std::regex_match(userInput, std::regex("edit .{1,}",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+}
+
+bool Parser::isUndoCommand(std::string& userInput) {
+	return std::regex_match(userInput, std::regex("undo.{1,}",
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
 }
