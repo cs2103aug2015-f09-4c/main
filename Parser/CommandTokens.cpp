@@ -54,6 +54,10 @@ std::vector<std::string>& CommandTokens::getDetails() {
 	return _details;
 }
 
+std::vector<std::string>& CommandTokens::getTags() {
+	return _tags;
+}
+
 boost::posix_time::ptime CommandTokens::getStartDateTime() {
 	return _startDateTime;
 }
@@ -80,6 +84,10 @@ void CommandTokens::setTaskName(std::string newTaskName) {
 
 void CommandTokens::setDetails(std::vector< std::string > newDetails) {
 	_details = newDetails;
+}
+
+void CommandTokens::setTags(std::vector< std::string > newTags) {
+	_tags = newTags;
 }
 
 void CommandTokens::setStartDateTime(boost::posix_time::ptime newStartDateTime) {
