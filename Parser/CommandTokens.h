@@ -6,7 +6,7 @@
 
 // Command Type for main groups of operation
 enum PrimaryCommandType {
-	Invalid, Add, Display, Edit, Delete, Help, Complete
+	Invalid, Add, Display, Edit, Delete, Help, Complete, Undo
 };
 
 // Command Type to further specify the operation

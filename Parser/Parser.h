@@ -34,5 +34,6 @@ private:
 	bool isCompleteCommand(std::string& userInput);
 	bool isDeleteCommand(std::string& userInput);
 	bool isEditCommand(std::string& userInput);
-	bool isDisplayCommand(std::string& userInput);
+	bool isDisplayCommand(std::string& userInput);	
+	bool isUndoCommand(std::string& userInput);
 };
