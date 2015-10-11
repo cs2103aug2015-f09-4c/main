@@ -2,6 +2,7 @@
 *.tlog
 *.lastbuildstate
 *.idb
+UI/mytextfile.txt
 
 #ignore thumbnails created by windows
 Thumbs.db
