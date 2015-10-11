@@ -1,8 +1,7 @@
 #include "Logic.h"
 
-Logic::Logic(std::string fileName)  {
-	_fileName = fileName;
-	_commandExecutor = new CommandExecutor(fileName);
+Logic::Logic()  {
+	_commandExecutor = new CommandExecutor();
 }
 
 UIFeedback Logic::executeCommand(std::string userString) {

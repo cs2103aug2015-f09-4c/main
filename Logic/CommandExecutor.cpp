@@ -1,7 +1,7 @@
 #include "CommandExecutor.h"
 
-CommandExecutor::CommandExecutor(std::string fileName) {
-	_runTimeStorage = new RunTimeStorage(fileName);
+CommandExecutor::CommandExecutor() {
+	_runTimeStorage = new RunTimeStorage();
 }
 
 UIFeedback CommandExecutor::execute(Command* command) {
@@ -11,6 +11,7 @@ UIFeedback CommandExecutor::execute(Command* command) {
 	} else {
 		delete command;
 	}
+	_runTimeStorage->saveToFile();
 	return feedback;
 }
 

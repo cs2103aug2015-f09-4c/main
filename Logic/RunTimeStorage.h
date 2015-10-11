@@ -5,6 +5,7 @@
 #include "Task.h"
 #include "UIFeedback.h"
 #include "..\Parser\Parser.h"
+#include "..\Storage\PhysicalStorageHandler.h"
 
 using namespace API;
 
@@ -31,12 +32,13 @@ public:
 
 class RunTimeStorage {
 private:
-	//Tasks is always sorted by Entry Order, the order of task being added
+	//_tasks is always sorted by Entry Order, the order of task being added
 	std::vector<Task> _tasks;
-	//TasksToDisplay is filtered out from Tasks and sorted based on _displayMode and _sortMode
+	//_tasksToDisplay is filtered out from Tasks and sorted based on _displayMode and _sortMode
 	std::vector<Task> _tasksToDisplay;
-	//_fileName/Path for saving
-	std::string _fileName;
+
+	PhysicalStorageHandler* _physicalStorageHandler;
+
 	Display_Type _displayMode;
 	Sort_Type _sortMode;
 
@@ -62,7 +64,6 @@ private:
 
 public:
 	RunTimeStorage();
-	RunTimeStorage(std::string fileName);
 
 	std::vector<Task>& getAllTasks();
 	std::vector<Task>& getTasksToDisplay();
@@ -76,6 +77,6 @@ public:
 	void changeDisplayType(Display_Type type);
 	void changeSortType(Sort_Type type);
 
-	void saveToFile ();
-	void loadFromFile ();
+	void saveToFile();
+	void saveToFile(std::string filePath);
 };

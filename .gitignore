@@ -248,3 +248,4 @@ FakesAssemblies/
 **/*.Server/ModelManifest.xml
 _Pvt_Extensions
 ParserStub/ParserStub.vcxproj
+UI/defaultSaveFile.txt

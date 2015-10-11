@@ -12,10 +12,9 @@ private:
 	CommandExecutor* _commandExecutor;
 	CommandCreator _commandCreator;
 	Parser _parser;
-	std::string _fileName;
 
 public:
-	Logic(std::string fileName);
+	Logic();
 
 	UIFeedback executeCommand(std::string userString);
 

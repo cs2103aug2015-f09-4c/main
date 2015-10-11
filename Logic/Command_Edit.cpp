@@ -26,7 +26,6 @@ UIFeedback EditNameCommand::execute(RunTimeStorage* runTimeStorage) {
 		sprintf_s(buffer, MESSAGE_EDIT_NAME_SUCCESS.c_str(), _oldTaskText.c_str(), _newTaskText.c_str());
 		feedbackMessage = std::string(buffer);
 		_statusExecuted = true;
-		runTimeStorage -> saveToFile();
 	}
 	UIFeedback feedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
 	return feedback;
@@ -54,8 +53,7 @@ UIFeedback EditStartCommand::execute(RunTimeStorage* runTimeStorage) {
 	feedbackMessage = std::string(buffer);
 	
 	_statusExecuted = true;
-	runTimeStorage -> saveToFile();
-	
+
 	UIFeedback feedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
 	return feedback;
 }
@@ -82,7 +80,6 @@ UIFeedback EditEndCommand::execute(RunTimeStorage* runTimeStorage) {
 	feedbackMessage = std::string(buffer);
 	
 	_statusExecuted = true;
-	runTimeStorage -> saveToFile();
 	
 	UIFeedback feedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
 	return feedback;

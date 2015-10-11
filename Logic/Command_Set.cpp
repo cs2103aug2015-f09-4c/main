@@ -17,7 +17,6 @@ UIFeedback SetCompleteCommand::execute(RunTimeStorage* runTimeStorage) {
 	} else {
 		taskToSet.setComplete();
 		_statusExecuted = true;
-		runTimeStorage -> saveToFile();
 		sprintf_s(buffer, MESSAGE_SET_COMPLETE_SUCCESS.c_str(), _index);
 	}
 

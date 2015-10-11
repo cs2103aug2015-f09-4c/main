@@ -31,7 +31,6 @@ UIFeedback IndexDeleteCommand::execute(RunTimeStorage* runTimeStorage) {
 		std::string feedbackMessage(buffer);
 		feedback = UIFeedback(runTimeStorage->getTasksToDisplay(),feedbackMessage);
 		_statusExecuted = true;
-		runTimeStorage -> saveToFile();
 		} 
 	} catch (INDEX_NOT_FOUND_EXCEPTION e) {
 		feedback = UIFeedback(runTimeStorage->getTasksToDisplay(), e.what());

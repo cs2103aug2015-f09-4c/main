@@ -32,6 +32,8 @@ public:
 	CommandCreator();
 	Command* process(CommandTokens commandTokens);
 
+	//Methods below are for unit testing which allows private method to be called when TESTMODE is defined
+
 #ifdef TESTMODE
 
 	AddCommand* testProcessAddCommand(CommandTokens commandTokens) {
@@ -40,6 +42,10 @@ public:
 
 	DeleteCommand* testProcessDeleteCommand(CommandTokens commandTokens) {
 		return processDeleteCommand(commandTokens);
+	}
+
+	EditCommand* testProcessEditCommand(CommandTokens commandTokens) {
+		return processEditCommand(commandTokens);
 	}
 
 #endif

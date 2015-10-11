@@ -13,7 +13,7 @@ private:
 	RunTimeStorage* _runTimeStorage;
 
 public:
-	CommandExecutor(std::string fileName);
+	CommandExecutor();
 
 	UIFeedback execute(Command* command);
 

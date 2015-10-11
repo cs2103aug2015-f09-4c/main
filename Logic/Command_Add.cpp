@@ -21,7 +21,6 @@ UIFeedback AddCommand::execute(RunTimeStorage* runTimeStorage) {
 		std::string feedbackMessage(buffer);
 		feedback = UIFeedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
 		_statusExecuted = true;
-		runTimeStorage -> saveToFile();
 	}
 	return feedback;
 }

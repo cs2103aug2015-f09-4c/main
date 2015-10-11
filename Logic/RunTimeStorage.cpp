@@ -1,12 +1,12 @@
 #include "RunTimeStorage.h"
 
-RunTimeStorage::RunTimeStorage(std::string fileName){
-	_fileName = fileName;
+RunTimeStorage::RunTimeStorage(){
 	//Default display and sort mode for initialization
 	_displayMode = Display_Type::displayAll;
 	_sortMode = Sort_Type::sortByEntryOrder;
-	//to be included after we finalized save file format
-	loadFromFile();
+
+	_physicalStorageHandler = new PhysicalStorageHandler();
+	_physicalStorageHandler->loadFromFile(_tasks);
 }
 
 std::vector<Task>& RunTimeStorage::getAllTasks() {
@@ -65,64 +65,6 @@ void RunTimeStorage::changeDisplayType(Display_Type type) {
 
 void RunTimeStorage::changeSortType(Sort_Type type) {
 	_sortMode = type;
-}
-
-void RunTimeStorage::loadFromFile() {
-	_tasks.clear();
-	std::ifstream loadFile(_fileName);
-	if (loadFile.is_open()) {
-		
-		while (!loadFile.eof())
-		{
-			std::string taskText;
-			std::string startDateTimeString;
-			std::string endDateTimeString;
-			std::string isCompleteString;
-
-			std::getline(loadFile,taskText);
-			if (taskText.empty()) {
-				break;
-			}
-
-			std::getline(loadFile,startDateTimeString);
-			boost::posix_time::ptime startDateTime;
-			if (startDateTimeString != "not-a-date-time") {
-				startDateTime = boost::posix_time::time_from_string(startDateTimeString);
-			}
-
-			std::getline(loadFile,endDateTimeString);
-			boost::posix_time::ptime endDateTime;
-			if (endDateTimeString != "not-a-date-time") {
-				endDateTime = boost::posix_time::time_from_string(endDateTimeString);
-			}
-
-			std::getline(loadFile, isCompleteString);
-
-			Task taskToAdd(taskText, startDateTime, endDateTime);
-			if (isCompleteString == "1") {
-				taskToAdd.setComplete();
-			}
-
-			_tasks.push_back(taskToAdd);
-		}
-	}
-}
-
-
-
-void RunTimeStorage::saveToFile() {
-	std::ofstream saveFile(_fileName);
-	for (size_t i = 0 ; i < _tasks.size() ; ++i) {
-		saveFile << _tasks[i].getTaskText() << "\n";
-		saveFile << boost::posix_time::to_simple_string(_tasks[i].getStartDateTime()) << "\n";
-		saveFile << boost::posix_time::to_simple_string(_tasks[i].getEndDateTime()) << "\n";
-		if (_tasks[i].isComplete()) {
-			saveFile << "1\n";
-		} else {
-			saveFile << "0\n";
-		}
-	}
-	return;
 }
 
 bool RunTimeStorage::isValidForDisplay(Task task) {
@@ -237,5 +179,15 @@ void RunTimeStorage::sortTasksToDisplay() {
 void RunTimeStorage::updateDisplay() {
 	reformTasksToDisplay();
 	sortTasksToDisplay();
+	return;
+}
+
+void RunTimeStorage::saveToFile() {
+	_physicalStorageHandler->saveToFile(_tasks);
+	return;
+}
+
+void RunTimeStorage::saveToFile(std::string filePath) {
+	_physicalStorageHandler->saveToFile(_tasks, filePath);
 	return;
 }
