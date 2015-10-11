@@ -11,7 +11,7 @@ private:
 	size_t _index;
 public:
 	SetCompleteCommand(size_t index);
-	UIFeedback Command::execute(StorageHandler*);
+	UIFeedback Command::execute(RunTimeStorage*);
 	UIFeedback Command::undo();
 	bool canUndo();
 };

@@ -1,5 +1,4 @@
-#ifndef COMMAND_CREATOR_H
-#define COMMAND_CREATOR_H
+#pragma once
 
 #include <cstdio>
 #include "..\Parser\Parser.h"
@@ -45,5 +44,3 @@ public:
 
 #endif
 };
-
-#endif

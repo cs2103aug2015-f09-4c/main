@@ -11,7 +11,7 @@ private:
 	Task _task;
 public:
 	AddCommand (SecondaryCommandType type2, Task task);
-	UIFeedback execute(StorageHandler* storageHandler);
+	UIFeedback execute(RunTimeStorage*);
 	UIFeedback undo(void);
 
 	bool canUndo();

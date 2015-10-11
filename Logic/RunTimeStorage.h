@@ -1,5 +1,4 @@
-#ifndef STORAGE_HANDLER_H
-#define STORAGE_HANDLER_H
+#pragma once
 
 #include <fstream>
 #include <algorithm>
@@ -30,12 +29,12 @@ public:
 	}
 };
 
-class StorageHandler {
+class RunTimeStorage {
 private:
 	//Tasks is always sorted by Entry Order, the order of task being added
-	std::vector<Task> Tasks;
+	std::vector<Task> _tasks;
 	//TasksToDisplay is filtered out from Tasks and sorted based on _displayMode and _sortMode
-	std::vector<Task> TasksToDisplay;
+	std::vector<Task> _tasksToDisplay;
 	//_fileName/Path for saving
 	std::string _fileName;
 	Display_Type _displayMode;
@@ -62,8 +61,8 @@ private:
 	void updateDisplay();
 
 public:
-	StorageHandler();
-	StorageHandler(std::string fileName);
+	RunTimeStorage();
+	RunTimeStorage(std::string fileName);
 
 	std::vector<Task>& getAllTasks();
 	std::vector<Task>& getTasksToDisplay();
@@ -80,5 +79,3 @@ public:
 	void saveToFile ();
 	void loadFromFile ();
 };
-
-#endif

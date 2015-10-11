@@ -5,8 +5,8 @@ SetCompleteCommand::SetCompleteCommand(size_t index) : Command(PrimaryCommandTyp
 	_index = index;
 }
 
-UIFeedback SetCompleteCommand::execute(StorageHandler* storageHandler) {
-	Task& taskToSet = storageHandler->find(_index);
+UIFeedback SetCompleteCommand::execute(RunTimeStorage* runTimeStorage) {
+	Task& taskToSet = runTimeStorage->find(_index);
 	std::string feedbackMessage;
 	char buffer[255];
 	
@@ -17,12 +17,12 @@ UIFeedback SetCompleteCommand::execute(StorageHandler* storageHandler) {
 	} else {
 		taskToSet.setComplete();
 		_statusExecuted = true;
-		storageHandler -> saveToFile();
+		runTimeStorage -> saveToFile();
 		sprintf_s(buffer, MESSAGE_SET_COMPLETE_SUCCESS.c_str(), _index);
 	}
 
 	feedbackMessage = std::string(buffer);
-	UIFeedback feedback(storageHandler->getTasksToDisplay(), feedbackMessage);
+	UIFeedback feedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
 	return feedback;
 }
 

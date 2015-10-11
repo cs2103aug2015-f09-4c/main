@@ -8,8 +8,8 @@ InvalidCommand::InvalidCommand(std::string message) : Command(PrimaryCommandType
 	_message = message;
 }
 
-UIFeedback InvalidCommand::execute(StorageHandler* storageHandler) {
-	UIFeedback feedback(storageHandler->getTasksToDisplay(), _message);
+UIFeedback InvalidCommand::execute(RunTimeStorage* runTimeStorage) {
+	UIFeedback feedback(runTimeStorage->getTasksToDisplay(), _message);
 
 	//to specify this is invalid command
 	_statusExecuted = false;

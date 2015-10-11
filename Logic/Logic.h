@@ -1,5 +1,4 @@
-#ifndef LOGIC_H_
-#define LOGIC_H_
+#pragma once
 
 #include "Task.h"
 #include "UIFeedback.h"
@@ -22,5 +21,3 @@ public:
 
 	virtual ~Logic();
 };
-
-#endif

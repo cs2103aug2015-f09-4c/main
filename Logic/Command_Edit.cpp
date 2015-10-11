@@ -13,22 +13,22 @@ EditNameCommand::EditNameCommand(size_t index, std::string newTaskText):EditComm
 	_newTaskText = newTaskText;
 }
 
-UIFeedback EditNameCommand::execute(StorageHandler* storageHandler) {
+UIFeedback EditNameCommand::execute(RunTimeStorage* runTimeStorage) {
 	std::string feedbackMessage;
 	
 	if (_newTaskText.size() < 1) {
 		feedbackMessage = MESSAGE_EDIT_NAME_EMPTY;
 	} else {
-		Task& taskToEdit = storageHandler -> find(_index);
+		Task& taskToEdit = runTimeStorage -> find(_index);
 		_oldTaskText = taskToEdit.getTaskText();
 		taskToEdit.changeTaskText(_newTaskText);
 		char buffer[255];
 		sprintf_s(buffer, MESSAGE_EDIT_NAME_SUCCESS.c_str(), _oldTaskText.c_str(), _newTaskText.c_str());
 		feedbackMessage = std::string(buffer);
 		_statusExecuted = true;
-		storageHandler -> saveToFile();
+		runTimeStorage -> saveToFile();
 	}
-	UIFeedback feedback(storageHandler->getTasksToDisplay(), feedbackMessage);
+	UIFeedback feedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
 	return feedback;
 }
 
@@ -41,10 +41,10 @@ EditStartCommand::EditStartCommand(size_t index, boost::posix_time::ptime newSta
 	_newStart = newStart;
 }
 
-UIFeedback EditStartCommand::execute(StorageHandler* storageHandler) {
+UIFeedback EditStartCommand::execute(RunTimeStorage* runTimeStorage) {
 	std::string feedbackMessage;
 	
-	Task& taskToEdit = storageHandler -> find(_index);
+	Task& taskToEdit = runTimeStorage -> find(_index);
 	_oldStart = taskToEdit.getStartDateTime();
 	taskToEdit.changeStartDateTime(_newStart);
 	
@@ -54,9 +54,9 @@ UIFeedback EditStartCommand::execute(StorageHandler* storageHandler) {
 	feedbackMessage = std::string(buffer);
 	
 	_statusExecuted = true;
-	storageHandler -> saveToFile();
+	runTimeStorage -> saveToFile();
 	
-	UIFeedback feedback(storageHandler->getTasksToDisplay(), feedbackMessage);
+	UIFeedback feedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
 	return feedback;
 }
 
@@ -69,10 +69,10 @@ EditEndCommand::EditEndCommand(size_t index, boost::posix_time::ptime newEnd) : 
 	_newEnd = newEnd;
 }
 
-UIFeedback EditEndCommand::execute(StorageHandler* storageHandler) {
+UIFeedback EditEndCommand::execute(RunTimeStorage* runTimeStorage) {
 	std::string feedbackMessage;
 	
-	Task& taskToEdit = storageHandler -> find(_index);
+	Task& taskToEdit = runTimeStorage -> find(_index);
 	_oldEnd = taskToEdit.getEndDateTime();
 	taskToEdit.changeEndDateTime(_newEnd);
 	
@@ -82,9 +82,9 @@ UIFeedback EditEndCommand::execute(StorageHandler* storageHandler) {
 	feedbackMessage = std::string(buffer);
 	
 	_statusExecuted = true;
-	storageHandler -> saveToFile();
+	runTimeStorage -> saveToFile();
 	
-	UIFeedback feedback(storageHandler->getTasksToDisplay(), feedbackMessage);
+	UIFeedback feedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
 	return feedback;
 }
 

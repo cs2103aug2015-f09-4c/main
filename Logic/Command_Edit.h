@@ -12,7 +12,7 @@ protected:
 	size_t _index;
 public:
 	EditCommand(SecondaryCommandType, size_t);
-	virtual UIFeedback Command::execute(StorageHandler* storageHandler) = 0;
+	virtual UIFeedback Command::execute(RunTimeStorage*) = 0;
 	virtual UIFeedback Command::undo(void) = 0;
 	bool canUndo(void);
 };
@@ -23,7 +23,7 @@ private:
 	std::string _oldTaskText; //for undo later
 public:
 	EditNameCommand(size_t index, std::string newTaskText);
-	UIFeedback EditCommand::execute(StorageHandler*);
+	UIFeedback EditCommand::execute(RunTimeStorage*);
 	UIFeedback EditCommand::undo();
 };
 
@@ -33,7 +33,7 @@ private:
 	boost::posix_time::ptime _oldStart;
 public:
 	EditStartCommand(size_t index, boost::posix_time::ptime newStart);
-	UIFeedback EditCommand::execute(StorageHandler*);
+	UIFeedback EditCommand::execute(RunTimeStorage*);
 	UIFeedback EditCommand::undo();
 };
 
@@ -43,6 +43,6 @@ private:
 	boost::posix_time::ptime _oldEnd; //for undo
 public:
 	EditEndCommand(size_t index, boost::posix_time::ptime newEnd);
-	UIFeedback EditCommand::execute(StorageHandler*);
+	UIFeedback EditCommand::execute(RunTimeStorage*);
 	UIFeedback EditCommand::undo();
 };

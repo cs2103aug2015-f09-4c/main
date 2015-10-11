@@ -1,9 +1,8 @@
-#ifndef COMMAND_EXECUTOR_H
-#define COMMAND_EXECUTOR_H
+#pragma once
 
 #include <stack>
 #include "CommandHeader.h"
-#include "StorageHandler.h"
+#include "RunTimeStorage.h"
 
 using namespace API;
 
@@ -11,7 +10,7 @@ class CommandExecutor {
 private:
 	std::stack<Command*> _commandExecutedAndUndoable;
 	std::stack<Command*> _commandUndoed;
-	StorageHandler* _storageHandler;
+	RunTimeStorage* _runTimeStorage;
 
 public:
 	CommandExecutor(std::string fileName);
@@ -20,5 +19,3 @@ public:
 
 	virtual ~CommandExecutor();
 };
-
-#endif
