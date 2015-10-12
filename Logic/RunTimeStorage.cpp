@@ -19,7 +19,19 @@ std::vector<Task>& RunTimeStorage::getTasksToDisplay() {
 }
 
 void RunTimeStorage::add(Task task) {
+	assert(!isDuplicate(task));
 	_tasks.push_back(task);
+	return;
+}
+
+void RunTimeStorage::insert(Task task, size_t index) {
+	assert(!isDuplicate(task));
+	_tasks.insert(_tasks.begin()+index, task);
+	return;
+}
+
+void RunTimeStorage::removeLastEntry() {
+	_tasks.pop_back();
 	return;
 }
 
@@ -59,6 +71,17 @@ Task& RunTimeStorage::find(size_t index) {
 	return *iter;
 }
 
+size_t RunTimeStorage::find(Task& task) {
+	for (size_t i = 0 ; i < _tasks.size() ; ++i) {
+		if (_tasks[i] == task) {
+			return i;
+		}
+	}
+	
+	//if not found, return an invalid index
+	return _tasks.size();
+}
+
 void RunTimeStorage::changeDisplayType(Display_Type type) {
 	_displayMode = type;
 }
@@ -79,6 +102,14 @@ bool RunTimeStorage::isValidForDisplay(Task task) {
 		return startDateTime.is_special() && !endDateTime.is_special();
 	default:
 		return true;
+	}
+}
+
+bool RunTimeStorage::isValidIndex(size_t index) {
+	if (index < _tasks.size()) {
+		return true;
+	} else {
+		return false;
 	}
 }
 

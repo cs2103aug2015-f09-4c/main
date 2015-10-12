@@ -1,8 +1,11 @@
+#include <assert.h>
+#include <limits>
 #include "Command.h"
 
 Command::Command(PrimaryCommandType type) {
 	_type1 = type;
 	_statusExecuted = false;
+	_runTimeStorageExecuted = NULL;
 }
 
 PrimaryCommandType Command::getPrimaryCommandType() {
@@ -21,7 +24,11 @@ bool Command::isValid() {
 	}
 }
 
-bool Command::isExecutedSuccessfully() {
+bool Command::isExecuted() {
 	return _statusExecuted;
+}
+
+RunTimeStorage* Command::getRunTimeStorageExecuted() {
+	return _runTimeStorageExecuted;
 }
 

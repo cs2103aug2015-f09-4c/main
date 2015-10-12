@@ -17,6 +17,9 @@ Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens
 		case PrimaryCommandType::Complete:
 			returnCommand = processSetCompleteCommand(commandTokens);
 			break;
+		case PrimaryCommandType::Undo:
+			returnCommand = new UndoCommand();
+			break;
 		case PrimaryCommandType::Invalid:
 			returnCommand = new InvalidCommand(MESSAGE_INVALID_COMMAND);
 			break;

@@ -5,11 +5,23 @@ CommandExecutor::CommandExecutor() {
 }
 
 UIFeedback CommandExecutor::execute(Command* command) {
-	UIFeedback feedback = command -> execute (_runTimeStorage);
-	if (command -> isExecutedSuccessfully() && command->canUndo()) {
-		_commandExecutedAndUndoable.push(command);
+	UIFeedback feedback;
+	if (command->getPrimaryCommandType() == PrimaryCommandType::Undo) {
+		if (_commandExecutedAndUndoable.empty()) {
+			feedback = UIFeedback(_runTimeStorage->getTasksToDisplay(), MESSAGE_UNDO_EMPTY);
+		} else {
+			command = _commandExecutedAndUndoable.top();
+			_commandExecutedAndUndoable.pop();
+			feedback = command->undo();
+			_commandUndoed.push(command);
+		}
 	} else {
-		delete command;
+		feedback = command -> execute (_runTimeStorage);
+		if (command -> isExecuted() && command->canUndo()) {
+			_commandExecutedAndUndoable.push(command);
+		} else {
+			delete command;
+		}
 	}
 	_runTimeStorage->saveToFile();
 	return feedback;

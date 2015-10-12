@@ -19,7 +19,7 @@ namespace LogicTest
 			Task task("do something");
 			Assert::AreEqual(true, command->getPrimaryCommandType()==Add);
 			Assert::AreEqual(true, command->getSecondaryCommandType()==Floating);
-			Assert::AreEqual(false, command->isExecutedSuccessfully());
+			Assert::AreEqual(false, command->isExecuted());
 			Assert::AreEqual(true, command->isValid());
 			//Assert::AreEqual(true, command->getTask() == task);
 		}
@@ -35,7 +35,7 @@ namespace LogicTest
 			Task task("do something",boost::posix_time::time_from_string(timeString));
 			Assert::AreEqual(true, command->getPrimaryCommandType()==Add);
 			Assert::AreEqual(true, command->getSecondaryCommandType()==Todo);
-			Assert::AreEqual(false, command->isExecutedSuccessfully());
+			Assert::AreEqual(false, command->isExecuted());
 			Assert::AreEqual(true, command->isValid());
 			//Assert::AreEqual(true, command->getTask() == task);
 		}
@@ -52,7 +52,7 @@ namespace LogicTest
 			Task task("do something",boost::posix_time::time_from_string(timeString1),boost::posix_time::time_from_string(timeString2));
 			Assert::AreEqual(true, command->getPrimaryCommandType()==Add);
 			Assert::AreEqual(true, command->getSecondaryCommandType()==Timed);
-			Assert::AreEqual(false, command->isExecutedSuccessfully());
+			Assert::AreEqual(false, command->isExecuted());
 			Assert::AreEqual(true, command->isValid());
 			//Assert::AreEqual(true, command->getTask() == task);
 		}

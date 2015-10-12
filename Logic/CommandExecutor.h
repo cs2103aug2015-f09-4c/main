@@ -6,6 +6,8 @@
 
 using namespace API;
 
+const std::string MESSAGE_UNDO_EMPTY = "There is no task available to undo. No change is made.";
+
 class CommandExecutor {
 private:
 	std::stack<Command*> _commandExecutedAndUndoable;
