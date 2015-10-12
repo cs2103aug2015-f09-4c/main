@@ -55,7 +55,7 @@ void UI::Swiftask::clearOutputBox(void) {
 }
 
 void UI::Swiftask::displayInOutputBox(void) {
-	System::String ^num, ^taskText, ^start, ^end, ^tags, ^done;
+	System::String ^num, ^taskText, ^startDate, ^endDate, ^theTags, ^doneOrNot;
 	int index = 0;
 	std::ostringstream convert;
 
@@ -71,31 +71,31 @@ void UI::Swiftask::displayInOutputBox(void) {
 		taskText = gcnew String((*it).getTaskText().c_str());
 
 		if (!(*it).getStartDateTime().is_not_a_date_time()) {
-			start = gcnew String(to_simple_string((*it).getStartDateTime()).c_str());
+			startDate = gcnew String(to_simple_string((*it).getStartDateTime()).c_str());
 		} else {
-			start = gcnew String("-");
+			startDate = gcnew String("-");
 		}
 
 		if (!(*it).getEndDateTime().is_not_a_date_time()) {
-			end = gcnew String(to_simple_string((*it).getEndDateTime()).c_str());
+			endDate = gcnew String(to_simple_string((*it).getEndDateTime()).c_str());
 		} else {
-			end = gcnew String("-");
+			endDate = gcnew String("-");
 		}
 
 		// Tags not supported yet
 		// if ((*it).getTags != "") {
 		// 	str5 = gcnew String((*it).getTags.c_str());
 		// } else {
-		tags = gcnew String("-");
+		theTags = gcnew String("-");
 		// }
 
 		if ((*it).isComplete()) {
-			done = gcnew String("Yes");
+			doneOrNot = gcnew String("Yes");
 		} else {
-			done = gcnew String("No");
+			doneOrNot = gcnew String("No");
 		}
 
-		outputBox->Rows->Add(num, taskText, start, end, tags, done);
+		outputBox->Rows->Add(num, taskText, startDate, endDate, theTags, doneOrNot);
 
 		if ((*it).isComplete()) {
 			outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->ForeColor = Color::Green;
@@ -103,7 +103,8 @@ void UI::Swiftask::displayInOutputBox(void) {
 			outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->ForeColor = Color::Red;
 		}
 
-		// Index->HeaderCell->Style->ForeColor = Color::Black;
+		// number->HeaderCell->Style->BackColor = Color::Blue;
+		// outputBox->RowHeadersDefaultCellStyle->ForeColor = Color::Red;
 		// Work-in-Progress 08/10/15
 
 		delete num;
