@@ -20,6 +20,10 @@ private:
 	void tokeniseAddActivityCommand(std::string userInput);
 	void tokeniseAddTodoCommand(std::string userInput);
 	void tokeniseAddFloatingCommand(std::string userInput);
+	void tokeniseTags(std::string userInput);
+
+	std::string trimTags(std::string userInput);
+	bool hasTags(std::string userInput);
 
 	// adapter method to DateParser class
 	boost::posix_time::ptime parseDate(std::string dateString);

@@ -2,6 +2,7 @@
 *.tlog
 *.lastbuildstate
 *.idb
+UI/mytextfile.txt
 
 #ignore thumbnails created by windows
 Thumbs.db
@@ -247,3 +248,4 @@ FakesAssemblies/
 **/*.Server/ModelManifest.xml
 _Pvt_Extensions
 ParserStub/ParserStub.vcxproj
+UI/defaultSaveFile.txt

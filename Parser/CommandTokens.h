@@ -6,7 +6,7 @@
 
 // Command Type for main groups of operation
 enum PrimaryCommandType {
-	Invalid, Add, Display, Edit, Delete, Help, Complete
+	Invalid, Add, Display, Edit, Delete, Help, Complete, Undo
 };
 
 // Command Type to further specify the operation
@@ -35,6 +35,7 @@ public:
 	SecondaryCommandType getSecondaryCommand();
 	std::string getTaskName();
 	std::vector<std::string>& getDetails();
+	std::vector<std::string>& getTags();
 	boost::posix_time::ptime getStartDateTime();
 	boost::posix_time::ptime getEndDateTime();
 	int getIndex();
@@ -43,6 +44,7 @@ public:
 	void setSecondaryCommand(SecondaryCommandType newSecondaryCommand);
 	void setTaskName(std::string newTaskName);
 	void setDetails(std::vector< std::string > newDetails);
+	void setTags(std::vector< std::string > newTags);
 	void setStartDateTime(boost::posix_time::ptime newStartDateTime);
 	void setEndDateTime(boost::posix_time::ptime newEndDateTime);
 	void setIndex(int newIndex);
@@ -52,6 +54,7 @@ private:
 	SecondaryCommandType _secondaryCommandType;
 	std::string _taskName;
 	std::vector<std::string> _details;
+	std::vector<std::string> _tags;
 	boost::posix_time::ptime _startDateTime;
 	boost::posix_time::ptime _endDateTime;
 	int _index;

@@ -1,11 +1,11 @@
-#ifndef STORAGE_HANDLER_H
-#define STORAGE_HANDLER_H
+#pragma once
 
 #include <fstream>
 #include <algorithm>
 #include "Task.h"
 #include "UIFeedback.h"
 #include "..\Parser\Parser.h"
+#include "..\Storage\PhysicalStorageHandler.h"
 
 using namespace API;
 
@@ -30,14 +30,15 @@ public:
 	}
 };
 
-class StorageHandler {
+class RunTimeStorage {
 private:
-	//Tasks is always sorted by Entry Order, the order of task being added
-	std::vector<Task> Tasks;
-	//TasksToDisplay is filtered out from Tasks and sorted based on _displayMode and _sortMode
-	std::vector<Task> TasksToDisplay;
-	//_fileName/Path for saving
-	std::string _fileName;
+	//_tasks is always sorted by Entry Order, the order of task being added
+	std::vector<Task> _tasks;
+	//_tasksToDisplay is filtered out from Tasks and sorted based on _displayMode and _sortMode
+	std::vector<Task> _tasksToDisplay;
+
+	PhysicalStorageHandler* _physicalStorageHandler;
+
 	Display_Type _displayMode;
 	Sort_Type _sortMode;
 
@@ -62,8 +63,7 @@ private:
 	void updateDisplay();
 
 public:
-	StorageHandler();
-	StorageHandler(std::string fileName);
+	RunTimeStorage();
 
 	std::vector<Task>& getAllTasks();
 	std::vector<Task>& getTasksToDisplay();
@@ -77,8 +77,6 @@ public:
 	void changeDisplayType(Display_Type type);
 	void changeSortType(Sort_Type type);
 
-	void saveToFile ();
-	void loadFromFile ();
+	void saveToFile();
+	void saveToFile(std::string filePath);
 };
-
-#endif

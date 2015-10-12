@@ -1,5 +1,4 @@
-#ifndef LOGIC_H_
-#define LOGIC_H_
+#pragma once
 
 #include "Task.h"
 #include "UIFeedback.h"
@@ -13,14 +12,11 @@ private:
 	CommandExecutor* _commandExecutor;
 	CommandCreator _commandCreator;
 	Parser _parser;
-	std::string _fileName;
 
 public:
-	Logic(std::string fileName);
+	Logic();
 
 	UIFeedback executeCommand(std::string userString);
 
 	virtual ~Logic();
 };
-
-#endif

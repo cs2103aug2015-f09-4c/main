@@ -1,16 +1,17 @@
 #include "CommandExecutor.h"
 
-CommandExecutor::CommandExecutor(std::string fileName) {
-	_storageHandler = new StorageHandler(fileName);
+CommandExecutor::CommandExecutor() {
+	_runTimeStorage = new RunTimeStorage();
 }
 
 UIFeedback CommandExecutor::execute(Command* command) {
-	UIFeedback feedback = command -> execute (_storageHandler);
+	UIFeedback feedback = command -> execute (_runTimeStorage);
 	if (command -> isExecutedSuccessfully() && command->canUndo()) {
 		_commandExecutedAndUndoable.push(command);
 	} else {
 		delete command;
 	}
+	_runTimeStorage->saveToFile();
 	return feedback;
 }
 
@@ -25,6 +26,6 @@ CommandExecutor::~CommandExecutor() {
 		_commandUndoed.top() = NULL;
 		_commandUndoed.pop();
 	}
-	delete _storageHandler;
-	_storageHandler = NULL;
+	delete _runTimeStorage;
+	_runTimeStorage = NULL;
 }

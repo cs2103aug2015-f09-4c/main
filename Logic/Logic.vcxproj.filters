@@ -17,9 +17,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="StorageHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CommandCreator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -56,15 +53,15 @@
     <ClInclude Include="CommandHeader.h">
       <Filter>Header Files\Command</Filter>
     </ClInclude>
+    <ClInclude Include="RunTimeStorage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Logic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CommandCreator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="StorageHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Task.cpp">
@@ -92,6 +89,9 @@
       <Filter>Source Files\Command</Filter>
     </ClCompile>
     <ClCompile Include="CommandExecutor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RunTimeStorage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

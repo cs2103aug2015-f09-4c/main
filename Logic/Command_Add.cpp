@@ -5,23 +5,22 @@ AddCommand::AddCommand (SecondaryCommandType type2, Task task) : Command(Primary
 	_task = task;
 }
 
-UIFeedback AddCommand::execute(StorageHandler* storageHandler) {
+UIFeedback AddCommand::execute(RunTimeStorage* runTimeStorage) {
 	UIFeedback feedback;
 	if (_task.getTaskText().size() < 1) {
-		feedback = UIFeedback(storageHandler->getTasksToDisplay(), MESSAGE_ADD_EMPTY);
-	} else if (storageHandler->isDuplicate(_task)) {
-		feedback = UIFeedback(storageHandler->getTasksToDisplay(), MESSAGE_ADD_DUPLICATE);
+		feedback = UIFeedback(runTimeStorage->getTasksToDisplay(), MESSAGE_ADD_EMPTY);
+	} else if (runTimeStorage->isDuplicate(_task)) {
+		feedback = UIFeedback(runTimeStorage->getTasksToDisplay(), MESSAGE_ADD_DUPLICATE);
 	} else {
-		storageHandler->add(_task);
+		runTimeStorage->add(_task);
 		std::string taskText = _task.getTaskText();
 		std::string startDateTime = boost::posix_time::to_simple_string(_task.getStartDateTime());
 		std::string endDateTime = boost::posix_time::to_simple_string(_task.getEndDateTime());
 		char buffer[255];
 		sprintf_s(buffer, MESSAGE_ADD_SUCCESS.c_str(), taskText.c_str(), startDateTime.c_str(), endDateTime.c_str());
 		std::string feedbackMessage(buffer);
-		feedback = UIFeedback(storageHandler->getTasksToDisplay(), feedbackMessage);
+		feedback = UIFeedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
 		_statusExecuted = true;
-		storageHandler -> saveToFile();
 	}
 	return feedback;
 }

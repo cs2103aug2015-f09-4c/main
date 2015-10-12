@@ -8,6 +8,11 @@ CommandTokens AddCommandParser::parse(std::string userInput) {
 	_commandTokens.resetMemberVariables();
 	_commandTokens.setPrimaryCommand(PrimaryCommandType::Add);
 
+	if (hasTags(userInput)) {		
+		tokeniseTags(userInput);
+		userInput = trimTags(userInput);
+	}
+
 	if (isAddActivityCommand(userInput)) {
 		tokeniseAddActivityCommand(userInput);
 	} else if (isAddTodoCommand(userInput)) {
@@ -17,6 +22,17 @@ CommandTokens AddCommandParser::parse(std::string userInput) {
 	}
 
 	return _commandTokens;
+}
+
+std::string AddCommandParser::trimTags(std::string userInput) {
+	int endIndex = userInput.find("#");
+	return userInput.substr(0, endIndex);
+}
+
+bool AddCommandParser::hasTags(std::string userInput) {
+	return std::regex_match(userInput,
+		std::regex(".+#.+",
+		std::regex_constants::ECMAScript));
 }
 
 // returns true if userInput contains "from" and subsequently "to";
@@ -64,7 +80,7 @@ void AddCommandParser::tokeniseAddTodoCommand(std::string userInput) {
 	std::regex_match(userInput, matchResults,
 		std::regex("add (.{1,}) by (.{1,})",
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
-	
+
 	std::string taskName = matchResults[1];
 	_commandTokens.setTaskName(taskName);
 
@@ -83,7 +99,7 @@ void AddCommandParser::tokeniseAddFloatingCommand(std::string userInput) {
 	std::regex_match(userInput, matchResults,
 		std::regex("add (.{1,})",
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
-	
+
 	std::string taskName = matchResults[1];
 	_commandTokens.setTaskName(taskName);
 
@@ -92,6 +108,23 @@ void AddCommandParser::tokeniseAddFloatingCommand(std::string userInput) {
 	_commandTokens.setDetails(newDetails);
 }
 
+void AddCommandParser::tokeniseTags(std::string userInput) {
+	std::string regexString = " (#[^ ]{1,})";
+	std::smatch matchResults;
+	std::vector<std::string> newTags;
+
+	while (std::regex_search(userInput, matchResults,
+		std::regex(regexString,
+		std::regex_constants::ECMAScript | std::regex_constants::icase))) {
+
+			newTags.push_back(matchResults[1]);
+
+			// continue the search in the right substring
+			userInput = matchResults.suffix().str();
+	}
+
+	_commandTokens.setTags(newTags);
+}
 boost::posix_time::ptime AddCommandParser::parseDate(std::string dateString) {
 	return _dateParser.parse(dateString);
 }
