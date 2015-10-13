@@ -13,8 +13,9 @@ namespace LogicTest
 		{
 			CommandCreator creator;
 			std::vector<std::string> details;
-			details.push_back(std::string("do something"));
+
 			CommandTokens token1(Add,Floating,details);
+			token1.setTaskName(std::string("do something"));
 			AddCommand* command = creator.testProcessAddCommand(token1);
 			Task task("do something");
 			Assert::AreEqual(true, command->getPrimaryCommandType()==Add);
@@ -31,6 +32,7 @@ namespace LogicTest
 			details.push_back(std::string("do something"));
 			std::string timeString("2002-01-20 23:59:59.000");
 			CommandTokens token1(Add,Todo,details, boost::posix_time::time_from_string(timeString));
+			token1.setTaskName(std::string("do something"));
 			AddCommand* command = creator.testProcessAddCommand(token1);
 			Task task("do something",boost::posix_time::time_from_string(timeString));
 			Assert::AreEqual(true, command->getPrimaryCommandType()==Add);
@@ -48,6 +50,7 @@ namespace LogicTest
 			std::string timeString1("2002-01-20 23:59:59.000");
 			std::string timeString2("2002-01-21 23:59:59.000");
 			CommandTokens token1(Add,Timed,details, boost::posix_time::time_from_string(timeString1), boost::posix_time::time_from_string(timeString2));
+			token1.setTaskName(std::string("do something"));
 			AddCommand* command = creator.testProcessAddCommand(token1);
 			Task task("do something",boost::posix_time::time_from_string(timeString1),boost::posix_time::time_from_string(timeString2));
 			Assert::AreEqual(true, command->getPrimaryCommandType()==Add);

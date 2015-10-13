@@ -75,6 +75,7 @@ public:
 	Task remove(size_t index);
 	Task& find(size_t index);
 	size_t find(Task& task);
+	Task& getEntry(size_t index);
 
 	bool isDuplicate(Task task);
 	bool isValidIndex(size_t index);

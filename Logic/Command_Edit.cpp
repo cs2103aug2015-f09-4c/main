@@ -20,20 +20,32 @@ UIFeedback EditNameCommand::execute(RunTimeStorage* runTimeStorage) {
 		feedbackMessage = MESSAGE_EDIT_NAME_EMPTY;
 	} else {
 		Task& taskToEdit = runTimeStorage -> find(_index);
+		_editIndex = runTimeStorage -> find(taskToEdit);
 		_oldTaskText = taskToEdit.getTaskText();
 		taskToEdit.changeTaskText(_newTaskText);
 		char buffer[255];
 		sprintf_s(buffer, MESSAGE_EDIT_NAME_SUCCESS.c_str(), _oldTaskText.c_str(), _newTaskText.c_str());
 		feedbackMessage = std::string(buffer);
 		_statusExecuted = true;
+		_runTimeStorageExecuted = runTimeStorage;
 	}
 	UIFeedback feedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
 	return feedback;
 }
 
 UIFeedback EditNameCommand::undo() {
-	//TODO
-	return UIFeedback();
+	assert(_statusExecuted);
+	assert(_runTimeStorageExecuted!=NULL);
+
+	Task& taskToEdit = _runTimeStorageExecuted->getEntry(_editIndex);
+
+	taskToEdit.changeTaskText(_oldTaskText);
+
+	_statusExecuted = false;
+	std::vector<Task> taskToDisplay = _runTimeStorageExecuted->getTasksToDisplay();
+	_runTimeStorageExecuted = NULL;
+
+	return UIFeedback(taskToDisplay, MESSAGE_EDIT_UNDO);
 }
 
 EditStartCommand::EditStartCommand(size_t index, boost::posix_time::ptime newStart) : EditCommand(SecondaryCommandType::Start, index) {

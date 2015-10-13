@@ -36,28 +36,28 @@ Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens
 AddCommand* CommandCreator::processAddCommand(CommandTokens commandTokens) {
 	AddCommand* returnCommand = NULL;
 	SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
-	Task* task = NULL;
+	Task task;
 
-	std::string taskName = commandTokens.getDetails()[0];
+	std::string taskName = commandTokens.getTaskName();
 	if (taskName.empty()) {
 		throw INVALID_COMMAND_EXCEPTION(MESSAGE_ADD_EMPTY);
 	}
 
 	switch (command2) {
 	case SecondaryCommandType::Floating:
-		task = new Task(taskName);
-		returnCommand = new AddCommand(SecondaryCommandType::Floating,*task);
+		task = Task(taskName);
+		returnCommand = new AddCommand(SecondaryCommandType::Floating,task);
 		break;
 	case SecondaryCommandType::Todo:
-		task = new Task((commandTokens.getDetails())[0],commandTokens.getEndDateTime());
-		returnCommand = new AddCommand(SecondaryCommandType::Todo,*task);
+		task = Task(taskName,commandTokens.getEndDateTime());
+		returnCommand = new AddCommand(SecondaryCommandType::Todo,task);
 		break;
 	case SecondaryCommandType::Timed:
-		task = new Task((commandTokens.getDetails())[0],commandTokens.getStartDateTime(), commandTokens.getEndDateTime());
-		returnCommand = new AddCommand(SecondaryCommandType::Timed, *task);
+		task = Task(taskName,commandTokens.getStartDateTime(), commandTokens.getEndDateTime());
+		returnCommand = new AddCommand(SecondaryCommandType::Timed, task);
 		break;
 	case SecondaryCommandType::None:
-		returnCommand = new AddCommand(SecondaryCommandType::None, *task);
+		returnCommand = new AddCommand(SecondaryCommandType::None, task);
 	}
 	return returnCommand;
 }

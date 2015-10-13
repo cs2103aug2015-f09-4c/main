@@ -71,6 +71,14 @@ Task& RunTimeStorage::find(size_t index) {
 	return *iter;
 }
 
+Task& RunTimeStorage::getEntry(size_t index) {
+	if (index >= _tasks.size()) {
+		throw INDEX_NOT_FOUND_EXCEPTION(index);
+	}
+
+	return _tasks[index];
+}
+
 size_t RunTimeStorage::find(Task& task) {
 	for (size_t i = 0 ; i < _tasks.size() ; ++i) {
 		if (_tasks[i] == task) {
