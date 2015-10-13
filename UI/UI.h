@@ -1,4 +1,5 @@
 #pragma once
+#include "../boost/log/trivial.hpp"
 #include <msclr\marshal_cppstd.h>
 #include <sstream>
 #include "..\Logic\Logic.h"
@@ -40,7 +41,7 @@ namespace UI {
 			//
 			//TODO: Add the constructor code here
 			//
-			logic = new Logic("mytextfile.txt");
+			logic = new Logic();
 			feedback = new UIFeedback;
 
 			// to load the saved file if any
@@ -206,8 +207,11 @@ namespace UI {
 	private: System::Void commandBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 				 if (e->KeyCode == Keys::Enter) {
 					 assert(feedback != NULL);
+					 BOOST_LOG_TRIVIAL(trace) << "UI calling Logic";
 
 					 (*feedback) = logic->executeCommand(getStdStringCommand());
+
+					 BOOST_LOG_TRIVIAL(trace) << "UIFeedback returned from logic";
 
 					 updateUI();
 				 }
