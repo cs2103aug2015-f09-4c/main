@@ -25,6 +25,7 @@ Thumbs.db
 *.ilk
 *.log
 *.dll
+*.lib
 *.sbr
 
 ## END of Manually Added by Yong Jie
