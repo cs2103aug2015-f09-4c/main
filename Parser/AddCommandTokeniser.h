@@ -1,12 +1,11 @@
 #pragma once
 #include <regex>
-#include "CommandTokens.h"
 #include "CommandTokeniser.h"
 
-class AddCommandParser : public CommandTokeniser {
+class AddCommandTokeniser : public CommandTokeniser {
 public:
-	AddCommandParser(void);
-	virtual ~AddCommandParser(void);
+	AddCommandTokeniser(void);
+	virtual ~AddCommandTokeniser(void);
 	virtual CommandTokens tokeniseUserInput(std::string userInput) override;
 
 private:
