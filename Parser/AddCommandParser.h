@@ -1,17 +1,15 @@
 #pragma once
 #include <regex>
-#include "DateParser.h"
 #include "CommandTokens.h"
+#include "CommandTokeniser.h"
 
-class AddCommandParser {
+class AddCommandParser : public CommandTokeniser {
 public:
 	AddCommandParser(void);
-	CommandTokens parse(std::string userInput);
+	virtual ~AddCommandParser(void);
+	virtual CommandTokens tokeniseUserInput(std::string userInput) override;
 
 private:
-	CommandTokens _commandTokens;
-	DateParser _dateParser;
-
 	// identifiers to determine the exact type of ADD command called
 	bool isAddActivityCommand(std::string userInput);
 	bool isAddTodoCommand(std::string userInput);
@@ -24,7 +22,4 @@ private:
 
 	std::string trimTags(std::string userInput);
 	bool hasTags(std::string userInput);
-
-	// adapter method to DateParser class
-	boost::posix_time::ptime parseDate(std::string dateString);
 };

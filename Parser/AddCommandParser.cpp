@@ -4,11 +4,15 @@ AddCommandParser::AddCommandParser(void) {
 	// nothing here
 }
 
-CommandTokens AddCommandParser::parse(std::string userInput) {
+AddCommandParser::~AddCommandParser(void) {
+	// nothing here
+}
+
+CommandTokens AddCommandParser::tokeniseUserInput(std::string userInput) {
 	_commandTokens.resetMemberVariables();
 	_commandTokens.setPrimaryCommand(PrimaryCommandType::Add);
 
-	if (hasTags(userInput)) {		
+	if (hasTags(userInput)) {
 		tokeniseTags(userInput);
 		userInput = trimTags(userInput);
 	}
@@ -67,8 +71,8 @@ void AddCommandParser::tokeniseAddActivityCommand(std::string userInput) {
 	newDetails.push_back(taskName);
 	_commandTokens.setDetails(newDetails);
 
-	_commandTokens.setStartDateTime(parseDate(matchResults[2]));
-	_commandTokens.setEndDateTime(parseDate(matchResults[3]));
+	_commandTokens.setStartDateTime(parseUserInputDate(matchResults[2]));
+	_commandTokens.setEndDateTime(parseUserInputDate(matchResults[3]));
 }
 
 // extract taskName, and endDateTime; and call the setters on _commandTokens
@@ -88,7 +92,7 @@ void AddCommandParser::tokeniseAddTodoCommand(std::string userInput) {
 	newDetails.push_back(matchResults[1]);
 	_commandTokens.setDetails(newDetails);
 
-	_commandTokens.setEndDateTime(parseDate(matchResults[2]));
+	_commandTokens.setEndDateTime(parseUserInputDate(matchResults[2]));
 }
 
 // extract taskName; and call the setter on _commandTokens to set this field
@@ -124,7 +128,4 @@ void AddCommandParser::tokeniseTags(std::string userInput) {
 	}
 
 	_commandTokens.setTags(newTags);
-}
-boost::posix_time::ptime AddCommandParser::parseDate(std::string dateString) {
-	return _dateParser.parse(dateString);
 }

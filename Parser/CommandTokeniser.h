@@ -7,11 +7,11 @@
 class CommandTokeniser {
 public:
 	CommandTokeniser(void);
-	~CommandTokeniser(void);
+	virtual ~CommandTokeniser(void);
 
 	virtual CommandTokens tokeniseUserInput(std::string userInput) = 0;
 
-private:
+protected:
 	CommandTokens _commandTokens;
 	DateParser _dateParser;
 
