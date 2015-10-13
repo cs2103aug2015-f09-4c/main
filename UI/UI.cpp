@@ -3,8 +3,13 @@
 using namespace System;
 using namespace System::Windows::Forms;
 
+void boostLogInit(void);
+
 [STAThread]
 int main(array<String^>^ args) {
+
+	boostLogInit();
+
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 
@@ -12,6 +17,15 @@ int main(array<String^>^ args) {
 	Application::Run(%mainWindow);
 
 	return EXIT_SUCCESS;
+}
+
+void boostLogInit(void) {
+    boost::log::add_file_log("sample.log");
+
+    boost::log::core::get()->set_filter
+    (
+        boost::log::trivial::severity >= boost::log::trivial::trace
+    );
 }
 
 std::string UI::Swiftask::getStdStringCommand(void) {

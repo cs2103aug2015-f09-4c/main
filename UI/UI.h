@@ -1,5 +1,8 @@
 #pragma once
+#pragma unmanaged
 #include "../boost/log/trivial.hpp"
+#include "../boost/log/utility/setup/file.hpp"
+#pragma managed
 #include <msclr\marshal_cppstd.h>
 #include <sstream>
 #include "..\Logic\Logic.h"
