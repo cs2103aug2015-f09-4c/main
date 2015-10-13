@@ -72,6 +72,6 @@ bool Parser::isEditCommand(std::string& userInput) {
 }
 
 bool Parser::isUndoCommand(std::string& userInput) {
-	return std::regex_match(userInput, std::regex("undo.{1,}",
+	return std::regex_match(userInput, std::regex("undo.*",
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
 }
