@@ -3,6 +3,7 @@
 #include <msclr\marshal_cppstd.h>
 #include <sstream>
 #include "..\Logic\Logic.h"
+#include "easylogging++.h"
 
 namespace UI {
 

@@ -1,14 +1,18 @@
-#include "AddCommandParser.h"
+#include "AddCommandTokeniser.h"
 
-AddCommandParser::AddCommandParser(void) {
+AddCommandTokeniser::AddCommandTokeniser(void) {
 	// nothing here
 }
 
-CommandTokens AddCommandParser::parse(std::string userInput) {
+AddCommandTokeniser::~AddCommandTokeniser(void) {
+	// nothing here
+}
+
+CommandTokens AddCommandTokeniser::tokeniseUserInput(std::string userInput) {
 	_commandTokens.resetMemberVariables();
 	_commandTokens.setPrimaryCommand(PrimaryCommandType::Add);
 
-	if (hasTags(userInput)) {		
+	if (hasTags(userInput)) {
 		tokeniseTags(userInput);
 		userInput = trimTags(userInput);
 	}
@@ -24,12 +28,12 @@ CommandTokens AddCommandParser::parse(std::string userInput) {
 	return _commandTokens;
 }
 
-std::string AddCommandParser::trimTags(std::string userInput) {
+std::string AddCommandTokeniser::trimTags(std::string userInput) {
 	int endIndex = userInput.find("#");
 	return userInput.substr(0, endIndex);
 }
 
-bool AddCommandParser::hasTags(std::string userInput) {
+bool AddCommandTokeniser::hasTags(std::string userInput) {
 	return std::regex_match(userInput,
 		std::regex(".+#.+",
 		std::regex_constants::ECMAScript));
@@ -37,14 +41,14 @@ bool AddCommandParser::hasTags(std::string userInput) {
 
 // returns true if userInput contains "from" and subsequently "to";
 // case-insensitive
-bool AddCommandParser::isAddActivityCommand(std::string userInput) {
+bool AddCommandTokeniser::isAddActivityCommand(std::string userInput) {
 	return std::regex_match(userInput,
 		std::regex("add .{1,} from .{1,} TO .{1,}",
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
 }
 
 // returns true if userInput contains "by"; case-insensitive
-bool AddCommandParser::isAddTodoCommand(std::string userInput) {
+bool AddCommandTokeniser::isAddTodoCommand(std::string userInput) {
 	return std::regex_match(userInput,
 		std::regex("add .{1,} by .{1,}",
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
@@ -52,7 +56,7 @@ bool AddCommandParser::isAddTodoCommand(std::string userInput) {
 
 // extract taskName, startDateTime, and endDateTime; and call the setters on
 // _commandTokens to set these three fields
-void AddCommandParser::tokeniseAddActivityCommand(std::string userInput) {
+void AddCommandTokeniser::tokeniseAddActivityCommand(std::string userInput) {
 	_commandTokens.setSecondaryCommand(SecondaryCommandType::Timed);
 
 	std::smatch matchResults;
@@ -67,13 +71,13 @@ void AddCommandParser::tokeniseAddActivityCommand(std::string userInput) {
 	newDetails.push_back(taskName);
 	_commandTokens.setDetails(newDetails);
 
-	_commandTokens.setStartDateTime(parseDate(matchResults[2]));
-	_commandTokens.setEndDateTime(parseDate(matchResults[3]));
+	_commandTokens.setStartDateTime(parseUserInputDate(matchResults[2]));
+	_commandTokens.setEndDateTime(parseUserInputDate(matchResults[3]));
 }
 
 // extract taskName, and endDateTime; and call the setters on _commandTokens
 // to set these two fields
-void AddCommandParser::tokeniseAddTodoCommand(std::string userInput) {
+void AddCommandTokeniser::tokeniseAddTodoCommand(std::string userInput) {
 	_commandTokens.setSecondaryCommand(SecondaryCommandType::Todo);
 
 	std::smatch matchResults;
@@ -88,11 +92,11 @@ void AddCommandParser::tokeniseAddTodoCommand(std::string userInput) {
 	newDetails.push_back(matchResults[1]);
 	_commandTokens.setDetails(newDetails);
 
-	_commandTokens.setEndDateTime(parseDate(matchResults[2]));
+	_commandTokens.setEndDateTime(parseUserInputDate(matchResults[2]));
 }
 
 // extract taskName; and call the setter on _commandTokens to set this field
-void AddCommandParser::tokeniseAddFloatingCommand(std::string userInput) {
+void AddCommandTokeniser::tokeniseAddFloatingCommand(std::string userInput) {
 	_commandTokens.setSecondaryCommand(SecondaryCommandType::Floating);
 
 	std::smatch matchResults;
@@ -108,7 +112,7 @@ void AddCommandParser::tokeniseAddFloatingCommand(std::string userInput) {
 	_commandTokens.setDetails(newDetails);
 }
 
-void AddCommandParser::tokeniseTags(std::string userInput) {
+void AddCommandTokeniser::tokeniseTags(std::string userInput) {
 	std::string regexString = " (#[^ ]{1,})";
 	std::smatch matchResults;
 	std::vector<std::string> newTags;
@@ -124,7 +128,4 @@ void AddCommandParser::tokeniseTags(std::string userInput) {
 	}
 
 	_commandTokens.setTags(newTags);
-}
-boost::posix_time::ptime AddCommandParser::parseDate(std::string dateString) {
-	return _dateParser.parse(dateString);
 }

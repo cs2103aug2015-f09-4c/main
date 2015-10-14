@@ -13,6 +13,8 @@ CommandTokens DisplayCommandParser::parse(std::string userInput) {
 		tokeniseDisplayAllCommand();
 	} else if (isDisplayFromTo(userInput)) {
 		tokeniseDisplayFromToCommand(userInput);
+	} else if (isDisplayFrom(userInput)) {
+		tokeniseDisplayFromCommand(userInput);
 	} else if (isDisplayBy(userInput)) {
 		tokeniseDisplayByCommand(userInput);
 	} else if (isDisplayFloating(userInput)) {
@@ -58,9 +60,20 @@ void DisplayCommandParser::tokeniseDisplayFromToCommand(std::string userInput) {
 	_commandTokens.setEndDateTime(parseDate(matchResults[2]));
 }
 
+void DisplayCommandParser::tokeniseDisplayFromCommand(std::string userInput) {
+	_commandTokens.setSecondaryCommand(SecondaryCommandType::Start);
+
+	std::smatch matchResults;
+	std::regex_match(userInput, matchResults,
+		std::regex("display from (.{1,})",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+
+	_commandTokens.setStartDateTime(parseDate(matchResults[1]));
+}
+
 bool DisplayCommandParser::isDisplayFloating(std::string userInput) {
 	return std::regex_match(userInput,
-		std::regex("display floating .*",
+		std::regex("display floating.*",
 		std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
@@ -83,6 +96,12 @@ bool DisplayCommandParser::isDisplayAll(std::string userInput) {
 bool DisplayCommandParser::isDisplayFromTo(std::string userInput) {
 	return std::regex_match(userInput,
 		std::regex("display from .{1,} to .{1,}",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+}
+
+bool DisplayCommandParser::isDisplayFrom(std::string userInput) {
+	return std::regex_match(userInput,
+		std::regex("display from .{1,}",
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
 }
 

@@ -13,6 +13,8 @@ CommandTokens DeleteCommandParser::parse(std::string userInput) {
 		tokeniseDeleteAllCommand();
 	} else if (isDeleteFromTo(userInput)) {
 		tokeniseDeleteFromToCommand(userInput);
+	} else if (isDeleteFrom(userInput)) {
+		tokeniseDeleteFromCommand(userInput);
 	} else if (isDeleteBy(userInput)) {
 		tokeniseDeleteByCommand(userInput);
 	} else if (isDeleteIndex(userInput)) {
@@ -57,6 +59,12 @@ bool DeleteCommandParser::isDeleteFromTo(std::string userInput) {
 		std::regex_constants::ECMAScript | std::regex_constants::icase ));
 }
 
+bool DeleteCommandParser::isDeleteFrom(std::string userInput) {
+	return std::regex_match(userInput,
+		std::regex("delete from .{1,}",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+}
+
 bool DeleteCommandParser::isDeleteIndex(std::string userInput) {
 	return std::regex_match(userInput,
 		std::regex("delete [0-9]{1,}",
@@ -77,6 +85,17 @@ void DeleteCommandParser::tokeniseDeleteFromToCommand(std::string userInput) {
 
 	_commandTokens.setStartDateTime(parseDate(matchResults[1]));
 	_commandTokens.setEndDateTime(parseDate(matchResults[2]));
+}
+
+void DeleteCommandParser::tokeniseDeleteFromCommand(std::string userInput) {
+	_commandTokens.setSecondaryCommand(SecondaryCommandType::Start);
+
+	std::smatch matchResults;
+	std::regex_match(userInput, matchResults,
+		std::regex("delete from (.{1,})",
+		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+
+	_commandTokens.setStartDateTime(parseDate(matchResults[1]));
 }
 
 void DeleteCommandParser::tokeniseDeleteIndex(std::string userInput) {
