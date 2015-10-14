@@ -1,5 +1,4 @@
-#ifndef COMMAND_CREATOR_H
-#define COMMAND_CREATOR_H
+#pragma once
 
 #include <cstdio>
 #include "..\Parser\Parser.h"
@@ -33,6 +32,8 @@ public:
 	CommandCreator();
 	Command* process(CommandTokens commandTokens);
 
+	//Methods below are for unit testing which allows private method to be called when TESTMODE is defined
+
 #ifdef TESTMODE
 
 	AddCommand* testProcessAddCommand(CommandTokens commandTokens) {
@@ -43,7 +44,9 @@ public:
 		return processDeleteCommand(commandTokens);
 	}
 
-#endif
-};
+	EditCommand* testProcessEditCommand(CommandTokens commandTokens) {
+		return processEditCommand(commandTokens);
+	}
 
 #endif
+};

@@ -1,4 +1,5 @@
 #pragma once
+#include "../boost/log/trivial.hpp"
 #include <msclr\marshal_cppstd.h>
 #include <sstream>
 #include "..\Logic\Logic.h"
@@ -26,12 +27,12 @@ namespace UI {
 		Logic* logic;
 		UIFeedback* feedback;
 
-	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Index;
-	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Tasks;
-	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Start;
-	private: System::Windows::Forms::DataGridViewTextBoxColumn^  End;
-	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Tags;
-	private: System::Windows::Forms::DataGridViewTextBoxColumn^  Completed;
+	private: System::Windows::Forms::DataGridViewTextBoxColumn^  number;
+	private: System::Windows::Forms::DataGridViewTextBoxColumn^  tasks;
+	private: System::Windows::Forms::DataGridViewTextBoxColumn^  start;
+	private: System::Windows::Forms::DataGridViewTextBoxColumn^  end;
+	private: System::Windows::Forms::DataGridViewTextBoxColumn^  tags;
+	private: System::Windows::Forms::DataGridViewTextBoxColumn^  done;
 
 	public:
 		Swiftask(void)
@@ -40,23 +41,24 @@ namespace UI {
 			//
 			//TODO: Add the constructor code here
 			//
-			logic = new Logic("mytextfile.txt");
+			logic = new Logic();
 			feedback = new UIFeedback;
 
 			// to load the saved file if any
 			(*feedback) = logic->executeCommand("");
 			displayInOutputBox();
 		}
+	private: 
 		// Gets user input command from commandBox and return it in std::string
 		// Clears the commandBox
-	private: std:: string getStdStringCommand(void);
+		std:: string getStdStringCommand(void);
 
 		// Processes after the command is executed that update the UI components and their helper functions
-	private: void updateUI(void);
-	private: void updateResults(void);
-	private: void updateOutputBox(void);
-	private: void clearOutputBox(void);
-	private: void displayInOutputBox(void);
+		void updateUI(void);
+		void updateResults(void);
+		void updateOutputBox(void);
+		void clearOutputBox(void);
+		void displayInOutputBox(void);
 
 	protected:
 		/// <summary>
@@ -91,12 +93,12 @@ namespace UI {
 		void InitializeComponent(void)
 		{
 			this->outputBox = (gcnew System::Windows::Forms::DataGridView());
-			this->Index = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->Tasks = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->Start = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->End = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->Tags = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->Completed = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->number = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->tasks = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->start = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->end = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->tags = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->done = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->commandBox = (gcnew System::Windows::Forms::TextBox());
 			this->results = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
@@ -110,56 +112,55 @@ namespace UI {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->outputBox->BackgroundColor = System::Drawing::SystemColors::ControlLightLight;
 			this->outputBox->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-			this->outputBox->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(6) {this->Index, this->Tasks, 
-				this->Start, this->End, this->Tags, this->Completed});
+			this->outputBox->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(6) {this->number, this->tasks, 
+				this->start, this->end, this->tags, this->done});
 			this->outputBox->Location = System::Drawing::Point(0, 1);
 			this->outputBox->Name = L"outputBox";
 			this->outputBox->ReadOnly = true;
 			this->outputBox->Size = System::Drawing::Size(763, 275);
 			this->outputBox->TabIndex = 0;
 			// 
-			// Index
+			// number
 			// 
-			this->Index->HeaderText = L"No.";
-			this->Index->Name = L"Index";
-			this->Index->ReadOnly = true;
-			this->Index->Width = 32;
+			this->number->HeaderText = L"No.";
+			this->number->Name = L"number";
+			this->number->ReadOnly = true;
+			this->number->Width = 32;
 			// 
-			// Tasks
+			// tasks
 			// 
-			this->Tasks->HeaderText = L"Tasks";
-			this->Tasks->Name = L"Tasks";
-			this->Tasks->ReadOnly = true;
-			this->Tasks->Width = 256;
+			this->tasks->HeaderText = L"Tasks";
+			this->tasks->Name = L"tasks";
+			this->tasks->ReadOnly = true;
+			this->tasks->Width = 256;
 			// 
-			// Start
+			// start
 			// 
-			this->Start->HeaderText = L"Start";
-			this->Start->Name = L"Start";
-			this->Start->ReadOnly = true;
-			this->Start->Width = 128;
+			this->start->HeaderText = L"Start";
+			this->start->Name = L"start";
+			this->start->ReadOnly = true;
+			this->start->Width = 128;
 			// 
-			// End
+			// end
 			// 
-			this->End->HeaderText = L"End";
-			this->End->Name = L"End";
-			this->End->ReadOnly = true;
-			this->End->Width = 128;
+			this->end->HeaderText = L"End";
+			this->end->Name = L"end";
+			this->end->ReadOnly = true;
+			this->end->Width = 128;
 			// 
-			// Tags
+			// tags
 			// 
-			this->Tags->HeaderText = L"Tags";
-			this->Tags->Name = L"Tags";
-			this->Tags->ReadOnly = true;
-			this->Tags->Width = 128;
+			this->tags->HeaderText = L"Tags";
+			this->tags->Name = L"tags";
+			this->tags->ReadOnly = true;
+			this->tags->Width = 128;
 			// 
-			// Completed
+			// done
 			// 
-			this->Completed->HeaderText = L"Done";
-			this->Completed->Name = L"Completed";
-			this->Completed->ReadOnly = true;
-			this->Completed->Resizable = System::Windows::Forms::DataGridViewTriState::True;
-			this->Completed->Width = 48;
+			this->done->HeaderText = L"Done";
+			this->done->Name = L"done";
+			this->done->ReadOnly = true;
+			this->done->Width = 48;
 			// 
 			// commandBox
 			// 
@@ -205,10 +206,12 @@ namespace UI {
 		// A UIFeedback obj is returned from logic->executeCommand and the UI is updated.
 	private: System::Void commandBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 				 if (e->KeyCode == Keys::Enter) {
-					 
+					 assert(feedback != NULL);
+					 BOOST_LOG_TRIVIAL(trace) << "UI calling Logic";
+
 					 (*feedback) = logic->executeCommand(getStdStringCommand());
 
-					 assert(feedback != NULL);
+					 BOOST_LOG_TRIVIAL(trace) << "UIFeedback returned from logic";
 
 					 updateUI();
 				 }

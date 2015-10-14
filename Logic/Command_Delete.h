@@ -8,7 +8,7 @@ const std::string MESSAGE_DELETE_INDEX_FAIL = "No task is found at index %i.";
 class DeleteCommand: public Command{
 public:
 	DeleteCommand (SecondaryCommandType type2);
-	virtual UIFeedback Command::execute(StorageHandler* storageHandler) = 0;
+	virtual UIFeedback Command::execute(RunTimeStorage*) = 0;
 	virtual UIFeedback Command::undo() = 0;
 
 	bool isValid();
@@ -21,7 +21,7 @@ private:
 	Task _taskDeleted;
 public:
 	IndexDeleteCommand(size_t index);
-	UIFeedback DeleteCommand::execute(StorageHandler* storageHandler);
+	UIFeedback DeleteCommand::execute(RunTimeStorage*);
 	UIFeedback DeleteCommand::undo(void);
 	virtual ~IndexDeleteCommand();
 };

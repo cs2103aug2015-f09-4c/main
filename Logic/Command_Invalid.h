@@ -11,7 +11,7 @@ private:
 public:
 	InvalidCommand (void);
 	InvalidCommand (std::string _message);
-	UIFeedback execute(StorageHandler* storageHandler);
+	UIFeedback execute(RunTimeStorage*);
 	UIFeedback undo();
 	bool canUndo();
 };
