@@ -130,6 +130,7 @@ namespace ParserTest {
 				expected.setStartDateTime(expectedStartDate);
 			}
 
+			// if an empty string is passed in, the command has no endDate
 			if (endDate == "") {
 				boost::posix_time::ptime expectedEndDate; // default constructor gives a not_a_date_time object
 				expected.setEndDateTime(expectedEndDate);

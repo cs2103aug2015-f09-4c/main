@@ -7,9 +7,6 @@
 #include "EditCommandParser.h"
 #include "AddCommandTokeniser.h"
 
-// TODO: for testing purposes only
-//#define private public
-
 // tokenises user input for Logic to do the necessary processing
 class Parser {
 public:
