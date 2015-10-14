@@ -100,8 +100,8 @@
     <ClInclude Include="CompleteCommandTokeniser.h" />
     <ClInclude Include="DateParser.h" />
     <ClInclude Include="DeleteCommandTokeniser.h" />
-    <ClInclude Include="DisplayCommandParser.h" />
-    <ClInclude Include="EditCommandParser.h" />
+    <ClInclude Include="DisplayCommandTokeniser.h" />
+    <ClInclude Include="EditCommandTokeniser.h" />
     <ClInclude Include="Parser.h" />
   </ItemGroup>
   <ItemGroup>
@@ -111,8 +111,8 @@
     <ClCompile Include="CompleteCommandTokeniser.cpp" />
     <ClCompile Include="DateParser.cpp" />
     <ClCompile Include="DeleteCommandTokeniser.cpp" />
-    <ClCompile Include="DisplayCommandParser.cpp" />
-    <ClCompile Include="EditCommandParser.cpp" />
+    <ClCompile Include="DisplayCommandTokeniser.cpp" />
+    <ClCompile Include="EditCommandTokeniser.cpp" />
     <ClCompile Include="Parser.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -8,23 +8,23 @@ CommandTokens Parser::parse(std::string userInput) {
 	PrimaryCommandType primaryCommand = parsePrimaryCommand(userInput);
 
 	switch (primaryCommand) {
-	case Add:
-		return _addCommandTokeniser.tokeniseUserInput(userInput);
-	case Complete:
-		return _completeCommandTokeniser.tokeniseUserInput(userInput);
-	case Delete:
-		return _deleteCommandTokeniser.tokeniseUserInput(userInput);
-	case Display:
-		return _displayCommandParser.parse(userInput);
-	case Edit:
-		return _editCommandParser.parse(userInput);
-	case Undo:
-		_commandTokens.setPrimaryCommand(primaryCommand);
-		return _commandTokens;
-	case Invalid:
-		return _commandTokens;
-	default:
-		return _commandTokens;
+		case Add:
+			return _addCommandTokeniser.tokeniseUserInput(userInput);
+		case Complete:
+			return _completeCommandTokeniser.tokeniseUserInput(userInput);
+		case Delete:
+			return _deleteCommandTokeniser.tokeniseUserInput(userInput);
+		case Display:
+			return _displayCommandTokeniser.tokeniseUserInput(userInput);
+		case Edit:
+			return _editCommandTokeniser.tokeniseUserInput(userInput);
+		case Undo:
+			_commandTokens.setPrimaryCommand(primaryCommand);
+			return _commandTokens;
+		case Invalid:
+			return _commandTokens;
+		default:
+			return _commandTokens;
 	}
 }
 
@@ -48,30 +48,30 @@ PrimaryCommandType Parser::parsePrimaryCommand(std::string userInput) {
 
 bool Parser::isAddCommand(std::string& userInput) {
 	return std::regex_match(userInput, std::regex("add .{1,}",
-		std::regex_constants::ECMAScript | std::regex_constants::icase));
+	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 bool Parser::isCompleteCommand(std::string& userInput) {
 	return std::regex_match(userInput, std::regex("complete .{1,}",
-		std::regex_constants::ECMAScript | std::regex_constants::icase));
+	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 bool Parser::isDeleteCommand(std::string& userInput) {
 	return std::regex_match(userInput, std::regex("delete .{1,}",
-		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 bool Parser::isDisplayCommand(std::string& userInput) {
 	return std::regex_match(userInput, std::regex("display .{1,}",
-		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 bool Parser::isEditCommand(std::string& userInput) {
 	return std::regex_match(userInput, std::regex("edit .{1,}",
-		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 bool Parser::isUndoCommand(std::string& userInput) {
 	return std::regex_match(userInput, std::regex("undo.*",
-		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
 }

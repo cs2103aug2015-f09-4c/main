@@ -35,23 +35,23 @@ std::string AddCommandTokeniser::trimTags(std::string userInput) {
 
 bool AddCommandTokeniser::hasTags(std::string userInput) {
 	return std::regex_match(userInput,
-		std::regex(".+#.+",
-		std::regex_constants::ECMAScript));
+	                        std::regex(".+#.+",
+	                                   std::regex_constants::ECMAScript));
 }
 
 // returns true if userInput contains "from" and subsequently "to";
 // case-insensitive
 bool AddCommandTokeniser::isAddActivityCommand(std::string userInput) {
 	return std::regex_match(userInput,
-		std::regex("add .{1,} from .{1,} TO .{1,}",
-		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+	                        std::regex("add .{1,} from .{1,} TO .{1,}",
+	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 // returns true if userInput contains "by"; case-insensitive
 bool AddCommandTokeniser::isAddTodoCommand(std::string userInput) {
 	return std::regex_match(userInput,
-		std::regex("add .{1,} by .{1,}",
-		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+	                        std::regex("add .{1,} by .{1,}",
+	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 // extract taskName, startDateTime, and endDateTime; and call the setters on
@@ -61,13 +61,13 @@ void AddCommandTokeniser::tokeniseAddActivityCommand(std::string userInput) {
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-		std::regex("add (.{1,}) from (.{1,}) TO (.{1,})",
-		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+	                 std::regex("add (.{1,}) from (.{1,}) TO (.{1,})",
+	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	std::string taskName = matchResults[1];
 	_commandTokens.setTaskName(taskName);
 
-	std::vector< std::string > newDetails;
+	std::vector<std::string> newDetails;
 	newDetails.push_back(taskName);
 	_commandTokens.setDetails(newDetails);
 
@@ -82,13 +82,13 @@ void AddCommandTokeniser::tokeniseAddTodoCommand(std::string userInput) {
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-		std::regex("add (.{1,}) by (.{1,})",
-		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+	                 std::regex("add (.{1,}) by (.{1,})",
+	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	std::string taskName = matchResults[1];
 	_commandTokens.setTaskName(taskName);
 
-	std::vector< std::string > newDetails;
+	std::vector<std::string> newDetails;
 	newDetails.push_back(matchResults[1]);
 	_commandTokens.setDetails(newDetails);
 
@@ -101,13 +101,13 @@ void AddCommandTokeniser::tokeniseAddFloatingCommand(std::string userInput) {
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-		std::regex("add (.{1,})",
-		std::regex_constants::ECMAScript | std::regex_constants::icase ));
+	                 std::regex("add (.{1,})",
+	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	std::string taskName = matchResults[1];
 	_commandTokens.setTaskName(taskName);
 
-	std::vector< std::string > newDetails;
+	std::vector<std::string> newDetails;
 	newDetails.push_back(matchResults[1]);
 	_commandTokens.setDetails(newDetails);
 }
@@ -118,13 +118,13 @@ void AddCommandTokeniser::tokeniseTags(std::string userInput) {
 	std::vector<std::string> newTags;
 
 	while (std::regex_search(userInput, matchResults,
-		std::regex(regexString,
-		std::regex_constants::ECMAScript | std::regex_constants::icase))) {
+	                         std::regex(regexString,
+	                                    std::regex_constants::ECMAScript | std::regex_constants::icase))) {
 
-			newTags.push_back(matchResults[1]);
+		newTags.push_back(matchResults[1]);
 
-			// continue the search in the right substring
-			userInput = matchResults.suffix().str();
+		// continue the search in the right substring
+		userInput = matchResults.suffix().str();
 	}
 
 	_commandTokens.setTags(newTags);

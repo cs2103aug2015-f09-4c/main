@@ -31,7 +31,7 @@ CommandTokens::CommandTokens(PrimaryCommandType command1, SecondaryCommandType c
 }
 
 bool CommandTokens::isValid() {
-	if (_primaryCommandType==Invalid) {
+	if (_primaryCommandType == Invalid) {
 		return false;
 	} else {
 		return true;
@@ -82,11 +82,11 @@ void CommandTokens::setTaskName(std::string newTaskName) {
 	_taskName = newTaskName;
 }
 
-void CommandTokens::setDetails(std::vector< std::string > newDetails) {
+void CommandTokens::setDetails(std::vector<std::string> newDetails) {
 	_details = newDetails;
 }
 
-void CommandTokens::setTags(std::vector< std::string > newTags) {
+void CommandTokens::setTags(std::vector<std::string> newTags) {
 	_tags = newTags;
 }
 

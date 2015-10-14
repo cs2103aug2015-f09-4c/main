@@ -1,17 +1,30 @@
 #pragma once
-
 #include <vector>
-#include <string>
 #include "../boost/date_time/posix_time/posix_time.hpp"
 
 // Command Type for main groups of operation
 enum PrimaryCommandType {
-	Invalid, Add, Display, Edit, Delete, Help, Complete, Undo
+	Add,
+	Complete,
+	Delete,
+	Display,
+	Edit,
+	Help,
+	Invalid,
+	Undo
 };
 
 // Command Type to further specify the operation
 enum SecondaryCommandType {
-	None, Floating, Timed, Todo, All, Index, Name, Start, End
+	All,
+	End,
+	Floating,
+	Index,
+	Name,
+	None,
+	Start,
+	Timed,
+	Todo
 };
 
 class CommandTokens {
@@ -43,8 +56,8 @@ public:
 	void setPrimaryCommand(PrimaryCommandType newPrimaryCommand);
 	void setSecondaryCommand(SecondaryCommandType newSecondaryCommand);
 	void setTaskName(std::string newTaskName);
-	void setDetails(std::vector< std::string > newDetails);
-	void setTags(std::vector< std::string > newTags);
+	void setDetails(std::vector<std::string> newDetails);
+	void setTags(std::vector<std::string> newTags);
 	void setStartDateTime(boost::posix_time::ptime newStartDateTime);
 	void setEndDateTime(boost::posix_time::ptime newEndDateTime);
 	void setIndex(int newIndex);
