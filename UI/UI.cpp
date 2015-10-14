@@ -2,7 +2,6 @@
 
 using namespace System;
 using namespace System::Windows::Forms;
-INITIALIZE_EASYLOGGINGPP
 
 INITIALIZE_EASYLOGGINGPP
 

@@ -143,9 +143,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EasyLogging++\EasyLogging++.vcxproj">
-      <Project>{d2591cbb-78bb-42a9-b5b3-f89ef4a573ca}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\Logic\Logic.vcxproj">
       <Project>{1a7deb8b-9bef-40eb-9ced-ec4676369e05}</Project>
     </ProjectReference>

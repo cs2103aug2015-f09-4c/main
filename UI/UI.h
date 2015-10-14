@@ -1,7 +1,4 @@
 #pragma once
-#pragma unmanaged
-#include "..\EasyLogging++\easylogging++.h"
-#pragma managed
 #include <msclr\marshal_cppstd.h>
 #include <sstream>
 #include "..\Logic\Logic.h"
@@ -209,11 +206,13 @@ namespace UI {
 		// A UIFeedback obj is returned from logic->executeCommand and the UI is updated.
 	private: System::Void commandBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 				 if (e->KeyCode == Keys::Enter) {
+					 std::string commandString = getStdStringCommand();
+
 					 assert(feedback != NULL);
 
-					 LOG(TRACE) << "UI calling Logic";
+					 LOG(TRACE) << "UI calling Logic for : " << commandString;
 
-					 (*feedback) = logic->executeCommand(getStdStringCommand());
+					 (*feedback) = logic->executeCommand(commandString);
 
 					 LOG(TRACE) << "UIFeedback returned from logic";
 
