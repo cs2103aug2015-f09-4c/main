@@ -1,7 +1,6 @@
 #pragma once
 #include <regex>
 #include "CommandTokens.h"
-#include "CommandTokeniser.h"
 #include "AddCommandTokeniser.h"
 #include "CompleteCommandTokeniser.h"
 #include "DeleteCommandTokeniser.h"
@@ -24,8 +23,6 @@ private:
 
 	// extracts the primary command word
 	PrimaryCommandType parsePrimaryCommand(std::string userInput);
-
-	CommandTokeniser getCommandTokeniser(PrimaryCommandType primaryCommand);
 
 	// examines the extracted primary command word extracted by
 	// parsePrimaryCommand()
