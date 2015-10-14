@@ -9,11 +9,11 @@ CommandTokens Parser::parse(std::string userInput) {
 
 	switch (primaryCommand) {
 	case Add:
-		return _addCommandParser.tokeniseUserInput(userInput);
+		return _addCommandTokeniser.tokeniseUserInput(userInput);
 	case Complete:
 		return _completeCommandParser.parse(userInput);
 	case Delete:
-		return _deleteCommandParser.parse(userInput);
+		return _deleteCommandTokeniser.tokeniseUserInput(userInput);
 	case Display:
 		return _displayCommandParser.parse(userInput);
 	case Edit:

@@ -225,7 +225,7 @@ namespace ParserTest {
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
 			expected = buildExpectedCommandTokens(PrimaryCommandType::Complete,
-			                                      SecondaryCommandType::None,
+			                                      SecondaryCommandType::Index,
 			                                      "",
 			                                      "",
 			                                      "",

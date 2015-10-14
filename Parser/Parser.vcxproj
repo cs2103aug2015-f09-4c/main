@@ -99,7 +99,7 @@
     <ClInclude Include="CommandTokens.h" />
     <ClInclude Include="CompleteCommandParser.h" />
     <ClInclude Include="DateParser.h" />
-    <ClInclude Include="DeleteCommandParser.h" />
+    <ClInclude Include="DeleteCommandTokeniser.h" />
     <ClInclude Include="DisplayCommandParser.h" />
     <ClInclude Include="EditCommandParser.h" />
     <ClInclude Include="Parser.h" />
@@ -110,7 +110,7 @@
     <ClCompile Include="CommandTokens.cpp" />
     <ClCompile Include="CompleteCommandParser.cpp" />
     <ClCompile Include="DateParser.cpp" />
-    <ClCompile Include="DeleteCommandParser.cpp" />
+    <ClCompile Include="DeleteCommandTokeniser.cpp" />
     <ClCompile Include="DisplayCommandParser.cpp" />
     <ClCompile Include="EditCommandParser.cpp" />
     <ClCompile Include="Parser.cpp" />
