@@ -17,9 +17,6 @@
     <ClInclude Include="CommandTokens.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AddCommandParser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DateParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -35,15 +32,18 @@
     <ClInclude Include="CompleteCommandParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CommandTokeniser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AddCommandTokeniser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CommandTokens.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AddCommandParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DateParser.cpp">
@@ -59,6 +59,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CompleteCommandParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandTokeniser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AddCommandTokeniser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

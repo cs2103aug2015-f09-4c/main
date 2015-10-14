@@ -1,15 +1,11 @@
 #pragma once
 #include <regex>
-#include <string>
 #include "CommandTokens.h"
-#include "AddCommandParser.h"
 #include "CompleteCommandParser.h"
 #include "DisplayCommandParser.h"
 #include "DeleteCommandParser.h"
 #include "EditCommandParser.h"
-
-// TODO: for testing purposes only
-//#define private public
+#include "AddCommandTokeniser.h"
 
 // tokenises user input for Logic to do the necessary processing
 class Parser {
@@ -19,7 +15,7 @@ public:
 
 private:
 	CommandTokens _commandTokens;
-	AddCommandParser _addCommandParser;
+	AddCommandTokeniser _addCommandParser;
 	CompleteCommandParser _completeCommandParser;
 	DisplayCommandParser _displayCommandParser;
 	DeleteCommandParser _deleteCommandParser;
