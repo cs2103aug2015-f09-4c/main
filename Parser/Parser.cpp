@@ -6,6 +6,7 @@ Parser::Parser(void) {
 
 CommandTokens Parser::parse(std::string userInput) {
 	PrimaryCommandType primaryCommand = parsePrimaryCommand(userInput);
+	_commandTokens.setPrimaryCommand(primaryCommand);
 
 	switch (primaryCommand) {
 		case Add:
@@ -19,7 +20,6 @@ CommandTokens Parser::parse(std::string userInput) {
 		case Edit:
 			return _editCommandTokeniser.tokeniseUserInput(userInput);
 		case Undo:
-			_commandTokens.setPrimaryCommand(primaryCommand);
 			return _commandTokens;
 		case Invalid:
 			return _commandTokens;
@@ -30,6 +30,7 @@ CommandTokens Parser::parse(std::string userInput) {
 
 PrimaryCommandType Parser::parsePrimaryCommand(std::string userInput) {
 	PrimaryCommandType commandType = Invalid;
+
 	if (isAddCommand(userInput)) {
 		commandType = Add;
 	} else if (isDeleteCommand(userInput)) {
@@ -43,31 +44,32 @@ PrimaryCommandType Parser::parsePrimaryCommand(std::string userInput) {
 	} else if (isUndoCommand(userInput)) {
 		commandType = Undo;
 	}
+
 	return commandType;
 }
 
 bool Parser::isAddCommand(std::string& userInput) {
-	return std::regex_match(userInput, std::regex("add .{1,}",
+	return std::regex_match(userInput, std::regex("add .+",
 	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 bool Parser::isCompleteCommand(std::string& userInput) {
-	return std::regex_match(userInput, std::regex("complete .{1,}",
+	return std::regex_match(userInput, std::regex("complete .+",
 	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 bool Parser::isDeleteCommand(std::string& userInput) {
-	return std::regex_match(userInput, std::regex("delete .{1,}",
+	return std::regex_match(userInput, std::regex("delete .+",
 	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 bool Parser::isDisplayCommand(std::string& userInput) {
-	return std::regex_match(userInput, std::regex("display .{1,}",
+	return std::regex_match(userInput, std::regex("display .+",
 	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 bool Parser::isEditCommand(std::string& userInput) {
-	return std::regex_match(userInput, std::regex("edit .{1,}",
+	return std::regex_match(userInput, std::regex("edit .+",
 	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 

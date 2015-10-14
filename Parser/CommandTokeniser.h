@@ -7,7 +7,7 @@ class CommandTokeniser {
 public:
 	CommandTokeniser(void);
 	virtual ~CommandTokeniser(void);
-	virtual CommandTokens tokeniseUserInput(std::string userInput) = 0;
+	virtual CommandTokens tokeniseUserInput(std::string userInput);
 
 protected:
 	CommandTokens _commandTokens;

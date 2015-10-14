@@ -35,7 +35,7 @@ std::string AddCommandTokeniser::trimTags(std::string userInput) {
 
 bool AddCommandTokeniser::hasTags(std::string userInput) {
 	return std::regex_match(userInput,
-	                        std::regex(".+#.+",
+	                        std::regex(".+ #.+",
 	                                   std::regex_constants::ECMAScript));
 }
 
@@ -43,14 +43,14 @@ bool AddCommandTokeniser::hasTags(std::string userInput) {
 // case-insensitive
 bool AddCommandTokeniser::isAddActivityCommand(std::string userInput) {
 	return std::regex_match(userInput,
-	                        std::regex("add .{1,} from .{1,} TO .{1,}",
+	                        std::regex("add .+ from .+ TO .+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 // returns true if userInput contains "by"; case-insensitive
 bool AddCommandTokeniser::isAddTodoCommand(std::string userInput) {
 	return std::regex_match(userInput,
-	                        std::regex("add .{1,} by .{1,}",
+	                        std::regex("add .+ by .+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
@@ -61,7 +61,7 @@ void AddCommandTokeniser::tokeniseAddActivityCommand(std::string userInput) {
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-	                 std::regex("add (.{1,}) from (.{1,}) TO (.{1,})",
+	                 std::regex("add (.+) from (.+) TO (.+)",
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	std::string taskName = matchResults[1];
@@ -82,7 +82,7 @@ void AddCommandTokeniser::tokeniseAddTodoCommand(std::string userInput) {
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-	                 std::regex("add (.{1,}) by (.{1,})",
+	                 std::regex("add (.+) by (.+)",
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	std::string taskName = matchResults[1];
@@ -101,7 +101,7 @@ void AddCommandTokeniser::tokeniseAddFloatingCommand(std::string userInput) {
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-	                 std::regex("add (.{1,})",
+	                 std::regex("add (.+)",
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	std::string taskName = matchResults[1];
@@ -113,12 +113,11 @@ void AddCommandTokeniser::tokeniseAddFloatingCommand(std::string userInput) {
 }
 
 void AddCommandTokeniser::tokeniseTags(std::string userInput) {
-	std::string regexString = " (#[^ ]{1,})";
-	std::smatch matchResults;
 	std::vector<std::string> newTags;
 
+	std::smatch matchResults;
 	while (std::regex_search(userInput, matchResults,
-	                         std::regex(regexString,
+	                         std::regex(" (#[^ ]+)",
 	                                    std::regex_constants::ECMAScript | std::regex_constants::icase))) {
 
 		newTags.push_back(matchResults[1]);
