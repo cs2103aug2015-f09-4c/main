@@ -1,6 +1,5 @@
 #pragma once
 #include <regex>
-#include "DateParser.h"
 #include "CommandTokens.h"
 #include "CommandTokeniser.h"
 
@@ -9,12 +8,8 @@ public:
 	DeleteCommandTokeniser(void);
 	virtual ~DeleteCommandTokeniser(void);
 	virtual CommandTokens tokeniseUserInput(std::string userInput) override;
-	CommandTokens parse(std::string userInput);
 
 private:
-	CommandTokens _commandTokens;
-	DateParser _dateParser;
-
 	// identifiers to determine the exact type of DELETE command called
 	bool isDeleteAll(std::string userInput);
 	bool isDeleteFromTo(std::string userInput);

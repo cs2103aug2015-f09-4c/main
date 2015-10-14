@@ -11,7 +11,7 @@ CommandTokens Parser::parse(std::string userInput) {
 	case Add:
 		return _addCommandTokeniser.tokeniseUserInput(userInput);
 	case Complete:
-		return _completeCommandParser.parse(userInput);
+		return _completeCommandTokeniser.tokeniseUserInput(userInput);
 	case Delete:
 		return _deleteCommandTokeniser.tokeniseUserInput(userInput);
 	case Display:

@@ -2,7 +2,7 @@
 #include <regex>
 #include "CommandTokens.h"
 #include "AddCommandTokeniser.h"
-#include "CompleteCommandParser.h"
+#include "CompleteCommandTokeniser.h"
 #include "DeleteCommandTokeniser.h"
 #include "DisplayCommandParser.h"
 #include "EditCommandParser.h"
@@ -16,7 +16,7 @@ public:
 private:
 	CommandTokens _commandTokens;
 	AddCommandTokeniser _addCommandTokeniser;
-	CompleteCommandParser _completeCommandParser;
+	CompleteCommandTokeniser _completeCommandTokeniser;
 	DeleteCommandTokeniser _deleteCommandTokeniser;
 	DisplayCommandParser _displayCommandParser;
 	EditCommandParser _editCommandParser;
