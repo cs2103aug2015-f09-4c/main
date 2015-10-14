@@ -1,7 +1,6 @@
 #pragma once
 #pragma unmanaged
-#include "../boost/log/trivial.hpp"
-#include "../boost/log/utility/setup/file.hpp"
+#include "..\EasyLogging++\easylogging++.h"
 #pragma managed
 #include <msclr\marshal_cppstd.h>
 #include <sstream>
@@ -210,11 +209,12 @@ namespace UI {
 	private: System::Void commandBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 				 if (e->KeyCode == Keys::Enter) {
 					 assert(feedback != NULL);
-					 BOOST_LOG_TRIVIAL(trace) << "UI calling Logic";
+
+					 LOG(TRACE) << "UI calling Logic";
 
 					 (*feedback) = logic->executeCommand(getStdStringCommand());
 
-					 BOOST_LOG_TRIVIAL(trace) << "UIFeedback returned from logic";
+					 LOG(TRACE) << "UIFeedback returned from logic";
 
 					 updateUI();
 				 }
