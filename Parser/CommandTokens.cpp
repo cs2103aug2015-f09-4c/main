@@ -1,10 +1,5 @@
 #include "CommandTokens.h"
 
-// default constructor, used for invalid command
-CommandTokens::CommandTokens() {
-	resetMemberVariables();
-}
-
 // complete constructor, with default arguments initialised to sentinel values
 CommandTokens::CommandTokens(PrimaryCommandType primaryCommandType,
                              SecondaryCommandType secondaryCommandType,
