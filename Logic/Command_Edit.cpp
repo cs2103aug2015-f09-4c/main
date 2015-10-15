@@ -80,8 +80,18 @@ UIFeedback EditStartCommand::execute(RunTimeStorage* runTimeStorage) {
 }
 
 UIFeedback EditStartCommand::undo() {
-	//TODO
-	return UIFeedback();
+	assert(_statusExecuted);
+	assert(_runTimeStorageExecuted!=NULL);
+
+	Task& taskToEdit = _runTimeStorageExecuted->getEntry(_editIndex);
+
+	taskToEdit.changeStartDateTime(_oldStart);
+
+	_statusExecuted = false;
+	std::vector<Task> taskToDisplay = _runTimeStorageExecuted->getTasksToDisplay();
+	_runTimeStorageExecuted = NULL;
+
+	return UIFeedback(taskToDisplay, MESSAGE_EDIT_UNDO);
 }
 
 EditEndCommand::EditEndCommand(size_t index, boost::posix_time::ptime newEnd) : EditCommand(SecondaryCommandType::End, index) {
@@ -112,6 +122,16 @@ UIFeedback EditEndCommand::execute(RunTimeStorage* runTimeStorage) {
 }
 
 UIFeedback EditEndCommand::undo() {
-	//TODO
-	return UIFeedback();
+	assert(_statusExecuted);
+	assert(_runTimeStorageExecuted!=NULL);
+
+	Task& taskToEdit = _runTimeStorageExecuted->getEntry(_editIndex);
+
+	taskToEdit.changeEndDateTime(_oldEnd);
+
+	_statusExecuted = false;
+	std::vector<Task> taskToDisplay = _runTimeStorageExecuted->getTasksToDisplay();
+	_runTimeStorageExecuted = NULL;
+
+	return UIFeedback(taskToDisplay, MESSAGE_EDIT_UNDO);
 }
