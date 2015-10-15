@@ -6,14 +6,14 @@ using namespace API;
 //abstract parent class for command supported. 
 class Command {
 protected:
-	PrimaryCommandType _type1;
-	SecondaryCommandType _type2;
+	CommandTokens::PrimaryCommandType _type1;
+	CommandTokens::SecondaryCommandType _type2;
 	RunTimeStorage* _runTimeStorageExecuted;
 	bool _statusExecuted;
 public:
-	Command(PrimaryCommandType type);
-	PrimaryCommandType getPrimaryCommandType(void);
-	SecondaryCommandType getSecondaryCommandType(void);
+	Command(CommandTokens::PrimaryCommandType type);
+	CommandTokens::PrimaryCommandType getPrimaryCommandType(void);
+	CommandTokens::SecondaryCommandType getSecondaryCommandType(void);
 	bool isValid(void);
 	bool isExecuted(void);
 	RunTimeStorage* getRunTimeStorageExecuted();
