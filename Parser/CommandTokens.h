@@ -1,7 +1,7 @@
 #pragma once
 #include <exception>
 #include <vector>
-#include "boost\date_time\posix_time\posix_time.hpp"
+#include "boost\date_time\posix_time\ptime.hpp"
 
 // Command Type for main groups of operation
 enum PrimaryCommandType {
@@ -30,9 +30,6 @@ enum SecondaryCommandType {
 
 class CommandTokens {
 public:
-	//default constructor, used for invalid command
-	//CommandTokens();
-
 	CommandTokens(PrimaryCommandType primaryCommandType = Invalid,
 	                             SecondaryCommandType secondaryCommandType = None,
 	                             std::string taskName = "",

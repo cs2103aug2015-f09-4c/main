@@ -2,12 +2,7 @@
 #include <regex>
 #include "CommandTokens.h"
 #include "CommandTokeniser.h"
-#include "AddCommandTokeniser.h"
-#include "CompleteCommandTokeniser.h"
-#include "DeleteCommandTokeniser.h"
-#include "DisplayCommandTokeniser.h"
-#include "EditCommandTokeniser.h"
-#include "UndoCommandTokeniser.h"
+#include "Logger\Logger.h"
 
 // tokenises user input for Logic to do the necessary processing
 class Parser {
@@ -18,6 +13,8 @@ public:
 private:
 	CommandTokeniser* _commandTokeniser;
 	CommandTokens _invalidCommandTokens;
+
+	Logger* _logger;
 
 	// extracts the primary command word
 	PrimaryCommandType getPrimaryCommand(std::string userInput);

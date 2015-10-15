@@ -1,12 +1,23 @@
+#include <assert.h>
 #include "Parser.h"
+#include "AddCommandTokeniser.h"
+#include "CompleteCommandTokeniser.h"
+#include "DeleteCommandTokeniser.h"
+#include "DisplayCommandTokeniser.h"
+#include "EditCommandTokeniser.h"
+#include "UndoCommandTokeniser.h"
 
 Parser::Parser(void) {
+	_logger = Logger::getInstance();
+
 	_commandTokeniser = nullptr;
 	_invalidCommandTokens.setPrimaryCommand(PrimaryCommandType::Invalid);
 	_invalidCommandTokens.setSecondaryCommand(SecondaryCommandType::None);
 }
 
 CommandTokens Parser::parse(std::string userInput) {
+	_logger->logINFO("Parsing user input: " + userInput);
+
 	// inclusion guard
 	PrimaryCommandType primaryCommandType = getPrimaryCommand(userInput);
 	if (primaryCommandType == PrimaryCommandType::Invalid) {
