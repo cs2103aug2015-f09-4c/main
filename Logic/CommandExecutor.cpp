@@ -4,24 +4,51 @@ CommandExecutor::CommandExecutor() {
 	_runTimeStorage = new RunTimeStorage();
 }
 
-UIFeedback CommandExecutor::execute(Command* command) {
+UIFeedback CommandExecutor::executeUndo() {
 	UIFeedback feedback;
-	if (command->getPrimaryCommandType() == PrimaryCommandType::Undo) {
+	try {
 		if (_commandExecutedAndUndoable.empty()) {
 			feedback = UIFeedback(_runTimeStorage->getTasksToDisplay(), MESSAGE_UNDO_EMPTY);
 		} else {
-			command = _commandExecutedAndUndoable.top();
+			Command* command = _commandExecutedAndUndoable.top();
 			_commandExecutedAndUndoable.pop();
-			feedback = command->undo();
+			assert(command->canUndo());
+			feedback = command -> undo();
 			_commandUndoed.push(command);
 		}
-	} else {
+	} catch (std::exception e) {
+		throw e;
+	}
+	return feedback;
+}
+
+UIFeedback CommandExecutor::executeNormal(Command* command) {
+	UIFeedback feedback;
+	try {
 		feedback = command -> execute (_runTimeStorage);
-		if (command -> isExecuted() && command->canUndo()) {
-			_commandExecutedAndUndoable.push(command);
-		} else {
+	} catch (std::exception e) {
+		throw e;
+	}
+	if (command -> isExecuted() && command->canUndo()) {
+		_commandExecutedAndUndoable.push(command);
+	} else {
+		delete command;
+	}
+
+	return feedback;
+}
+
+UIFeedback CommandExecutor::execute(Command* command) {
+	UIFeedback feedback;
+	try {
+		if (command->getPrimaryCommandType() == PrimaryCommandType::Undo) {
 			delete command;
+			feedback = executeUndo();
+		} else {
+			feedback = executeNormal(command);
 		}
+	} catch (std::exception e) {
+		feedback = UIFeedback(_runTimeStorage->getTasksToDisplay(), e.what());
 	}
 	_runTimeStorage->saveToFile();
 	return feedback;
