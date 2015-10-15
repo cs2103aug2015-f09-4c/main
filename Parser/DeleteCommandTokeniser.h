@@ -1,17 +1,13 @@
 #pragma once
-#include <regex>
-#include "DateParser.h"
-#include "CommandTokens.h"
+#include "CommandTokeniser.h"
 
-class DeleteCommandParser {
+class DeleteCommandTokeniser : public CommandTokeniser {
 public:
-	DeleteCommandParser(void);
-	CommandTokens parse(std::string userInput);
+	DeleteCommandTokeniser(void);
+	virtual ~DeleteCommandTokeniser(void);
+	virtual CommandTokens tokeniseUserInput(std::string userInput) override;
 
 private:
-	CommandTokens _commandTokens;
-	DateParser _dateParser;
-	
 	// identifiers to determine the exact type of DELETE command called
 	bool isDeleteAll(std::string userInput);
 	bool isDeleteFromTo(std::string userInput);
@@ -25,8 +21,4 @@ private:
 	void tokeniseDeleteFromCommand(std::string userInput);
 	void tokeniseDeleteIndex(std::string userInput);
 	void tokeniseDeleteByCommand(std::string userInput);
-
-	// adapter method to DateParser class
-	boost::posix_time::ptime parseDate(std::string dateString);	
 };
-

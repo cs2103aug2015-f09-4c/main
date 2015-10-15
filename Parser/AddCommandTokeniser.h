@@ -1,5 +1,4 @@
 #pragma once
-#include <regex>
 #include "CommandTokeniser.h"
 
 class AddCommandTokeniser : public CommandTokeniser {

@@ -1,6 +1,5 @@
 #pragma once
-
-#include <string>
+#include <regex>
 #include "CommandTokens.h"
 #include "DateParser.h"
 
@@ -8,12 +7,10 @@ class CommandTokeniser {
 public:
 	CommandTokeniser(void);
 	virtual ~CommandTokeniser(void);
-
-	virtual CommandTokens tokeniseUserInput(std::string userInput) = 0;
+	virtual CommandTokens tokeniseUserInput(std::string userInput);
 
 protected:
 	CommandTokens _commandTokens;
 	DateParser _dateParser;
-
 	boost::posix_time::ptime parseUserInputDate(std::string userInputDate);
 };

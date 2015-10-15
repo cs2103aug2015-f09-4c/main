@@ -1,11 +1,7 @@
 #pragma once
 #include <regex>
 #include "CommandTokens.h"
-#include "CompleteCommandParser.h"
-#include "DisplayCommandParser.h"
-#include "DeleteCommandParser.h"
-#include "EditCommandParser.h"
-#include "AddCommandTokeniser.h"
+#include "CommandTokeniser.h"
 
 // tokenises user input for Logic to do the necessary processing
 class Parser {
@@ -14,15 +10,13 @@ public:
 	CommandTokens parse(std::string userInput);
 
 private:
-	CommandTokens _commandTokens;
-	AddCommandTokeniser _addCommandParser;
-	CompleteCommandParser _completeCommandParser;
-	DisplayCommandParser _displayCommandParser;
-	DeleteCommandParser _deleteCommandParser;
-	EditCommandParser _editCommandParser;
+	CommandTokeniser* _commandTokeniser;
+	CommandTokens _invalidCommandTokens;
 
 	// extracts the primary command word
+	PrimaryCommandType getPrimaryCommand(std::string userInput);
 	PrimaryCommandType parsePrimaryCommand(std::string userInput);
+	void initialiseCommandTokeniser(PrimaryCommandType primaryCommandType);
 
 	// examines the extracted primary command word extracted by
 	// parsePrimaryCommand()
