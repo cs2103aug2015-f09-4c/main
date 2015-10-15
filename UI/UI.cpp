@@ -3,13 +3,10 @@
 using namespace System;
 using namespace System::Windows::Forms;
 
-INITIALIZE_EASYLOGGINGPP
-
 [STAThread]
 int main(array<String^>^ args) {
-    el::Configurations conf("../easylogging.conf");
-    el::Loggers::reconfigureAllLoggers(conf);
-    LOG(INFO) << "My first info log using default logger";
+	Logger* logger = Logger::getInstance();
+	logger->logINFO("Hello");
 
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
