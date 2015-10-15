@@ -6,6 +6,9 @@ const std::string MESSAGE_ADD_SUCCESS = "\"%s\" have been added succesfully.\nSt
 const std::string MESSAGE_ADD_EMPTY = "Task text cannot be empty. New task is not added.";
 const std::string MESSAGE_ADD_DUPLICATE = "Duplicate task is found. New task is not added.";
 
+//Feedback message when add operation is undoed
+const std::string MESSAGE_UNDO_ADD = "Previous add operation is undoed succesfully";
+
 class AddCommand: public Command {
 private:
 	Task _task;

@@ -1,5 +1,4 @@
 #pragma once
-#include "../boost/log/trivial.hpp"
 #include <msclr\marshal_cppstd.h>
 #include <sstream>
 #include "..\Logic\Logic.h"
@@ -207,12 +206,15 @@ namespace UI {
 		// A UIFeedback obj is returned from logic->executeCommand and the UI is updated.
 	private: System::Void commandBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 				 if (e->KeyCode == Keys::Enter) {
+					 std::string commandString = getStdStringCommand();
+
 					 assert(feedback != NULL);
-					 BOOST_LOG_TRIVIAL(trace) << "UI calling Logic";
 
-					 (*feedback) = logic->executeCommand(getStdStringCommand());
+					 LOG(TRACE) << "UI calling Logic for : " << commandString;
 
-					 BOOST_LOG_TRIVIAL(trace) << "UIFeedback returned from logic";
+					 (*feedback) = logic->executeCommand(commandString);
+
+					 LOG(TRACE) << "UIFeedback returned from logic";
 
 					 updateUI();
 				 }
