@@ -5,11 +5,11 @@ using namespace System::Windows::Forms;
 
 INITIALIZE_EASYLOGGINGPP
 
-[STAThread]
+	[STAThread]
 int main(array<String^>^ args) {
-    el::Configurations conf("../easylogging.conf");
-    el::Loggers::reconfigureAllLoggers(conf);
-    LOG(INFO) << "My first info log using default logger";
+	el::Configurations conf("../easylogging.conf");
+	el::Loggers::reconfigureAllLoggers(conf);
+	LOG(INFO) << "My first info log using default logger";
 
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
@@ -95,23 +95,20 @@ void UI::Swiftask::displayInOutputBox(void) {
 		theTags = gcnew String("-");
 		// }
 
-		if ((*it).isComplete()) {
-			doneOrNot = gcnew String("Yes");
+		/*if ((*it).isComplete()) {
+			doneOrNot = gcnew String("YES");
 		} else {
-			doneOrNot = gcnew String("No");
-		}
+			doneOrNot = gcnew String("NO");
+		}*/
 
-		outputBox->Rows->Add(num, taskText, startDate, endDate, theTags, doneOrNot);
+		outputBox->Rows->Add(num, taskText, startDate, endDate, theTags);
 
+		// Colour Formats
 		if ((*it).isComplete()) {
-			outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->ForeColor = Color::Green;
+			outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->BackColor = Color::Lime;
 		} else {
-			outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->ForeColor = Color::Red;
+			outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->BackColor = Color::Red;
 		}
-
-		// number->HeaderCell->Style->BackColor = Color::Blue;
-		// outputBox->RowHeadersDefaultCellStyle->ForeColor = Color::Red;
-		// Work-in-Progress 08/10/15
 
 		delete num;
 		delete taskText;
