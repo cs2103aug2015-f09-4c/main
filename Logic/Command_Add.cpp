@@ -21,13 +21,18 @@ UIFeedback AddCommand::execute(RunTimeStorage* runTimeStorage) {
 		std::string feedbackMessage(buffer);
 		feedback = UIFeedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
 		_statusExecuted = true;
+		_runTimeStorageExecuted = runTimeStorage;
 	}
 	return feedback;
 }
 
 UIFeedback AddCommand::undo() {
-	//TODO
-	return UIFeedback();
+	assert (_statusExecuted);
+	assert(_runTimeStorageExecuted != NULL);
+	_runTimeStorageExecuted -> removeLastEntry();
+	std::vector<Task>& tasksToDisplay = _runTimeStorageExecuted->getTasksToDisplay();
+	_runTimeStorageExecuted = NULL;
+	return UIFeedback(tasksToDisplay, MESSAGE_UNDO_ADD);
 }
 
 bool AddCommand::canUndo() {
