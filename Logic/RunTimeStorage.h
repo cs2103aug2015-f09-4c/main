@@ -7,6 +7,7 @@
 #include "UIFeedback.h"
 #include "..\Parser\Parser.h"
 #include "..\Storage\PhysicalStorageHandler.h"
+#include "..\Logger\Logger.h"
 
 using namespace API;
 

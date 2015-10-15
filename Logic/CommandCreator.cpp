@@ -1,29 +1,38 @@
 #include "CommandCreator.h"
 
+Logger* CommandCreator::logger = Logger::getInstance();
+
 Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens) {
 	PrimaryCommandType command1 = commandTokens.getPrimaryCommand();
 	Command* returnCommand = NULL;
 	try {
 		switch (command1) {
 		case PrimaryCommandType::Add:
+			logger->logINFO("Command type: Add");
 			returnCommand = processAddCommand(commandTokens);
 			break;
 		case PrimaryCommandType::Delete:
+			logger->logINFO("Command type: Delete");
 			returnCommand = processDeleteCommand(commandTokens);
 			break;
 		case PrimaryCommandType::Edit:
+			logger->logINFO("Command type: Edit");
 			returnCommand = processEditCommand(commandTokens);
 			break;
 		case PrimaryCommandType::Complete:
+			logger->logINFO("Command type: Complete");
 			returnCommand = processSetCompleteCommand(commandTokens);
 			break;
 		case PrimaryCommandType::Undo:
+			logger->logINFO("Command type: Undo");
 			returnCommand = new UndoCommand();
 			break;
 		case PrimaryCommandType::Invalid:
+			logger->logINFO("Command type: Invalid");
 			returnCommand = new InvalidCommand(MESSAGE_INVALID_COMMAND);
 			break;
 		default:
+			logger->logERROR("Unsupported command type. Create Invalid Command.");
 			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 		}
 	} catch (INVALID_COMMAND_EXCEPTION e) {
@@ -137,5 +146,7 @@ CommandCreator::CommandCreator() {
 }
 
 Command* CommandCreator::process(CommandTokens commandTokens) {
+
+	logger->logTRACE("Creating Command Object");
 	return processByPrimaryCommandType(commandTokens);
 }
