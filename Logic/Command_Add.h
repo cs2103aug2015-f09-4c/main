@@ -13,7 +13,7 @@ class AddCommand: public Command {
 private:
 	Task _task;
 public:
-	AddCommand (SecondaryCommandType type2, Task task);
+	AddCommand (CommandTokens::SecondaryCommandType type2, Task task);
 	UIFeedback execute(RunTimeStorage*);
 	UIFeedback undo(void);
 

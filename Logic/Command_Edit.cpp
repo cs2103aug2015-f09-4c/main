@@ -1,6 +1,6 @@
 #include "Command_Edit.h"
 
-EditCommand::EditCommand(SecondaryCommandType type2, size_t index) : Command(PrimaryCommandType::Edit) {
+EditCommand::EditCommand(CommandTokens::SecondaryCommandType type2, size_t index) : Command(CommandTokens::PrimaryCommandType::Edit) {
 	_type2 = type2;
 	_index = index;
 }
@@ -9,7 +9,7 @@ bool EditCommand::canUndo() {
 	return true;
 }
 
-EditNameCommand::EditNameCommand(size_t index, std::string newTaskText):EditCommand(SecondaryCommandType::Name, index) {
+EditNameCommand::EditNameCommand(size_t index, std::string newTaskText):EditCommand(CommandTokens::SecondaryCommandType::Name, index) {
 	_newTaskText = newTaskText;
 }
 
@@ -52,7 +52,7 @@ UIFeedback EditNameCommand::undo() {
 	return UIFeedback(taskToDisplay, MESSAGE_EDIT_UNDO);
 }
 
-EditStartCommand::EditStartCommand(size_t index, boost::posix_time::ptime newStart) : EditCommand(SecondaryCommandType::Start, index) {
+EditStartCommand::EditStartCommand(size_t index, boost::posix_time::ptime newStart) : EditCommand(CommandTokens::SecondaryCommandType::Start, index) {
 	_newStart = newStart;
 }
 
@@ -94,7 +94,7 @@ UIFeedback EditStartCommand::undo() {
 	return UIFeedback(taskToDisplay, MESSAGE_EDIT_UNDO);
 }
 
-EditEndCommand::EditEndCommand(size_t index, boost::posix_time::ptime newEnd) : EditCommand(SecondaryCommandType::End, index) {
+EditEndCommand::EditEndCommand(size_t index, boost::posix_time::ptime newEnd) : EditCommand(CommandTokens::SecondaryCommandType::End, index) {
 	_newEnd = newEnd;
 }
 

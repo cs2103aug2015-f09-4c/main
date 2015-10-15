@@ -3,58 +3,41 @@
 #include <vector>
 #include "boost\date_time\posix_time\ptime.hpp"
 
-// Command Type for main groups of operation
-enum PrimaryCommandType {
-	Add,
-	Complete,
-	Delete,
-	Display,
-	Edit,
-	Help,
-	Invalid,
-	Undo
-};
-
-// Command Type to further specify the operation
-enum SecondaryCommandType {
-	All,
-	End,
-	Floating,
-	Index,
-	Name,
-	None,
-	Start,
-	Timed,
-	Todo
-};
-
 class CommandTokens {
 public:
+
+	// Command Type for main groups of operation
+	enum PrimaryCommandType {
+		Add,
+		Complete,
+		Delete,
+		Display,
+		Edit,
+		Help,
+		Invalid,
+		Undo
+	};
+
+	// Command Type to further specify the operation
+	enum SecondaryCommandType {
+		All,
+		End,
+		Floating,
+		Index,
+		Name,
+		None,
+		Start,
+		Timed,
+		Todo
+	};
+
 	CommandTokens(PrimaryCommandType primaryCommandType = Invalid,
-	                             SecondaryCommandType secondaryCommandType = None,
-	                             std::string taskName = "",
-	                             boost::posix_time::ptime startDateTime = boost::posix_time::ptime(),
-	                             boost::posix_time::ptime endDateTime = boost::posix_time::ptime(),
-	                             std::vector<std::string> tags = std::vector<std::string>(0),
-	                             int index = -1);
-
-	//Constructor for operation without date and time
-	CommandTokens(PrimaryCommandType command1,
-	              SecondaryCommandType command2,
-	              std::vector<std::string> details);
-
-	//Constructor for operation with either start or end dateTime
-	CommandTokens(PrimaryCommandType command1,
-	              SecondaryCommandType command2,
-	              std::vector<std::string> details,
-	              boost::posix_time::ptime dateTime);
-
-	//Constructor for operation with both date and time
-	CommandTokens(PrimaryCommandType command1,
-	              SecondaryCommandType command2,
-	              std::vector<std::string> details,
-	              boost::posix_time::ptime startDateTime,
-	              boost::posix_time::ptime endDateTime);
+	              SecondaryCommandType secondaryCommandType = None,
+	              std::string taskName = "",
+	              boost::posix_time::ptime startDateTime = boost::posix_time::ptime(),
+	              boost::posix_time::ptime endDateTime = boost::posix_time::ptime(),
+	              std::vector<std::string> tags = std::vector<std::string>(0),
+	              int index = -1);
 
 	bool isValid();
 	void resetMemberVariables();

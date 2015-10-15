@@ -9,7 +9,7 @@ const std::string MESSAGE_DELETE_UNDO = "Previous delete operation is undoed.";
 
 class DeleteCommand: public Command{
 public:
-	DeleteCommand (SecondaryCommandType type2);
+	DeleteCommand (CommandTokens::SecondaryCommandType type2);
 	virtual UIFeedback Command::execute(RunTimeStorage*) = 0;
 	virtual UIFeedback Command::undo() = 0;
 

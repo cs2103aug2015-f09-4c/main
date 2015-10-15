@@ -1,6 +1,6 @@
 #include "Command_Add.h"
 
-AddCommand::AddCommand (SecondaryCommandType type2, Task task) : Command(PrimaryCommandType::Add) {
+AddCommand::AddCommand (CommandTokens::SecondaryCommandType type2, Task task) : Command(CommandTokens::PrimaryCommandType::Add) {
 	_type2 = type2;
 	_task = task;
 }

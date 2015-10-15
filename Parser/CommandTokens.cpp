@@ -7,7 +7,7 @@ CommandTokens::CommandTokens(PrimaryCommandType primaryCommandType,
                              boost::posix_time::ptime startDateTime,
                              boost::posix_time::ptime endDateTime,
                              std::vector<std::string> tags,
-							 int index) :
+                             int index) :
 	_primaryCommandType(primaryCommandType),
 	_secondaryCommandType(secondaryCommandType),
 	_taskName(taskName),
@@ -15,40 +15,6 @@ CommandTokens::CommandTokens(PrimaryCommandType primaryCommandType,
 	_endDateTime(endDateTime),
 	_tags(tags),
 	_index(index) {
-}
-
-//for operation without date and time
-CommandTokens::CommandTokens(PrimaryCommandType primaryCommandType,
-                             SecondaryCommandType secondaryCommandType,
-                             std::vector<std::string> tags) {
-	_primaryCommandType = primaryCommandType;
-	_secondaryCommandType = secondaryCommandType;
-	_tags = tags;
-}
-
-//for operation with either start or end dateTime
-CommandTokens::CommandTokens(PrimaryCommandType primaryCommandType,
-                             SecondaryCommandType secondaryCommandType,
-                             std::vector<std::string> tags,
-                             boost::posix_time::ptime dateTime) {
-	_primaryCommandType = primaryCommandType;
-	_secondaryCommandType = secondaryCommandType;
-	_tags = tags;
-	_startDateTime = dateTime;
-	_endDateTime = dateTime;
-}
-
-//for operation with both start and end dateTime
-CommandTokens::CommandTokens(PrimaryCommandType primaryCommandType,
-                             SecondaryCommandType secondaryCommandType,
-                             std::vector<std::string> tags,
-                             boost::posix_time::ptime startDateTime,
-                             boost::posix_time::ptime endDateTime) {
-	_primaryCommandType = primaryCommandType;
-	_secondaryCommandType = secondaryCommandType;
-	_tags = tags;
-	_startDateTime = startDateTime;
-	_endDateTime = endDateTime;
 }
 
 void CommandTokens::resetMemberVariables() {
@@ -68,11 +34,11 @@ bool CommandTokens::isValid() {
 }
 
 // getters
-PrimaryCommandType CommandTokens::getPrimaryCommand() {
+CommandTokens::PrimaryCommandType CommandTokens::getPrimaryCommand() {
 	return _primaryCommandType;
 }
 
-SecondaryCommandType CommandTokens::getSecondaryCommand() {
+CommandTokens::SecondaryCommandType CommandTokens::getSecondaryCommand() {
 	return _secondaryCommandType;
 }
 

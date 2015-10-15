@@ -10,7 +10,7 @@ AddCommandTokeniser::~AddCommandTokeniser(void) {
 
 CommandTokens AddCommandTokeniser::tokeniseUserInput(std::string userInput) {
 	_commandTokens.resetMemberVariables();
-	_commandTokens.setPrimaryCommand(PrimaryCommandType::Add);
+	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Add);
 
 	if (hasTags(userInput)) {
 		tokeniseTags(userInput);
@@ -57,7 +57,7 @@ bool AddCommandTokeniser::isAddTodoCommand(std::string userInput) {
 // extract taskName, startDateTime, and endDateTime; and call the setters on
 // _commandTokens to set these three fields
 void AddCommandTokeniser::tokeniseAddActivityCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(SecondaryCommandType::Timed);
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Timed);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
@@ -74,7 +74,7 @@ void AddCommandTokeniser::tokeniseAddActivityCommand(std::string userInput) {
 // extract taskName, and endDateTime; and call the setters on _commandTokens
 // to set these two fields
 void AddCommandTokeniser::tokeniseAddTodoCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(SecondaryCommandType::Todo);
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Todo);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
@@ -89,7 +89,7 @@ void AddCommandTokeniser::tokeniseAddTodoCommand(std::string userInput) {
 
 // extract taskName; and call the setter on _commandTokens to set this field
 void AddCommandTokeniser::tokeniseAddFloatingCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(SecondaryCommandType::Floating);
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Floating);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,

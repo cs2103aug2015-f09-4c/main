@@ -129,6 +129,9 @@
     <ClCompile Include="ParserTest.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Logger\Logger.vcxproj">
+      <Project>{e21e3b62-ad22-4535-b601-0d04da45ee06}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Parser\Parser.vcxproj">
       <Project>{782e2cf2-7039-470a-a129-d00573b80dc9}</Project>
     </ProjectReference>

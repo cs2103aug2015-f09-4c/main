@@ -41,7 +41,7 @@ UIFeedback CommandExecutor::executeNormal(Command* command) {
 UIFeedback CommandExecutor::execute(Command* command) {
 	UIFeedback feedback;
 	try {
-		if (command->getPrimaryCommandType() == PrimaryCommandType::Undo) {
+		if (command->getPrimaryCommandType() == CommandTokens::PrimaryCommandType::Undo) {
 			delete command;
 			feedback = executeUndo();
 		} else {
