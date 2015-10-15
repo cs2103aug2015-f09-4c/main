@@ -38,6 +38,9 @@
     <ClInclude Include="EditCommandTokeniser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="UndoCommandTokeniser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Parser.cpp">
@@ -65,6 +68,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EditCommandTokeniser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UndoCommandTokeniser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

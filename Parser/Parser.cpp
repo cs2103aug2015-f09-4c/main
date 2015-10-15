@@ -1,48 +1,87 @@
+#include <assert.h>
 #include "Parser.h"
+#include "AddCommandTokeniser.h"
+#include "CompleteCommandTokeniser.h"
+#include "DeleteCommandTokeniser.h"
+#include "DisplayCommandTokeniser.h"
+#include "EditCommandTokeniser.h"
+#include "UndoCommandTokeniser.h"
 
 Parser::Parser(void) {
-	_commandTokens.setPrimaryCommand(PrimaryCommandType::Invalid);
+	_commandTokeniser = nullptr;
+	_invalidCommandTokens.setPrimaryCommand(PrimaryCommandType::Invalid);
+	_invalidCommandTokens.setSecondaryCommand(SecondaryCommandType::None);
 }
 
 CommandTokens Parser::parse(std::string userInput) {
-	PrimaryCommandType primaryCommand = parsePrimaryCommand(userInput);
-	_commandTokens.setPrimaryCommand(primaryCommand);
+	// inclusion guard
+	PrimaryCommandType primaryCommandType = getPrimaryCommand(userInput);
+	if (primaryCommandType == PrimaryCommandType::Invalid) {
+		return _invalidCommandTokens;
+	}
 
-	switch (primaryCommand) {
+	initialiseCommandTokeniser(primaryCommandType);
+
+	return _commandTokeniser->tokeniseUserInput(userInput);
+}
+
+PrimaryCommandType Parser::getPrimaryCommand(std::string userInput) {
+	PrimaryCommandType primaryCommandType;
+	try {
+		primaryCommandType = parsePrimaryCommand(userInput);
+	} catch (std::exception e) {
+		primaryCommandType = PrimaryCommandType::Invalid;
+	}
+	return primaryCommandType;
+}
+
+void Parser::initialiseCommandTokeniser(PrimaryCommandType primaryCommandType) {
+	// inclusion guard in calling function should have dealt with Invalid commands
+	assert(primaryCommandType != PrimaryCommandType::Invalid);
+
+	switch (primaryCommandType) {
 		case Add:
-			return _addCommandTokeniser.tokeniseUserInput(userInput);
+			_commandTokeniser = new AddCommandTokeniser;
+			break;
 		case Complete:
-			return _completeCommandTokeniser.tokeniseUserInput(userInput);
+			_commandTokeniser = new CompleteCommandTokeniser;
+			break;
 		case Delete:
-			return _deleteCommandTokeniser.tokeniseUserInput(userInput);
+			_commandTokeniser = new DeleteCommandTokeniser;
+			break;
 		case Display:
-			return _displayCommandTokeniser.tokeniseUserInput(userInput);
+			_commandTokeniser = new DisplayCommandTokeniser;
+			break;
 		case Edit:
-			return _editCommandTokeniser.tokeniseUserInput(userInput);
+			_commandTokeniser = new EditCommandTokeniser;
+			break;
 		case Undo:
-			return _commandTokens;
-		case Invalid:
-			return _commandTokens;
+			_commandTokeniser = new UndoCommandTokeniser;
+			break;
 		default:
-			return _commandTokens;
+			// default should not be reached because of inclusion guard in
+			// calling function and assertion in this function
+			return;
 	}
 }
 
 PrimaryCommandType Parser::parsePrimaryCommand(std::string userInput) {
-	PrimaryCommandType commandType = Invalid;
+	PrimaryCommandType commandType;
 
 	if (isAddCommand(userInput)) {
 		commandType = Add;
 	} else if (isDeleteCommand(userInput)) {
 		commandType = Delete;
-	} else if (isEditCommand(userInput)) {
-		commandType = Edit;
 	} else if (isDisplayCommand(userInput)) {
 		commandType = Display;
+	} else if (isEditCommand(userInput)) {
+		commandType = Edit;
 	} else if (isCompleteCommand(userInput)) {
 		commandType = Complete;
 	} else if (isUndoCommand(userInput)) {
 		commandType = Undo;
+	} else {
+		throw CommandDoesNotExistException();
 	}
 
 	return commandType;
