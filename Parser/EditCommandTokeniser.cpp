@@ -84,9 +84,4 @@ void EditCommandTokeniser::tokeniseEditNameCommand(std::string userInput) {
 	_commandTokens.setIndex(index);
 
 	_commandTokens.setTaskName(matchResults[2]);
-
-	// TODO: remove this when all using taskName
-	std::vector<std::string> newDetails;
-	newDetails.push_back(matchResults[2]);
-	_commandTokens.setDetails(newDetails);
 }
