@@ -143,6 +143,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Logger\Logger.vcxproj">
+      <Project>{e21e3b62-ad22-4535-b601-0d04da45ee06}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Logic\Logic.vcxproj">
       <Project>{1a7deb8b-9bef-40eb-9ced-ec4676369e05}</Project>
     </ProjectReference>

@@ -2,7 +2,6 @@
 #include <msclr\marshal_cppstd.h>
 #include <sstream>
 #include "..\Logic\Logic.h"
-#include "easylogging++.h"
 
 namespace UI {
 
@@ -210,11 +209,10 @@ namespace UI {
 
 					 assert(feedback != NULL);
 
-					 LOG(TRACE) << "UI calling Logic for : " << commandString;
-
+					 //LOG(TRACE) << "UI calling Logic for : " << commandString;
 					 (*feedback) = logic->executeCommand(commandString);
 
-					 LOG(TRACE) << "UIFeedback returned from logic";
+					 //LOG(TRACE) << "UIFeedback returned from logic";
 
 					 updateUI();
 				 }
