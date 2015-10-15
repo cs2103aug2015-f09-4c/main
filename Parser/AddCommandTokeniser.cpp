@@ -67,10 +67,6 @@ void AddCommandTokeniser::tokeniseAddActivityCommand(std::string userInput) {
 	std::string taskName = matchResults[1];
 	_commandTokens.setTaskName(taskName);
 
-	std::vector<std::string> newDetails;
-	newDetails.push_back(taskName);
-	_commandTokens.setDetails(newDetails);
-
 	_commandTokens.setStartDateTime(parseUserInputDate(matchResults[2]));
 	_commandTokens.setEndDateTime(parseUserInputDate(matchResults[3]));
 }
@@ -88,10 +84,6 @@ void AddCommandTokeniser::tokeniseAddTodoCommand(std::string userInput) {
 	std::string taskName = matchResults[1];
 	_commandTokens.setTaskName(taskName);
 
-	std::vector<std::string> newDetails;
-	newDetails.push_back(matchResults[1]);
-	_commandTokens.setDetails(newDetails);
-
 	_commandTokens.setEndDateTime(parseUserInputDate(matchResults[2]));
 }
 
@@ -106,10 +98,6 @@ void AddCommandTokeniser::tokeniseAddFloatingCommand(std::string userInput) {
 
 	std::string taskName = matchResults[1];
 	_commandTokens.setTaskName(taskName);
-
-	std::vector<std::string> newDetails;
-	newDetails.push_back(matchResults[1]);
-	_commandTokens.setDetails(newDetails);
 }
 
 void AddCommandTokeniser::tokeniseTags(std::string userInput) {
