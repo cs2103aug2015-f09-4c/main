@@ -17,9 +17,9 @@ private:
 	Logger* _logger;
 
 	// extracts the primary command word
-	PrimaryCommandType getPrimaryCommand(std::string userInput);
-	PrimaryCommandType parsePrimaryCommand(std::string userInput);
-	void initialiseCommandTokeniser(PrimaryCommandType primaryCommandType);
+	CommandTokens::PrimaryCommandType getPrimaryCommand(std::string userInput);
+	CommandTokens::PrimaryCommandType parsePrimaryCommand(std::string userInput);
+	void initialiseCommandTokeniser(CommandTokens::PrimaryCommandType primaryCommandType);
 
 	// examines the extracted primary command word extracted by
 	// parsePrimaryCommand()

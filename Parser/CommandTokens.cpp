@@ -34,11 +34,11 @@ bool CommandTokens::isValid() {
 }
 
 // getters
-PrimaryCommandType CommandTokens::getPrimaryCommand() {
+CommandTokens::PrimaryCommandType CommandTokens::getPrimaryCommand() {
 	return _primaryCommandType;
 }
 
-SecondaryCommandType CommandTokens::getSecondaryCommand() {
+CommandTokens::SecondaryCommandType CommandTokens::getSecondaryCommand() {
 	return _secondaryCommandType;
 }
 

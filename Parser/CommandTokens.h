@@ -3,33 +3,34 @@
 #include <vector>
 #include "boost\date_time\posix_time\ptime.hpp"
 
-// Command Type for main groups of operation
-enum PrimaryCommandType {
-	Add,
-	Complete,
-	Delete,
-	Display,
-	Edit,
-	Help,
-	Invalid,
-	Undo
-};
-
-// Command Type to further specify the operation
-enum SecondaryCommandType {
-	All,
-	End,
-	Floating,
-	Index,
-	Name,
-	None,
-	Start,
-	Timed,
-	Todo
-};
-
 class CommandTokens {
 public:
+
+	// Command Type for main groups of operation
+	enum PrimaryCommandType {
+		Add,
+		Complete,
+		Delete,
+		Display,
+		Edit,
+		Help,
+		Invalid,
+		Undo
+	};
+
+	// Command Type to further specify the operation
+	enum SecondaryCommandType {
+		All,
+		End,
+		Floating,
+		Index,
+		Name,
+		None,
+		Start,
+		Timed,
+		Todo
+	};
+
 	CommandTokens(PrimaryCommandType primaryCommandType = Invalid,
 	              SecondaryCommandType secondaryCommandType = None,
 	              std::string taskName = "",
