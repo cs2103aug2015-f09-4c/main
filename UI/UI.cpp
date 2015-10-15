@@ -6,7 +6,6 @@ using namespace System::Windows::Forms;
 [STAThread]
 int main(array<String^>^ args) {
 	Logger* logger = Logger::getInstance();
-	logger->logINFO("Hello");
 
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
