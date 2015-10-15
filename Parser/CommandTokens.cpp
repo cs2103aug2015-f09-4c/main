@@ -1,43 +1,78 @@
 #include "CommandTokens.h"
 
-//default constructor, used for invalid command
+// default constructor, used for invalid command
 CommandTokens::CommandTokens() {
 	resetMemberVariables();
 }
 
+// complete constructor, with default arguments initialised to sentinel values
+CommandTokens::CommandTokens(PrimaryCommandType primaryCommandType,
+                             SecondaryCommandType secondaryCommandType,
+                             std::string taskName,
+                             boost::posix_time::ptime startDateTime,
+                             boost::posix_time::ptime endDateTime,
+                             std::vector<std::string> tags,
+							 int index) :
+	_primaryCommandType(primaryCommandType),
+	_secondaryCommandType(secondaryCommandType),
+	_taskName(taskName),
+	_startDateTime(startDateTime),
+	_endDateTime(endDateTime),
+	_tags(tags),
+	_index(index) {
+}
+
 //for operation without date and time
-CommandTokens::CommandTokens(PrimaryCommandType command1, SecondaryCommandType command2, std::vector<std::string> details) {
-	_primaryCommandType = command1;
-	_secondaryCommandType = command2;
-	_details = details;
+CommandTokens::CommandTokens(PrimaryCommandType primaryCommandType,
+                             SecondaryCommandType secondaryCommandType,
+                             std::vector<std::string> tags) {
+	_primaryCommandType = primaryCommandType;
+	_secondaryCommandType = secondaryCommandType;
+	_tags = tags;
 }
 
 //for operation with either start or end dateTime
-CommandTokens::CommandTokens(PrimaryCommandType command1, SecondaryCommandType command2, std::vector<std::string> details, boost::posix_time::ptime dateTime) {
-	_primaryCommandType = command1;
-	_secondaryCommandType = command2;
-	_details = details;
+CommandTokens::CommandTokens(PrimaryCommandType primaryCommandType,
+                             SecondaryCommandType secondaryCommandType,
+                             std::vector<std::string> tags,
+                             boost::posix_time::ptime dateTime) {
+	_primaryCommandType = primaryCommandType;
+	_secondaryCommandType = secondaryCommandType;
+	_tags = tags;
 	_startDateTime = dateTime;
 	_endDateTime = dateTime;
 }
 
 //for operation with both start and end dateTime
-CommandTokens::CommandTokens(PrimaryCommandType command1, SecondaryCommandType command2, std::vector<std::string> details, boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime) {
-	_primaryCommandType = command1;
-	_secondaryCommandType = command2;
-	_details = details;
+CommandTokens::CommandTokens(PrimaryCommandType primaryCommandType,
+                             SecondaryCommandType secondaryCommandType,
+                             std::vector<std::string> tags,
+                             boost::posix_time::ptime startDateTime,
+                             boost::posix_time::ptime endDateTime) {
+	_primaryCommandType = primaryCommandType;
+	_secondaryCommandType = secondaryCommandType;
+	_tags = tags;
 	_startDateTime = startDateTime;
 	_endDateTime = endDateTime;
 }
 
-bool CommandTokens::isValid() {
-	if (_primaryCommandType==Invalid) {
-		return false;
-	} else {
-		return true;
-	}
+void CommandTokens::resetMemberVariables() {
+	_primaryCommandType = Invalid;
+	_secondaryCommandType = None;
+	_taskName = "";
+	_tags.clear();
+	_index = -1;
+
+	boost::posix_time::ptime notAPtime;
+	_startDateTime = notAPtime;
+	_endDateTime = notAPtime;
 }
 
+bool CommandTokens::isValid() {
+	return _primaryCommandType == Invalid;
+}
+
+// getters
 PrimaryCommandType CommandTokens::getPrimaryCommand() {
 	return _primaryCommandType;
 }
@@ -48,10 +83,6 @@ SecondaryCommandType CommandTokens::getSecondaryCommand() {
 
 std::string CommandTokens::getTaskName() {
 	return _taskName;
-}
-
-std::vector<std::string>& CommandTokens::getDetails() {
-	return _details;
 }
 
 std::vector<std::string>& CommandTokens::getTags() {
@@ -70,6 +101,7 @@ int CommandTokens::getIndex() {
 	return _index;
 }
 
+// setters
 void CommandTokens::setPrimaryCommand(PrimaryCommandType newPrimaryCommand) {
 	_primaryCommandType = newPrimaryCommand;
 }
@@ -82,11 +114,7 @@ void CommandTokens::setTaskName(std::string newTaskName) {
 	_taskName = newTaskName;
 }
 
-void CommandTokens::setDetails(std::vector< std::string > newDetails) {
-	_details = newDetails;
-}
-
-void CommandTokens::setTags(std::vector< std::string > newTags) {
+void CommandTokens::setTags(std::vector<std::string> newTags) {
 	_tags = newTags;
 }
 
@@ -100,16 +128,4 @@ void CommandTokens::setEndDateTime(boost::posix_time::ptime newEndDateTime) {
 
 void CommandTokens::setIndex(int newIndex) {
 	_index = newIndex;
-}
-
-void CommandTokens::resetMemberVariables() {
-	_primaryCommandType = Invalid;
-	_secondaryCommandType = None;
-	_taskName = "";
-	_details.clear();
-	_index = -1;
-
-	boost::posix_time::ptime notAPtime;
-	_startDateTime = notAPtime;
-	_endDateTime = notAPtime;
 }

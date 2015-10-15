@@ -1,17 +1,13 @@
 #pragma once
-#include <regex>
-#include "DateParser.h"
-#include "CommandTokens.h"
+#include "CommandTokeniser.h"
 
-class DisplayCommandParser {
+class DisplayCommandTokeniser : public CommandTokeniser {
 public:
-	DisplayCommandParser(void);
-	CommandTokens parse(std::string userInput);
+	DisplayCommandTokeniser(void);
+	virtual ~DisplayCommandTokeniser(void);
+	virtual CommandTokens tokeniseUserInput(std::string userInput) override;
 
 private:
-	CommandTokens _commandTokens;
-	DateParser _dateParser;
-
 	// identifiers to determine the exact type of DISPLAY command called
 	bool isDisplayAll(std::string userInput);
 	bool isDisplayFromTo(std::string userInput);
@@ -25,8 +21,4 @@ private:
 	void tokeniseDisplayFromCommand(std::string userInput);
 	void tokeniseDisplayByCommand(std::string userInput);
 	void tokeniseDisplayFloatingCommand(std::string userInput);
-
-	// adapter method to DateParser class
-	boost::posix_time::ptime parseDate(std::string dateString);
 };
-

@@ -97,23 +97,25 @@
     <ClInclude Include="AddCommandTokeniser.h" />
     <ClInclude Include="CommandTokeniser.h" />
     <ClInclude Include="CommandTokens.h" />
-    <ClInclude Include="CompleteCommandParser.h" />
+    <ClInclude Include="CompleteCommandTokeniser.h" />
     <ClInclude Include="DateParser.h" />
-    <ClInclude Include="DeleteCommandParser.h" />
-    <ClInclude Include="DisplayCommandParser.h" />
-    <ClInclude Include="EditCommandParser.h" />
+    <ClInclude Include="DeleteCommandTokeniser.h" />
+    <ClInclude Include="DisplayCommandTokeniser.h" />
+    <ClInclude Include="EditCommandTokeniser.h" />
     <ClInclude Include="Parser.h" />
+    <ClInclude Include="UndoCommandTokeniser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AddCommandTokeniser.cpp" />
     <ClCompile Include="CommandTokeniser.cpp" />
     <ClCompile Include="CommandTokens.cpp" />
-    <ClCompile Include="CompleteCommandParser.cpp" />
+    <ClCompile Include="CompleteCommandTokeniser.cpp" />
     <ClCompile Include="DateParser.cpp" />
-    <ClCompile Include="DeleteCommandParser.cpp" />
-    <ClCompile Include="DisplayCommandParser.cpp" />
-    <ClCompile Include="EditCommandParser.cpp" />
+    <ClCompile Include="DeleteCommandTokeniser.cpp" />
+    <ClCompile Include="DisplayCommandTokeniser.cpp" />
+    <ClCompile Include="EditCommandTokeniser.cpp" />
     <ClCompile Include="Parser.cpp" />
+    <ClCompile Include="UndoCommandTokeniser.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
