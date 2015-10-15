@@ -1,11 +1,4 @@
-#include <assert.h>
 #include "Parser.h"
-#include "AddCommandTokeniser.h"
-#include "CompleteCommandTokeniser.h"
-#include "DeleteCommandTokeniser.h"
-#include "DisplayCommandTokeniser.h"
-#include "EditCommandTokeniser.h"
-#include "UndoCommandTokeniser.h"
 
 Parser::Parser(void) {
 	_commandTokeniser = nullptr;

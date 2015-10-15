@@ -31,9 +31,9 @@ enum SecondaryCommandType {
 class CommandTokens {
 public:
 	//default constructor, used for invalid command
-	CommandTokens();
+	//CommandTokens();
 
-	CommandTokens::CommandTokens(PrimaryCommandType primaryCommandType = Invalid,
+	CommandTokens(PrimaryCommandType primaryCommandType = Invalid,
 	                             SecondaryCommandType secondaryCommandType = None,
 	                             std::string taskName = "",
 	                             boost::posix_time::ptime startDateTime = boost::posix_time::ptime(),

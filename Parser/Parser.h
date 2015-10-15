@@ -2,6 +2,12 @@
 #include <regex>
 #include "CommandTokens.h"
 #include "CommandTokeniser.h"
+#include "AddCommandTokeniser.h"
+#include "CompleteCommandTokeniser.h"
+#include "DeleteCommandTokeniser.h"
+#include "DisplayCommandTokeniser.h"
+#include "EditCommandTokeniser.h"
+#include "UndoCommandTokeniser.h"
 
 // tokenises user input for Logic to do the necessary processing
 class Parser {
