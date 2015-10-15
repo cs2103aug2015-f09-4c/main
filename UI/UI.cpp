@@ -1,5 +1,4 @@
 #include "UI.h"
-#include "Logger\Logger.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -7,7 +6,7 @@ using namespace System::Windows::Forms;
 [STAThread]
 int main(array<String^>^ args) {
 	Logger* logger = Logger::getInstance();
-	logger->log("Hello");
+	logger->logINFO("Hello");
 
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
