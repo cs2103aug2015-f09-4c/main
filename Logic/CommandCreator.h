@@ -4,6 +4,8 @@
 #include "..\Parser\Parser.h"
 #include "CommandHeader.h"
 
+const std::string MESSAGE_NON_POSITIVE_INDEX = "Only positive index is allowed. No change is made.";
+
 class INVALID_COMMAND_EXCEPTION : public std::exception{
 	std::string _message;
 

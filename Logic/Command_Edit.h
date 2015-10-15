@@ -7,9 +7,12 @@ const std::string MESSAGE_EDIT_NAME_EMPTY = "Task text cannot be empty. Task tex
 const std::string MESSAGE_EDIT_START_SUCCESS = "Task \"%s\" 's start date and time have been changed to \"%s\".";
 const std::string MESSAGE_EDIT_END_SUCCESS = "Task \"%s\" 's end date and time have been changed to \"%s\".";
 
+const std::string MESSAGE_EDIT_UNDO = "Previous edit operation have been undoed successfully.";
+
 class EditCommand: public Command {
 protected:
 	size_t _index;
+	size_t _editIndex;
 public:
 	EditCommand(SecondaryCommandType, size_t);
 	virtual UIFeedback Command::execute(RunTimeStorage*) = 0;

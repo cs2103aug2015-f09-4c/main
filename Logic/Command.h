@@ -15,7 +15,8 @@ public:
 	PrimaryCommandType getPrimaryCommandType(void);
 	SecondaryCommandType getSecondaryCommandType(void);
 	bool isValid(void);
-	bool isExecutedSuccessfully(void);
+	bool isExecuted(void);
+	RunTimeStorage* getRunTimeStorageExecuted();
 	virtual UIFeedback execute(RunTimeStorage* a) = 0;
 	virtual UIFeedback undo(void) = 0;
 	virtual bool canUndo(void) = 0;
