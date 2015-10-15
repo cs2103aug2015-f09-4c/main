@@ -3,13 +3,9 @@
 using namespace System;
 using namespace System::Windows::Forms;
 
-INITIALIZE_EASYLOGGINGPP
-
 [STAThread]
 int main(array<String^>^ args) {
-    el::Configurations conf("../easylogging.conf");
-    el::Loggers::reconfigureAllLoggers(conf);
-    LOG(INFO) << "My first info log using default logger";
+	Logger* logger = Logger::getInstance();
 
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
@@ -61,8 +57,10 @@ void UI::Swiftask::clearOutputBox(void) {
 }
 
 void UI::Swiftask::displayInOutputBox(void) {
-	System::String ^num, ^taskText, ^startDate, ^endDate, ^theTags, ^doneOrNot;
+	System::String ^num, ^taskText, ^startDateTime, ^endDateTime, ^theTags, ^doneOrNot;
+	boost::posix_time::ptime posixStartDateTime, posixEndDateTime, posixNowDateTime;
 	int index = 0;
+	bool isCompleted = false;
 	std::ostringstream convert;
 
 	for (std::vector<API::Task>::iterator it = (*feedback).getTasksForDisplay().begin(); it < (*feedback).getTasksForDisplay().end(); it++) {
@@ -76,16 +74,19 @@ void UI::Swiftask::displayInOutputBox(void) {
 
 		taskText = gcnew String((*it).getTaskText().c_str());
 
-		if (!(*it).getStartDateTime().is_not_a_date_time()) {
-			startDate = gcnew String(to_simple_string((*it).getStartDateTime()).c_str());
+		posixStartDateTime = (*it).getStartDateTime();
+		if (!posixStartDateTime.is_not_a_date_time()) {
+			startDateTime = gcnew String(boost::posix_time::to_simple_string(posixStartDateTime).c_str());
+
 		} else {
-			startDate = gcnew String("-");
+			startDateTime = gcnew String("-");
 		}
 
-		if (!(*it).getEndDateTime().is_not_a_date_time()) {
-			endDate = gcnew String(to_simple_string((*it).getEndDateTime()).c_str());
+		posixEndDateTime = (*it).getEndDateTime();
+		if (!posixEndDateTime.is_not_a_date_time()) {
+			endDateTime = gcnew String(boost::posix_time::to_simple_string(posixEndDateTime).c_str());
 		} else {
-			endDate = gcnew String("-");
+			endDateTime = gcnew String("-");
 		}
 
 		// Tags not supported yet
@@ -95,18 +96,39 @@ void UI::Swiftask::displayInOutputBox(void) {
 		theTags = gcnew String("-");
 		// }
 
-		if ((*it).isComplete()) {
-			doneOrNot = gcnew String("Yes");
-		} else {
-			doneOrNot = gcnew String("No");
-		}
+		isCompleted = (*it).isComplete();
+		//if (isCompleted) {
+		//	doneOrNot = gcnew String("Yes");
+		//} else {
+		//	doneOrNot = gcnew String("No");
+		//}
 
-		outputBox->Rows->Add(num, taskText, startDate, endDate, theTags, doneOrNot);
+		outputBox->Rows->Add(num, taskText, startDateTime, endDateTime, theTags);
 
-		if ((*it).isComplete()) {
-			outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->ForeColor = Color::Green;
+		        // Colour Formats for outputBox
+        // TODO: Refactor this section to formatOutputBoxStartEndColumn(...);
+        posixNowDateTime = boost::posix_time::second_clock::local_time();
+
+        if (!isCompleted && startDateTime != "-") {
+            if (posixStartDateTime <= posixNowDateTime) {
+                outputBox->Rows[index-1]->Cells[OutputBoxColumn::START]->Style->BackColor = Color::Lime;
+            }
+        }
+
+        if (!isCompleted && endDateTime != "-") {
+            if (posixEndDateTime >= posixNowDateTime) {
+                outputBox->Rows[index-1]->Cells[OutputBoxColumn::END]->Style->BackColor = Color::Lime;
+            } else {
+                outputBox->Rows[index-1]->Cells[OutputBoxColumn::END]->Style->BackColor = Color::Red;
+                outputBox->Rows[index-1]->Cells[OutputBoxColumn::START]->Style->BackColor = Color::Red;
+            }
+        }
+
+        // TODO: Refactor this section to formatOutputBoxDoneColumn(...);
+        if (isCompleted) {
+			outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->BackColor = Color::Lime;
 		} else {
-			outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->ForeColor = Color::Red;
+			outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->BackColor = Color::Red;
 		}
 
 		// number->HeaderCell->Style->BackColor = Color::Blue;
