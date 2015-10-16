@@ -10,7 +10,7 @@ DeleteCommandTokeniser::~DeleteCommandTokeniser(void) {
 
 CommandTokens DeleteCommandTokeniser::tokeniseUserInput(::std::string userInput) {
 	_commandTokens.resetMemberVariables();
-	_commandTokens.setPrimaryCommand(PrimaryCommandType::Delete);
+	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Delete);
 
 	if (isDeleteAll(userInput)) {
 		tokeniseDeleteAllCommand();
@@ -29,7 +29,7 @@ CommandTokens DeleteCommandTokeniser::tokeniseUserInput(::std::string userInput)
 
 
 void DeleteCommandTokeniser::tokeniseDeleteByCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(SecondaryCommandType::Todo);
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Todo);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
@@ -75,11 +75,11 @@ bool DeleteCommandTokeniser::isDeleteIndex(std::string userInput) {
 }
 
 void DeleteCommandTokeniser::tokeniseDeleteAllCommand() {
-	_commandTokens.setSecondaryCommand(All);
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::All);
 }
 
 void DeleteCommandTokeniser::tokeniseDeleteFromToCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(SecondaryCommandType::Timed);
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Timed);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
@@ -91,7 +91,7 @@ void DeleteCommandTokeniser::tokeniseDeleteFromToCommand(std::string userInput) 
 }
 
 void DeleteCommandTokeniser::tokeniseDeleteFromCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(SecondaryCommandType::Start);
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Start);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
@@ -102,7 +102,7 @@ void DeleteCommandTokeniser::tokeniseDeleteFromCommand(std::string userInput) {
 }
 
 void DeleteCommandTokeniser::tokeniseDeleteIndex(std::string userInput) {
-	_commandTokens.setSecondaryCommand(SecondaryCommandType::Index);
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Index);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,

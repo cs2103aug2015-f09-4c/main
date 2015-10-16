@@ -5,8 +5,10 @@ INITIALIZE_EASYLOGGINGPP
 Logger* Logger::_loggerInstance = nullptr;
 
 Logger::Logger(void) {
-	el::Configurations conf("* GLOBAL:\n  FILENAME = \"../../Swiftask.log\"\n  ENABLED = true\n  TO_FILE = true\n  TO_STANDARD_OUTPUT = true");
-	el::Loggers::reconfigureAllLoggers(conf);
+	el::Configurations logConfig;
+	logConfig.setToDefault();
+	logConfig.parseFromText("*GLOBAL:\n FILENAME = \"Swiftask.log\"\n ENABLED = true\n TO_FILE = true\n TO_STANDARD_OUTPUT = true");
+	el::Loggers::reconfigureAllLoggers(logConfig);
 }
 
 Logger* Logger::getInstance() {
@@ -14,6 +16,30 @@ Logger* Logger::getInstance() {
 		_loggerInstance = new Logger();
 	}
 	return _loggerInstance;
+}
+
+void Logger::log(LogLevel logLevel, std::string logMessage) {
+	switch (logLevel) {
+		case Trace:
+			LOG(TRACE) << logMessage;
+			break;
+		case Debug:
+			LOG(DEBUG) << logMessage;
+			break;
+		case Fatal:
+			LOG(FATAL) << logMessage;
+			break;
+		case Error:
+			LOG(ERROR) << logMessage;
+			break;
+		case Warning:
+			LOG(WARNING) << logMessage;
+			break;
+		case Info:
+		default:
+			LOG(INFO) << logMessage;
+			break;
+	}
 }
 
 void Logger::logTRACE(std::string logMessage) {

@@ -10,7 +10,7 @@ DisplayCommandTokeniser::~DisplayCommandTokeniser(void) {
 
 CommandTokens DisplayCommandTokeniser::tokeniseUserInput(std::string userInput) {
 	_commandTokens.resetMemberVariables();
-	_commandTokens.setPrimaryCommand(PrimaryCommandType::Display);
+	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Display);
 
 	if (isDisplayAll(userInput)) {
 		tokeniseDisplayAllCommand();
@@ -28,7 +28,7 @@ CommandTokens DisplayCommandTokeniser::tokeniseUserInput(std::string userInput) 
 }
 
 void DisplayCommandTokeniser::tokeniseDisplayFloatingCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(SecondaryCommandType::Floating);
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Floating);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
@@ -37,7 +37,7 @@ void DisplayCommandTokeniser::tokeniseDisplayFloatingCommand(std::string userInp
 }
 
 void DisplayCommandTokeniser::tokeniseDisplayByCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(SecondaryCommandType::Todo);
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Todo);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
@@ -48,11 +48,11 @@ void DisplayCommandTokeniser::tokeniseDisplayByCommand(std::string userInput) {
 }
 
 void DisplayCommandTokeniser::tokeniseDisplayAllCommand() {
-	_commandTokens.setSecondaryCommand(All);
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::All);
 }
 
 void DisplayCommandTokeniser::tokeniseDisplayFromToCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(SecondaryCommandType::Timed);
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Timed);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
@@ -64,7 +64,7 @@ void DisplayCommandTokeniser::tokeniseDisplayFromToCommand(std::string userInput
 }
 
 void DisplayCommandTokeniser::tokeniseDisplayFromCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(SecondaryCommandType::Start);
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Start);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,

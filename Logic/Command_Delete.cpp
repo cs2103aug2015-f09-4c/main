@@ -1,11 +1,11 @@
 #include "Command_Delete.h"
 
-DeleteCommand::DeleteCommand(SecondaryCommandType type2) : Command(PrimaryCommandType::Delete) {
+DeleteCommand::DeleteCommand(CommandTokens::SecondaryCommandType type2) : Command(CommandTokens::PrimaryCommandType::Delete) {
 	_type2 = type2;
 }
 
 bool DeleteCommand::isValid() {
-	if (_type2 == SecondaryCommandType::None) {
+	if (_type2 == CommandTokens::SecondaryCommandType::None) {
 		return false;
 	} else {
 		return Command::isValid();
@@ -16,7 +16,7 @@ bool DeleteCommand::canUndo() {
 	return true;
 }
 
-IndexDeleteCommand::IndexDeleteCommand(size_t index) : DeleteCommand(SecondaryCommandType::Index) {
+IndexDeleteCommand::IndexDeleteCommand(size_t index) : DeleteCommand(CommandTokens::SecondaryCommandType::Index) {
 	_index = index;
 	_entryIndex = std::numeric_limits<size_t>::infinity();
 }

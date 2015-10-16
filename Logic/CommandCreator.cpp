@@ -1,38 +1,29 @@
 #include "CommandCreator.h"
 
-Logger* CommandCreator::logger = Logger::getInstance();
-
 Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens) {
-	PrimaryCommandType command1 = commandTokens.getPrimaryCommand();
+	CommandTokens::PrimaryCommandType command1 = commandTokens.getPrimaryCommand();
 	Command* returnCommand = NULL;
 	try {
 		switch (command1) {
-		case PrimaryCommandType::Add:
-			logger->logINFO("Command type: Add");
+		case CommandTokens::PrimaryCommandType::Add:
 			returnCommand = processAddCommand(commandTokens);
 			break;
-		case PrimaryCommandType::Delete:
-			logger->logINFO("Command type: Delete");
+		case CommandTokens::PrimaryCommandType::Delete:
 			returnCommand = processDeleteCommand(commandTokens);
 			break;
-		case PrimaryCommandType::Edit:
-			logger->logINFO("Command type: Edit");
+		case CommandTokens::PrimaryCommandType::Edit:
 			returnCommand = processEditCommand(commandTokens);
 			break;
-		case PrimaryCommandType::Complete:
-			logger->logINFO("Command type: Complete");
+		case CommandTokens::PrimaryCommandType::Complete:
 			returnCommand = processSetCompleteCommand(commandTokens);
 			break;
-		case PrimaryCommandType::Undo:
-			logger->logINFO("Command type: Undo");
+		case CommandTokens::PrimaryCommandType::Undo:
 			returnCommand = new UndoCommand();
 			break;
-		case PrimaryCommandType::Invalid:
-			logger->logINFO("Command type: Invalid");
+		case CommandTokens::PrimaryCommandType::Invalid:
 			returnCommand = new InvalidCommand(MESSAGE_INVALID_COMMAND);
 			break;
 		default:
-			logger->logERROR("Unsupported command type. Create Invalid Command.");
 			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 		}
 	} catch (INVALID_COMMAND_EXCEPTION e) {
@@ -44,26 +35,26 @@ Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens
 
 AddCommand* CommandCreator::processAddCommand(CommandTokens commandTokens) {
 	AddCommand* returnCommand = NULL;
-	SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
+	CommandTokens::SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
 	Task task;
 
 	std::string taskName = commandTokens.getTaskName();
 	try {
 		switch (command2) {
-		case SecondaryCommandType::Floating:
+		case CommandTokens::SecondaryCommandType::Floating:
 			task = Task(taskName);
-			returnCommand = new AddCommand(SecondaryCommandType::Floating,task);
+			returnCommand = new AddCommand(CommandTokens::SecondaryCommandType::Floating,task);
 			break;
-		case SecondaryCommandType::Todo:
+		case CommandTokens::SecondaryCommandType::Todo:
 			task = Task(taskName,commandTokens.getEndDateTime());
-			returnCommand = new AddCommand(SecondaryCommandType::Todo,task);
+			returnCommand = new AddCommand(CommandTokens::SecondaryCommandType::Todo,task);
 			break;
-		case SecondaryCommandType::Timed:
+		case CommandTokens::SecondaryCommandType::Timed:
 			task = Task(taskName,commandTokens.getStartDateTime(), commandTokens.getEndDateTime());
-			returnCommand = new AddCommand(SecondaryCommandType::Timed, task);
+			returnCommand = new AddCommand(CommandTokens::SecondaryCommandType::Timed, task);
 			break;
-		case SecondaryCommandType::None:
-			returnCommand = new AddCommand(SecondaryCommandType::None, task);
+		case CommandTokens::SecondaryCommandType::None:
+			returnCommand = new AddCommand(CommandTokens::SecondaryCommandType::None, task);
 		}
 	} catch (std::exception e) {
 		throw e;
@@ -73,11 +64,11 @@ AddCommand* CommandCreator::processAddCommand(CommandTokens commandTokens) {
 
 DeleteCommand* CommandCreator::processDeleteCommand(CommandTokens commandTokens) {
 	DeleteCommand* returnCommand = NULL;
-	SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
+	CommandTokens::SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
 	int index = commandTokens.getIndex(); 
 
 	switch (command2) {
-	case SecondaryCommandType::Index:
+	case CommandTokens::SecondaryCommandType::Index:
 		if (index < 1) {
 			throw INVALID_COMMAND_EXCEPTION(MESSAGE_NON_POSITIVE_INDEX);
 		} else {
@@ -90,7 +81,7 @@ DeleteCommand* CommandCreator::processDeleteCommand(CommandTokens commandTokens)
 
 EditCommand* CommandCreator::processEditCommand(CommandTokens commandTokens) {
 	EditCommand* returnCommand = NULL;
-	SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
+	CommandTokens::SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
 	int index = commandTokens.getIndex();
 
 	if (index < 1) {
@@ -102,17 +93,17 @@ EditCommand* CommandCreator::processEditCommand(CommandTokens commandTokens) {
 	boost::posix_time::ptime newEnd = commandTokens.getEndDateTime();
 	try {
 		switch (command2) {
-		case SecondaryCommandType::Name:
+		case CommandTokens::SecondaryCommandType::Name:
 			if (newName.empty()) {
 				throw INVALID_COMMAND_EXCEPTION(MESSAGE_EDIT_NAME_EMPTY);
 			} else {
 				returnCommand = new EditNameCommand(index, newName);
 			}
 			break;
-		case SecondaryCommandType::Start:
+		case CommandTokens::SecondaryCommandType::Start:
 			returnCommand = new EditStartCommand(index, newStart);
 			break;
-		case SecondaryCommandType::End:
+		case CommandTokens::SecondaryCommandType::End:
 			returnCommand = new EditEndCommand(index, newEnd);
 			break;
 		default:
@@ -126,10 +117,10 @@ EditCommand* CommandCreator::processEditCommand(CommandTokens commandTokens) {
 
 SetCompleteCommand* CommandCreator::processSetCompleteCommand(CommandTokens commandTokens) {
 	SetCompleteCommand* returnCommand = NULL;
-	SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
+	CommandTokens::SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
 	int index = commandTokens.getIndex();
 	switch (command2) {
-	case SecondaryCommandType::Index:
+	case CommandTokens::SecondaryCommandType::Index:
 		if (index < 1) {
 			throw INVALID_COMMAND_EXCEPTION(MESSAGE_NON_POSITIVE_INDEX);
 		} else {
@@ -146,7 +137,5 @@ CommandCreator::CommandCreator() {
 }
 
 Command* CommandCreator::process(CommandTokens commandTokens) {
-
-	logger->logTRACE("Creating Command Object");
 	return processByPrimaryCommandType(commandTokens);
 }
