@@ -10,7 +10,7 @@ EditCommandTokeniser::~EditCommandTokeniser(void) {
 
 CommandTokens EditCommandTokeniser::tokeniseUserInput(std::string userInput) {
 	_commandTokens.resetMemberVariables();
-	_commandTokens.setPrimaryCommand(PrimaryCommandType::Edit);
+	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Edit);
 
 	if (isEditName(userInput)) {
 		tokeniseEditNameCommand(userInput);
@@ -43,7 +43,7 @@ bool EditCommandTokeniser::isEditName(std::string userInput) {
 }
 
 void EditCommandTokeniser::tokeniseEditEndDateCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(SecondaryCommandType::End);
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::End);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
@@ -58,7 +58,7 @@ void EditCommandTokeniser::tokeniseEditEndDateCommand(std::string userInput) {
 }
 
 void EditCommandTokeniser::tokeniseEditStartDateCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(SecondaryCommandType::Start);
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Start);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
@@ -73,7 +73,7 @@ void EditCommandTokeniser::tokeniseEditStartDateCommand(std::string userInput) {
 }
 
 void EditCommandTokeniser::tokeniseEditNameCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(SecondaryCommandType::Name);
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Name);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,

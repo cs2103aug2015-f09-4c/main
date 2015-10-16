@@ -13,8 +13,8 @@ namespace ParserTest {
 			CommandTokens actual, expected;
 
 			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(PrimaryCommandType::Add,
-			                                      SecondaryCommandType::Timed,
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Add,
+			                                      CommandTokens::SecondaryCommandType::Timed,
 			                                      "activityTask",
 			                                      "2002-01-20 23:59:59.000",
 			                                      "2002-01-22 23:59:59.000",
@@ -28,8 +28,8 @@ namespace ParserTest {
 			CommandTokens actual, expected;
 
 			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(PrimaryCommandType::Add,
-			                                      SecondaryCommandType::Todo,
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Add,
+			                                      CommandTokens::SecondaryCommandType::Todo,
 			                                      "todoTask",
 			                                      "",
 			                                      "2002-01-22 23:59:59.000",
@@ -42,8 +42,8 @@ namespace ParserTest {
 			std::string testUserInput = "ADD floatingTask";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(PrimaryCommandType::Add,
-			                                      SecondaryCommandType::Floating,
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Add,
+			                                      CommandTokens::SecondaryCommandType::Floating,
 			                                      "floatingTask",
 			                                      "",
 			                                      "",
@@ -56,8 +56,8 @@ namespace ParserTest {
 			std::string testUserInput = "DELETE FROM 2002-01-20 23:59:59.000 TO 2002-01-22 23:59:59.000";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(PrimaryCommandType::Delete,
-			                                      SecondaryCommandType::Timed,
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Delete,
+			                                      CommandTokens::SecondaryCommandType::Timed,
 			                                      "",
 			                                      "2002-01-20 23:59:59.000",
 			                                      "2002-01-22 23:59:59.000",
@@ -70,8 +70,8 @@ namespace ParserTest {
 			std::string testUserInput = "DELETE FROM 2002-01-20 23:59:59.000";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(PrimaryCommandType::Delete,
-			                                      SecondaryCommandType::Start,
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Delete,
+			                                      CommandTokens::SecondaryCommandType::Start,
 			                                      "",
 			                                      "2002-01-20 23:59:59.000",
 			                                      "",
@@ -84,8 +84,8 @@ namespace ParserTest {
 			std::string testUserInput = "DELETE ALL";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(PrimaryCommandType::Delete,
-			                                      SecondaryCommandType::All,
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Delete,
+			                                      CommandTokens::SecondaryCommandType::All,
 			                                      "",
 			                                      "",
 			                                      "",
@@ -98,8 +98,8 @@ namespace ParserTest {
 			std::string testUserInput = "DELETE BY 2002-01-22 23:59:59.000";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(PrimaryCommandType::Delete,
-			                                      SecondaryCommandType::Todo,
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Delete,
+			                                      CommandTokens::SecondaryCommandType::Todo,
 			                                      "",
 			                                      "",
 			                                      "2002-01-22 23:59:59.000",
@@ -112,8 +112,8 @@ namespace ParserTest {
 			std::string testUserInput = "DELETE 3";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(PrimaryCommandType::Delete,
-			                                      SecondaryCommandType::Index,
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Delete,
+			                                      CommandTokens::SecondaryCommandType::Index,
 			                                      "",
 			                                      "",
 			                                      "",
@@ -126,8 +126,8 @@ namespace ParserTest {
 			std::string testUserInput = "DISPLAY BY 2002-01-22 23:59:59.000";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(PrimaryCommandType::Display,
-			                                      SecondaryCommandType::Todo,
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Display,
+			                                      CommandTokens::SecondaryCommandType::Todo,
 			                                      "",
 			                                      "",
 			                                      "2002-01-22 23:59:59.000",
@@ -140,8 +140,8 @@ namespace ParserTest {
 			std::string testUserInput = "DISPLAY FROM 2002-01-20 23:59:59.000";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(PrimaryCommandType::Display,
-			                                      SecondaryCommandType::Start,
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Display,
+			                                      CommandTokens::SecondaryCommandType::Start,
 			                                      "",
 			                                      "2002-01-20 23:59:59.000",
 			                                      "",
@@ -154,8 +154,8 @@ namespace ParserTest {
 			std::string testUserInput = "DISPLAY ALL";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(PrimaryCommandType::Display,
-			                                      SecondaryCommandType::All,
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Display,
+			                                      CommandTokens::SecondaryCommandType::All,
 			                                      "",
 			                                      "",
 			                                      "",
@@ -168,8 +168,8 @@ namespace ParserTest {
 			std::string testUserInput = "DISPLAY FLOATING";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(PrimaryCommandType::Display,
-			                                      SecondaryCommandType::Floating,
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Display,
+			                                      CommandTokens::SecondaryCommandType::Floating,
 			                                      "",
 			                                      "",
 			                                      "",
@@ -182,8 +182,8 @@ namespace ParserTest {
 			std::string testUserInput = "EDIT NAME 3 newTaskName";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(PrimaryCommandType::Edit,
-			                                      SecondaryCommandType::Name,
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Edit,
+			                                      CommandTokens::SecondaryCommandType::Name,
 			                                      "newTaskName",
 			                                      "",
 			                                      "",
@@ -196,8 +196,8 @@ namespace ParserTest {
 			std::string testUserInput = "EDIT START 5 2002-01-20 23:59:59.000";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(PrimaryCommandType::Edit,
-			                                      SecondaryCommandType::Start,
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Edit,
+			                                      CommandTokens::SecondaryCommandType::Start,
 			                                      "",
 			                                      "2002-01-20 23:59:59.000",
 			                                      "",
@@ -210,8 +210,8 @@ namespace ParserTest {
 			std::string testUserInput = "EDIT END 7 2002-01-20 23:59:59.000";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(PrimaryCommandType::Edit,
-			                                      SecondaryCommandType::End,
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Edit,
+			                                      CommandTokens::SecondaryCommandType::End,
 			                                      "",
 			                                      "",
 			                                      "2002-01-20 23:59:59.000",
@@ -224,8 +224,8 @@ namespace ParserTest {
 			std::string testUserInput = "COMPLETE 11";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(PrimaryCommandType::Complete,
-			                                      SecondaryCommandType::Index,
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Complete,
+			                                      CommandTokens::SecondaryCommandType::Index,
 			                                      "",
 			                                      "",
 			                                      "",
@@ -245,8 +245,8 @@ namespace ParserTest {
 			Assert::IsTrue(expected == actual);
 		}
 
-		CommandTokens buildExpectedCommandTokens(PrimaryCommandType primaryCommandType,
-		                                         SecondaryCommandType secondaryCommandType,
+		CommandTokens buildExpectedCommandTokens(CommandTokens::PrimaryCommandType primaryCommandType,
+		                                         CommandTokens::SecondaryCommandType secondaryCommandType,
 		                                         std::string taskName,
 		                                         std::string startDate,
 		                                         std::string endDate,

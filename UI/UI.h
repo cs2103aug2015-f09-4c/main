@@ -102,9 +102,6 @@ namespace UI {
 			this->commandBox = (gcnew System::Windows::Forms::TextBox());
 			this->results = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
-			// 
-			// outputBox
-			// 
 			this->outputBox->AllowUserToAddRows = false;
 			this->outputBox->AllowUserToDeleteRows = false;
 			this->outputBox->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
@@ -119,51 +116,30 @@ namespace UI {
 			this->outputBox->ReadOnly = true;
 			this->outputBox->Size = System::Drawing::Size(763, 275);
 			this->outputBox->TabIndex = 0;
-			// 
-			// number
-			// 
 			this->number->HeaderText = L"No.";
 			this->number->Name = L"number";
 			this->number->ReadOnly = true;
 			this->number->Width = 32;
-			// 
-			// tasks
-			// 
 			this->tasks->HeaderText = L"Tasks";
 			this->tasks->Name = L"tasks";
 			this->tasks->ReadOnly = true;
 			this->tasks->Width = 256;
-			// 
-			// start
-			// 
 			this->start->HeaderText = L"Start";
 			this->start->Name = L"start";
 			this->start->ReadOnly = true;
 			this->start->Width = 128;
-			// 
-			// end
-			// 
 			this->end->HeaderText = L"End";
 			this->end->Name = L"end";
 			this->end->ReadOnly = true;
 			this->end->Width = 128;
-			// 
-			// tags
-			// 
 			this->tags->HeaderText = L"Tags";
 			this->tags->Name = L"tags";
 			this->tags->ReadOnly = true;
 			this->tags->Width = 128;
-			// 
-			// done
-			// 
 			this->done->HeaderText = L"Done";
 			this->done->Name = L"done";
 			this->done->ReadOnly = true;
 			this->done->Width = 48;
-			// 
-			// commandBox
-			// 
 			this->commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(8) {L"add ", L"clear ", L"complete ", 
 				L"delete ", L"display ", L"exit ", L"search ", L"sort "});
 			this->commandBox->AutoCompleteMode = System::Windows::Forms::AutoCompleteMode::Suggest;
@@ -174,9 +150,6 @@ namespace UI {
 			this->commandBox->Size = System::Drawing::Size(763, 20);
 			this->commandBox->TabIndex = 1;
 			this->commandBox->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Swiftask::commandBox_KeyDown);
-			// 
-			// results
-			// 
 			this->results->AutoSize = true;
 			this->results->Dock = System::Windows::Forms::DockStyle::Bottom;
 			this->results->Location = System::Drawing::Point(0, 302);
@@ -184,9 +157,6 @@ namespace UI {
 			this->results->Size = System::Drawing::Size(253, 13);
 			this->results->TabIndex = 2;
 			this->results->Text = L"Switask is ready. Enter command below to continue.";
-			// 
-			// Swiftask
-			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::ControlLightLight;

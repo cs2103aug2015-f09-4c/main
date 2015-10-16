@@ -1,7 +1,7 @@
 #include "Command_Set.h"
 
-SetCompleteCommand::SetCompleteCommand(size_t index) : Command(PrimaryCommandType::Complete) {
-	_type2 = SecondaryCommandType::Index;
+SetCompleteCommand::SetCompleteCommand(size_t index) : Command(CommandTokens::PrimaryCommandType::Complete) {
+	_type2 = CommandTokens::SecondaryCommandType::Index;
 	_index = index;
 }
 

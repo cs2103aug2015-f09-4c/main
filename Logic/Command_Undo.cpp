@@ -1,7 +1,7 @@
 #include "Command_Undo.h"
 
-UndoCommand::UndoCommand(void): Command(PrimaryCommandType::Undo) {
-	_type2 = SecondaryCommandType::None;
+UndoCommand::UndoCommand(void): Command(CommandTokens::PrimaryCommandType::Undo) {
+	_type2 = CommandTokens::SecondaryCommandType::None;
 }
 
 UIFeedback UndoCommand::execute(RunTimeStorage*) {

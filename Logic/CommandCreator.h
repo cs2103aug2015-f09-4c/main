@@ -2,6 +2,7 @@
 
 #include <cstdio>
 #include "..\Parser\Parser.h"
+#include "..\Logger\Logger.h"
 #include "CommandHeader.h"
 
 const std::string MESSAGE_NON_POSITIVE_INDEX = "Only positive index is allowed. No change is made.";
@@ -21,6 +22,8 @@ public:
 
 class CommandCreator {
 private:
+	static Logger* logger;
+
 	static Command* processByPrimaryCommandType(CommandTokens commandTokens);
 
 	static AddCommand* processAddCommand(CommandTokens commandTokens);

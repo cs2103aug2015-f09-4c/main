@@ -14,7 +14,7 @@ protected:
 	size_t _index;
 	size_t _editIndex;
 public:
-	EditCommand(SecondaryCommandType, size_t);
+	EditCommand(CommandTokens::SecondaryCommandType, size_t);
 	virtual UIFeedback Command::execute(RunTimeStorage*) = 0;
 	virtual UIFeedback Command::undo(void) = 0;
 	bool canUndo(void);

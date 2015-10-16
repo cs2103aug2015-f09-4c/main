@@ -10,14 +10,14 @@ CompleteCommandTokeniser::~CompleteCommandTokeniser(void) {
 
 CommandTokens CompleteCommandTokeniser::tokeniseUserInput(std::string userInput) {
 	_commandTokens.resetMemberVariables();
-	_commandTokens.setPrimaryCommand(PrimaryCommandType::Complete);
+	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Complete);
 
 	tokeniseCompleteCommand(userInput);
 	return _commandTokens;
 }
 
 void CompleteCommandTokeniser::tokeniseCompleteCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(SecondaryCommandType::Index);
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Index);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,

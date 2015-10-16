@@ -1,10 +1,10 @@
 #include "Command_Invalid.h"
 
-InvalidCommand::InvalidCommand(void) : Command(PrimaryCommandType::Invalid) {
+InvalidCommand::InvalidCommand(void) : Command(CommandTokens::PrimaryCommandType::Invalid) {
 	_message = MESSAGE_INVALID_COMMAND;
 }
 
-InvalidCommand::InvalidCommand(std::string message) : Command(PrimaryCommandType::Invalid){
+InvalidCommand::InvalidCommand(std::string message) : Command(CommandTokens::PrimaryCommandType::Invalid){
 	_message = message;
 }
 
