@@ -132,9 +132,12 @@ void UI::Swiftask::displayInOutputBox(void) {
 			outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->BackColor = Color::Red;
 		}
 
+
+		// For formatting colours of header in outputBox. Not implementing now because it looks worse.
+		// outputBox->ColumnHeadersDefaultCellStyle->BackColor = Color::Blue;
+		// outputBox->EnableHeadersVisualStyles = false;
 		// number->HeaderCell->Style->BackColor = Color::Blue;
 		// outputBox->RowHeadersDefaultCellStyle->ForeColor = Color::Red;
-		// Work-in-Progress 08/10/15
 
 		delete num;
 		delete taskText;

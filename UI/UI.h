@@ -212,6 +212,7 @@ namespace UI {
 
 					 Logger* logger = Logger::getInstance();
 					 logger->logTRACE("UI calling Logic for : " + commandString);
+
 					 (*feedback) = logic->executeCommand(commandString);
 
 					 logger->logTRACE("UIFeedback returned from logic");
