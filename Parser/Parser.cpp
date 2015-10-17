@@ -4,6 +4,7 @@
 #include "CompleteCommandTokeniser.h"
 #include "DeleteCommandTokeniser.h"
 #include "DisplayCommandTokeniser.h"
+#include "ExportCommandTokeniser.h"
 #include "EditCommandTokeniser.h"
 #include "UndoCommandTokeniser.h"
 
@@ -59,6 +60,9 @@ void Parser::initialiseCommandTokeniser(CommandTokens::PrimaryCommandType primar
 		case CommandTokens::PrimaryCommandType::Edit:
 			_commandTokeniser = new EditCommandTokeniser;
 			break;
+		case CommandTokens::PrimaryCommandType::Export:
+			_commandTokeniser = new ExportCommandTokeniser;
+			break;
 		case CommandTokens::PrimaryCommandType::Undo:
 			_commandTokeniser = new UndoCommandTokeniser;
 			break;
@@ -80,6 +84,8 @@ CommandTokens::PrimaryCommandType Parser::parsePrimaryCommand(std::string userIn
 		commandType = CommandTokens::PrimaryCommandType::Display;
 	} else if (isEditCommand(userInput)) {
 		commandType = CommandTokens::PrimaryCommandType::Edit;
+	} else if (isExportCommand(userInput)) {
+		commandType = CommandTokens::PrimaryCommandType::Export;
 	} else if (isCompleteCommand(userInput)) {
 		commandType = CommandTokens::PrimaryCommandType::Complete;
 	} else if (isUndoCommand(userInput)) {
@@ -116,7 +122,12 @@ bool Parser::isEditCommand(std::string& userInput) {
 	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
+bool Parser::isExportCommand(std::string& userInput) {
+	return std::regex_match(userInput, std::regex("export [^ ]+",
+	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
 bool Parser::isUndoCommand(std::string& userInput) {
-	return std::regex_match(userInput, std::regex("undo.*",
+	return std::regex_match(userInput, std::regex("undo",
 	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
