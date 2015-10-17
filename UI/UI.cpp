@@ -57,8 +57,15 @@ void UI::Swiftask::clearOutputBox(void) {
 }
 
 void UI::Swiftask::displayInOutputBox(void) {
-	System::String ^num, ^taskText, ^startDateTime, ^endDateTime, ^theTags, ^doneOrNot;
-	boost::posix_time::ptime posixStartDateTime, posixEndDateTime, posixNowDateTime;
+	System::String ^num = "";
+	System::String ^taskText = "";
+	System::String ^startDateTime = "";
+	System::String ^endDateTime = "";
+	System::String ^theTags = "";
+	System::String ^doneOrNot = "";
+	boost::posix_time::ptime posixStartDateTime;
+	boost::posix_time::ptime posixEndDateTime;
+	boost::posix_time::ptime posixNowDateTime;
 	int index = 0;
 	bool isCompleted = false;
 	std::ostringstream convert;
@@ -105,27 +112,27 @@ void UI::Swiftask::displayInOutputBox(void) {
 
 		outputBox->Rows->Add(num, taskText, startDateTime, endDateTime, theTags);
 
-		        // Colour Formats for outputBox
-        // TODO: Refactor this section to formatOutputBoxStartEndColumn(...);
-        posixNowDateTime = boost::posix_time::second_clock::local_time();
+		// Colour Formats for outputBox
+		// TODO: Refactor this section to formatOutputBoxStartEndColumn(...);
+		posixNowDateTime = boost::posix_time::second_clock::local_time();
 
-        if (!isCompleted && startDateTime != "-") {
-            if (posixStartDateTime <= posixNowDateTime) {
-                outputBox->Rows[index-1]->Cells[OutputBoxColumn::START]->Style->BackColor = Color::Lime;
-            }
-        }
+		if (!isCompleted && startDateTime != "-") {
+			if (posixStartDateTime <= posixNowDateTime) {
+				outputBox->Rows[index-1]->Cells[OutputBoxColumn::START]->Style->BackColor = Color::Lime;
+			}
+		}
 
-        if (!isCompleted && endDateTime != "-") {
-            if (posixEndDateTime >= posixNowDateTime) {
-                outputBox->Rows[index-1]->Cells[OutputBoxColumn::END]->Style->BackColor = Color::Lime;
-            } else {
-                outputBox->Rows[index-1]->Cells[OutputBoxColumn::END]->Style->BackColor = Color::Red;
-                outputBox->Rows[index-1]->Cells[OutputBoxColumn::START]->Style->BackColor = Color::Red;
-            }
-        }
+		if (!isCompleted && endDateTime != "-") {
+			if (posixEndDateTime >= posixNowDateTime) {
+				outputBox->Rows[index-1]->Cells[OutputBoxColumn::END]->Style->BackColor = Color::Lime;
+			} else {
+				outputBox->Rows[index-1]->Cells[OutputBoxColumn::END]->Style->BackColor = Color::Red;
+				outputBox->Rows[index-1]->Cells[OutputBoxColumn::START]->Style->BackColor = Color::Red;
+			}
+		}
 
-        // TODO: Refactor this section to formatOutputBoxDoneColumn(...);
-        if (isCompleted) {
+		// TODO: Refactor this section to formatOutputBoxDoneColumn(...);
+		if (isCompleted) {
 			outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->BackColor = Color::Lime;
 		} else {
 			outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->BackColor = Color::Red;
@@ -133,8 +140,17 @@ void UI::Swiftask::displayInOutputBox(void) {
 
 
 		// For formatting colours of header in outputBox. Not implementing now because it looks worse.
-		// outputBox->ColumnHeadersDefaultCellStyle->BackColor = Color::Blue;
-		// outputBox->EnableHeadersVisualStyles = false;
+		//Color headerBack = System::Drawing::ColorTranslator::FromHtml("#3F51B5");
+		//Color headerFore = System::Drawing::ColorTranslator::FromHtml("#E8EAF6");
+
+		//DataGridViewCellStyle^ headerStyle = outputBox->ColumnHeadersDefaultCellStyle;
+		//headerStyle->Font = gcnew System::Drawing::Font(outputBox->Font, FontStyle::Bold);
+		//outputBox->AdjustColumnHeaderBorderStyle;
+
+		//outputBox->ColumnHeadersDefaultCellStyle->BackColor = headerBack;
+		//outputBox->ColumnHeadersDefaultCellStyle->ForeColor = headerFore;
+		//outputBox->GridColor = headerBack;
+		//outputBox->EnableHeadersVisualStyles = false;
 		// number->HeaderCell->Style->BackColor = Color::Blue;
 		// outputBox->RowHeadersDefaultCellStyle->ForeColor = Color::Red;
 

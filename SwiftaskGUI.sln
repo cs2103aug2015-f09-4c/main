@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Storage", "Storage\Storage.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Logger", "Logger\Logger.vcxproj", "{E21E3B62-AD22-4535-B601-0D04DA45EE06}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitIntegrationTest", "UnitIntegrationTest\UnitIntegrationTest.vcxproj", "{F89F816F-B969-4D65-AED1-7F667188415C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -81,6 +83,14 @@ Global
 		{E21E3B62-AD22-4535-B601-0D04DA45EE06}.parserTest|Win32.Build.0 = Release|Win32
 		{E21E3B62-AD22-4535-B601-0D04DA45EE06}.Release|Win32.ActiveCfg = Release|Win32
 		{E21E3B62-AD22-4535-B601-0D04DA45EE06}.Release|Win32.Build.0 = Release|Win32
+		{F89F816F-B969-4D65-AED1-7F667188415C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F89F816F-B969-4D65-AED1-7F667188415C}.Debug|Win32.Build.0 = Debug|Win32
+		{F89F816F-B969-4D65-AED1-7F667188415C}.logicTest|Win32.ActiveCfg = Release|Win32
+		{F89F816F-B969-4D65-AED1-7F667188415C}.logicTest|Win32.Build.0 = Release|Win32
+		{F89F816F-B969-4D65-AED1-7F667188415C}.parserTest|Win32.ActiveCfg = Release|Win32
+		{F89F816F-B969-4D65-AED1-7F667188415C}.parserTest|Win32.Build.0 = Release|Win32
+		{F89F816F-B969-4D65-AED1-7F667188415C}.Release|Win32.ActiveCfg = Release|Win32
+		{F89F816F-B969-4D65-AED1-7F667188415C}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
