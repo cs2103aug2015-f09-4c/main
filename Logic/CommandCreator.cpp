@@ -72,6 +72,11 @@ DeleteCommand* CommandCreator::processDeleteCommand(CommandTokens commandTokens)
 			returnCommand = new IndexDeleteCommand(index);
 		}
 		break;
+	case CommandTokens::SecondaryCommandType::All:
+		returnCommand = new DeleteAllCommand();
+		break;
+	default:
+		throw std::exception(MESSAGE_INVALID_COMMAND.c_str());
 	}
 	return returnCommand;
 }

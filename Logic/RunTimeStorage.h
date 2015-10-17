@@ -72,8 +72,11 @@ public:
 
 	void add(Task task);
 	void insert(Task task, size_t index);
+
 	void removeLastEntry();
 	Task remove(size_t index);
+	void removeAll();	
+
 	Task& find(size_t index);
 	size_t find(Task& task);
 	Task& getEntry(size_t index);

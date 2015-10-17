@@ -60,6 +60,16 @@ Task RunTimeStorage::remove(size_t index) {
 	return taskToDelete;
 }
 
+void RunTimeStorage::removeAll(void) {
+	if (_tasks.empty()) {
+		throw std::exception("Storage is already empty. There is no task to delete");
+	}
+
+	_tasks.clear();
+
+	return;
+}
+
 Task& RunTimeStorage::find(size_t index) {
 	if (index > _tasksToDisplay.size()) {
 		throw INDEX_NOT_FOUND_EXCEPTION(index);

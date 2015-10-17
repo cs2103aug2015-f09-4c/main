@@ -4,6 +4,7 @@
 //Feedback message for different delete operation result
 const std::string MESSAGE_DELETE_INDEX_SUCCESS = "Task at index %i have been deleted successfully.";
 const std::string MESSAGE_DELETE_INDEX_FAIL = "No task is found at index %i.";
+const std::string MESSAGE_DELETE_ALL_SUCCESS = "All tasks have been removed.";
 
 const std::string MESSAGE_DELETE_UNDO = "Previous delete operation is undoed.";
 
@@ -29,3 +30,12 @@ public:
 	virtual ~IndexDeleteCommand();
 };
 
+class DeleteAllCommand: public DeleteCommand{
+private:
+	std::vector<Task> _tasksDeleted;
+public:
+	DeleteAllCommand(void);
+	UIFeedback DeleteCommand::execute(RunTimeStorage*);
+	UIFeedback DeleteCommand::undo(void);
+	virtual ~DeleteAllCommand(void);
+};
