@@ -17,7 +17,7 @@ const std::string CMD_UNDO = "UnDo";
 
 // Feedback 'ERROR' messages when Swiftask knows something is wrong and the command is not executed.
 const std::string CMD_INVALID = "Invalid Command. No change is made.";
-const std::string CMD_DUPLICATE = "Duplicate task is found. New task is not added.";
+const std::string CMD_DUPLICATE = "Duplicate task is found. No change is made.";
 const std::string UNKNOWN_EXCEPTION = "Unknown exception";
 const std::string ONLY_POSITIVE = "Only positive index is allowed. No change is made.";
 const std::string TASK_NOT_FOUND_AT = "No task is found at index ";
@@ -51,6 +51,7 @@ public:
 		Logic logic;
 		UIFeedback feedback;
 		API::Task task;
+		std::string errorMessage = CMD_INVALID;	// Logic only throws std::string CMD_INVALID messages
 
 		// Testing add commands
 		// Valid commands
@@ -141,8 +142,7 @@ public:
 		feedback = logic.executeCommand(editCommand4);
 		task = feedback.getTasksForDisplay()[2];
 
-		// TODO: Unknown exeception should not be the message
-		Assert::AreEqual(UNKNOWN_EXCEPTION, feedback.getFeedbackMessage());
+		Assert::AreEqual(TASK_NOT_FOUND_AT + "4", feedback.getFeedbackMessage());
 		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getStartDateTime()));
 
 		// Expected status of the tasks in taskText, startDateTime, endDateTime, complete:
@@ -177,8 +177,7 @@ public:
 		// Testing complete lower bound of invalid partition that is larger than valid partition
 		feedback = logic.executeCommand(completeCommand4);
 
-		// TODO: Unknown exeception should not be the message
-		Assert::AreEqual(UNKNOWN_EXCEPTION, feedback.getFeedbackMessage());
+		Assert::AreEqual(ONLY_POSITIVE, feedback.getFeedbackMessage());
 		Assert::AreEqual(true, feedback.getTasksForDisplay()[2].isComplete());
 
 		// Expected status of the tasks in taskText, startDateTime, endDateTime, complete:
@@ -245,7 +244,7 @@ public:
 
 		// Testing limits of input, number of tasks etc.
 
-		// Testing more complex permutation of commands
+		// Testing more complex permutation of commands; combining multiple inputs.
 	}
 	};
 }
