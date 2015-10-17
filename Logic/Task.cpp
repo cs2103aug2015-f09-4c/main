@@ -2,6 +2,9 @@
 #include <string>
 using namespace API;
 
+TASK_EXCEPTION::TASK_EXCEPTION(std::string message) : std::exception(message.c_str()){
+}
+
 Task::Task() {
 	_taskText = "";
 	_isComplete = false;
@@ -9,7 +12,7 @@ Task::Task() {
 
 Task::Task(std::string taskText) {
 	if (taskText.empty()) {
-		throw std::exception(MESSAGE_EMPTY_TASK_TEXT.c_str());
+		throw TASK_EXCEPTION(MESSAGE_EMPTY_TASK_TEXT.c_str());
 	}
 	_taskText = taskText;
 	_isComplete = false;
@@ -17,7 +20,7 @@ Task::Task(std::string taskText) {
 
 Task::Task(std::string taskText, boost::posix_time::ptime endDateTime) {
 	if (taskText.empty()) {
-		throw std::exception(MESSAGE_EMPTY_TASK_TEXT.c_str());
+		throw TASK_EXCEPTION(MESSAGE_EMPTY_TASK_TEXT.c_str());
 	}
 	_taskText = taskText;
 	_endDateTime = endDateTime;
@@ -26,11 +29,11 @@ Task::Task(std::string taskText, boost::posix_time::ptime endDateTime) {
 
 Task::Task(std::string taskText, boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime) {
 	if (taskText.empty()) {
-		throw std::exception(MESSAGE_EMPTY_TASK_TEXT.c_str());
+		throw TASK_EXCEPTION(MESSAGE_EMPTY_TASK_TEXT.c_str());
 	} else if (isEndLessThanStart(startDateTime,endDateTime)) {
-		throw std::exception(MESSAGE_END_LESS_THAN_START.c_str());
+		throw TASK_EXCEPTION(MESSAGE_END_LESS_THAN_START.c_str());
 	} else if (endDateTime.is_special() && !startDateTime.is_special()) {
-		throw std::exception(MESSAGE_EMPTY_END_DATE.c_str());
+		throw TASK_EXCEPTION(MESSAGE_EMPTY_END_DATE.c_str());
 	}
 	_taskText = taskText;
 	_startDateTime = startDateTime;
@@ -90,25 +93,25 @@ void Task::setComplete() {
 
 void Task::changeTaskText(std::string newTaskText) {
 	if (newTaskText.empty()) {
-		throw std::exception(MESSAGE_EMPTY_TASK_TEXT.c_str());
+		throw TASK_EXCEPTION(MESSAGE_EMPTY_TASK_TEXT.c_str());
 	}
 	_taskText = newTaskText;
 }
 
 void Task::changeStartDateTime(boost::posix_time::ptime newStartDateTime) {
 	if (isEndLessThanStart(newStartDateTime,_endDateTime)) {
-		throw std::exception(MESSAGE_END_LESS_THAN_START.c_str());
+		throw TASK_EXCEPTION(MESSAGE_END_LESS_THAN_START.c_str());
 	} else if (!newStartDateTime.is_special() && _endDateTime.is_special()) {
-		throw std::exception(MESSAGE_EMPTY_END_DATE.c_str());
+		throw TASK_EXCEPTION(MESSAGE_EMPTY_END_DATE.c_str());
 	}
 	_startDateTime = newStartDateTime;
 }
 
 void Task::changeEndDateTime(boost::posix_time::ptime newEndDateTime) {
 	if (isEndLessThanStart(_startDateTime,newEndDateTime)) {
-		throw std::exception(MESSAGE_END_LESS_THAN_START.c_str());
+		throw TASK_EXCEPTION(MESSAGE_END_LESS_THAN_START.c_str());
 	} else if (newEndDateTime.is_special() && !_startDateTime.is_special()) {
-		throw std::exception(MESSAGE_EMPTY_END_DATE.c_str());
+		throw TASK_EXCEPTION(MESSAGE_EMPTY_END_DATE.c_str());
 	}
 
 	_endDateTime = newEndDateTime;

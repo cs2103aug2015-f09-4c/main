@@ -125,7 +125,6 @@
     <ClInclude Include="CommandHeader.h" />
     <ClInclude Include="Command_Invalid.h" />
     <ClInclude Include="Command_Set.h" />
-    <ClInclude Include="Command_Undo.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="RunTimeStorage.h" />
     <ClInclude Include="Task.h" />
@@ -140,7 +139,6 @@
     <ClCompile Include="Command_Edit.cpp" />
     <ClCompile Include="Command_Invalid.cpp" />
     <ClCompile Include="Command_Set.cpp" />
-    <ClCompile Include="Command_Undo.cpp" />
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="RunTimeStorage.cpp" />
     <ClCompile Include="Task.cpp" />

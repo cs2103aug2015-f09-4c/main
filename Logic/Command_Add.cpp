@@ -7,11 +7,8 @@ AddCommand::AddCommand (CommandTokens::SecondaryCommandType type2, Task task) : 
 
 UIFeedback AddCommand::execute(RunTimeStorage* runTimeStorage) {
 	UIFeedback feedback;
-	if (_task.getTaskText().size() < 1) {
-		feedback = UIFeedback(runTimeStorage->getTasksToDisplay(), MESSAGE_ADD_EMPTY);
-	} else if (runTimeStorage->isDuplicate(_task)) {
-		feedback = UIFeedback(runTimeStorage->getTasksToDisplay(), MESSAGE_ADD_DUPLICATE);
-	} else {
+	assert(_task.isValid());
+	try {
 		runTimeStorage->add(_task);
 		std::string taskText = _task.getTaskText();
 		std::string startDateTime = boost::posix_time::to_simple_string(_task.getStartDateTime());
@@ -22,6 +19,8 @@ UIFeedback AddCommand::execute(RunTimeStorage* runTimeStorage) {
 		feedback = UIFeedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
 		_statusExecuted = true;
 		_runTimeStorageExecuted = runTimeStorage;
+	} catch (DUPLICATE_TASK_EXCEPTION e) {
+		feedback = UIFeedback(runTimeStorage->getTasksToDisplay(), e.what());
 	}
 	return feedback;
 }

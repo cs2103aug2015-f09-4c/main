@@ -10,8 +10,10 @@ UIFeedback Logic::executeCommand(std::string userString) {
 	logger->logTRACE("\"" + userString + "\" is sent to parser for parsing.");
 	CommandTokens commandTokens = _parser.parse(userString);
 	
+	if (commandTokens.getPrimaryCommand() == CommandTokens::PrimaryCommandType::Undo) {
+		return _commandExecutor->undo();
+	}
 	Command* command = _commandCreator.process(commandTokens);
-
 	UIFeedback feedback = _commandExecutor->execute(command);
 	
 	return feedback;

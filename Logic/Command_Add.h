@@ -4,7 +4,7 @@
 //Feedback message for different add operation result
 const std::string MESSAGE_ADD_SUCCESS = "\"%s\" have been added succesfully.\nStart Date Time: %s\nEnd Date Time: %s"; 
 const std::string MESSAGE_ADD_EMPTY = "Task text cannot be empty. New task is not added.";
-const std::string MESSAGE_ADD_DUPLICATE = "Duplicate task is found. New task is not added.";
+
 
 //Feedback message when add operation is undoed
 const std::string MESSAGE_UNDO_ADD = "Previous add operation is undoed succesfully";
