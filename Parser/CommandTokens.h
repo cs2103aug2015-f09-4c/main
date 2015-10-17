@@ -13,6 +13,7 @@ public:
 		Delete,
 		Display,
 		Edit,
+		Export,
 		Help,
 		Invalid,
 		Undo
@@ -49,6 +50,7 @@ public:
 	boost::posix_time::ptime getStartDateTime();
 	boost::posix_time::ptime getEndDateTime();
 	int getIndex();
+	std::string getOtherCommandParameter();
 
 	void setPrimaryCommand(PrimaryCommandType newPrimaryCommand);
 	void setSecondaryCommand(SecondaryCommandType newSecondaryCommand);
@@ -57,6 +59,7 @@ public:
 	void setStartDateTime(boost::posix_time::ptime newStartDateTime);
 	void setEndDateTime(boost::posix_time::ptime newEndDateTime);
 	void setIndex(int newIndex);
+	void setOtherCommandParameter(std::string newOtherCommandParameter);
 
 private:
 	PrimaryCommandType _primaryCommandType;
@@ -66,6 +69,7 @@ private:
 	boost::posix_time::ptime _endDateTime;
 	std::vector<std::string> _tags;
 	int _index;
+	std::string _otherCommandParameter;
 };
 
 class CommandDoesNotExistException: public std::exception {

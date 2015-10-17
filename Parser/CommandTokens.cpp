@@ -62,6 +62,10 @@ int CommandTokens::getIndex() {
 	return _index;
 }
 
+std::string CommandTokens::getOtherCommandParameter() {
+	return _otherCommandParameter;
+}
+
 // setters
 void CommandTokens::setPrimaryCommand(PrimaryCommandType newPrimaryCommand) {
 	_primaryCommandType = newPrimaryCommand;
@@ -89,4 +93,8 @@ void CommandTokens::setEndDateTime(boost::posix_time::ptime newEndDateTime) {
 
 void CommandTokens::setIndex(int newIndex) {
 	_index = newIndex;
+}
+
+void CommandTokens::setOtherCommandParameter(std::string newOtherCommandParameter) {
+	_otherCommandParameter = newOtherCommandParameter;
 }
