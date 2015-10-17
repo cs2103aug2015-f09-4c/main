@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdio>
 #include "RunTimeStorage.h"
 using namespace API;
 

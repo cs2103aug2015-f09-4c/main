@@ -43,7 +43,7 @@ public:
 	void changeTaskText(std::string newTaskText);
 	void changeStartDateTime(boost::posix_time::ptime newStartDateTime);
 	void changeEndDateTime(boost::posix_time::ptime newEndDateTime);
-	void setComplete();
+	void toggleComplete();
 
 private:
 	std::string _taskText;

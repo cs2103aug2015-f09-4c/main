@@ -42,7 +42,7 @@ void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::st
 
 			API::Task taskToAdd(taskText, startDateTime, endDateTime);
 			if (isCompleteString == "1") {
-				taskToAdd.setComplete();
+				taskToAdd.toggleComplete();
 			}
 
 			tasks.push_back(taskToAdd);
