@@ -19,7 +19,9 @@ std::vector<Task>& RunTimeStorage::getTasksToDisplay() {
 }
 
 void RunTimeStorage::add(Task task) {
-	assert(!isDuplicate(task));
+	if (isDuplicate(task)) {
+		throw DUPLICATE_TASK_EXCEPTION(); 
+	}
 	_tasks.push_back(task);
 	return;
 }
@@ -62,7 +64,7 @@ Task RunTimeStorage::remove(size_t index) {
 
 void RunTimeStorage::removeAll(void) {
 	if (_tasks.empty()) {
-		throw std::exception("Storage is already empty. There is no task to delete");
+		throw EMPTY_STORAGE_EXCEPTION();
 	}
 
 	_tasks.clear();

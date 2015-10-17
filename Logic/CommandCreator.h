@@ -8,16 +8,8 @@
 const std::string MESSAGE_NON_POSITIVE_INDEX = "Only positive index is allowed. No change is made.";
 
 class INVALID_COMMAND_EXCEPTION : public std::exception{
-	std::string _message;
-
 public:
-	INVALID_COMMAND_EXCEPTION(std::string message) : std::exception() {
-		_message = message;
-	}
-
-	const char* what() const throw() {
-		return _message.c_str();
-	}
+	INVALID_COMMAND_EXCEPTION(std::string message);
 };
 
 class CommandCreator {

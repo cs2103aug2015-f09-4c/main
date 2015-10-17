@@ -68,7 +68,7 @@ UIFeedback DeleteAllCommand::execute(RunTimeStorage* runTimeStorage) {
 		feedback = UIFeedback(runTimeStorage->getTasksToDisplay(), MESSAGE_DELETE_ALL_SUCCESS);
 		_statusExecuted = true;
 		_runTimeStorageExecuted = runTimeStorage;
-	} catch (std::exception e) {
+	} catch (EMPTY_STORAGE_EXCEPTION e) {
 		feedback = UIFeedback(runTimeStorage->getTasksToDisplay(), e.what());
 	}
 

@@ -8,6 +8,11 @@ const std::string MESSAGE_EMPTY_TASK_TEXT = "Task text cannot be empty.";
 const std::string MESSAGE_END_LESS_THAN_START = "Start date time must be before end date time.";
 const std::string MESSAGE_EMPTY_END_DATE = "When start date time is a defined date-time, end date time cannot be not a date time.";
 
+class TASK_EXCEPTION : public std::exception {
+public:
+	TASK_EXCEPTION(std::string message);
+};
+
 namespace API{
 class Task
 {

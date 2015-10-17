@@ -1,5 +1,8 @@
 #include "CommandCreator.h"
 
+INVALID_COMMAND_EXCEPTION::INVALID_COMMAND_EXCEPTION(std::string message) : std::exception(message.c_str()){
+}
+
 Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens) {
 	CommandTokens::PrimaryCommandType command1 = commandTokens.getPrimaryCommand();
 	Command* returnCommand = NULL;
@@ -21,7 +24,7 @@ Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens
 			returnCommand = new InvalidCommand(MESSAGE_INVALID_COMMAND);
 			break;
 		default:
-			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
+			throw MESSAGE_INVALID_COMMAND;
 		}
 	} catch (INVALID_COMMAND_EXCEPTION e) {
 		returnCommand = new InvalidCommand(e.what());
@@ -53,7 +56,7 @@ AddCommand* CommandCreator::processAddCommand(CommandTokens commandTokens) {
 		case CommandTokens::SecondaryCommandType::None:
 			returnCommand = new AddCommand(CommandTokens::SecondaryCommandType::None, task);
 		}
-	} catch (std::exception e) {
+	} catch (TASK_EXCEPTION e) {
 		throw e;
 	}
 	return returnCommand;
@@ -76,7 +79,7 @@ DeleteCommand* CommandCreator::processDeleteCommand(CommandTokens commandTokens)
 		returnCommand = new DeleteAllCommand();
 		break;
 	default:
-		throw std::exception(MESSAGE_INVALID_COMMAND.c_str());
+		throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 	}
 	return returnCommand;
 }
@@ -111,7 +114,7 @@ EditCommand* CommandCreator::processEditCommand(CommandTokens commandTokens) {
 		default:
 			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 		}
-	} catch (std::exception e) {
+	} catch (INVALID_COMMAND_EXCEPTION e) {
 		throw e;
 	}
 	return returnCommand;

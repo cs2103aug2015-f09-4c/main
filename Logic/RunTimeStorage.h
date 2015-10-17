@@ -11,6 +11,11 @@
 
 using namespace API;
 
+const std::string MESSAGE_DUPLICATE_TASK = "Duplicate task is found. No change is made.";
+const std::string MESSAGE_EMPTY_STORAGE = "Storage is already empty. There is no task to delete.";
+const std::string MESSAGE_INDEX_NOT_FOUND = "No task is found at index ";
+
+
 enum Display_Type {
 	displayAll, displayFloat, displayTimed, displayTodo
 };
@@ -20,15 +25,20 @@ enum Sort_Type {
 };
 
 class INDEX_NOT_FOUND_EXCEPTION : public std::exception {
-private:
-	std::string _message;
 public:
-	explicit INDEX_NOT_FOUND_EXCEPTION (const int index) : std::exception() {
-		_message = std::string("No task is found at index ") + std::to_string(index);
+	explicit INDEX_NOT_FOUND_EXCEPTION (const int index) : std::exception((MESSAGE_INDEX_NOT_FOUND + std::to_string(index)).c_str()) {
 	}
+};
 
-	const char* what() const throw() {
-		return _message.c_str();
+class EMPTY_STORAGE_EXCEPTION : public std::exception {
+public:
+	explicit EMPTY_STORAGE_EXCEPTION () : std::exception(MESSAGE_EMPTY_STORAGE.c_str()) {
+	}
+};
+
+class DUPLICATE_TASK_EXCEPTION : public std::exception {
+public:
+	explicit DUPLICATE_TASK_EXCEPTION() : std::exception(MESSAGE_DUPLICATE_TASK.c_str()) {
 	}
 };
 

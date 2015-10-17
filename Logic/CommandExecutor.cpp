@@ -16,8 +16,8 @@ UIFeedback CommandExecutor::undo() {
 			feedback = command -> undo();
 			_commandUndoed.push(command);
 		}
-	} catch (std::exception e) {
-		feedback = UIFeedback(_runTimeStorage->getTasksToDisplay(), e.what());
+	} catch (std::string errorMessage) {
+		feedback = UIFeedback(_runTimeStorage->getTasksToDisplay(), errorMessage);
 	}
 	return feedback;
 }
@@ -26,8 +26,8 @@ UIFeedback CommandExecutor::execute(Command* command) {
 	UIFeedback feedback;
 	try {
 		feedback = command -> execute (_runTimeStorage);
-	} catch (std::exception e) {
-		feedback = UIFeedback(_runTimeStorage->getTasksToDisplay(), e.what());
+	} catch (std::string errorMessage) {
+		feedback = UIFeedback(_runTimeStorage->getTasksToDisplay(), errorMessage);
 	}
 
 	if (command -> isExecuted() && command->canUndo()) {
