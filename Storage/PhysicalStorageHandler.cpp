@@ -5,8 +5,7 @@ PhysicalStorageHandler::PhysicalStorageHandler() {
 }
 
 
-PhysicalStorageHandler::~PhysicalStorageHandler(void)
-{
+PhysicalStorageHandler::~PhysicalStorageHandler(void) {
 }
 
 void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::string filePath) {

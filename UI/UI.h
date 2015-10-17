@@ -1,8 +1,8 @@
 #pragma once
-#include <msclr\marshal_cppstd.h>
+#include <msclr/marshal_cppstd.h>
 #include <sstream>
-#include "..\Logic\Logic.h"
-#include "Logger\Logger.h"
+#include "../Logic/Logic.h"
+#include "Logger/Logger.h"
 
 namespace UI {
 
@@ -164,8 +164,8 @@ namespace UI {
 			// 
 			// commandBox
 			// 
-			this->commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(8) {L"add ", L"clear ", L"complete ", 
-				L"delete ", L"display ", L"exit ", L"search ", L"sort "});
+			this->commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(13) {L"add ", L"complete ", L"delete ", 
+				L"display", L"edit name ", L"edit start ", L"edit end ", L"exit ", L"search ", L"sort ", L"tag ", L"undo", L"untag "});
 			this->commandBox->AutoCompleteMode = System::Windows::Forms::AutoCompleteMode::Suggest;
 			this->commandBox->AutoCompleteSource = System::Windows::Forms::AutoCompleteSource::CustomSource;
 			this->commandBox->Dock = System::Windows::Forms::DockStyle::Bottom;
@@ -206,17 +206,28 @@ namespace UI {
 		// A UIFeedback obj is returned from logic->executeCommand and the UI is updated.
 	private: System::Void commandBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 				 if (e->KeyCode == Keys::Enter) {
+					 bool isValid = true;
 					 std::string commandString = getStdStringCommand();
 
 					 assert(feedback != NULL);
 
 					 Logger* logger = Logger::getInstance();
 					 logger->logTRACE("UI calling Logic for : " + commandString);
-					 (*feedback) = logic->executeCommand(commandString);
+
+					 try {
+						 (*feedback) = logic->executeCommand(commandString);
+					 } catch(std::string e) {
+						 isValid = false;
+
+						 System::String^ managed = gcnew String(e.c_str());
+						 results->Text = managed;
+					 }
 
 					 logger->logTRACE("UIFeedback returned from logic");
 
-					 updateUI();
+					 if (isValid) {
+						 updateUI();
+					 }
 				 }
 
 				 return;
