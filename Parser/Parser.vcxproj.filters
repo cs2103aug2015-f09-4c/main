@@ -23,13 +23,16 @@
     <ClInclude Include="CommandTokeniser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ExportCommandTokeniser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="AddCommandTokeniser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DeleteCommandTokeniser.h">
+    <ClInclude Include="CompleteCommandTokeniser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CompleteCommandTokeniser.h">
+    <ClInclude Include="DeleteCommandTokeniser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DisplayCommandTokeniser.h">
@@ -55,13 +58,16 @@
     <ClCompile Include="CommandTokeniser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ExportCommandTokeniser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="AddCommandTokeniser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DeleteCommandTokeniser.cpp">
+    <ClCompile Include="CompleteCommandTokeniser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CompleteCommandTokeniser.cpp">
+    <ClCompile Include="DeleteCommandTokeniser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DisplayCommandTokeniser.cpp">

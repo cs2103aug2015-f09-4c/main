@@ -52,6 +52,20 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
+		TEST_METHOD(testTokeniseCompleteCommand) {
+			std::string testUserInput = "COMPLETE 11";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Complete,
+			                                      CommandTokens::SecondaryCommandType::Index,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      11);
+
+			compareCommandTokens(expected, actual);
+		}
+
 		TEST_METHOD(testTokeniseDeleteFromTo) {
 			std::string testUserInput = "DELETE FROM 2002-01-20 23:59:59.000 TO 2002-01-22 23:59:59.000";
 			CommandTokens actual, expected;
@@ -220,16 +234,17 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(testTokeniseCompleteCommand) {
-			std::string testUserInput = "COMPLETE 11";
+		TEST_METHOD(testTokeniseExportCommand) {
+			std::string testUserInput = "EXPORT C:\\";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Complete,
-			                                      CommandTokens::SecondaryCommandType::Index,
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Export,
+			                                      CommandTokens::SecondaryCommandType::None,
 			                                      "",
 			                                      "",
 			                                      "",
-			                                      11);
+			                                      -1);
+			expected.setOtherCommandParameter("C:\\");
 
 			compareCommandTokens(expected, actual);
 		}
@@ -241,7 +256,7 @@ namespace ParserTest {
 			boost::posix_time::ptime expected(boost::posix_time::time_from_string("1999-05-13 13:20:00.000"));
 			boost::posix_time::ptime actual;
 			actual = dateParser.parse(testUserInputDate);
-
+			
 			Assert::IsTrue(expected == actual);
 		}
 
