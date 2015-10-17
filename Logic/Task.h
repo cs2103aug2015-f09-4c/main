@@ -1,6 +1,7 @@
 #pragma once
 
 // TODO this include may not belong here, move it
+#include <set>
 #include "../boost/date_time/posix_time/posix_time.hpp"
 
 const std::string MESSAGE_EMPTY_TASK_TEXT = "Task text cannot be empty.";
@@ -44,6 +45,7 @@ private:
 	boost::posix_time::ptime _startDateTime;
 	boost::posix_time::ptime _endDateTime;
 	bool _isComplete;
+	std::set<std::string> _tags; 
 
 	static bool isEndLessThanStart(boost::posix_time::ptime start, boost::posix_time::ptime end);
 };

@@ -14,13 +14,11 @@ private:
 	std::stack<Command*> _commandUndoed;
 	RunTimeStorage* _runTimeStorage;
 
-	UIFeedback executeUndo();
-	UIFeedback executeNormal(Command* command);
-
 public:
 	CommandExecutor();
 
 	UIFeedback execute(Command* command);
+	UIFeedback undo();
 
 	virtual ~CommandExecutor();
 };
