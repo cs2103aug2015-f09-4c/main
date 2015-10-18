@@ -1,3 +1,4 @@
+// Limit length of commandBox: 144 chars because of buffer limit in logic
 #pragma once
 #include <msclr/marshal_cppstd.h>
 #include <sstream>
@@ -107,6 +108,7 @@ namespace UI {
 			// 
 			this->outputBox->AllowUserToAddRows = false;
 			this->outputBox->AllowUserToDeleteRows = false;
+			this->outputBox->AllowUserToResizeRows = false;
 			this->outputBox->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
@@ -122,6 +124,7 @@ namespace UI {
 			// 
 			// number
 			// 
+			this->number->FillWeight = 40.83333F;
 			this->number->HeaderText = L"No.";
 			this->number->Name = L"number";
 			this->number->ReadOnly = true;
@@ -129,6 +132,7 @@ namespace UI {
 			// 
 			// tasks
 			// 
+			this->tasks->FillWeight = 77.49965F;
 			this->tasks->HeaderText = L"Tasks";
 			this->tasks->Name = L"tasks";
 			this->tasks->ReadOnly = true;
@@ -136,6 +140,7 @@ namespace UI {
 			// 
 			// start
 			// 
+			this->start->FillWeight = 89.46249F;
 			this->start->HeaderText = L"Start";
 			this->start->Name = L"start";
 			this->start->ReadOnly = true;
@@ -143,6 +148,7 @@ namespace UI {
 			// 
 			// end
 			// 
+			this->end->FillWeight = 103.3426F;
 			this->end->HeaderText = L"End";
 			this->end->Name = L"end";
 			this->end->ReadOnly = true;
@@ -150,6 +156,7 @@ namespace UI {
 			// 
 			// tags
 			// 
+			this->tags->FillWeight = 133.0929F;
 			this->tags->HeaderText = L"Tags";
 			this->tags->Name = L"tags";
 			this->tags->ReadOnly = true;
@@ -157,6 +164,7 @@ namespace UI {
 			// 
 			// done
 			// 
+			this->done->FillWeight = 155.769F;
 			this->done->HeaderText = L"Done";
 			this->done->Name = L"done";
 			this->done->ReadOnly = true;
@@ -170,6 +178,7 @@ namespace UI {
 			this->commandBox->AutoCompleteSource = System::Windows::Forms::AutoCompleteSource::CustomSource;
 			this->commandBox->Dock = System::Windows::Forms::DockStyle::Bottom;
 			this->commandBox->Location = System::Drawing::Point(0, 315);
+			this->commandBox->MaxLength = 144;
 			this->commandBox->Name = L"commandBox";
 			this->commandBox->Size = System::Drawing::Size(763, 20);
 			this->commandBox->TabIndex = 1;
@@ -194,6 +203,7 @@ namespace UI {
 			this->Controls->Add(this->results);
 			this->Controls->Add(this->commandBox);
 			this->Controls->Add(this->outputBox);
+			this->MinimumSize = System::Drawing::Size(779, 374);
 			this->Name = L"Swiftask";
 			this->Text = L"Swiftask";
 			this->ResumeLayout(false);
