@@ -32,7 +32,7 @@ UIFeedback EditNameCommand::execute(RunTimeStorage* runTimeStorage) {
 		_runTimeStorageExecuted = runTimeStorage;
 		return UIFeedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
 	} catch (INDEX_NOT_FOUND_EXCEPTION e){
-		throw std::string(e.what());
+		throw COMMAND_EXECUTION_EXCEPTION(e.what());
 	}
 }
 
@@ -73,7 +73,9 @@ UIFeedback EditStartCommand::execute(RunTimeStorage* runTimeStorage) {
 		_runTimeStorageExecuted = runTimeStorage;
 		return UIFeedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
 	} catch (INDEX_NOT_FOUND_EXCEPTION e) {
-		throw std::string(e.what());
+		throw COMMAND_EXECUTION_EXCEPTION(e.what());
+	} catch (TASK_EXCEPTION e) {
+		throw COMMAND_EXECUTION_EXCEPTION(e.what());
 	}
 }
 
@@ -114,7 +116,9 @@ UIFeedback EditEndCommand::execute(RunTimeStorage* runTimeStorage) {
 
 		return UIFeedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
 	} catch(INDEX_NOT_FOUND_EXCEPTION e) {
-		throw std::string(e.what());
+		throw COMMAND_EXECUTION_EXCEPTION(e.what());
+	} catch(TASK_EXCEPTION e) {
+		throw COMMAND_EXECUTION_EXCEPTION(e.what());
 	}
 }
 

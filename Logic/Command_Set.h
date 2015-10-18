@@ -12,13 +12,9 @@ class ALREADY_COMPLETE_EXCEPTION : public std::exception {
 private:
 	char _message[255];
 public:
-	ALREADY_COMPLETE_EXCEPTION(int index) : std::exception() {
-		sprintf_s(_message, MESSAGE_SET_COMPLETE_NO_CHANGE.c_str(), index);
-	}
+	explicit ALREADY_COMPLETE_EXCEPTION(int index);
 
-	const char* what(void) const throw() {
-		return _message;
-	}
+	const char* what(void) const throw();
 };
 
 class SetCompleteCommand: public Command {

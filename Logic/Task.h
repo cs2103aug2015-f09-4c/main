@@ -10,7 +10,7 @@ const std::string MESSAGE_EMPTY_END_DATE = "When start date time is a defined da
 
 class TASK_EXCEPTION : public std::exception {
 public:
-	TASK_EXCEPTION(std::string message);
+	explicit TASK_EXCEPTION(std::string message);
 };
 
 namespace API{

@@ -39,7 +39,7 @@ UIFeedback IndexDeleteCommand::execute(RunTimeStorage* runTimeStorage) {
 			_runTimeStorageExecuted = runTimeStorage;
 		} 
 	} catch (INDEX_NOT_FOUND_EXCEPTION e) {
-		feedback = UIFeedback(runTimeStorage->getTasksToDisplay(), e.what());
+		throw COMMAND_EXECUTION_EXCEPTION(e.what());
 	}
 	return feedback;
 }
@@ -69,7 +69,7 @@ UIFeedback DeleteAllCommand::execute(RunTimeStorage* runTimeStorage) {
 		_statusExecuted = true;
 		_runTimeStorageExecuted = runTimeStorage;
 	} catch (EMPTY_STORAGE_EXCEPTION e) {
-		feedback = UIFeedback(runTimeStorage->getTasksToDisplay(), e.what());
+		throw COMMAND_EXECUTION_EXCEPTION(e.what());
 	}
 
 	return feedback;
