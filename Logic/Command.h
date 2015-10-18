@@ -4,6 +4,13 @@
 #include "RunTimeStorage.h"
 using namespace API;
 
+class COMMAND_EXECUTION_EXCEPTION : public std::exception {
+public:
+	explicit COMMAND_EXECUTION_EXCEPTION(const char* e);
+
+	explicit COMMAND_EXECUTION_EXCEPTION(std::string errorMessage);
+};
+
 //abstract parent class for command supported. 
 class Command {
 protected:

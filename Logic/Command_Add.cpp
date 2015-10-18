@@ -20,7 +20,7 @@ UIFeedback AddCommand::execute(RunTimeStorage* runTimeStorage) {
 		_statusExecuted = true;
 		_runTimeStorageExecuted = runTimeStorage;
 	} catch (DUPLICATE_TASK_EXCEPTION e) {
-		feedback = UIFeedback(runTimeStorage->getTasksToDisplay(), e.what());
+		throw COMMAND_EXECUTION_EXCEPTION(e.what());
 	}
 	return feedback;
 }

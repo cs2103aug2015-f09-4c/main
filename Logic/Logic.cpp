@@ -7,9 +7,14 @@ Logic::Logic()  {
 }
 
 UIFeedback Logic::executeCommand(std::string userString) {
+	if (userString.empty()) {
+		RefreshCommand* refresh = new RefreshCommand();
+		return UIFeedback(_commandExecutor->execute(refresh));
+	}
+
 	UIFeedback feedback;
 
-	logger->logTRACE("\"" + userString + "\" is sent to parser for parsing.");
+	logger->logINFO("\"" + userString + "\" is sent to parser for parsing.");
 
 	CommandTokens commandTokens = _parser.parse(userString);
 	try {
@@ -18,8 +23,10 @@ UIFeedback Logic::executeCommand(std::string userString) {
 		}
 		Command* command = _commandCreator.process(commandTokens);
 		feedback = _commandExecutor->execute(command);
-	} catch (std::exception e) {
-		throw e.what();
+	} catch (INVALID_COMMAND_EXCEPTION e) {
+		throw std::string(e.what());
+	} catch (COMMAND_EXECUTION_EXCEPTION e) {
+		throw std::string(e.what());
 	}
 	return feedback;
 }

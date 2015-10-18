@@ -1,5 +1,6 @@
 #include "RunTimeStorage.h"
 
+//Constructor
 RunTimeStorage::RunTimeStorage(){
 	//Default display and sort mode for initialization
 	_displayMode = Display_Type::displayAll;
@@ -9,6 +10,7 @@ RunTimeStorage::RunTimeStorage(){
 	_physicalStorageHandler->loadFromFile(_tasks);
 }
 
+//Getter
 std::vector<Task>& RunTimeStorage::getAllTasks() {
 	return _tasks;
 }
@@ -18,6 +20,45 @@ std::vector<Task>& RunTimeStorage::getTasksToDisplay() {
 	return _tasksToDisplay;
 }
 
+//return the task reference object in _tasks based on index of _tasksToDisplay
+//index is provided by user, thus it is in base-1 (start from 1 instead of 0)
+Task& RunTimeStorage::find(size_t index) {
+	if (index > _tasksToDisplay.size()) {
+		throw INDEX_NOT_FOUND_EXCEPTION(index);
+	}
+
+	Task taskToReturn = _tasksToDisplay[index-1];
+	std::vector<Task>::iterator iter = std::find(_tasks.begin(), _tasks.end(), taskToReturn);
+
+	return *iter;
+}
+
+//find index of task in _tasks
+//used for undo purpose whereby editing task on exact index is needed
+//return index is in base-0
+size_t RunTimeStorage::find(Task& task) {
+	for (size_t i = 0 ; i < _tasks.size() ; ++i) {
+		if (_tasks[i] == task) {
+			return i;
+		}
+	}
+	
+	//if not found, return an invalid index
+	return _tasks.size();
+}
+
+//return task reference object in _tasks based on index of _tasks
+//index is base-0
+Task& RunTimeStorage::getEntry(size_t index) {
+	if (index >= _tasks.size()) {
+		throw INDEX_NOT_FOUND_EXCEPTION(index);
+	}
+
+	return _tasks[index];
+}
+
+//add a task to runTimeStorage
+//no duplicate task is allowed.
 void RunTimeStorage::add(Task task) {
 	if (isDuplicate(task)) {
 		throw DUPLICATE_TASK_EXCEPTION(); 
@@ -26,6 +67,8 @@ void RunTimeStorage::add(Task task) {
 	return;
 }
 
+//add a task into specified index in _tasks
+//used for undo only as _entryOrder need to be maintained
 void RunTimeStorage::insert(Task task, size_t index) {
 	assert(!isDuplicate(task));
 	_tasks.insert(_tasks.begin()+index, task);
@@ -70,36 +113,6 @@ void RunTimeStorage::removeAll(void) {
 	_tasks.clear();
 
 	return;
-}
-
-Task& RunTimeStorage::find(size_t index) {
-	if (index > _tasksToDisplay.size()) {
-		throw INDEX_NOT_FOUND_EXCEPTION(index);
-	}
-
-	Task taskToReturn = _tasksToDisplay[index-1];
-	std::vector<Task>::iterator iter = std::find(_tasks.begin(), _tasks.end(), taskToReturn);
-
-	return *iter;
-}
-
-Task& RunTimeStorage::getEntry(size_t index) {
-	if (index >= _tasks.size()) {
-		throw INDEX_NOT_FOUND_EXCEPTION(index);
-	}
-
-	return _tasks[index];
-}
-
-size_t RunTimeStorage::find(Task& task) {
-	for (size_t i = 0 ; i < _tasks.size() ; ++i) {
-		if (_tasks[i] == task) {
-			return i;
-		}
-	}
-	
-	//if not found, return an invalid index
-	return _tasks.size();
 }
 
 void RunTimeStorage::changeDisplayType(Display_Type type) {

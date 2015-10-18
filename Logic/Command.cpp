@@ -2,6 +2,12 @@
 #include <limits>
 #include "Command.h"
 
+COMMAND_EXECUTION_EXCEPTION::COMMAND_EXECUTION_EXCEPTION(const char* e) : std::exception(e) {
+}
+
+COMMAND_EXECUTION_EXCEPTION::COMMAND_EXECUTION_EXCEPTION(std::string errorMessage) : std::exception(errorMessage.c_str()) {
+}
+
 Command::Command(CommandTokens::PrimaryCommandType type) {
 	_type1 = type;
 	_statusExecuted = false;

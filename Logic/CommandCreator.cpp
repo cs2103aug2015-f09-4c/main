@@ -21,14 +21,14 @@ Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens
 			returnCommand = processSetCompleteCommand(commandTokens);
 			break;
 		case CommandTokens::PrimaryCommandType::Invalid:
-			returnCommand = new InvalidCommand(MESSAGE_INVALID_COMMAND);
+			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 			break;
 		default:
-			throw MESSAGE_INVALID_COMMAND;
+			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 		}
 	} catch (INVALID_COMMAND_EXCEPTION e) {
-		returnCommand = new InvalidCommand(e.what());
-	}
+		throw e;
+	} 
 
 	return returnCommand;
 }
@@ -53,10 +53,12 @@ AddCommand* CommandCreator::processAddCommand(CommandTokens commandTokens) {
 			task = Task(taskName,commandTokens.getStartDateTime(), commandTokens.getEndDateTime());
 			returnCommand = new AddCommand(CommandTokens::SecondaryCommandType::Timed, task);
 			break;
-		case CommandTokens::SecondaryCommandType::None:
-			returnCommand = new AddCommand(CommandTokens::SecondaryCommandType::None, task);
+		default:
+			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 		}
 	} catch (TASK_EXCEPTION e) {
+		throw INVALID_COMMAND_EXCEPTION(e.what());
+	} catch (INVALID_COMMAND_EXCEPTION e) {
 		throw e;
 	}
 	return returnCommand;
@@ -142,5 +144,11 @@ CommandCreator::CommandCreator() {
 }
 
 Command* CommandCreator::process(CommandTokens commandTokens) {
-	return processByPrimaryCommandType(commandTokens);
+	Command* returnCommand;
+	try {
+		returnCommand = processByPrimaryCommandType(commandTokens);
+	} catch (std::exception e) {
+		throw e;
+	}
+	return returnCommand;
 }

@@ -1,14 +1,38 @@
 #include "CommandExecutor.h"
 
+UNDO_EXCEPTION::UNDO_EXCEPTION(const char* errorMessage) : std::exception(errorMessage) {
+}
+
+UNDO_EXCEPTION::UNDO_EXCEPTION(std::string errorMessage) : std::exception(errorMessage.c_str()) {
+}
+
 CommandExecutor::CommandExecutor() {
 	_runTimeStorage = new RunTimeStorage();
+}
+
+UIFeedback CommandExecutor::execute(Command* command) {
+	UIFeedback feedback;
+	try {
+		feedback = command -> execute (_runTimeStorage);
+	} catch (COMMAND_EXECUTION_EXCEPTION e) {
+		throw e;
+	} 
+
+	if (command -> isExecuted() && command->canUndo()) {
+		_commandExecutedAndUndoable.push(command);
+	} else {
+		delete command;
+	}
+
+	_runTimeStorage->saveToFile();
+	return feedback;
 }
 
 UIFeedback CommandExecutor::undo() {
 	UIFeedback feedback;
 	try {
 		if (_commandExecutedAndUndoable.empty()) {
-			feedback = UIFeedback(_runTimeStorage->getTasksToDisplay(), MESSAGE_UNDO_EMPTY);
+			throw UNDO_EXCEPTION(MESSAGE_UNDO_EMPTY);
 		} else {
 			Command* command = _commandExecutedAndUndoable.top();
 			_commandExecutedAndUndoable.pop();
@@ -19,24 +43,6 @@ UIFeedback CommandExecutor::undo() {
 	} catch (std::string errorMessage) {
 		feedback = UIFeedback(_runTimeStorage->getTasksToDisplay(), errorMessage);
 	}
-	return feedback;
-}
-
-UIFeedback CommandExecutor::execute(Command* command) {
-	UIFeedback feedback;
-	try {
-		feedback = command -> execute (_runTimeStorage);
-	} catch (std::string errorMessage) {
-		feedback = UIFeedback(_runTimeStorage->getTasksToDisplay(), errorMessage);
-	}
-
-	if (command -> isExecuted() && command->canUndo()) {
-		_commandExecutedAndUndoable.push(command);
-	} else {
-		delete command;
-	}
-
-	_runTimeStorage->saveToFile();
 	return feedback;
 }
 
