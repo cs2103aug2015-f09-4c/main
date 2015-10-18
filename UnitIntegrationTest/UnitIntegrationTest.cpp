@@ -177,7 +177,7 @@ public:
 		// Testing complete lower bound of invalid partition that is larger than valid partition
 		feedback = logic.executeCommand(completeCommand4);
 
-		Assert::AreEqual(ONLY_POSITIVE, feedback.getFeedbackMessage());
+		Assert::AreEqual(TASK_NOT_FOUND_AT + "4", feedback.getFeedbackMessage());
 		Assert::AreEqual(true, feedback.getTasksForDisplay()[2].isComplete());
 
 		// Expected status of the tasks in taskText, startDateTime, endDateTime, complete:

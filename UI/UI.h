@@ -94,14 +94,14 @@ namespace UI {
 		void InitializeComponent(void)
 		{
 			this->outputBox = (gcnew System::Windows::Forms::DataGridView());
+			this->commandBox = (gcnew System::Windows::Forms::TextBox());
+			this->results = (gcnew System::Windows::Forms::Label());
 			this->number = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->tasks = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->start = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->end = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->tags = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->done = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->commandBox = (gcnew System::Windows::Forms::TextBox());
-			this->results = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// outputBox
@@ -112,6 +112,7 @@ namespace UI {
 			this->outputBox->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
 				| System::Windows::Forms::AnchorStyles::Left) 
 				| System::Windows::Forms::AnchorStyles::Right));
+			this->outputBox->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::Fill;
 			this->outputBox->BackgroundColor = System::Drawing::SystemColors::ControlLightLight;
 			this->outputBox->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->outputBox->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(6) {this->number, this->tasks, 
@@ -121,54 +122,6 @@ namespace UI {
 			this->outputBox->ReadOnly = true;
 			this->outputBox->Size = System::Drawing::Size(763, 275);
 			this->outputBox->TabIndex = 0;
-			// 
-			// number
-			// 
-			this->number->FillWeight = 40.83333F;
-			this->number->HeaderText = L"No.";
-			this->number->Name = L"number";
-			this->number->ReadOnly = true;
-			this->number->Width = 32;
-			// 
-			// tasks
-			// 
-			this->tasks->FillWeight = 77.49965F;
-			this->tasks->HeaderText = L"Tasks";
-			this->tasks->Name = L"tasks";
-			this->tasks->ReadOnly = true;
-			this->tasks->Width = 256;
-			// 
-			// start
-			// 
-			this->start->FillWeight = 89.46249F;
-			this->start->HeaderText = L"Start";
-			this->start->Name = L"start";
-			this->start->ReadOnly = true;
-			this->start->Width = 128;
-			// 
-			// end
-			// 
-			this->end->FillWeight = 103.3426F;
-			this->end->HeaderText = L"End";
-			this->end->Name = L"end";
-			this->end->ReadOnly = true;
-			this->end->Width = 128;
-			// 
-			// tags
-			// 
-			this->tags->FillWeight = 133.0929F;
-			this->tags->HeaderText = L"Tags";
-			this->tags->Name = L"tags";
-			this->tags->ReadOnly = true;
-			this->tags->Width = 128;
-			// 
-			// done
-			// 
-			this->done->FillWeight = 155.769F;
-			this->done->HeaderText = L"Done";
-			this->done->Name = L"done";
-			this->done->ReadOnly = true;
-			this->done->Width = 48;
 			// 
 			// commandBox
 			// 
@@ -194,6 +147,65 @@ namespace UI {
 			this->results->TabIndex = 2;
 			this->results->Text = L"Switask is ready. Enter command below to continue.";
 			// 
+			// number
+			// 
+			this->number->AutoSizeMode = System::Windows::Forms::DataGridViewAutoSizeColumnMode::None;
+			this->number->FillWeight = 40.83333F;
+			this->number->Frozen = true;
+			this->number->HeaderText = L"No.";
+			this->number->Name = L"number";
+			this->number->ReadOnly = true;
+			this->number->Resizable = System::Windows::Forms::DataGridViewTriState::False;
+			this->number->Width = 32;
+			// 
+			// tasks
+			// 
+			this->tasks->AutoSizeMode = System::Windows::Forms::DataGridViewAutoSizeColumnMode::Fill;
+			this->tasks->FillWeight = 77.49965F;
+			this->tasks->HeaderText = L"Tasks";
+			this->tasks->Name = L"tasks";
+			this->tasks->ReadOnly = true;
+			// 
+			// start
+			// 
+			this->start->AutoSizeMode = System::Windows::Forms::DataGridViewAutoSizeColumnMode::None;
+			this->start->FillWeight = 89.46249F;
+			this->start->HeaderText = L"Start";
+			this->start->Name = L"start";
+			this->start->ReadOnly = true;
+			this->start->Resizable = System::Windows::Forms::DataGridViewTriState::False;
+			this->start->Width = 128;
+			// 
+			// end
+			// 
+			this->end->AutoSizeMode = System::Windows::Forms::DataGridViewAutoSizeColumnMode::None;
+			this->end->FillWeight = 103.3426F;
+			this->end->HeaderText = L"End";
+			this->end->Name = L"end";
+			this->end->ReadOnly = true;
+			this->end->Resizable = System::Windows::Forms::DataGridViewTriState::False;
+			this->end->Width = 128;
+			// 
+			// tags
+			// 
+			this->tags->AutoSizeMode = System::Windows::Forms::DataGridViewAutoSizeColumnMode::None;
+			this->tags->FillWeight = 133.0929F;
+			this->tags->HeaderText = L"Tags";
+			this->tags->Name = L"tags";
+			this->tags->ReadOnly = true;
+			this->tags->Resizable = System::Windows::Forms::DataGridViewTriState::False;
+			this->tags->Width = 128;
+			// 
+			// done
+			// 
+			this->done->AutoSizeMode = System::Windows::Forms::DataGridViewAutoSizeColumnMode::None;
+			this->done->FillWeight = 155.769F;
+			this->done->HeaderText = L"Done";
+			this->done->Name = L"done";
+			this->done->ReadOnly = true;
+			this->done->Resizable = System::Windows::Forms::DataGridViewTriState::False;
+			this->done->Width = 48;
+			// 
 			// Swiftask
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -203,7 +215,7 @@ namespace UI {
 			this->Controls->Add(this->results);
 			this->Controls->Add(this->commandBox);
 			this->Controls->Add(this->outputBox);
-			this->MinimumSize = System::Drawing::Size(779, 374);
+			this->MinimumSize = System::Drawing::Size(579, 374);
 			this->Name = L"Swiftask";
 			this->Text = L"Swiftask";
 			this->ResumeLayout(false);
