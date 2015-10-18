@@ -229,26 +229,33 @@ namespace UI {
 	private: System::Void commandBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 				 if (e->KeyCode == Keys::Enter) {
 					 bool isValid = true;
+					 std::string eMessage;
 					 std::string commandString = getStdStringCommand();
 
 					 assert(feedback != NULL);
 
 					 Logger* logger = Logger::getInstance();
-					 logger->logTRACE("UI calling Logic for : " + commandString);
+					 logger->logDEBUG("UI calling Logic for : " + commandString);
 
 					 try {
 						 (*feedback) = logic->executeCommand(commandString);
-					 } catch(std::string e) {
+					 } catch (std::string e) {
 						 isValid = false;
-
-						 System::String^ managed = gcnew String(e.c_str());
-						 results->Text = managed;
+						 eMessage = e;
+						 logger->logDEBUG("UI caught std::string : " + eMessage);
+					 } catch (std::exception e) {
+						 isValid = false;
+						 eMessage = e.what();
+						 logger->logDEBUG("UI caught std::string : " + eMessage);
 					 }
 
-					 logger->logTRACE("UIFeedback returned from logic");
+					 logger->logDEBUG("UIFeedback returned from logic");
 
 					 if (isValid) {
 						 updateUI();
+					 } else {
+						 System::String^ managed = gcnew String(eMessage.c_str());
+						 results->Text = managed;
 					 }
 				 }
 

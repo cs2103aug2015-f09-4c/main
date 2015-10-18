@@ -1,3 +1,6 @@
+// This project is the testing of the components working together
+// The  catch blocks exist because logic may throw std::string exception or return normally
+// TODO: pending working refresh commands to refresh list of tasks and check changes
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
@@ -14,6 +17,7 @@ const std::string CMD_EDIT_START = "EdIt StArT";
 const std::string CMD_EDIT_END = "EdIt EnD";
 const std::string CMD_SEARCH = "SeArCh";
 const std::string CMD_UNDO = "UnDo";
+const std::string CMD_REFRESH = "refresh";
 
 // Feedback 'ERROR' messages when Swiftask knows something is wrong and the command is not executed.
 const std::string CMD_INVALID = "Invalid Command. No change is made.";
@@ -51,7 +55,11 @@ public:
 		Logic logic;
 		UIFeedback feedback;
 		API::Task task;
-		std::string errorMessage = CMD_INVALID;	// Logic only throws std::string CMD_INVALID messages
+
+		// Testing refresh command
+		//feedback = logic.executeCommand(CMD_REFRESH);
+		
+		//Assert::AreEqual((size_t) 0, feedback.getTasksForDisplay().size());
 
 		// Testing add commands
 		// Valid commands
@@ -90,9 +98,15 @@ public:
 		Assert::AreEqual(DATE_TIME_3, boost::posix_time::to_simple_string(task.getEndDateTime()));
 
 		// Testing add duplicates
-		feedback = logic.executeCommand(addCommand1);
+		try {
+			feedback = logic.executeCommand(addCommand1);
+			Assert::AreEqual(CMD_DUPLICATE, feedback.getFeedbackMessage());
 
-		Assert::AreEqual(CMD_DUPLICATE, feedback.getFeedbackMessage());
+		} catch (std::string e) {
+			Assert::AreEqual(CMD_DUPLICATE, e);
+		}
+
+		// feedback = logic.executeCommand(CMD_REFRESH);
 		Assert::AreEqual((size_t) 3, feedback.getTasksForDisplay().size());
 
 		// Expected status of the tasks in taskText, startDateTime, endDateTime, complete:
@@ -131,18 +145,30 @@ public:
 		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
 		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getStartDateTime()));
 
-		// Testing index lower bound of invalid partition that is larger than valid range partition
-		feedback = logic.executeCommand(editCommand0);
-		task = feedback.getTasksForDisplay()[0];
+		// Testing index upper bound of invalid partition that is smaller than valid partition
+		try {
+			feedback = logic.executeCommand(editCommand0);
+			Assert::AreEqual(ONLY_POSITIVE, feedback.getFeedbackMessage());
 
-		Assert::AreEqual(ONLY_POSITIVE, feedback.getFeedbackMessage());
+		} catch (std::exception e) {
+			Assert::AreEqual(ONLY_POSITIVE, std::string(e.what()));
+		}
+
+		// feedback = logic.executeCommand(CMD_REFRESH);
+		task = feedback.getTasksForDisplay()[0];
 		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getEndDateTime()));
 
-		// Testing index upper bound of invalid partition that is smaller than valid partition
-		feedback = logic.executeCommand(editCommand4);
-		task = feedback.getTasksForDisplay()[2];
+		// Testing index lower bound of invalid partition that is larger than valid range partition
+		try {
+			feedback = logic.executeCommand(editCommand4);
+			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", feedback.getFeedbackMessage());
 
-		Assert::AreEqual(TASK_NOT_FOUND_AT + "4", feedback.getFeedbackMessage());
+		} catch (std::string e) {
+			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", e);
+		}
+
+		// feedback = logic.executeCommand(CMD_REFRESH);
+		task = feedback.getTasksForDisplay()[2];
 		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getStartDateTime()));
 
 		// Expected status of the tasks in taskText, startDateTime, endDateTime, complete:
@@ -169,15 +195,27 @@ public:
 		Assert::AreEqual(true, feedback.getTasksForDisplay()[2].isComplete());
 
 		// Testing complete upper bound of invalid partition that is smaller than valid partition
-		feedback = logic.executeCommand(completeCommand0);
+		try {
+			feedback = logic.executeCommand(completeCommand0);
+			Assert::AreEqual(ONLY_POSITIVE, feedback.getFeedbackMessage());
 
-		Assert::AreEqual(ONLY_POSITIVE, feedback.getFeedbackMessage());
+		} catch (std::exception e) {
+			Assert::AreEqual(ONLY_POSITIVE, std::string(e.what()));
+		}
+
+		// feedback = logic.executeCommand(CMD_REFRESH);
 		Assert::AreEqual(true, feedback.getTasksForDisplay()[0].isComplete());
 
 		// Testing complete lower bound of invalid partition that is larger than valid partition
-		feedback = logic.executeCommand(completeCommand4);
+		try {
+			feedback = logic.executeCommand(completeCommand4);
+			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", feedback.getFeedbackMessage());
 
-		Assert::AreEqual(TASK_NOT_FOUND_AT + "4", feedback.getFeedbackMessage());
+		} catch (std::string e) {
+			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", e);
+		}
+
+		// feedback = logic.executeCommand(CMD_REFRESH);
 		Assert::AreEqual(true, feedback.getTasksForDisplay()[2].isComplete());
 
 		// Expected status of the tasks in taskText, startDateTime, endDateTime, complete:
@@ -212,19 +250,31 @@ public:
 		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getEndDateTime()));
 
 		// Testing index lower bound of invalid partition that is larger than valid partition
+		try {
 		feedback = logic.executeCommand(deleteCommand2);
-		task = feedback.getTasksForDisplay()[0];
-
 		Assert::AreEqual(TASK_NOT_FOUND_AT + "2", feedback.getFeedbackMessage());
+
+		} catch (std::string e) {
+			Assert::AreEqual(TASK_NOT_FOUND_AT + "2", e);
+		}
+
+		// feedback = logic.executeCommand(CMD_REFRESH);
+		task = feedback.getTasksForDisplay()[0];
 		Assert::AreEqual((size_t) 1, feedback.getTasksForDisplay().size());
 		Assert::AreEqual(TASK_D, task.getTaskText());
 		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getStartDateTime()));
 		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getEndDateTime()));
 
 		// Testing index upper bound of invalid partition that is smaller than valid partition
-		feedback = logic.executeCommand(deleteCommand0);
+		try {
+			feedback = logic.executeCommand(deleteCommand0);
+			Assert::AreEqual(ONLY_POSITIVE, feedback.getFeedbackMessage());
 
-		Assert::AreEqual(ONLY_POSITIVE, feedback.getFeedbackMessage());
+		} catch (std::exception e) {
+			Assert::AreEqual(ONLY_POSITIVE, std::string(e.what()));
+		}
+
+		// feedback = logic.executeCommand(CMD_REFRESH);
 		Assert::AreEqual((size_t) 1, feedback.getTasksForDisplay().size());
 		Assert::AreEqual(TASK_D, task.getTaskText());
 		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getStartDateTime()));
