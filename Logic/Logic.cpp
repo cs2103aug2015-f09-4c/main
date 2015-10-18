@@ -7,15 +7,20 @@ Logic::Logic()  {
 }
 
 UIFeedback Logic::executeCommand(std::string userString) {
+	UIFeedback feedback;
+
 	logger->logTRACE("\"" + userString + "\" is sent to parser for parsing.");
+
 	CommandTokens commandTokens = _parser.parse(userString);
-	
-	if (commandTokens.getPrimaryCommand() == CommandTokens::PrimaryCommandType::Undo) {
-		return _commandExecutor->undo();
+	try {
+		if (commandTokens.getPrimaryCommand() == CommandTokens::PrimaryCommandType::Undo) {
+			return _commandExecutor->undo();
+		}
+		Command* command = _commandCreator.process(commandTokens);
+		feedback = _commandExecutor->execute(command);
+	} catch (std::exception e) {
+		throw e.what();
 	}
-	Command* command = _commandCreator.process(commandTokens);
-	UIFeedback feedback = _commandExecutor->execute(command);
-	
 	return feedback;
 }
 

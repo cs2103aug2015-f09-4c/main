@@ -87,8 +87,8 @@ bool Task::isEndLessThanStart(boost::posix_time::ptime start, boost::posix_time:
 	}
 }
 
-void Task::setComplete() {
-	_isComplete = true;
+void Task::toggleComplete() {
+	_isComplete = !_isComplete;
 }
 
 void Task::changeTaskText(std::string newTaskText) {
