@@ -85,6 +85,7 @@ public:
 
 	void removeLastEntry();
 	Task remove(size_t index);
+	void removeEntry(size_t index);
 	void removeAll();	
 
 	Task& find(size_t index);

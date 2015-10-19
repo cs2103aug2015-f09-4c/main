@@ -105,6 +105,14 @@ Task RunTimeStorage::remove(size_t index) {
 	return taskToDelete;
 }
 
+void RunTimeStorage::removeEntry(size_t index) {
+	if (index > _tasks.size()) {
+		throw INDEX_NOT_FOUND_EXCEPTION(index);
+	}
+
+	_tasks.erase(_tasks.begin() + index);
+}
+
 void RunTimeStorage::removeAll(void) {
 	if (_tasks.empty()) {
 		throw EMPTY_STORAGE_EXCEPTION();

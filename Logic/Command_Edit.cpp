@@ -14,6 +14,8 @@ EditNameCommand::EditNameCommand(size_t index, std::string newTaskText):EditComm
 }
 
 UIFeedback EditNameCommand::execute(RunTimeStorage* runTimeStorage) {
+	assert (runTimeStorage != NULL);
+
 	std::string feedbackMessage;
 
 	assert (!_newTaskText.empty());
@@ -56,6 +58,8 @@ EditStartCommand::EditStartCommand(size_t index, boost::posix_time::ptime newSta
 }
 
 UIFeedback EditStartCommand::execute(RunTimeStorage* runTimeStorage) {
+	assert (runTimeStorage != NULL);
+
 	std::string feedbackMessage;
 
 	try {
@@ -99,6 +103,7 @@ EditEndCommand::EditEndCommand(size_t index, boost::posix_time::ptime newEnd) : 
 }
 
 UIFeedback EditEndCommand::execute(RunTimeStorage* runTimeStorage) {
+	assert (runTimeStorage != NULL);
 	std::string feedbackMessage;
 	try {
 		Task& taskToEdit = runTimeStorage -> find(_index);

@@ -6,6 +6,7 @@ AddCommand::AddCommand (CommandTokens::SecondaryCommandType type2, Task task) : 
 }
 
 UIFeedback AddCommand::execute(RunTimeStorage* runTimeStorage) {
+	assert (runTimeStorage != NULL);
 	UIFeedback feedback;
 	assert(_task.isValid());
 	try {
