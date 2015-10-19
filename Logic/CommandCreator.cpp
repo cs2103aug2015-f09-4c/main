@@ -68,6 +68,7 @@ DeleteCommand* CommandCreator::processDeleteCommand(CommandTokens commandTokens)
 	DeleteCommand* returnCommand = NULL;
 	CommandTokens::SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
 	int index = commandTokens.getIndex(); 
+	boost::posix_time::ptime startDateTime = commandTokens.getStartDateTime();
 	boost::posix_time::ptime endDateTime = commandTokens.getEndDateTime();
 	switch (command2) {
 	case CommandTokens::SecondaryCommandType::Index:
@@ -82,9 +83,17 @@ DeleteCommand* CommandCreator::processDeleteCommand(CommandTokens commandTokens)
 		break;
 	case CommandTokens::SecondaryCommandType::Todo:
 		if (endDateTime.is_special()) {
-			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_DATE_TIME);
+			throw INVALID_COMMAND_EXCEPTION (MESSAGE_INVALID_DATE_TIME);
 		}
 		returnCommand = new DeleteBeforeCommand(endDateTime);
+		break;
+	case CommandTokens::SecondaryCommandType::Timed:
+		if (startDateTime > endDateTime) {
+			throw INVALID_COMMAND_EXCEPTION (MESSAGE_END_LESS_THAN_START);
+		} else if (startDateTime.is_special() || endDateTime.is_special()) {
+			throw INVALID_COMMAND_EXCEPTION (MESSAGE_INVALID_DATE_TIME);
+		}
+		returnCommand = new DeleteFromToCommand(startDateTime, endDateTime);
 		break;
 	default:
 		throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);

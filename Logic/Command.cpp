@@ -2,6 +2,12 @@
 #include <limits>
 #include "Command.h"
 
+COMMAND_CREATION_EXCEPTION::COMMAND_CREATION_EXCEPTION (const char* e) : std::exception(e) {
+}
+
+COMMAND_CREATION_EXCEPTION::COMMAND_CREATION_EXCEPTION (std::string errorMessage) : std::exception(errorMessage.c_str()){
+}
+
 COMMAND_EXECUTION_EXCEPTION::COMMAND_EXECUTION_EXCEPTION(const char* e) : std::exception(e) {
 }
 
