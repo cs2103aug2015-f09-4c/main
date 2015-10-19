@@ -5,6 +5,7 @@
 const std::string MESSAGE_DELETE_INDEX_SUCCESS = "Task at index %i have been deleted successfully.";
 const std::string MESSAGE_DELETE_ALL_SUCCESS = "All tasks have been removed.";
 const std::string MESSAGE_DELETE_BEFORE_SUCCESS = "All tasks ended before %s have been removed.";
+const std::string MESSAGE_DELETE_EMPTY = "No task suited the condition is found. No task is deleted.";
 
 const std::string MESSAGE_DELETE_UNDO = "Previous delete operation is undoed.";
 

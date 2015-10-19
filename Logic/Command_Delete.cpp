@@ -77,6 +77,11 @@ UIFeedback DeleteBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
 				}
 			}
 		}
+
+		if (_tasksDeleted.empty()) {
+			throw COMMAND_EXECUTION_EXCEPTION(MESSAGE_DELETE_EMPTY);
+		}
+
 		numTask = _tasksDeleted.size();
 
 		//backward delete so that index of tasks before it will not be affected.
@@ -97,8 +102,21 @@ UIFeedback DeleteBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
 	feedbackMessage = std::string(buffer);
 	return UIFeedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
 }
+
 UIFeedback DeleteBeforeCommand::undo(void) {
-	return UIFeedback();
+	assert (_statusExecuted);
+	assert(_runTimeStorageExecuted!=NULL);
+	assert(!_tasksDeleted.empty());
+	assert(_tasksDeleted.size() == _indexTaskDeleted.size());
+
+	for (size_t i = 0 ; i < _tasksDeleted.size() ; ++i) {
+		_runTimeStorageExecuted -> insert (_tasksDeleted[i], _indexTaskDeleted[i]);
+	}
+
+	_tasksDeleted.clear();
+	_indexTaskDeleted.clear();
+
+	return UIFeedback(_runTimeStorageExecuted -> getTasksToDisplay(), MESSAGE_DELETE_UNDO);
 }
 
 DeleteBeforeCommand::~DeleteBeforeCommand(void) {
