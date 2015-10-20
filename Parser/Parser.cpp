@@ -114,8 +114,7 @@ bool Parser::isDisplayCommand(std::string& userInput) {
 }
 
 bool Parser::isEditCommand(std::string& userInput) {
-	return std::regex_match(userInput, std::regex("edit .+",
-	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return EditCommandTokeniser::isEditCommand(userInput);
 }
 
 bool Parser::isExportCommand(std::string& userInput) {
