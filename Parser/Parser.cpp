@@ -98,8 +98,7 @@ CommandTokens::PrimaryCommandType Parser::parsePrimaryCommand(std::string userIn
 }
 
 bool Parser::isAddCommand(std::string& userInput) {
-	return std::regex_match(userInput, std::regex("add .+",
-	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return AddCommandTokeniser::isAddCommand(userInput);
 }
 
 bool Parser::isCompleteCommand(std::string& userInput) {

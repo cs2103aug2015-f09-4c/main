@@ -8,6 +8,14 @@ AddCommandTokeniser::~AddCommandTokeniser(void) {
 	// nothing here
 }
 
+bool AddCommandTokeniser::isAddCommand(std::string userInput) {
+	if (isAddActivityCommand(userInput) || isAddTodoCommand(userInput) || isAddFloatingCommand(userInput)) {
+		return true;
+	}
+
+	return false;
+}
+
 CommandTokens AddCommandTokeniser::tokeniseUserInput(std::string userInput) {
 	_commandTokens.resetMemberVariables();
 	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Add);
@@ -21,7 +29,7 @@ CommandTokens AddCommandTokeniser::tokeniseUserInput(std::string userInput) {
 		tokeniseAddActivityCommand(userInput);
 	} else if (isAddTodoCommand(userInput)) {
 		tokeniseAddTodoCommand(userInput);
-	} else {
+	} else if (isAddFloatingCommand(userInput)) {
 		tokeniseAddFloatingCommand(userInput);
 	}
 
@@ -43,7 +51,7 @@ bool AddCommandTokeniser::hasTags(std::string userInput) {
 // case-insensitive
 bool AddCommandTokeniser::isAddActivityCommand(std::string userInput) {
 	return std::regex_match(userInput,
-	                        std::regex("add .+ from .+ TO .+",
+	                        std::regex("add .+ from .+ to .+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
@@ -51,6 +59,13 @@ bool AddCommandTokeniser::isAddActivityCommand(std::string userInput) {
 bool AddCommandTokeniser::isAddTodoCommand(std::string userInput) {
 	return std::regex_match(userInput,
 	                        std::regex("add .+ by .+",
+	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
+// returns true if userInput contains "by"; case-insensitive
+bool AddCommandTokeniser::isAddFloatingCommand(std::string userInput) {
+	return std::regex_match(userInput,
+	                        std::regex("add .+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
