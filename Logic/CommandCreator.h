@@ -5,6 +5,7 @@
 #include "..\Logger\Logger.h"
 #include "CommandHeader.h"
 
+const std::string MESSAGE_INVALID_COMMAND = "Invalid Command. No change is made.";
 const std::string MESSAGE_NON_POSITIVE_INDEX = "Only positive index is allowed. No change is made.";
 const std::string MESSAGE_INVALID_DATE_TIME = "Invalid date time is found. Please use the following format for date time : dd-mm-yyyy hhmm";
 
