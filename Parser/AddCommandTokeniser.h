@@ -6,7 +6,6 @@ public:
 	AddCommandTokeniser(void);
 	virtual ~AddCommandTokeniser(void);
 	virtual CommandTokens tokeniseUserInput(std::string userInput) override;
-
 	static bool isAddCommand(std::string userInput);
 
 private:

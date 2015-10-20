@@ -12,16 +12,28 @@ CommandTokens CompleteCommandTokeniser::tokeniseUserInput(std::string userInput)
 	_commandTokens.resetMemberVariables();
 	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Complete);
 
-	tokeniseCompleteCommand(userInput);
+	tokeniseCompleteIndexCommand(userInput);
 	return _commandTokens;
 }
 
-void CompleteCommandTokeniser::tokeniseCompleteCommand(std::string userInput) {
+bool CompleteCommandTokeniser::isCompleteCommand(std::string userInput) {
+	if (isCompleteIndexCommand(userInput)) {
+		return true;
+	}
+	return false;
+}
+
+bool CompleteCommandTokeniser::isCompleteIndexCommand(std::string userInput) {
+	return std::regex_match(userInput, std::regex("complete [0-9]+",
+	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
+void CompleteCommandTokeniser::tokeniseCompleteIndexCommand(std::string userInput) {
 	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Index);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-	                 std::regex("complete ([0-9]{1,})",
+	                 std::regex("complete ([0-9]+)",
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	int index = std::stoi(matchResults[1]);
