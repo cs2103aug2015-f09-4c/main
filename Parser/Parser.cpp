@@ -106,8 +106,7 @@ bool Parser::isCompleteCommand(std::string& userInput) {
 }
 
 bool Parser::isDeleteCommand(std::string& userInput) {
-	return std::regex_match(userInput, std::regex("delete .+",
-	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return DeleteCommandTokeniser::isDeleteCommand(userInput);
 }
 
 bool Parser::isDisplayCommand(std::string& userInput) {
