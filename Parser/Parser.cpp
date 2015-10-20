@@ -118,8 +118,7 @@ bool Parser::isEditCommand(std::string& userInput) {
 }
 
 bool Parser::isExportCommand(std::string& userInput) {
-	return std::regex_match(userInput, std::regex("export [^ ]+",
-	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return ExportCommandTokeniser::isExportCommand(userInput);
 }
 
 bool Parser::isUndoCommand(std::string& userInput) {
