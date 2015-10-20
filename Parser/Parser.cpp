@@ -34,7 +34,7 @@ CommandTokens::PrimaryCommandType Parser::getPrimaryCommand(std::string userInpu
 	CommandTokens::PrimaryCommandType primaryCommandType;
 	try {
 		primaryCommandType = parsePrimaryCommand(userInput);
-	} catch (std::exception e) {
+	} catch (CommandDoesNotExistException& e) {
 		primaryCommandType = CommandTokens::PrimaryCommandType::Invalid;
 	}
 	return primaryCommandType;
@@ -98,36 +98,29 @@ CommandTokens::PrimaryCommandType Parser::parsePrimaryCommand(std::string userIn
 }
 
 bool Parser::isAddCommand(std::string& userInput) {
-	return std::regex_match(userInput, std::regex("add .+",
-	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return AddCommandTokeniser::isAddCommand(userInput);
 }
 
 bool Parser::isCompleteCommand(std::string& userInput) {
-	return std::regex_match(userInput, std::regex("complete .+",
-	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return CompleteCommandTokeniser::isCompleteCommand(userInput);
 }
 
 bool Parser::isDeleteCommand(std::string& userInput) {
-	return std::regex_match(userInput, std::regex("delete .+",
-	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return DeleteCommandTokeniser::isDeleteCommand(userInput);
 }
 
 bool Parser::isDisplayCommand(std::string& userInput) {
-	return std::regex_match(userInput, std::regex("display .+",
-	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return DisplayCommandTokeniser::isDisplayCommand(userInput);
 }
 
 bool Parser::isEditCommand(std::string& userInput) {
-	return std::regex_match(userInput, std::regex("edit .+",
-	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return EditCommandTokeniser::isEditCommand(userInput);
 }
 
 bool Parser::isExportCommand(std::string& userInput) {
-	return std::regex_match(userInput, std::regex("export [^ ]+",
-	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return ExportCommandTokeniser::isExportCommand(userInput);
 }
 
 bool Parser::isUndoCommand(std::string& userInput) {
-	return std::regex_match(userInput, std::regex("undo",
-	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return UndoCommandTokeniser::isUndoCommand(userInput);
 }

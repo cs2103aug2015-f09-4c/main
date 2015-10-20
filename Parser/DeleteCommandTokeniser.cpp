@@ -33,15 +33,26 @@ void DeleteCommandTokeniser::tokeniseDeleteByCommand(std::string userInput) {
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-	                 std::regex("delete by (.{1,})",
+	                 std::regex("delete by (.+)",
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	_commandTokens.setEndDateTime(parseUserInputDate(matchResults[1]));
 }
 
+bool DeleteCommandTokeniser::isDeleteCommand(std::string userInput) {
+	if (isDeleteBy(userInput) ||
+		isDeleteAll(userInput) ||
+		isDeleteFrom(userInput) ||
+		isDeleteFromTo(userInput) ||
+		isDeleteIndex(userInput)) {
+		return true;
+	}
+	return false;
+}
+
 bool DeleteCommandTokeniser::isDeleteBy(std::string userInput) {
 	return std::regex_match(userInput,
-	                        std::regex("delete by .*",
+	                        std::regex("delete by .+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
@@ -50,7 +61,7 @@ bool DeleteCommandTokeniser::isDeleteBy(std::string userInput) {
 // case-insensitive
 bool DeleteCommandTokeniser::isDeleteAll(std::string userInput) {
 	return std::regex_match(userInput,
-	                        std::regex("delete all *",
+	                        std::regex("delete all",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
@@ -58,19 +69,19 @@ bool DeleteCommandTokeniser::isDeleteAll(std::string userInput) {
 // case-insensitive
 bool DeleteCommandTokeniser::isDeleteFromTo(std::string userInput) {
 	return std::regex_match(userInput,
-	                        std::regex("delete from .{1,} to .{1,}",
+	                        std::regex("delete from .+ to .+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 bool DeleteCommandTokeniser::isDeleteFrom(std::string userInput) {
 	return std::regex_match(userInput,
-	                        std::regex("delete from .{1,}",
+	                        std::regex("delete from .+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 bool DeleteCommandTokeniser::isDeleteIndex(std::string userInput) {
 	return std::regex_match(userInput,
-	                        std::regex("delete [0-9]{1,}",
+	                        std::regex("delete [0-9]+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
@@ -83,7 +94,7 @@ void DeleteCommandTokeniser::tokeniseDeleteFromToCommand(std::string userInput) 
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-	                 std::regex("delete from (.{1,}) to (.{1,})",
+	                 std::regex("delete from (.+) to (.+)",
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	_commandTokens.setStartDateTime(parseUserInputDate(matchResults[1]));
@@ -95,7 +106,7 @@ void DeleteCommandTokeniser::tokeniseDeleteFromCommand(std::string userInput) {
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-	                 std::regex("delete from (.{1,})",
+	                 std::regex("delete from (.+)",
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	_commandTokens.setStartDateTime(parseUserInputDate(matchResults[1]));
@@ -106,7 +117,7 @@ void DeleteCommandTokeniser::tokeniseDeleteIndex(std::string userInput) {
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-	                 std::regex("delete ([0-9]{1,})",
+	                 std::regex("delete ([0-9]+)",
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	int index = stoi(matchResults[1]);
