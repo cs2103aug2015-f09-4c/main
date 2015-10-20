@@ -1,6 +1,10 @@
 #pragma once
 #include "CommandTokeniser.h"
 
+// serves two related purposes:
+// first, provides a static public method to check if an entered command is
+// indeed of Add PrimaryCommandType
+// second, tokenises the entered command into the various arguments
 class AddCommandTokeniser : public CommandTokeniser {
 public:
 	AddCommandTokeniser(void);
