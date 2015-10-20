@@ -110,8 +110,7 @@ bool Parser::isDeleteCommand(std::string& userInput) {
 }
 
 bool Parser::isDisplayCommand(std::string& userInput) {
-	return std::regex_match(userInput, std::regex("display .+",
-	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return DisplayCommandTokeniser::isDisplayCommand(userInput);
 }
 
 bool Parser::isEditCommand(std::string& userInput) {
