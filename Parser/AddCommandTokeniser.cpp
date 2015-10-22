@@ -37,13 +37,13 @@ CommandTokens AddCommandTokeniser::tokeniseUserInput(std::string userInput) {
 }
 
 std::string AddCommandTokeniser::trimTags(std::string userInput) {
-	int endIndex = userInput.find("#");
+	int endIndex = userInput.find(" #");
 	return userInput.substr(0, endIndex);
 }
 
 bool AddCommandTokeniser::hasTags(std::string userInput) {
 	return std::regex_match(userInput,
-	                        std::regex(".+ #.+",
+	                        std::regex(".+?( #[^ ]+)+",
 	                                   std::regex_constants::ECMAScript));
 }
 
