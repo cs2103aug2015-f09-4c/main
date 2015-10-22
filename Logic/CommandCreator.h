@@ -47,7 +47,11 @@ public:
 #ifdef TESTMODE
 
 	AddCommand* testProcessAddCommand(CommandTokens commandTokens) {
-		return processAddCommand(commandTokens);
+		try {
+			return processAddCommand(commandTokens);
+		} catch (std::exception e) {
+			throw e;
+		}
 	}
 
 	DeleteIndexCommand* testProcessDeleteIndexCommand(CommandTokens commandTokens) {

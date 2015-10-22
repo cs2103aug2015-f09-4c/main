@@ -127,8 +127,8 @@ public:
 
 		//normal case
 		std::string taskName = "do something";
-		std::string timeString1("20-01-2002 23:59");
-		std::string timeString2("20-02-2002 23:59");
+		std::string timeString1("2002-01-20 23:59:59.000");
+		std::string timeString2("2002-01-21 23:59:59.000");
 		token.setPrimaryCommand(CommandTokens::Add);
 		token.setSecondaryCommand(CommandTokens::Timed);
 		token.setTaskName(taskName);
