@@ -16,7 +16,10 @@ public:
 		Export,
 		Help,
 		Invalid,
-		Undo
+		Refresh,
+		Tag,
+		Undo,
+		Untag
 	};
 
 	// Command Type to further specify the operation
