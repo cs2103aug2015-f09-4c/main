@@ -76,6 +76,7 @@ private:
 };
 
 class CommandDoesNotExistException: public std::exception {
+public:
 	virtual const char* what() const throw() override {
 		return "Command does not exist";
 	}
