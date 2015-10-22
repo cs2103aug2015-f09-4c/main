@@ -6,7 +6,10 @@
 #include "DisplayCommandTokeniser.h"
 #include "ExportCommandTokeniser.h"
 #include "EditCommandTokeniser.h"
+#include "RefreshCommandTokeniser.h"
+#include "TagCommandTokeniser.h"
 #include "UndoCommandTokeniser.h"
+#include "UntagCommandTokeniser.h"
 
 Parser::Parser(void) {
 	_logger = Logger::getInstance();
@@ -63,8 +66,17 @@ void Parser::initialiseCommandTokeniser(CommandTokens::PrimaryCommandType primar
 		case CommandTokens::PrimaryCommandType::Export:
 			_commandTokeniser = new ExportCommandTokeniser;
 			break;
+		case CommandTokens::PrimaryCommandType::Refresh:
+			_commandTokeniser = new RefreshCommandTokeniser;
+			break;
+		case CommandTokens::PrimaryCommandType::Tag:
+			_commandTokeniser = new TagCommandTokeniser;
+			break;
 		case CommandTokens::PrimaryCommandType::Undo:
 			_commandTokeniser = new UndoCommandTokeniser;
+			break;
+		case CommandTokens::PrimaryCommandType::Untag:
+			_commandTokeniser = new UntagCommandTokeniser;
 			break;
 		default:
 			// default should not be reached because of inclusion guard in
@@ -78,6 +90,8 @@ CommandTokens::PrimaryCommandType Parser::parsePrimaryCommand(std::string userIn
 
 	if (isAddCommand(userInput)) {
 		commandType = CommandTokens::PrimaryCommandType::Add;
+	} else if (isCompleteCommand(userInput)) {
+		commandType = CommandTokens::PrimaryCommandType::Complete;
 	} else if (isDeleteCommand(userInput)) {
 		commandType = CommandTokens::PrimaryCommandType::Delete;
 	} else if (isDisplayCommand(userInput)) {
@@ -86,10 +100,14 @@ CommandTokens::PrimaryCommandType Parser::parsePrimaryCommand(std::string userIn
 		commandType = CommandTokens::PrimaryCommandType::Edit;
 	} else if (isExportCommand(userInput)) {
 		commandType = CommandTokens::PrimaryCommandType::Export;
-	} else if (isCompleteCommand(userInput)) {
-		commandType = CommandTokens::PrimaryCommandType::Complete;
+	} else if (isRefreshCommand(userInput)) {
+		commandType = CommandTokens::PrimaryCommandType::Refresh;
+	} else if (isTagCommand(userInput)) {
+		commandType = CommandTokens::PrimaryCommandType::Tag;
 	} else if (isUndoCommand(userInput)) {
 		commandType = CommandTokens::PrimaryCommandType::Undo;
+	} else if (isUntagCommand(userInput)) {
+		commandType = CommandTokens::PrimaryCommandType::Untag;
 	} else {
 		throw CommandDoesNotExistException();
 	}
@@ -121,6 +139,18 @@ bool Parser::isExportCommand(std::string& userInput) {
 	return ExportCommandTokeniser::isExportCommand(userInput);
 }
 
+bool Parser::isRefreshCommand(std::string& userInput) {
+	return RefreshCommandTokeniser::isRefreshCommand(userInput);
+}
+
+bool Parser::isTagCommand(std::string& userInput) {
+	return TagCommandTokeniser::isTagCommand(userInput);
+}
+
 bool Parser::isUndoCommand(std::string& userInput) {
 	return UndoCommandTokeniser::isUndoCommand(userInput);
+}
+
+bool Parser::isUntagCommand(std::string & userInput) {
+	return UntagCommandTokeniser::isUntagCommand(userInput);
 }
