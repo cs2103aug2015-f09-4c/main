@@ -249,3 +249,5 @@ FakesAssemblies/
 _Pvt_Extensions
 ParserStub/ParserStub.vcxproj
 UI/defaultSaveFile.txt
+Logic/html/
+Logic/latex/
