@@ -20,6 +20,9 @@ Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens
 		case CommandTokens::PrimaryCommandType::Complete:
 			returnCommand = processSetCompleteCommand(commandTokens);
 			break;
+		case CommandTokens::PrimaryCommandType::Export:
+			returnCommand = processExportCommand(commandTokens);
+			break;
 		case CommandTokens::PrimaryCommandType::Invalid:
 			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 			break;
@@ -28,7 +31,9 @@ Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens
 		}
 	} catch (INVALID_COMMAND_EXCEPTION e) {
 		throw e;
-	} 
+	} catch (COMMAND_CREATION_EXCEPTION e) {
+		throw e;
+	}
 
 	return returnCommand;
 }
@@ -162,6 +167,12 @@ SetCompleteCommand* CommandCreator::processSetCompleteCommand(CommandTokens comm
 	default:
 		throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 	}
+	return returnCommand;
+}
+
+ExportCommand* CommandCreator::processExportCommand(CommandTokens commandTokens) {
+	std::string filePath = commandTokens.getOtherCommandParameter();
+	ExportCommand* returnCommand = new ExportCommand(filePath);
 	return returnCommand;
 }
 
