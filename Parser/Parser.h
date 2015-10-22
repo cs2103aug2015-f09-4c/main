@@ -29,6 +29,7 @@ private:
 	bool isEditCommand(std::string& userInput);
 	bool isDisplayCommand(std::string& userInput);
 	bool isExportCommand(std::string& userInput);
+	bool isRefreshCommand(std::string& userInput);
 	bool isTagCommand(std::string& userInput);
 	bool isUndoCommand(std::string& userInput);	
 	bool isUntagCommand(std::string& userInput);

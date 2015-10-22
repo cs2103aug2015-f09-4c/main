@@ -5,7 +5,8 @@
 #include "DeleteCommandTokeniser.h"
 #include "DisplayCommandTokeniser.h"
 #include "ExportCommandTokeniser.h"
-#include "EditCommandTokeniser.h""
+#include "EditCommandTokeniser.h"
+#include "RefreshCommandTokeniser.h"
 #include "TagCommandTokeniser.h"
 #include "UndoCommandTokeniser.h"
 #include "UntagCommandTokeniser.h"
@@ -65,6 +66,9 @@ void Parser::initialiseCommandTokeniser(CommandTokens::PrimaryCommandType primar
 		case CommandTokens::PrimaryCommandType::Export:
 			_commandTokeniser = new ExportCommandTokeniser;
 			break;
+		case CommandTokens::PrimaryCommandType::Refresh:
+			_commandTokeniser = new RefreshCommandTokeniser;
+			break;
 		case CommandTokens::PrimaryCommandType::Tag:
 			_commandTokeniser = new TagCommandTokeniser;
 			break;
@@ -96,6 +100,8 @@ CommandTokens::PrimaryCommandType Parser::parsePrimaryCommand(std::string userIn
 		commandType = CommandTokens::PrimaryCommandType::Edit;
 	} else if (isExportCommand(userInput)) {
 		commandType = CommandTokens::PrimaryCommandType::Export;
+	} else if (isRefreshCommand(userInput)) {
+		commandType = CommandTokens::PrimaryCommandType::Refresh;
 	} else if (isTagCommand(userInput)) {
 		commandType = CommandTokens::PrimaryCommandType::Tag;
 	} else if (isUndoCommand(userInput)) {
@@ -131,6 +137,10 @@ bool Parser::isEditCommand(std::string& userInput) {
 
 bool Parser::isExportCommand(std::string& userInput) {
 	return ExportCommandTokeniser::isExportCommand(userInput);
+}
+
+bool Parser::isRefreshCommand(std::string& userInput) {
+	return ExportCommandTokeniser::isRefreshCommand(userInput);
 }
 
 bool Parser::isTagCommand(std::string& userInput) {

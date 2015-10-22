@@ -16,6 +16,7 @@ public:
 		Export,
 		Help,
 		Invalid,
+		Refresh,
 		Tag,
 		Undo,
 		Untag
