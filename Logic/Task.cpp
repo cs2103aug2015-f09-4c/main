@@ -53,6 +53,10 @@ boost::posix_time::ptime Task::getEndDateTime() {
 	return _endDateTime;
 }
 
+std::set<std::string>& Task::getTags() {
+	return _tags;
+}
+
 bool Task::operator== (Task another) {
 	if (this->_taskText != another._taskText) {
 		return false;
