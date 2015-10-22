@@ -7,11 +7,6 @@ Logic::Logic()  {
 }
 
 UIFeedback Logic::executeCommand(std::string userString) {
-	if (userString.empty()) {
-		RefreshCommand* refresh = new RefreshCommand();
-		return UIFeedback(_commandExecutor->execute(refresh));
-	}
-
 	UIFeedback feedback;
 
 	logger->logINFO("\"" + userString + "\" is sent to parser for parsing.");

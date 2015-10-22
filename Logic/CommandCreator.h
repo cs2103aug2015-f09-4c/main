@@ -29,6 +29,8 @@ private:
 	static SetCompleteCommand* processSetCompleteCommand(CommandTokens commandTokens);
 
 	static ExportCommand* processExportCommand(CommandTokens commandTokens);
+
+	static RefreshCommand* processRefreshCommand(CommandTokens commandTokens);
 public:
 	CommandCreator();
 	Command* process(CommandTokens commandTokens);
