@@ -37,20 +37,30 @@ AddCommand* CommandCreator::processAddCommand(CommandTokens commandTokens) {
 	AddCommand* returnCommand = NULL;
 	CommandTokens::SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
 	Task task;
+	std::vector<std::string> tags = commandTokens.getTags();
 
 	std::string taskName = commandTokens.getTaskName();
 	try {
 		switch (command2) {
 		case CommandTokens::SecondaryCommandType::Floating:
 			task = Task(taskName);
+			for (size_t i = 0 ; i < tags.size() ; ++i) {
+				task.addTag(tags[i]);
+			}
 			returnCommand = new AddCommand(CommandTokens::SecondaryCommandType::Floating,task);
 			break;
 		case CommandTokens::SecondaryCommandType::Todo:
 			task = Task(taskName,commandTokens.getEndDateTime());
+			for (size_t i = 0 ; i < tags.size() ; ++i) {
+				task.addTag(tags[i]);
+			}
 			returnCommand = new AddCommand(CommandTokens::SecondaryCommandType::Todo,task);
 			break;
 		case CommandTokens::SecondaryCommandType::Timed:
 			task = Task(taskName,commandTokens.getStartDateTime(), commandTokens.getEndDateTime());
+			for (size_t i = 0 ; i < tags.size() ; ++i) {
+				task.addTag(tags[i]);
+			}
 			returnCommand = new AddCommand(CommandTokens::SecondaryCommandType::Timed, task);
 			break;
 		default:

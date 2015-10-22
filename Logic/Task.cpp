@@ -116,3 +116,16 @@ void Task::changeEndDateTime(boost::posix_time::ptime newEndDateTime) {
 
 	_endDateTime = newEndDateTime;
 }
+
+void Task::addTag(std::string tag) {
+	_tags.insert(tag);
+}
+
+void Task::removeTag(std::string tag) {
+	std::set<std::string>::iterator iter = _tags.find(tag);
+	if (iter == _tags.end()) {
+		throw TASK_EXCEPTION(MESSAGE_TAG_NOT_FOUND);
+	} else {
+		_tags.erase(iter);
+	}
+}
