@@ -44,9 +44,6 @@
     <ClInclude Include="Command_Edit.h">
       <Filter>Header Files\Command</Filter>
     </ClInclude>
-    <ClInclude Include="Command_Invalid.h">
-      <Filter>Header Files\Command</Filter>
-    </ClInclude>
     <ClInclude Include="Command_Set.h">
       <Filter>Header Files\Command</Filter>
     </ClInclude>
@@ -83,9 +80,6 @@
       <Filter>Source Files\Command</Filter>
     </ClCompile>
     <ClCompile Include="Command_Edit.cpp">
-      <Filter>Source Files\Command</Filter>
-    </ClCompile>
-    <ClCompile Include="Command_Invalid.cpp">
       <Filter>Source Files\Command</Filter>
     </ClCompile>
     <ClCompile Include="Command_Set.cpp">

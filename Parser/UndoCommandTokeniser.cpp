@@ -10,9 +10,27 @@ UndoCommandTokeniser::~UndoCommandTokeniser(void) {
 }
 
 CommandTokens UndoCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	// currently only supports one undo command, no tokenising needed
 	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Undo);
-	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::None);
+
+	if (isUndoOnceCommand(userInput)) {
+		tokeniseUndoOnceCommand();
+	}
 
 	return _commandTokens;
+}
+
+bool UndoCommandTokeniser::isUndoCommand(std::string userInput) {
+	if (isUndoOnceCommand(userInput)) {
+		return true;
+	}
+	return false;
+}
+
+bool UndoCommandTokeniser::isUndoOnceCommand(std::string userInput) {
+	return std::regex_match(userInput, std::regex("undo",
+	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
+void UndoCommandTokeniser::tokeniseUndoOnceCommand() {
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::None);
 }

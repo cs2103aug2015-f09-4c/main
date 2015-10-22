@@ -15,6 +15,8 @@ SetCompleteCommand::SetCompleteCommand(size_t index) : Command(CommandTokens::Pr
 }
 
 UIFeedback SetCompleteCommand::execute(RunTimeStorage* runTimeStorage) {
+	assert (runTimeStorage != NULL);
+
 	UIFeedback feedback;
 
 	try {

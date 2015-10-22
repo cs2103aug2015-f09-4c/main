@@ -23,22 +23,30 @@ CommandTokens EditCommandTokeniser::tokeniseUserInput(std::string userInput) {
 	return _commandTokens;
 }
 
+bool EditCommandTokeniser::isEditCommand(std::string userInput) {
+	if (isEditEndDate(userInput) ||
+		isEditStartDate(userInput) ||
+		isEditName(userInput)) {
+		return true;
+	}
+	return false;
+}
 
 bool EditCommandTokeniser::isEditEndDate(std::string userInput) {
 	return std::regex_match(userInput,
-	                        std::regex("edit end [0-9]{1,} .{1,}",
+	                        std::regex("edit end [0-9]+ .+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 bool EditCommandTokeniser::isEditStartDate(std::string userInput) {
 	return std::regex_match(userInput,
-	                        std::regex("edit start [0-9]{1,} .{1,}",
+	                        std::regex("edit start [0-9]+ .+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 bool EditCommandTokeniser::isEditName(std::string userInput) {
 	return std::regex_match(userInput,
-	                        std::regex("edit name [0-9]{1,} .{1,}",
+	                        std::regex("edit name [0-9]+ .+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
@@ -47,7 +55,7 @@ void EditCommandTokeniser::tokeniseEditEndDateCommand(std::string userInput) {
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-	                 std::regex("edit end ([0-9]{1,}) (.*)",
+	                 std::regex("edit end ([0-9]+) (.*)",
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	int index = stoi(matchResults[1]);
@@ -62,7 +70,7 @@ void EditCommandTokeniser::tokeniseEditStartDateCommand(std::string userInput) {
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-	                 std::regex("edit start ([0-9]{1,}) (.*)",
+	                 std::regex("edit start ([0-9]+) (.*)",
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	int index = stoi(matchResults[1]);
@@ -77,7 +85,7 @@ void EditCommandTokeniser::tokeniseEditNameCommand(std::string userInput) {
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-	                 std::regex("edit name ([0-9]{1,}) (.*)",
+	                 std::regex("edit name ([0-9]+) (.*)",
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	int index = stoi(matchResults[1]);

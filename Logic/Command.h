@@ -4,6 +4,12 @@
 #include "RunTimeStorage.h"
 using namespace API;
 
+class COMMAND_CREATION_EXCEPTION : public std::exception {
+public:
+	explicit COMMAND_CREATION_EXCEPTION (const char* e);
+	explicit COMMAND_CREATION_EXCEPTION (std::string e);
+};
+
 class COMMAND_EXECUTION_EXCEPTION : public std::exception {
 public:
 	explicit COMMAND_EXECUTION_EXCEPTION(const char* e);

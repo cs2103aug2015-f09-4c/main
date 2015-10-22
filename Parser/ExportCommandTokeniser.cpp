@@ -11,15 +11,27 @@ ExportCommandTokeniser::~ExportCommandTokeniser(void) {
 
 CommandTokens ExportCommandTokeniser::tokeniseUserInput(std::string userInput) {
 	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Export);
-	tokeniseExportCommand(userInput);
+
+	if (isExportToLocalDiskCommand(userInput)) {
+		tokeniseExportToLocalDiskCommand(userInput);
+	}
 
 	return _commandTokens;
 }
 
-void ExportCommandTokeniser::tokeniseExportCommand(std::string userInput) {
-	// secondaryCommandType set here so as not to interfere with future
-	// extension; e.g., maybe there'l be an export to cloud function, and the
-	// secondaryCommandType will not be None
+bool ExportCommandTokeniser::isExportCommand(std::string userInput) {
+	if (isExportToLocalDiskCommand(userInput)) {
+		return true;
+	}
+	return false;
+}
+
+bool ExportCommandTokeniser::isExportToLocalDiskCommand(std::string userInput) {
+	return std::regex_match(userInput, std::regex("export [^ ]+",
+	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
+void ExportCommandTokeniser::tokeniseExportToLocalDiskCommand(std::string userInput) {
 	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::None);
 
 	std::smatch matchResults;
