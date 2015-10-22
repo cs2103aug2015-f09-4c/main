@@ -140,7 +140,7 @@ bool Parser::isExportCommand(std::string& userInput) {
 }
 
 bool Parser::isRefreshCommand(std::string& userInput) {
-	return ExportCommandTokeniser::isRefreshCommand(userInput);
+	return RefreshCommandTokeniser::isRefreshCommand(userInput);
 }
 
 bool Parser::isTagCommand(std::string& userInput) {
