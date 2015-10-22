@@ -60,6 +60,8 @@ namespace UI {
 		void updateOutputBox(void);
 		void clearOutputBox(void);
 		void displayInOutputBox(void);
+	public:
+		void updateAutoComplete(std::vector<std::string> lines);
 
 	protected:
 		/// <summary>
@@ -94,14 +96,14 @@ namespace UI {
 		void InitializeComponent(void)
 		{
 			this->outputBox = (gcnew System::Windows::Forms::DataGridView());
-			this->commandBox = (gcnew System::Windows::Forms::TextBox());
-			this->results = (gcnew System::Windows::Forms::Label());
 			this->number = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->tasks = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->start = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->end = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->tags = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->done = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
+			this->commandBox = (gcnew System::Windows::Forms::TextBox());
+			this->results = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// outputBox
@@ -122,30 +124,6 @@ namespace UI {
 			this->outputBox->ReadOnly = true;
 			this->outputBox->Size = System::Drawing::Size(763, 275);
 			this->outputBox->TabIndex = 0;
-			// 
-			// commandBox
-			// 
-			this->commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(13) {L"add ", L"complete ", L"delete ", 
-				L"display", L"edit name ", L"edit start ", L"edit end ", L"exit ", L"search ", L"sort ", L"tag ", L"undo", L"untag "});
-			this->commandBox->AutoCompleteMode = System::Windows::Forms::AutoCompleteMode::Suggest;
-			this->commandBox->AutoCompleteSource = System::Windows::Forms::AutoCompleteSource::CustomSource;
-			this->commandBox->Dock = System::Windows::Forms::DockStyle::Bottom;
-			this->commandBox->Location = System::Drawing::Point(0, 315);
-			this->commandBox->MaxLength = 144;
-			this->commandBox->Name = L"commandBox";
-			this->commandBox->Size = System::Drawing::Size(763, 20);
-			this->commandBox->TabIndex = 1;
-			this->commandBox->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Swiftask::commandBox_KeyDown);
-			// 
-			// results
-			// 
-			this->results->AutoSize = true;
-			this->results->Dock = System::Windows::Forms::DockStyle::Bottom;
-			this->results->Location = System::Drawing::Point(0, 302);
-			this->results->Name = L"results";
-			this->results->Size = System::Drawing::Size(253, 13);
-			this->results->TabIndex = 2;
-			this->results->Text = L"Switask is ready. Enter command below to continue.";
 			// 
 			// number
 			// 
@@ -205,6 +183,30 @@ namespace UI {
 			this->done->ReadOnly = true;
 			this->done->Resizable = System::Windows::Forms::DataGridViewTriState::False;
 			this->done->Width = 48;
+			// 
+			// commandBox
+			// 
+			this->commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(13) {L"add ", L"complete ", L"delete ", 
+				L"display", L"edit name ", L"edit start ", L"edit end ", L"exit ", L"search ", L"sort ", L"tag ", L"undo", L"untag "});
+			this->commandBox->AutoCompleteMode = System::Windows::Forms::AutoCompleteMode::Suggest;
+			this->commandBox->AutoCompleteSource = System::Windows::Forms::AutoCompleteSource::CustomSource;
+			this->commandBox->Dock = System::Windows::Forms::DockStyle::Bottom;
+			this->commandBox->Location = System::Drawing::Point(0, 315);
+			this->commandBox->MaxLength = 144;
+			this->commandBox->Name = L"commandBox";
+			this->commandBox->Size = System::Drawing::Size(763, 20);
+			this->commandBox->TabIndex = 1;
+			this->commandBox->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Swiftask::commandBox_KeyDown);
+			// 
+			// results
+			// 
+			this->results->AutoSize = true;
+			this->results->Dock = System::Windows::Forms::DockStyle::Bottom;
+			this->results->Location = System::Drawing::Point(0, 302);
+			this->results->Name = L"results";
+			this->results->Size = System::Drawing::Size(253, 13);
+			this->results->TabIndex = 2;
+			this->results->Text = L"Switask is ready. Enter command below to continue.";
 			// 
 			// Swiftask
 			// 

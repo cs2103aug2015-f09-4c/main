@@ -16,6 +16,14 @@ int main(array<String^>^ args) {
 	return EXIT_SUCCESS;
 }
 
+void UI::Swiftask::updateAutoComplete(std::vector<std::string> lines) {
+	// TODO: implement this function
+
+	//commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(13) {L"add ", L"complete ", L"delete ", 
+	//			L"display", L"edit name ", L"edit start ", L"edit end ", L"exit ", L"search ", L"sort ", L"tag ", L"undo", L"untag "});
+	return;
+}
+
 std::string UI::Swiftask::getStdStringCommand(void) {
 	System::String^ managed;
 
