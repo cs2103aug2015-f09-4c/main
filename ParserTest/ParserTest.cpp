@@ -249,6 +249,70 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
+		TEST_METHOD(testTokeniseRefreshCommand) {
+			std::string testUserInput = "REFRESH";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Refresh,
+			                                      CommandTokens::SecondaryCommandType::None,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      -1);
+
+			compareCommandTokens(expected, actual);
+		}
+
+		TEST_METHOD(testTokeniseTagCommand) {
+			std::string testUserInput = "TAG 19 #123 #abc";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Tag,
+			                                      CommandTokens::SecondaryCommandType::Index,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      19);
+			std::vector< std::string > newTags;
+			newTags.push_back("#123");
+			newTags.push_back("#abc");
+			expected.setTags(newTags);
+
+			compareCommandTokens(expected, actual);
+		}
+
+		TEST_METHOD(testTokeniseUndoCommand) {
+			std::string testUserInput = "UNDO";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Undo,
+			                                      CommandTokens::SecondaryCommandType::None,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      -1);
+
+			compareCommandTokens(expected, actual);
+		}
+
+		TEST_METHOD(testTokeniseUntagCommand) {
+			std::string testUserInput = "UNTAG 23 #12c #ab3";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Untag,
+			                                      CommandTokens::SecondaryCommandType::Index,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      23);
+			std::vector< std::string > newTags;
+			newTags.push_back("#12c");
+			newTags.push_back("#ab3");
+			expected.setTags(newTags);
+
+			compareCommandTokens(expected, actual);
+		}
+
 		TEST_METHOD(testDateParser_DD_MM_YYYY_HHHH) {
 			std::string testUserInputDate = "13-05-1999 1320";
 			DateParser dateParser;
