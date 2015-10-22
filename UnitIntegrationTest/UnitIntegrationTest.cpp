@@ -114,17 +114,16 @@ public:
 		UIFeedback feedback;
 
 		// Testing refresh at lower bound of valid parition
-		// feedback = logic.executeCommand(CMD_REFRESH);
-
-		// Assert::AreEqual((size_t) 0, feedback.getTasksForDisplay().size());
+		feedback = logic.executeCommand(CMD_REFRESH);
+		Assert::AreEqual((size_t) 0, feedback.getTasksForDisplay().size());
 
 		feedback = logic.executeCommand(addCommand1);
 		feedback = logic.executeCommand(addCommand2);
 		feedback = logic.executeCommand(addCommand3);
 
 		// Testing refresh in the valid partition when there are tasks
-		// feedback = logic.executeCommand(CMD_REFRESH);
-		// Assert::AreEqual((size_t) 3, feedback.getTasksForDisplay().size());
+		feedback = logic.executeCommand(CMD_REFRESH);
+		Assert::AreEqual((size_t) 3, feedback.getTasksForDisplay().size());
 	}
 
 	TEST_METHOD(edit) {
@@ -177,7 +176,7 @@ public:
 			Assert::AreEqual(ONLY_POSITIVE, std::string(e.what()));
 		}
 
-		// feedback = logic.executeCommand(CMD_REFRESH);
+		feedback = logic.executeCommand(CMD_REFRESH);
 		task = feedback.getTasksForDisplay()[0];
 		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getEndDateTime()));
 
@@ -190,7 +189,7 @@ public:
 			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", e);
 		}
 
-		// feedback = logic.executeCommand(CMD_REFRESH);
+		feedback = logic.executeCommand(CMD_REFRESH);
 		task = feedback.getTasksForDisplay()[2];
 		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getStartDateTime()));
 
@@ -233,7 +232,7 @@ public:
 			Assert::AreEqual(ONLY_POSITIVE, std::string(e.what()));
 		}
 
-		// feedback = logic.executeCommand(CMD_REFRESH);
+		feedback = logic.executeCommand(CMD_REFRESH);
 		Assert::AreEqual(true, feedback.getTasksForDisplay()[0].isComplete());
 
 		// Testing complete lower bound of invalid partition that is larger than valid partition
@@ -245,7 +244,7 @@ public:
 			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", e);
 		}
 
-		// feedback = logic.executeCommand(CMD_REFRESH);
+		feedback = logic.executeCommand(CMD_REFRESH);
 		Assert::AreEqual(true, feedback.getTasksForDisplay()[2].isComplete());
 
 	}
@@ -297,7 +296,7 @@ public:
 			Assert::AreEqual(TASK_NOT_FOUND_AT + "2", e);
 		}
 
-		// feedback = logic.executeCommand(CMD_REFRESH);
+		feedback = logic.executeCommand(CMD_REFRESH);
 		task = feedback.getTasksForDisplay()[0];
 		Assert::AreEqual((size_t) 1, feedback.getTasksForDisplay().size());
 		Assert::AreEqual(TASK_A, task.getTaskText());
@@ -313,7 +312,7 @@ public:
 			Assert::AreEqual(ONLY_POSITIVE, std::string(e.what()));
 		}
 
-		// feedback = logic.executeCommand(CMD_REFRESH);
+		feedback = logic.executeCommand(CMD_REFRESH);
 		Assert::AreEqual((size_t) 1, feedback.getTasksForDisplay().size());
 		Assert::AreEqual(TASK_A, task.getTaskText());
 		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getStartDateTime()));
@@ -327,18 +326,8 @@ public:
 
 		// Not worth testing deleting empty because it is part of the invalid partitions
 	}
-	TEST_METHOD(integration_Commands) {
 
-		// TODO: Below
-
-		// Testing flexible inputs like variation of date-time
-
-		// Testing limits of input, number of tasks etc.
-
-		// Testing more complex permutation of commands; combining multiple inputs.
-	}
-
-	TEST_METHOD(DateTimeFormat) {
+	TEST_METHOD(dateTimeFormat) {
 		// Important to do it here because logic keeps a copy of data on construction
 		remove(FILEPATH.c_str());
 
@@ -359,5 +348,12 @@ public:
 		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getStartDateTime()));
 		Assert::AreEqual(DATE_TIME_2, boost::posix_time::to_simple_string(task.getEndDateTime()));
 	}
+	// TODO: Below
+
+	// Testing flexible inputs like variation of date-time
+
+	// Testing limits of input, number of tasks etc.
+
+	// Testing more complex permutation of commands; combining multiple inputs.
 	};
 }

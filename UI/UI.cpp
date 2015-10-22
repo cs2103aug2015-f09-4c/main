@@ -88,8 +88,12 @@ void UI::Swiftask::displayInOutputBox(void) {
 		convert.str(std::string());
 
 		taskText = gcnew String((*it).getTaskText().c_str());
-
 		posixStartDateTime = (*it).getStartDateTime();
+		posixEndDateTime = (*it).getEndDateTime();
+		std::set<std::string> tagsList;
+		tagsList = (*it).getTags();
+		isCompleted = (*it).isComplete();
+
 		if (!posixStartDateTime.is_not_a_date_time()) {
 			startDateTime = gcnew String(boost::posix_time::to_simple_string(posixStartDateTime).c_str());
 
@@ -97,16 +101,14 @@ void UI::Swiftask::displayInOutputBox(void) {
 			startDateTime = gcnew String("-");
 		}
 
-		posixEndDateTime = (*it).getEndDateTime();
 		if (!posixEndDateTime.is_not_a_date_time()) {
 			endDateTime = gcnew String(boost::posix_time::to_simple_string(posixEndDateTime).c_str());
 		} else {
 			endDateTime = gcnew String("-");
 		}
 
-		std::set<std::string> tagsList;
+
 		std::string stdTags = "";
-		tagsList = (*it).getTags();
 		if (tagsList.size() != 0) {
 			for (std::set<std::string>::iterator iter = tagsList.begin(); iter != tagsList.end(); iter++) {
 				stdTags = stdTags + (*iter);
@@ -116,41 +118,11 @@ void UI::Swiftask::displayInOutputBox(void) {
 			theTags = gcnew String("-");
 		}
 
-		isCompleted = (*it).isComplete();
-		//if (isCompleted) {
-		//	doneOrNot = gcnew String("Yes");
-		//} else {
-		//	doneOrNot = gcnew String("No");
-		//}
-
 		outputBox->Rows->Add(num, taskText, startDateTime, endDateTime, theTags);
 
 		// Colour Formats for outputBox
-		// TODO: Refactor this section to formatOutputBoxStartEndColumn(...);
-		posixNowDateTime = boost::posix_time::second_clock::local_time();
-
-		if (!isCompleted && startDateTime != "-") {
-			if (posixStartDateTime <= posixNowDateTime) {
-				outputBox->Rows[index-1]->Cells[OutputBoxColumn::START]->Style->BackColor = Color::Lime;
-			}
-		}
-
-		if (!isCompleted && endDateTime != "-") {
-			if (posixEndDateTime >= posixNowDateTime) {
-				outputBox->Rows[index-1]->Cells[OutputBoxColumn::END]->Style->BackColor = Color::Lime;
-			} else {
-				outputBox->Rows[index-1]->Cells[OutputBoxColumn::END]->Style->BackColor = Color::Red;
-				outputBox->Rows[index-1]->Cells[OutputBoxColumn::START]->Style->BackColor = Color::Red;
-			}
-		}
-
-		// TODO: Refactor this section to formatOutputBoxDoneColumn(...);
-		if (isCompleted) {
-			outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->BackColor = Color::Lime;
-		} else {
-			outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->BackColor = Color::Red;
-		}
-
+		formatOutputBoxStartEndColumn(isCompleted, posixStartDateTime, posixEndDateTime, index);
+		formatOutputBoxDoneColumn(isCompleted, index);
 
 		// For formatting colours of header in outputBox. Not implementing now because it looks worse.
 		//Color headerBack = System::Drawing::ColorTranslator::FromHtml("#3F51B5");
@@ -174,5 +146,39 @@ void UI::Swiftask::displayInOutputBox(void) {
 		delete tags;
 		delete done;
 	}
+	return;
+}
+
+void UI::Swiftask::formatOutputBoxStartEndColumn(bool isCompleted, boost::posix_time::ptime posixStartDateTime, boost::posix_time::ptime posixEndDateTime, int index) {
+	boost::posix_time::ptime posixNowDateTime;
+
+	posixNowDateTime = boost::posix_time::second_clock::local_time();
+
+	if (!isCompleted && !posixStartDateTime.is_not_a_date_time()) {
+		if (posixStartDateTime <= posixNowDateTime) {
+			outputBox->Rows[index-1]->Cells[OutputBoxColumn::START]->Style->BackColor = Color::Lime;
+		}
+	}
+
+	if (!isCompleted && !posixEndDateTime.is_not_a_date_time()) {
+		if (posixEndDateTime >= posixNowDateTime) {
+			outputBox->Rows[index-1]->Cells[OutputBoxColumn::END]->Style->BackColor = Color::Lime;
+		} else {
+			outputBox->Rows[index-1]->Cells[OutputBoxColumn::END]->Style->BackColor = Color::Red;
+			outputBox->Rows[index-1]->Cells[OutputBoxColumn::START]->Style->BackColor = Color::Red;
+		}
+	}
+
+	return;
+}
+
+void UI::Swiftask::formatOutputBoxDoneColumn(bool isCompleted, int index) {
+
+	if (isCompleted) {
+		outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->BackColor = Color::Lime;
+	} else {
+		outputBox->Rows[index-1]->Cells[OutputBoxColumn::DONE]->Style->BackColor = Color::Red;
+	}
+
 	return;
 }
