@@ -20,6 +20,8 @@ UIFeedback Logic::executeCommand(std::string userString) {
 		feedback = _commandExecutor->execute(command);
 	} catch (INVALID_COMMAND_EXCEPTION e) {
 		throw std::string(e.what());
+	} catch (COMMAND_CREATION_EXCEPTION e) {
+		throw std::string(e.what());
 	} catch (COMMAND_EXECUTION_EXCEPTION e) {
 		throw std::string(e.what());
 	}

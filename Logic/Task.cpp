@@ -121,8 +121,13 @@ void Task::changeEndDateTime(boost::posix_time::ptime newEndDateTime) {
 	_endDateTime = newEndDateTime;
 }
 
-void Task::addTag(std::string tag) {
-	_tags.insert(tag);
+bool Task::addTag(std::string tag) {
+	if (_tags.find(tag) == _tags.end()) {
+		_tags.insert(tag);
+		return true;
+	} else {
+		return false;
+	}
 }
 
 void Task::removeTag(std::string tag) {

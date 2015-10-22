@@ -26,6 +26,9 @@ Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens
 		case CommandTokens::PrimaryCommandType::Refresh:
 			returnCommand = processRefreshCommand(commandTokens);
 			break;
+		case CommandTokens::PrimaryCommandType::Tag:
+			returnCommand = processTagCommand(commandTokens);
+			break;
 		case CommandTokens::PrimaryCommandType::Invalid:
 			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 			break;
@@ -184,6 +187,16 @@ RefreshCommand* CommandCreator::processRefreshCommand(CommandTokens commandToken
 	return returnCommand;
 }
 
+TagCommand* CommandCreator::processTagCommand(CommandTokens commandTokens) {
+	int index = commandTokens.getIndex();
+	if (index < 1) {
+		throw INVALID_COMMAND_EXCEPTION(MESSAGE_NON_POSITIVE_INDEX);
+	}
+	std::vector<std::string> tags = commandTokens.getTags();
+	TagCommand* returnCommand = new TagCommand(index, tags);
+	return returnCommand;
+}
+
 CommandCreator::CommandCreator() {
 }
 
@@ -191,7 +204,9 @@ Command* CommandCreator::process(CommandTokens commandTokens) {
 	Command* returnCommand;
 	try {
 		returnCommand = processByPrimaryCommandType(commandTokens);
-	} catch (std::exception e) {
+	} catch (INVALID_COMMAND_EXCEPTION e) {
+		throw e;
+	} catch (COMMAND_CREATION_EXCEPTION e) {
 		throw e;
 	}
 	return returnCommand;

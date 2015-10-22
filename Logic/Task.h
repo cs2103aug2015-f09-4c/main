@@ -47,7 +47,7 @@ public:
 	void changeStartDateTime(boost::posix_time::ptime newStartDateTime);
 	void changeEndDateTime(boost::posix_time::ptime newEndDateTime);
 	void toggleComplete();
-	void addTag(std::string);
+	bool addTag(std::string);
 	void removeTag(std::string);
 
 private:
