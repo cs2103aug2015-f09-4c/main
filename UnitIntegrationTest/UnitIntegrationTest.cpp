@@ -16,7 +16,9 @@ const std::string CMD_EDIT_NAME = "EdIt NaMe";
 const std::string CMD_EDIT_START = "EdIt StArT";
 const std::string CMD_EDIT_END = "EdIt EnD";
 const std::string CMD_SEARCH = "SeArCh";
+const std::string CMD_TAG = "TaG";
 const std::string CMD_UNDO = "UnDo";
+const std::string CMD_UNTAG = "UnTaG";
 const std::string CMD_REFRESH = "refresh";
 
 // Feedback 'ERROR' messages when Swiftask knows something is wrong and the command is not executed.
@@ -44,6 +46,9 @@ const std::string NOT_A_DATE_TIME = "not-a-date-time";
 const std::string DATE_TIME_1 = "2015-Oct-10 16:00:00";
 const std::string DATE_TIME_2 = "2015-Oct-10 18:00:00";
 const std::string DATE_TIME_3 = "2015-Oct-10 20:00:00";
+
+const std::string TAG_A = "TAG A";
+const std::string TAG_B = "TAG B";
 
 // Valid add commands that will be used by test methods
 const std::string addCommand1 = CMD_ADD + SPACE + TASK_A;
@@ -134,13 +139,13 @@ public:
 		API::Task task;
 
 		// Valid edit commands
-		std::string editCommand1 = CMD_EDIT_NAME + SPACE + "1" + SPACE + TASK_D;
-		std::string editCommand2 = CMD_EDIT_END + SPACE + "2" + SPACE + DATE_TIME_3;
-		std::string editCommand3 = CMD_EDIT_START + SPACE + "3" + SPACE + DATE_TIME_1;
+		std::string editCommand1 = CMD_EDIT_NAME + " 1 " + TASK_D;
+		std::string editCommand2 = CMD_EDIT_END + " 2 " + DATE_TIME_3;
+		std::string editCommand3 = CMD_EDIT_START + " 3 " + DATE_TIME_1;
 
 		// Invalid edit commands
-		std::string editCommand0 = CMD_EDIT_END + SPACE + "0" + SPACE + DATE_TIME_2;
-		std::string editCommand4 = CMD_EDIT_START + SPACE + "4" + SPACE + DATE_TIME_1;
+		std::string editCommand0 = CMD_EDIT_END + " 0 " + DATE_TIME_2;
+		std::string editCommand4 = CMD_EDIT_START + " 4 " + DATE_TIME_1;
 
 		feedback = logic.executeCommand(addCommand1);
 		feedback = logic.executeCommand(addCommand2);
@@ -193,6 +198,136 @@ public:
 		task = feedback.getTasksForDisplay()[2];
 		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getStartDateTime()));
 
+	}
+
+	TEST_METHOD(tagUntag) {
+		remove(FILEPATH.c_str());
+
+		Logic logic;
+		UIFeedback feedback;
+		std::set<std::string> tags;
+
+		// Testing tag/untag commands
+		std::string tagCommand1 = CMD_TAG + " 1 " + TAG_A;
+		std::string tagCommand1B = CMD_TAG + " 1 " + TAG_B;
+		std::string tagCommand3 = CMD_TAG + " 3 " + TAG_A;
+		std::string tagCommand0 = CMD_TAG + " 0 " + TAG_A;
+		std::string tagCommand4 = CMD_TAG + " 4 " + TAG_A;
+
+		std::string untagCommand1 = CMD_UNTAG + " 1 " + TAG_A;
+		std::string untagCommand3 = CMD_UNTAG + " 3 " + TAG_A;
+		std::string untagCommand0 = CMD_UNTAG + " 0 " + TAG_A;
+		std::string untagCommand4 = CMD_UNTAG + " 4 " + TAG_A; 
+
+		feedback = logic.executeCommand(addCommand1);
+		feedback = logic.executeCommand(addCommand2);
+		feedback = logic.executeCommand(addCommand3);
+
+		// Tag Tests
+		// Testing tag lower bound of valid partition
+		feedback = logic.executeCommand(tagCommand1);
+		tags = feedback.getTasksForDisplay()[0].getTags();
+
+		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
+		Assert::AreEqual((size_t) 1, tags.size());
+		Assert::AreEqual(TAG_A, *tags.begin());
+
+		// Testing tag more than 1 tag
+		feedback = logic.executeCommand(tagCommand1B);
+		tags = feedback.getTasksForDisplay()[0].getTags();
+
+		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
+		Assert::AreEqual((size_t) 2, tags.size());
+		Assert::AreEqual(TAG_A, *tags.begin());
+		Assert::AreEqual(TAG_B, *tags.end());
+
+		// Testing tag upper bound of valid partition
+		feedback = logic.executeCommand(tagCommand3);
+		tags = feedback.getTasksForDisplay()[2].getTags();
+
+		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
+		Assert::AreEqual((size_t) 1, tags.size());
+		Assert::AreEqual(TAG_A, *tags.begin());
+
+		// Testing tag upper bound of invalid partition that is smaller than valid partition
+		try {
+			feedback = logic.executeCommand(tagCommand0);
+			Assert::AreEqual(ONLY_POSITIVE, feedback.getFeedbackMessage());
+
+		} catch (std::exception e) {
+			Assert::AreEqual(ONLY_POSITIVE, std::string(e.what()));
+		}
+
+		feedback = logic.executeCommand(CMD_REFRESH);
+		tags = feedback.getTasksForDisplay()[0].getTags();
+
+		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
+		Assert::AreEqual((size_t) 2, tags.size());
+		Assert::AreEqual(TAG_A, *tags.begin());
+		Assert::AreEqual(TAG_B, *tags.end());
+
+		// Testing tag lower bound of invalid partition that is larger than valid partition
+		try {
+			feedback = logic.executeCommand(tagCommand4);
+			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", feedback.getFeedbackMessage());
+
+		} catch (std::string e) {
+			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", e);
+		}
+
+		feedback = logic.executeCommand(CMD_REFRESH);
+		tags = feedback.getTasksForDisplay()[2].getTags();
+
+		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
+		Assert::AreEqual((size_t) 1, tags.size());
+		Assert::AreEqual(TAG_A, *tags.begin());
+
+		// Untag Tests
+		// Testing untag lower bound of valid partition
+		feedback = logic.executeCommand(untagCommand1);
+		tags = feedback.getTasksForDisplay()[0].getTags();
+
+		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
+		Assert::AreEqual((size_t) 1, tags.size());
+		Assert::AreEqual(TAG_B, *tags.begin());
+
+		// Testing untag upper bound of valid partition
+		feedback = logic.executeCommand(untagCommand3);
+		tags = feedback.getTasksForDisplay()[2].getTags();
+
+		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
+		Assert::AreEqual((size_t) 0, tags.size());
+
+		// Testing untag upper bound of invalid partition that is smaller than valid partition
+		try {
+			feedback = logic.executeCommand(untagCommand0);
+			Assert::AreEqual(ONLY_POSITIVE, feedback.getFeedbackMessage());
+
+		} catch (std::exception e) {
+			Assert::AreEqual(ONLY_POSITIVE, std::string(e.what()));
+		}
+
+		feedback = logic.executeCommand(CMD_REFRESH);
+		tags = feedback.getTasksForDisplay()[0].getTags();
+
+		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
+		Assert::AreEqual((size_t) 1, tags.size());
+		Assert::AreEqual(TAG_B, *tags.begin());
+
+		// Testing untag lower bound of invalid partition that is larger than valid partition
+		try {
+			feedback = logic.executeCommand(tagCommand4);
+			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", feedback.getFeedbackMessage());
+
+		} catch (std::string e) {
+			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", e);
+		}
+
+		feedback = logic.executeCommand(CMD_REFRESH);
+		tags = feedback.getTasksForDisplay()[2].getTags();
+
+		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
+		Assert::AreEqual((size_t) 0, tags.size());
 	}
 
 	TEST_METHOD(complete) {
