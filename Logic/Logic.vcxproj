@@ -123,6 +123,7 @@
     <ClInclude Include="Command_Edit.h" />
     <ClInclude Include="CommandExecutor.h" />
     <ClInclude Include="CommandHeader.h" />
+    <ClInclude Include="Command_Export.h" />
     <ClInclude Include="Command_Refresh.h" />
     <ClInclude Include="Command_Set.h" />
     <ClInclude Include="Logic.h" />
@@ -137,6 +138,7 @@
     <ClCompile Include="CommandCreator.cpp" />
     <ClCompile Include="Command_Delete.cpp" />
     <ClCompile Include="Command_Edit.cpp" />
+    <ClCompile Include="Command_Export.cpp" />
     <ClCompile Include="Command_Refresh.cpp" />
     <ClCompile Include="Command_Set.cpp" />
     <ClCompile Include="Logic.cpp" />

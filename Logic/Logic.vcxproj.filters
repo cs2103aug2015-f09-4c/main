@@ -56,6 +56,9 @@
     <ClInclude Include="Command_Refresh.h">
       <Filter>Header Files\Command</Filter>
     </ClInclude>
+    <ClInclude Include="Command_Export.h">
+      <Filter>Header Files\Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Logic.cpp">
@@ -92,6 +95,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Command_Refresh.cpp">
+      <Filter>Source Files\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command_Export.cpp">
       <Filter>Source Files\Command</Filter>
     </ClCompile>
   </ItemGroup>

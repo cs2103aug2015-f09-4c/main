@@ -60,6 +60,8 @@ namespace UI {
 		void updateOutputBox(void);
 		void clearOutputBox(void);
 		void displayInOutputBox(void);
+		void formatOutputBoxStartEndColumn(bool isCompleted, boost::posix_time::ptime posixStartDateTime, boost::posix_time::ptime posixEndDateTime, int index);
+		void formatOutputBoxDoneColumn(bool isCompleted, int index);
 	public:
 		void updateAutoComplete(std::vector<std::string> lines);
 
