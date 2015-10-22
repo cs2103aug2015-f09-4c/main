@@ -38,6 +38,7 @@ CommandTokens::PrimaryCommandType Parser::getPrimaryCommand(std::string userInpu
 	try {
 		primaryCommandType = parsePrimaryCommand(userInput);
 	} catch (CommandDoesNotExistException& e) {
+		_logger->logINFO(e.what());
 		primaryCommandType = CommandTokens::PrimaryCommandType::Invalid;
 	}
 	return primaryCommandType;
