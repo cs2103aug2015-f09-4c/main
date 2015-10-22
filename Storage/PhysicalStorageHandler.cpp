@@ -10,10 +10,11 @@ PhysicalStorageHandler::~PhysicalStorageHandler(void) {
 
 void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::string filePath) {
 	tasks.clear();
+	std::string identityString;
 	std::ifstream loadFile(filePath.c_str());
 	if (loadFile.is_open()) {
-		
-		while (!loadFile.eof())
+		std::getline(loadFile, identityString);
+		while (identityString != end)
 		{
 			std::string taskText;
 			std::string startDateTimeString;
@@ -44,6 +45,12 @@ void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::st
 				taskToAdd.toggleComplete();
 			}
 
+			std::getline(loadFile, identityString);
+			while (identityString != start && identityString != end) {
+				taskToAdd.addTag(identityString);
+				std::getline(loadFile, identityString);
+			}
+
 			tasks.push_back(taskToAdd);
 		}
 	}
@@ -52,6 +59,7 @@ void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::st
 void PhysicalStorageHandler::saveToFile(std::vector<API::Task>& tasks, std::string filePath) {
 	std::ofstream saveFile(filePath.c_str());
 	for (size_t i = 0 ; i < tasks.size() ; ++i) {
+		saveFile << start << "\n";
 		saveFile << tasks[i].getTaskText() << "\n";
 		saveFile << boost::posix_time::to_simple_string(tasks[i].getStartDateTime()) << "\n";
 		saveFile << boost::posix_time::to_simple_string(tasks[i].getEndDateTime()) << "\n";
@@ -60,6 +68,12 @@ void PhysicalStorageHandler::saveToFile(std::vector<API::Task>& tasks, std::stri
 		} else {
 			saveFile << "0\n";
 		}
+		std::set<std::string> tags = tasks[i].getTags();
+		std::set<std::string>::iterator iter = tags.begin();
+		for (;iter != tags.end() ; ++iter) {
+			saveFile << *iter << "\n";
+		}
 	}
+	saveFile << end << "\n";
 	return;
 }
