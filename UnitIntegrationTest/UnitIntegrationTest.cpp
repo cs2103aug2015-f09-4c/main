@@ -45,10 +45,16 @@ const std::string DATE_TIME_1 = "2015-Oct-10 16:00:00";
 const std::string DATE_TIME_2 = "2015-Oct-10 18:00:00";
 const std::string DATE_TIME_3 = "2015-Oct-10 20:00:00";
 
+// Valid add commands that will be used by test methods
+const std::string addCommand1 = CMD_ADD + SPACE + TASK_A;
+const std::string addCommand2 = CMD_ADD + SPACE + TASK_B + SPACE + BY + DATE_TIME_1;
+const std::string addCommand3 = CMD_ADD + SPACE + TASK_C + SPACE + FROM + DATE_TIME_2 + SPACE + TO + DATE_TIME_3;
+
+
 namespace UnitIntegrationTest {		
 	TEST_CLASS(UnitIntegrationTest) {
 public:
-	TEST_METHOD(integration_Commands_AddEditCompleteDelete) {
+	TEST_METHOD(add) {
 		// Important to do it here because logic keeps a copy of data on construction
 		remove(FILEPATH.c_str());
 
@@ -56,21 +62,13 @@ public:
 		UIFeedback feedback;
 		API::Task task;
 
-		// Testing refresh command
-		//feedback = logic.executeCommand(CMD_REFRESH);
+		// Valid add commands
+		// const std::string declared in the global scope
 
-		//Assert::AreEqual((size_t) 0, feedback.getTasksForDisplay().size());
-
-		// Testing add commands
-		// Valid commands
-		std::string addCommand1 = CMD_ADD + SPACE + TASK_A;
-		std::string addCommand2 = CMD_ADD + SPACE + TASK_B + SPACE + BY + DATE_TIME_1;
-		std::string addCommand3 = CMD_ADD + SPACE + TASK_C + SPACE + FROM + DATE_TIME_2 + SPACE + TO + DATE_TIME_3;
-
-		// Invalid commands
+		// Invalid add commands
 		// Not expecting to catch a bug
 
-		// Testing add floating tasks
+		// Testing add floating tasks in valid partition
 		feedback = logic.executeCommand(addCommand1);
 		task = feedback.getTasksForDisplay()[0];
 
@@ -78,7 +76,7 @@ public:
 		Assert::AreNotEqual(CMD_DUPLICATE, feedback.getFeedbackMessage());
 		Assert::AreEqual(TASK_A, task.getTaskText());
 
-		// Testing add tasks by deadline
+		// Testing add tasks by deadline in valid partition
 		feedback = logic.executeCommand(addCommand2);
 		task = feedback.getTasksForDisplay()[1];
 
@@ -87,7 +85,7 @@ public:
 		Assert::AreEqual(TASK_B, task.getTaskText());
 		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getEndDateTime()));
 
-		// Testing add tasks with duration
+		// Testing add tasks with duration in valid partition
 		feedback = logic.executeCommand(addCommand3);
 		task = feedback.getTasksForDisplay()[2];
 
@@ -97,7 +95,7 @@ public:
 		Assert::AreEqual(DATE_TIME_2, boost::posix_time::to_simple_string(task.getStartDateTime()));
 		Assert::AreEqual(DATE_TIME_3, boost::posix_time::to_simple_string(task.getEndDateTime()));
 
-		// Testing add duplicates
+		// Testing add duplicates in invalid partition
 		try {
 			feedback = logic.executeCommand(addCommand1);
 			Assert::AreEqual(CMD_DUPLICATE, feedback.getFeedbackMessage());
@@ -106,23 +104,48 @@ public:
 			Assert::AreEqual(CMD_DUPLICATE, e);
 		}
 
-		// feedback = logic.executeCommand(CMD_REFRESH);
 		Assert::AreEqual((size_t) 3, feedback.getTasksForDisplay().size());
+	}
 
-		// Expected status of the tasks in taskText, startDateTime, endDateTime, complete:
-		// TASK_A, NOT_A_DATE_TIME, NOT_A_DATE_TIME, 0
-		// TASK_B, NOT_A_DATE_TIME, DATE_TIME_1, 0
-		// TASK_C, DATE_TIME_2, DATE_TIME_3, 0
+	TEST_METHOD(refresh) {
+		remove(FILEPATH.c_str());
 
-		// Testing edit commands
-		// Valid commands
+		Logic logic;
+		UIFeedback feedback;
+
+		// Testing refresh at lower bound of valid parition
+		// feedback = logic.executeCommand(CMD_REFRESH);
+
+		// Assert::AreEqual((size_t) 0, feedback.getTasksForDisplay().size());
+
+		feedback = logic.executeCommand(addCommand1);
+		feedback = logic.executeCommand(addCommand2);
+		feedback = logic.executeCommand(addCommand3);
+
+		// Testing refresh in the valid partition when there are tasks
+		// feedback = logic.executeCommand(CMD_REFRESH);
+		// Assert::AreEqual((size_t) 3, feedback.getTasksForDisplay().size());
+	}
+
+	TEST_METHOD(edit) {
+		remove(FILEPATH.c_str());
+
+		Logic logic;
+		UIFeedback feedback;
+		API::Task task;
+
+		// Valid edit commands
 		std::string editCommand1 = CMD_EDIT_NAME + SPACE + "1" + SPACE + TASK_D;
 		std::string editCommand2 = CMD_EDIT_END + SPACE + "2" + SPACE + DATE_TIME_3;
 		std::string editCommand3 = CMD_EDIT_START + SPACE + "3" + SPACE + DATE_TIME_1;
 
-		// Invalid commands
+		// Invalid edit commands
 		std::string editCommand0 = CMD_EDIT_END + SPACE + "0" + SPACE + DATE_TIME_2;
 		std::string editCommand4 = CMD_EDIT_START + SPACE + "4" + SPACE + DATE_TIME_1;
+
+		feedback = logic.executeCommand(addCommand1);
+		feedback = logic.executeCommand(addCommand2);
+		feedback = logic.executeCommand(addCommand3);
 
 		// Testing edit name and lower bound of valid partition
 		feedback = logic.executeCommand(editCommand1);
@@ -171,16 +194,23 @@ public:
 		task = feedback.getTasksForDisplay()[2];
 		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getStartDateTime()));
 
-		// Expected status of the tasks in taskText, startDateTime, endDateTime, complete:
-		// TASK_D, NOT_A_DATE_TIME, NOT_A_DATE_TIME, 0
-		// TASK_B, NOT_A_DATE_TIME, DATE_TIME_3, 0
-		// TASK_C, DATE_TIME_1, DATE_TIME_3, 0
+	}
+
+	TEST_METHOD(complete) {
+		remove(FILEPATH.c_str());
+
+		Logic logic;
+		UIFeedback feedback;
 
 		// Testing complete commands
 		std::string completeCommand0 = CMD_COMPLETE + SPACE + "0";
 		std::string completeCommand1 = CMD_COMPLETE + SPACE + "1";
 		std::string completeCommand3 = CMD_COMPLETE + SPACE + "3";
 		std::string completeCommand4 = CMD_COMPLETE + SPACE + "4";
+
+		feedback = logic.executeCommand(addCommand1);
+		feedback = logic.executeCommand(addCommand2);
+		feedback = logic.executeCommand(addCommand3);
 
 		// Testing complete lower bound of valid partition
 		feedback = logic.executeCommand(completeCommand1);
@@ -218,15 +248,24 @@ public:
 		// feedback = logic.executeCommand(CMD_REFRESH);
 		Assert::AreEqual(true, feedback.getTasksForDisplay()[2].isComplete());
 
-		// Expected status of the tasks in taskText, startDateTime, endDateTime, complete:
-		// TASK_D, NOT_A_DATE_TIME, NOT_A_DATE_TIME, 1
-		// TASK_B, NOT_A_DATE_TIME, DATE_TIME_3, 0
-		// TASK_C, DATE_TIME_1, DATE_TIME_3, 1
+	}
+
+	// delete is a keyword hence deleteTasks
+	TEST_METHOD(deleteTasks) {
+		remove(FILEPATH.c_str());
+
+		Logic logic;
+		UIFeedback feedback;
+		API::Task task;
 
 		// Testing delete commands
 		std::string deleteCommand0 = CMD_DELETE + SPACE + "0";
 		std::string deleteCommand1 = CMD_DELETE + SPACE + "1";
 		std::string deleteCommand2 = CMD_DELETE + SPACE + "2";
+
+		feedback = logic.executeCommand(addCommand1);
+		feedback = logic.executeCommand(addCommand2);
+		feedback = logic.executeCommand(addCommand3);
 
 		// Testing delete task within valid parition
 		// May be trivial but leads to testing of deleting only one task
@@ -236,7 +275,7 @@ public:
 		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
 		Assert::AreEqual((size_t) 2, feedback.getTasksForDisplay().size());
 		Assert::AreEqual(TASK_C, task.getTaskText());
-		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getStartDateTime()));
+		Assert::AreEqual(DATE_TIME_2, boost::posix_time::to_simple_string(task.getStartDateTime()));
 		Assert::AreEqual(DATE_TIME_3, boost::posix_time::to_simple_string(task.getEndDateTime()));
 
 		// Testing delete upper bound of valid partition
@@ -245,7 +284,7 @@ public:
 
 		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
 		Assert::AreEqual((size_t) 1, feedback.getTasksForDisplay().size());
-		Assert::AreEqual(TASK_D, task.getTaskText());
+		Assert::AreEqual(TASK_A, task.getTaskText());
 		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getStartDateTime()));
 		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getEndDateTime()));
 
@@ -261,7 +300,7 @@ public:
 		// feedback = logic.executeCommand(CMD_REFRESH);
 		task = feedback.getTasksForDisplay()[0];
 		Assert::AreEqual((size_t) 1, feedback.getTasksForDisplay().size());
-		Assert::AreEqual(TASK_D, task.getTaskText());
+		Assert::AreEqual(TASK_A, task.getTaskText());
 		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getStartDateTime()));
 		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getEndDateTime()));
 
@@ -276,7 +315,7 @@ public:
 
 		// feedback = logic.executeCommand(CMD_REFRESH);
 		Assert::AreEqual((size_t) 1, feedback.getTasksForDisplay().size());
-		Assert::AreEqual(TASK_D, task.getTaskText());
+		Assert::AreEqual(TASK_A, task.getTaskText());
 		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getStartDateTime()));
 		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getEndDateTime()));
 
@@ -287,6 +326,8 @@ public:
 		Assert::AreEqual((size_t) 0, feedback.getTasksForDisplay().size());
 
 		// Not worth testing deleting empty because it is part of the invalid partitions
+	}
+	TEST_METHOD(integration_Commands) {
 
 		// TODO: Below
 
@@ -295,6 +336,28 @@ public:
 		// Testing limits of input, number of tasks etc.
 
 		// Testing more complex permutation of commands; combining multiple inputs.
+	}
+
+	TEST_METHOD(DateTimeFormat) {
+		// Important to do it here because logic keeps a copy of data on construction
+		remove(FILEPATH.c_str());
+
+		// Tests flexible formats
+		// yyyy-mmm-dd hh:mm
+		// dd-mm-yyyy hhmm
+		std::string command1 = CMD_ADD + SPACE + TASK_A + SPACE + FROM + "2015-10-10 16:00" + SPACE + TO + "10-10-2015 1800";
+
+		Logic logic;
+		UIFeedback feedback;
+		API::Task task;
+
+		feedback = logic.executeCommand(command1);
+		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
+		Assert::AreEqual((size_t) 1, feedback.getTasksForDisplay().size());
+		task = feedback.getTasksForDisplay()[0];
+
+		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getStartDateTime()));
+		Assert::AreEqual(DATE_TIME_2, boost::posix_time::to_simple_string(task.getEndDateTime()));
 	}
 	};
 }
