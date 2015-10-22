@@ -44,6 +44,9 @@
     <ClInclude Include="UndoCommandTokeniser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TagCommandTokeniser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Parser.cpp">
@@ -77,6 +80,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="UndoCommandTokeniser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TagCommandTokeniser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

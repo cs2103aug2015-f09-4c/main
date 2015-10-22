@@ -16,6 +16,7 @@ public:
 		Export,
 		Help,
 		Invalid,
+		Tag,
 		Undo
 	};
 

@@ -7,6 +7,7 @@
 #include "ExportCommandTokeniser.h"
 #include "EditCommandTokeniser.h"
 #include "UndoCommandTokeniser.h"
+#include "TagCommandTokeniser.h"
 
 Parser::Parser(void) {
 	_logger = Logger::getInstance();
@@ -63,6 +64,9 @@ void Parser::initialiseCommandTokeniser(CommandTokens::PrimaryCommandType primar
 		case CommandTokens::PrimaryCommandType::Export:
 			_commandTokeniser = new ExportCommandTokeniser;
 			break;
+		case CommandTokens::PrimaryCommandType::Tag:
+			_commandTokeniser = new TagCommandTokeniser;
+			break;
 		case CommandTokens::PrimaryCommandType::Undo:
 			_commandTokeniser = new UndoCommandTokeniser;
 			break;
@@ -78,6 +82,8 @@ CommandTokens::PrimaryCommandType Parser::parsePrimaryCommand(std::string userIn
 
 	if (isAddCommand(userInput)) {
 		commandType = CommandTokens::PrimaryCommandType::Add;
+	} else if (isCompleteCommand(userInput)) {
+		commandType = CommandTokens::PrimaryCommandType::Complete;
 	} else if (isDeleteCommand(userInput)) {
 		commandType = CommandTokens::PrimaryCommandType::Delete;
 	} else if (isDisplayCommand(userInput)) {
@@ -86,8 +92,8 @@ CommandTokens::PrimaryCommandType Parser::parsePrimaryCommand(std::string userIn
 		commandType = CommandTokens::PrimaryCommandType::Edit;
 	} else if (isExportCommand(userInput)) {
 		commandType = CommandTokens::PrimaryCommandType::Export;
-	} else if (isCompleteCommand(userInput)) {
-		commandType = CommandTokens::PrimaryCommandType::Complete;
+	} else if (isTagCommand(userInput)) {
+		commandType = CommandTokens::PrimaryCommandType::Tag;
 	} else if (isUndoCommand(userInput)) {
 		commandType = CommandTokens::PrimaryCommandType::Undo;
 	} else {
@@ -119,6 +125,10 @@ bool Parser::isEditCommand(std::string& userInput) {
 
 bool Parser::isExportCommand(std::string& userInput) {
 	return ExportCommandTokeniser::isExportCommand(userInput);
+}
+
+bool Parser::isTagCommand(std::string& userInput) {
+	return TagCommandTokeniser::isTagCommand(userInput);
 }
 
 bool Parser::isUndoCommand(std::string& userInput) {
