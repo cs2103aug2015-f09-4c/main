@@ -134,14 +134,15 @@ DeleteBeforeCommand* CommandCreator::processDeleteBeforeCommand(CommandTokens co
 	returnCommand = new DeleteBeforeCommand(endDateTime);
 	return returnCommand;
 }
-DeleteFromToCommand* processDeleteFromToCommand(CommandTokens commandTokens) {
+
+DeleteFromToCommand* CommandCreator::processDeleteFromToCommand(CommandTokens commandTokens) {
 	DeleteFromToCommand* returnCommand = NULL;
 	boost::posix_time::ptime startDateTime = commandTokens.getStartDateTime();
 	boost::posix_time::ptime endDateTime = commandTokens.getEndDateTime();
-	if (startDateTime > endDateTime) {
-		throw INVALID_COMMAND_EXCEPTION (MESSAGE_END_LESS_THAN_START);
-	} else if (startDateTime.is_special() || endDateTime.is_special()) {
+	if (startDateTime.is_special() || endDateTime.is_special()) {
 		throw INVALID_COMMAND_EXCEPTION (MESSAGE_INVALID_DATE_TIME);
+	} else if (startDateTime > endDateTime) {
+		throw INVALID_COMMAND_EXCEPTION (MESSAGE_END_LESS_THAN_START);
 	}
 	returnCommand = new DeleteFromToCommand(startDateTime, endDateTime);
 	return returnCommand;
