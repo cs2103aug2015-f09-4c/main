@@ -13,6 +13,8 @@ Task::Task() {
 Task::Task(std::string taskText) {
 	if (taskText.empty()) {
 		throw TASK_EXCEPTION(MESSAGE_EMPTY_TASK_TEXT.c_str());
+	} else if (taskText.size() > 150) {
+		throw TASK_EXCEPTION(MESSAGE_LONG_TASK_TEXT.c_str());
 	}
 	_taskText = taskText;
 	_isComplete = false;
@@ -21,6 +23,8 @@ Task::Task(std::string taskText) {
 Task::Task(std::string taskText, boost::posix_time::ptime endDateTime) {
 	if (taskText.empty()) {
 		throw TASK_EXCEPTION(MESSAGE_EMPTY_TASK_TEXT.c_str());
+	} else if (taskText.size() > 150) {
+		throw TASK_EXCEPTION(MESSAGE_LONG_TASK_TEXT.c_str());
 	}
 	_taskText = taskText;
 	_endDateTime = endDateTime;
@@ -30,6 +34,8 @@ Task::Task(std::string taskText, boost::posix_time::ptime endDateTime) {
 Task::Task(std::string taskText, boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime) {
 	if (taskText.empty()) {
 		throw TASK_EXCEPTION(MESSAGE_EMPTY_TASK_TEXT.c_str());
+	} else if (taskText.size() > 150) {
+		throw TASK_EXCEPTION(MESSAGE_LONG_TASK_TEXT.c_str());
 	} else if (isEndLessThanStart(startDateTime,endDateTime)) {
 		throw TASK_EXCEPTION(MESSAGE_END_LESS_THAN_START.c_str());
 	} else if (endDateTime.is_special() && !startDateTime.is_special()) {
@@ -98,6 +104,8 @@ void Task::toggleComplete() {
 void Task::changeTaskText(std::string newTaskText) {
 	if (newTaskText.empty()) {
 		throw TASK_EXCEPTION(MESSAGE_EMPTY_TASK_TEXT.c_str());
+	} else if (newTaskText.size() > 150) {
+		throw TASK_EXCEPTION(MESSAGE_LONG_TASK_TEXT.c_str());
 	}
 	_taskText = newTaskText;
 }

@@ -30,6 +30,11 @@ public:
 	UIFeedback DeleteCommand::execute(RunTimeStorage*);
 	UIFeedback DeleteCommand::undo(void);
 	virtual ~DeleteIndexCommand();
+#ifdef TESTMODE
+	size_t getIndex() {
+		return _index;
+	}
+#endif
 };
 
 class DeleteBeforeCommand: public DeleteCommand{

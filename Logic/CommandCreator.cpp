@@ -88,40 +88,69 @@ AddCommand* CommandCreator::processAddCommand(CommandTokens commandTokens) {
 DeleteCommand* CommandCreator::processDeleteCommand(CommandTokens commandTokens) {
 	DeleteCommand* returnCommand = NULL;
 	CommandTokens::SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
-	int index = commandTokens.getIndex(); 
+
 	boost::posix_time::ptime startDateTime = commandTokens.getStartDateTime();
 	boost::posix_time::ptime endDateTime = commandTokens.getEndDateTime();
-	switch (command2) {
-	case CommandTokens::SecondaryCommandType::Index:
-		if (index < 1) {
-			throw INVALID_COMMAND_EXCEPTION(MESSAGE_NON_POSITIVE_INDEX);
-		} else {
-			returnCommand = new DeleteIndexCommand(index);
+	try{
+		switch (command2) {
+		case CommandTokens::SecondaryCommandType::Index:
+			returnCommand = processDeleteIndexCommand(commandTokens);
+			break;
+		case CommandTokens::SecondaryCommandType::All:
+			returnCommand = processDeleteAllCommand(commandTokens);
+			break;
+		case CommandTokens::SecondaryCommandType::Todo:
+			returnCommand = processDeleteBeforeCommand(commandTokens);
+			break;
+		case CommandTokens::SecondaryCommandType::Timed:
+
+			break;
+		default:
+			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 		}
-		break;
-	case CommandTokens::SecondaryCommandType::All:
-		returnCommand = new DeleteAllCommand();
-		break;
-	case CommandTokens::SecondaryCommandType::Todo:
-		if (endDateTime.is_special()) {
-			throw INVALID_COMMAND_EXCEPTION (MESSAGE_INVALID_DATE_TIME);
-		}
-		returnCommand = new DeleteBeforeCommand(endDateTime);
-		break;
-	case CommandTokens::SecondaryCommandType::Timed:
-		if (startDateTime > endDateTime) {
-			throw INVALID_COMMAND_EXCEPTION (MESSAGE_END_LESS_THAN_START);
-		} else if (startDateTime.is_special() || endDateTime.is_special()) {
-			throw INVALID_COMMAND_EXCEPTION (MESSAGE_INVALID_DATE_TIME);
-		}
-		returnCommand = new DeleteFromToCommand(startDateTime, endDateTime);
-		break;
-	default:
-		throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
+	} catch (INVALID_COMMAND_EXCEPTION e) {
+		throw e;
 	}
 	return returnCommand;
 }
 
+DeleteIndexCommand* CommandCreator::processDeleteIndexCommand(CommandTokens commandTokens) {
+	DeleteIndexCommand* returnCommand = NULL;
+	int index = commandTokens.getIndex(); 
+	if (index < 1) {
+		throw INVALID_COMMAND_EXCEPTION(MESSAGE_NON_POSITIVE_INDEX);
+	} else {
+		returnCommand = new DeleteIndexCommand(index);
+	}
+	return returnCommand;
+}
+
+DeleteBeforeCommand* CommandCreator::processDeleteBeforeCommand(CommandTokens commandTokens) {
+	DeleteBeforeCommand* returnCommand = NULL;
+	boost::posix_time::ptime endDateTime = commandTokens.getEndDateTime();
+	if (endDateTime.is_special()) {
+		throw INVALID_COMMAND_EXCEPTION (MESSAGE_INVALID_DATE_TIME);
+	}
+	returnCommand = new DeleteBeforeCommand(endDateTime);
+	return returnCommand;
+}
+DeleteFromToCommand* processDeleteFromToCommand(CommandTokens commandTokens) {
+	DeleteFromToCommand* returnCommand = NULL;
+	boost::posix_time::ptime startDateTime = commandTokens.getStartDateTime();
+	boost::posix_time::ptime endDateTime = commandTokens.getEndDateTime();
+	if (startDateTime > endDateTime) {
+		throw INVALID_COMMAND_EXCEPTION (MESSAGE_END_LESS_THAN_START);
+	} else if (startDateTime.is_special() || endDateTime.is_special()) {
+		throw INVALID_COMMAND_EXCEPTION (MESSAGE_INVALID_DATE_TIME);
+	}
+	returnCommand = new DeleteFromToCommand(startDateTime, endDateTime);
+	return returnCommand;
+}
+
+DeleteAllCommand* CommandCreator::processDeleteAllCommand(CommandTokens commandTokens) {
+	DeleteAllCommand* returnCommand = new DeleteAllCommand();
+	return returnCommand;
+}
 EditCommand* CommandCreator::processEditCommand(CommandTokens commandTokens) {
 	EditCommand* returnCommand = NULL;
 	CommandTokens::SecondaryCommandType command2 = commandTokens.getSecondaryCommand();

@@ -1,7 +1,7 @@
 #include "Command_Refresh.h"
 
 
-RefreshCommand::RefreshCommand(void) : Command(CommandTokens::PrimaryCommandType::Export)
+RefreshCommand::RefreshCommand(void) : Command(CommandTokens::PrimaryCommandType::Refresh)
 {
 }
 

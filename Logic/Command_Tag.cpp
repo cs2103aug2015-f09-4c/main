@@ -4,6 +4,7 @@
 TagCommand::TagCommand(size_t index, std::vector<std::string> tags) : Command(CommandTokens::PrimaryCommandType::Tag) {
 	_index = index;
 	_tags = tags;
+	_type2 = CommandTokens::Index;
 }
 
 UIFeedback TagCommand::execute(RunTimeStorage* runTimeStorage) {
