@@ -104,12 +104,17 @@ void UI::Swiftask::displayInOutputBox(void) {
 			endDateTime = gcnew String("-");
 		}
 
-		// Tags not supported yet
-		// if ((*it).getTags != "") {
-		// 	str5 = gcnew String((*it).getTags.c_str());
-		// } else {
-		theTags = gcnew String("-");
-		// }
+		std::set<std::string> tagsList;
+		std::string stdTags = "";
+		tagsList = (*it).getTags();
+		if (tagsList.size() != 0) {
+			for (std::set<std::string>::iterator iter = tagsList.begin(); iter != tagsList.end(); iter++) {
+				stdTags = stdTags + (*iter);
+			}
+			theTags = gcnew String(stdTags.c_str());
+		} else {
+			theTags = gcnew String("-");
+		}
 
 		isCompleted = (*it).isComplete();
 		//if (isCompleted) {

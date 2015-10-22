@@ -58,7 +58,7 @@ public:
 
 		// Testing refresh command
 		//feedback = logic.executeCommand(CMD_REFRESH);
-		
+
 		//Assert::AreEqual((size_t) 0, feedback.getTasksForDisplay().size());
 
 		// Testing add commands
@@ -251,8 +251,8 @@ public:
 
 		// Testing index lower bound of invalid partition that is larger than valid partition
 		try {
-		feedback = logic.executeCommand(deleteCommand2);
-		Assert::AreEqual(TASK_NOT_FOUND_AT + "2", feedback.getFeedbackMessage());
+			feedback = logic.executeCommand(deleteCommand2);
+			Assert::AreEqual(TASK_NOT_FOUND_AT + "2", feedback.getFeedbackMessage());
 
 		} catch (std::string e) {
 			Assert::AreEqual(TASK_NOT_FOUND_AT + "2", e);
