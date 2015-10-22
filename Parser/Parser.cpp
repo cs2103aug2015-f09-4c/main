@@ -5,9 +5,10 @@
 #include "DeleteCommandTokeniser.h"
 #include "DisplayCommandTokeniser.h"
 #include "ExportCommandTokeniser.h"
-#include "EditCommandTokeniser.h"
-#include "UndoCommandTokeniser.h"
+#include "EditCommandTokeniser.h""
 #include "TagCommandTokeniser.h"
+#include "UndoCommandTokeniser.h"
+#include "UntagCommandTokeniser.h"
 
 Parser::Parser(void) {
 	_logger = Logger::getInstance();
@@ -70,6 +71,9 @@ void Parser::initialiseCommandTokeniser(CommandTokens::PrimaryCommandType primar
 		case CommandTokens::PrimaryCommandType::Undo:
 			_commandTokeniser = new UndoCommandTokeniser;
 			break;
+		case CommandTokens::PrimaryCommandType::Untag:
+			_commandTokeniser = new UntagCommandTokeniser;
+			break;
 		default:
 			// default should not be reached because of inclusion guard in
 			// calling function and assertion in this function
@@ -96,6 +100,8 @@ CommandTokens::PrimaryCommandType Parser::parsePrimaryCommand(std::string userIn
 		commandType = CommandTokens::PrimaryCommandType::Tag;
 	} else if (isUndoCommand(userInput)) {
 		commandType = CommandTokens::PrimaryCommandType::Undo;
+	} else if (isUntagCommand(userInput)) {
+		commandType = CommandTokens::PrimaryCommandType::Untag;
 	} else {
 		throw CommandDoesNotExistException();
 	}
@@ -133,4 +139,8 @@ bool Parser::isTagCommand(std::string& userInput) {
 
 bool Parser::isUndoCommand(std::string& userInput) {
 	return UndoCommandTokeniser::isUndoCommand(userInput);
+}
+
+bool Parser::isUntagCommand(std::string & userInput) {
+	return UntagCommandTokeniser::isUntagCommand(userInput);
 }

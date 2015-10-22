@@ -17,7 +17,8 @@ public:
 		Help,
 		Invalid,
 		Tag,
-		Undo
+		Undo,
+		Untag
 	};
 
 	// Command Type to further specify the operation

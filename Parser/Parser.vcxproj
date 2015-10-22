@@ -106,6 +106,7 @@
     <ClInclude Include="Parser.h" />
     <ClInclude Include="TagCommandTokeniser.h" />
     <ClInclude Include="UndoCommandTokeniser.h" />
+    <ClInclude Include="UntagCommandTokeniser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AddCommandTokeniser.cpp" />
@@ -120,6 +121,7 @@
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="TagCommandTokeniser.cpp" />
     <ClCompile Include="UndoCommandTokeniser.cpp" />
+    <ClCompile Include="UntagCommandTokeniser.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
