@@ -35,6 +35,7 @@ public:
 	std::string getTaskText();
 	boost::posix_time::ptime getStartDateTime();
 	boost::posix_time::ptime getEndDateTime();
+	std::set<std::string>& getTags();
 
 	//Methods
 	bool operator==(Task another);
