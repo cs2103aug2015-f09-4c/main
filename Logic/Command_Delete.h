@@ -47,6 +47,11 @@ public:
 	UIFeedback DeleteCommand::execute(RunTimeStorage*);
 	UIFeedback DeleteCommand::undo(void);
 	virtual ~DeleteBeforeCommand(void);
+#ifdef TESTMODE
+	boost::posix_time::ptime getEndDateTime() {
+		return _endDateTime;
+	}
+#endif
 };
 
 class DeleteFromToCommand: public DeleteCommand{
@@ -60,6 +65,15 @@ public:
 	UIFeedback DeleteCommand::execute(RunTimeStorage*);
 	UIFeedback DeleteCommand::undo(void);
 	virtual ~DeleteFromToCommand(void);
+#ifdef TESTMODE
+	boost::posix_time::ptime getEndDateTime() {
+		return _endDateTime;
+	}
+
+	boost::posix_time::ptime getStartDateTime() {
+		return _startDateTime;
+	}
+#endif
 };
 
 class DeleteAllCommand: public DeleteCommand{
