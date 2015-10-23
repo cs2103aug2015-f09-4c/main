@@ -9,7 +9,7 @@ Parser::Parser(void) {
 }
 
 CommandTokens Parser::parse(std::string userInput) {
-	_logger->logINFO("Parsing user input: " + userInput);
+	_logger->logINFO("Parser::parse(std::string userInput):CommandTokens called with parameter userInput=\"" + userInput + "\"");
 
 	try {
 		selectCommandTokeniser(userInput);

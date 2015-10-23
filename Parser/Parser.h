@@ -16,7 +16,7 @@
 #include "CommandTokenisers\UndoCommandTokeniser.h"
 #include "CommandTokenisers\UntagCommandTokeniser.h"
 
-// tokenises user input for Logic to do the necessary processing
+// facade class to provide uniform way to assess the various CommandTokenisers
 class Parser {
 public:
 	Parser(void);
