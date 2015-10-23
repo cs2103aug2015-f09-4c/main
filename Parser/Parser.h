@@ -9,6 +9,7 @@
 #include "DisplayCommandTokeniser.h"
 #include "ExportCommandTokeniser.h"
 #include "EditCommandTokeniser.h"
+#include "ImportCommandTokeniser.h"
 #include "RefreshCommandTokeniser.h"
 #include "SearchCommandTokeniser.h"
 #include "TagCommandTokeniser.h"
@@ -33,6 +34,7 @@ private:
 	DisplayCommandTokeniser _displayCommandTokeniser;
 	ExportCommandTokeniser _exportCommandTokeniser;
 	EditCommandTokeniser _editCommandTokeniser;
+	ImportCommandTokeniser _importCommandTokeniser;
 	RefreshCommandTokeniser _refreshCommandTokeniser;
 	SearchCommandTokeniser _searchCommandTokeniser;
 	TagCommandTokeniser _tagCommandTokeniser;
@@ -47,6 +49,7 @@ private:
 	bool isEditCommand(std::string& userInput);
 	bool isDisplayCommand(std::string& userInput);
 	bool isExportCommand(std::string& userInput);
+	bool isImportCommand(std::string& userInput);
 	bool isRefreshCommand(std::string& userInput);
 	bool isSearchCommand(std::string& userInput);
 	bool isTagCommand(std::string& userInput);

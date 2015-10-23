@@ -1,4 +1,3 @@
-#include <assert.h>
 #include "Parser.h"
 
 Parser::Parser(void) {
@@ -69,6 +68,10 @@ bool Parser::isDisplayCommand(std::string& userInput) {
 
 bool Parser::isEditCommand(std::string& userInput) {
 	return EditCommandTokeniser::isEditCommand(userInput);
+}
+
+bool Parser::isImportCommand(std::string& userInput) {
+	return ImportCommandTokeniser::isImportCommand(userInput);
 }
 
 bool Parser::isExportCommand(std::string& userInput) {

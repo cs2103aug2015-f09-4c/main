@@ -15,6 +15,7 @@ public:
 		Edit,
 		Export,
 		Help,
+		Import,
 		Invalid,
 		Refresh,
 		Search,
