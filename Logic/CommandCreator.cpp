@@ -152,32 +152,21 @@ DeleteAllCommand* CommandCreator::processDeleteAllCommand(CommandTokens commandT
 	DeleteAllCommand* returnCommand = new DeleteAllCommand();
 	return returnCommand;
 }
+
 EditCommand* CommandCreator::processEditCommand(CommandTokens commandTokens) {
 	EditCommand* returnCommand = NULL;
 	CommandTokens::SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
-	int index = commandTokens.getIndex();
-
-	if (index < 1) {
-		throw INVALID_COMMAND_EXCEPTION(MESSAGE_NON_POSITIVE_INDEX);
-	}
-
-	std::string newName = commandTokens.getTaskName();
-	boost::posix_time::ptime newStart = commandTokens.getStartDateTime();
-	boost::posix_time::ptime newEnd = commandTokens.getEndDateTime();
+	
 	try {
 		switch (command2) {
 		case CommandTokens::SecondaryCommandType::Name:
-			if (newName.empty()) {
-				throw INVALID_COMMAND_EXCEPTION(MESSAGE_EDIT_NAME_EMPTY);
-			} else {
-				returnCommand = new EditNameCommand(index, newName);
-			}
+			returnCommand = processEditNameCommand(commandTokens);
 			break;
 		case CommandTokens::SecondaryCommandType::Start:
-			returnCommand = new EditStartCommand(index, newStart);
+			returnCommand = processEditStartCommand(commandTokens);
 			break;
 		case CommandTokens::SecondaryCommandType::End:
-			returnCommand = new EditEndCommand(index, newEnd);
+			returnCommand = processEditEndCommand(commandTokens);
 			break;
 		default:
 			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
@@ -185,6 +174,43 @@ EditCommand* CommandCreator::processEditCommand(CommandTokens commandTokens) {
 	} catch (INVALID_COMMAND_EXCEPTION e) {
 		throw e;
 	}
+	return returnCommand;
+}
+
+EditNameCommand* CommandCreator::processEditNameCommand(CommandTokens commandTokens) {
+	EditNameCommand* returnCommand = NULL;
+	int index = commandTokens.getIndex();
+	if (index < 1) {
+		throw INVALID_COMMAND_EXCEPTION(MESSAGE_NON_POSITIVE_INDEX);
+	}
+	std::string newName = commandTokens.getTaskName();
+	if (newName.empty()) {
+		throw INVALID_COMMAND_EXCEPTION(MESSAGE_EDIT_NAME_EMPTY);
+	} else {
+		returnCommand = new EditNameCommand(index, newName);
+	}
+	return returnCommand;
+}
+
+EditStartCommand* CommandCreator::processEditStartCommand(CommandTokens commandTokens) {
+	EditStartCommand* returnCommand = NULL;
+	int index = commandTokens.getIndex();
+	if (index < 1) {
+		throw INVALID_COMMAND_EXCEPTION(MESSAGE_NON_POSITIVE_INDEX);
+	}
+	boost::posix_time::ptime newStart = commandTokens.getStartDateTime();
+	returnCommand = new EditStartCommand(index, newStart);
+	return returnCommand;
+}
+
+EditEndCommand* CommandCreator::processEditEndCommand(CommandTokens commandTokens) {
+	EditEndCommand* returnCommand = NULL;
+	int index = commandTokens.getIndex();
+	if (index < 1) {
+		throw INVALID_COMMAND_EXCEPTION(MESSAGE_NON_POSITIVE_INDEX);
+	}
+	boost::posix_time::ptime newEnd = commandTokens.getEndDateTime();
+	returnCommand = new EditEndCommand(index, newEnd);
 	return returnCommand;
 }
 
