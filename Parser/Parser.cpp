@@ -14,8 +14,7 @@ CommandTokens Parser::parse(std::string userInput) {
 
 	try {
 		selectCommandTokeniser(userInput);
-	}
-	catch (CommandDoesNotExistException& e) {
+	} catch (CommandDoesNotExistException& e) {
 		_logger->logINFO(e.what());
 		return _invalidCommandTokens;
 	}
@@ -24,8 +23,6 @@ CommandTokens Parser::parse(std::string userInput) {
 }
 
 void Parser::selectCommandTokeniser(std::string userInput) {
-	CommandTokens::PrimaryCommandType commandType;
-
 	if (isAddCommand(userInput)) {
 		_commandTokeniser = &_addCommandTokeniser;
 	} else if (isCompleteCommand(userInput)) {
@@ -40,6 +37,8 @@ void Parser::selectCommandTokeniser(std::string userInput) {
 		_commandTokeniser = &_exportCommandTokeniser;
 	} else if (isRefreshCommand(userInput)) {
 		_commandTokeniser = &_refreshCommandTokeniser;
+	} else if (isSearchCommand(userInput)) {
+		_commandTokeniser = &_searchCommandTokeniser;
 	} else if (isTagCommand(userInput)) {
 		_commandTokeniser = &_tagCommandTokeniser;
 	} else if (isUndoCommand(userInput)) {
@@ -74,6 +73,10 @@ bool Parser::isEditCommand(std::string& userInput) {
 
 bool Parser::isExportCommand(std::string& userInput) {
 	return ExportCommandTokeniser::isExportCommand(userInput);
+}
+
+bool Parser::isSearchCommand(std::string& userInput) {
+	return SearchCommandTokeniser::isSearchCommand(userInput);
 }
 
 bool Parser::isRefreshCommand(std::string& userInput) {

@@ -105,6 +105,7 @@
     <ClInclude Include="ExportCommandTokeniser.h" />
     <ClInclude Include="Parser.h" />
     <ClInclude Include="RefreshCommandTokeniser.h" />
+    <ClInclude Include="SearchCommandTokeniser.h" />
     <ClInclude Include="TagCommandTokeniser.h" />
     <ClInclude Include="UndoCommandTokeniser.h" />
     <ClInclude Include="UntagCommandTokeniser.h" />
@@ -121,6 +122,7 @@
     <ClCompile Include="ExportCommandTokeniser.cpp" />
     <ClCompile Include="Parser.cpp" />
     <ClCompile Include="RefreshCommandTokeniser.cpp" />
+    <ClCompile Include="SearchCommandTokeniser.cpp" />
     <ClCompile Include="TagCommandTokeniser.cpp" />
     <ClCompile Include="UndoCommandTokeniser.cpp" />
     <ClCompile Include="UntagCommandTokeniser.cpp" />

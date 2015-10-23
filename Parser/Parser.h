@@ -10,6 +10,7 @@
 #include "ExportCommandTokeniser.h"
 #include "EditCommandTokeniser.h"
 #include "RefreshCommandTokeniser.h"
+#include "SearchCommandTokeniser.h"
 #include "TagCommandTokeniser.h"
 #include "UndoCommandTokeniser.h"
 #include "UntagCommandTokeniser.h"
@@ -21,6 +22,8 @@ public:
 	CommandTokens parse(std::string userInput);
 
 private:
+	Logger* _logger;
+
 	CommandTokeniser* _commandTokeniser;
 	CommandTokens _invalidCommandTokens;
 
@@ -31,12 +34,10 @@ private:
 	ExportCommandTokeniser _exportCommandTokeniser;
 	EditCommandTokeniser _editCommandTokeniser;
 	RefreshCommandTokeniser _refreshCommandTokeniser;
+	SearchCommandTokeniser _searchCommandTokeniser;
 	TagCommandTokeniser _tagCommandTokeniser;
 	UndoCommandTokeniser _undoCommandTokeniser;
 	UntagCommandTokeniser _untagCommandTokeniser;
-
-
-	Logger* _logger;
 
 	void selectCommandTokeniser(std::string userInput);
 
@@ -47,6 +48,7 @@ private:
 	bool isDisplayCommand(std::string& userInput);
 	bool isExportCommand(std::string& userInput);
 	bool isRefreshCommand(std::string& userInput);
+	bool isSearchCommand(std::string& userInput);
 	bool isTagCommand(std::string& userInput);
 	bool isUndoCommand(std::string& userInput);
 	bool isUntagCommand(std::string& userInput);
