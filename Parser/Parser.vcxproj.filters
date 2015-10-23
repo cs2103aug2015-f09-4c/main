@@ -29,41 +29,41 @@
     <ClInclude Include="CommandTokeniser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AddCommandTokeniser.h">
+    <ClInclude Include="CommandTokenisers\AddCommandTokeniser.h">
       <Filter>Header Files\CommandTokenisers</Filter>
     </ClInclude>
-    <ClInclude Include="CompleteCommandTokeniser.h">
+    <ClInclude Include="CommandTokenisers\CompleteCommandTokeniser.h">
       <Filter>Header Files\CommandTokenisers</Filter>
     </ClInclude>
-    <ClInclude Include="DeleteCommandTokeniser.h">
+    <ClInclude Include="CommandTokenisers\DeleteCommandTokeniser.h">
       <Filter>Header Files\CommandTokenisers</Filter>
     </ClInclude>
-    <ClInclude Include="DisplayCommandTokeniser.h">
+    <ClInclude Include="CommandTokenisers\DisplayCommandTokeniser.h">
       <Filter>Header Files\CommandTokenisers</Filter>
     </ClInclude>
-    <ClInclude Include="EditCommandTokeniser.h">
+    <ClInclude Include="CommandTokenisers\EditCommandTokeniser.h">
       <Filter>Header Files\CommandTokenisers</Filter>
     </ClInclude>
-    <ClInclude Include="ExportCommandTokeniser.h">
+    <ClInclude Include="CommandTokenisers\ExportCommandTokeniser.h">
       <Filter>Header Files\CommandTokenisers</Filter>
     </ClInclude>
-    <ClInclude Include="RefreshCommandTokeniser.h">
+    <ClInclude Include="CommandTokenisers\ImportCommandTokeniser.h">
       <Filter>Header Files\CommandTokenisers</Filter>
     </ClInclude>
-    <ClInclude Include="TagCommandTokeniser.h">
+    <ClInclude Include="CommandTokenisers\RefreshCommandTokeniser.h">
       <Filter>Header Files\CommandTokenisers</Filter>
     </ClInclude>
-    <ClInclude Include="UndoCommandTokeniser.h">
+    <ClInclude Include="CommandTokenisers\SearchCommandTokeniser.h">
       <Filter>Header Files\CommandTokenisers</Filter>
     </ClInclude>
-    <ClInclude Include="UntagCommandTokeniser.h">
+    <ClInclude Include="CommandTokenisers\TagCommandTokeniser.h">
       <Filter>Header Files\CommandTokenisers</Filter>
     </ClInclude>
-    <ClInclude Include="SearchCommandTokeniser.h">
+    <ClInclude Include="CommandTokenisers\UndoCommandTokeniser.h">
       <Filter>Header Files\CommandTokenisers</Filter>
     </ClInclude>
-    <ClInclude Include="ImportCommandTokeniser.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="CommandTokenisers\UntagCommandTokeniser.h">
+      <Filter>Header Files\CommandTokenisers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -79,41 +79,41 @@
     <ClCompile Include="CommandTokeniser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AddCommandTokeniser.cpp">
+    <ClCompile Include="CommandTokenisers\AddCommandTokeniser.cpp">
       <Filter>Source Files\CommandTokenisers</Filter>
     </ClCompile>
-    <ClCompile Include="CompleteCommandTokeniser.cpp">
+    <ClCompile Include="CommandTokenisers\CompleteCommandTokeniser.cpp">
       <Filter>Source Files\CommandTokenisers</Filter>
     </ClCompile>
-    <ClCompile Include="DeleteCommandTokeniser.cpp">
+    <ClCompile Include="CommandTokenisers\DeleteCommandTokeniser.cpp">
       <Filter>Source Files\CommandTokenisers</Filter>
     </ClCompile>
-    <ClCompile Include="DisplayCommandTokeniser.cpp">
+    <ClCompile Include="CommandTokenisers\DisplayCommandTokeniser.cpp">
       <Filter>Source Files\CommandTokenisers</Filter>
     </ClCompile>
-    <ClCompile Include="EditCommandTokeniser.cpp">
+    <ClCompile Include="CommandTokenisers\EditCommandTokeniser.cpp">
       <Filter>Source Files\CommandTokenisers</Filter>
     </ClCompile>
-    <ClCompile Include="ExportCommandTokeniser.cpp">
+    <ClCompile Include="CommandTokenisers\ExportCommandTokeniser.cpp">
       <Filter>Source Files\CommandTokenisers</Filter>
     </ClCompile>
-    <ClCompile Include="RefreshCommandTokeniser.cpp">
+    <ClCompile Include="CommandTokenisers\ImportCommandTokeniser.cpp">
       <Filter>Source Files\CommandTokenisers</Filter>
     </ClCompile>
-    <ClCompile Include="TagCommandTokeniser.cpp">
+    <ClCompile Include="CommandTokenisers\RefreshCommandTokeniser.cpp">
       <Filter>Source Files\CommandTokenisers</Filter>
     </ClCompile>
-    <ClCompile Include="UndoCommandTokeniser.cpp">
+    <ClCompile Include="CommandTokenisers\SearchCommandTokeniser.cpp">
       <Filter>Source Files\CommandTokenisers</Filter>
     </ClCompile>
-    <ClCompile Include="UntagCommandTokeniser.cpp">
+    <ClCompile Include="CommandTokenisers\TagCommandTokeniser.cpp">
       <Filter>Source Files\CommandTokenisers</Filter>
     </ClCompile>
-    <ClCompile Include="SearchCommandTokeniser.cpp">
+    <ClCompile Include="CommandTokenisers\UndoCommandTokeniser.cpp">
       <Filter>Source Files\CommandTokenisers</Filter>
     </ClCompile>
-    <ClCompile Include="ImportCommandTokeniser.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="CommandTokenisers\UntagCommandTokeniser.cpp">
+      <Filter>Source Files\CommandTokenisers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
