@@ -103,7 +103,7 @@ public:
 		// Testing add duplicates in invalid partition
 		try {
 			feedback = logic.executeCommand(addCommand1);
-			Assert::AreEqual(CMD_DUPLICATE, feedback.getFeedbackMessage());
+			Assert::AreEqual(false, true);
 
 		} catch (std::string e) {
 			Assert::AreEqual(CMD_DUPLICATE, e);
@@ -175,10 +175,10 @@ public:
 		// Testing index upper bound of invalid partition that is smaller than valid partition
 		try {
 			feedback = logic.executeCommand(editCommand0);
-			Assert::AreEqual(ONLY_POSITIVE, feedback.getFeedbackMessage());
+			Assert::AreEqual(false, true);
 
 		} catch (std::string e) {
-			Assert::AreEqual(ONLY_POSITIVE.c_str(), e.c_str());
+			Assert::AreEqual(ONLY_POSITIVE, e);
 		}
 
 		feedback = logic.executeCommand(CMD_REFRESH);
@@ -188,7 +188,7 @@ public:
 		// Testing index lower bound of invalid partition that is larger than valid range partition
 		try {
 			feedback = logic.executeCommand(editCommand4);
-			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", feedback.getFeedbackMessage());
+			Assert::AreEqual(false, true);
 
 		} catch (std::string e) {
 			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", e);
@@ -199,7 +199,7 @@ public:
 		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getStartDateTime()));
 
 	}
-	/*
+
 	TEST_METHOD(tagUntag) {
 		remove(FILEPATH.c_str());
 
@@ -252,7 +252,7 @@ public:
 		// Testing tag upper bound of invalid partition that is smaller than valid partition
 		try {
 			feedback = logic.executeCommand(tagCommand0);
-			Assert::AreEqual(ONLY_POSITIVE, feedback.getFeedbackMessage());
+			Assert::AreEqual(false, true);
 
 		} catch (std::exception e) {
 			Assert::AreEqual(ONLY_POSITIVE, std::string(e.what()));
@@ -269,7 +269,7 @@ public:
 		// Testing tag lower bound of invalid partition that is larger than valid partition
 		try {
 			feedback = logic.executeCommand(tagCommand4);
-			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", feedback.getFeedbackMessage());
+			Assert::AreEqual(false, true);
 
 		} catch (std::string e) {
 			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", e);
@@ -301,7 +301,7 @@ public:
 		// Testing untag upper bound of invalid partition that is smaller than valid partition
 		try {
 			feedback = logic.executeCommand(untagCommand0);
-			Assert::AreEqual(ONLY_POSITIVE, feedback.getFeedbackMessage());
+			Assert::AreEqual(false, true);
 
 		} catch (std::exception e) {
 			Assert::AreEqual(ONLY_POSITIVE, std::string(e.what()));
@@ -317,7 +317,7 @@ public:
 		// Testing untag lower bound of invalid partition that is larger than valid partition
 		try {
 			feedback = logic.executeCommand(tagCommand4);
-			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", feedback.getFeedbackMessage());
+			Assert::AreEqual(false, true);
 
 		} catch (std::string e) {
 			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", e);
@@ -329,7 +329,7 @@ public:
 		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
 		Assert::AreEqual((size_t) 0, tags.size());
 	}
-	*/
+
 	TEST_METHOD(complete) {
 		remove(FILEPATH.c_str());
 
@@ -361,7 +361,7 @@ public:
 		// Testing complete upper bound of invalid partition that is smaller than valid partition
 		try {
 			feedback = logic.executeCommand(completeCommand0);
-			Assert::AreEqual(ONLY_POSITIVE, feedback.getFeedbackMessage());
+			Assert::AreEqual(false, true);
 
 		} catch (std::string e) {
 			Assert::AreEqual(ONLY_POSITIVE, e);
@@ -373,7 +373,7 @@ public:
 		// Testing complete lower bound of invalid partition that is larger than valid partition
 		try {
 			feedback = logic.executeCommand(completeCommand4);
-			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", feedback.getFeedbackMessage());
+			Assert::AreEqual(false, true);
 
 		} catch (std::string e) {
 			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", e);
@@ -425,7 +425,7 @@ public:
 		// Testing index lower bound of invalid partition that is larger than valid partition
 		try {
 			feedback = logic.executeCommand(deleteCommand2);
-			Assert::AreEqual(TASK_NOT_FOUND_AT + "2", feedback.getFeedbackMessage());
+			Assert::AreEqual(false, true);
 
 		} catch (std::string e) {
 			Assert::AreEqual(TASK_NOT_FOUND_AT + "2", e);
@@ -441,7 +441,7 @@ public:
 		// Testing index upper bound of invalid partition that is smaller than valid partition
 		try {
 			feedback = logic.executeCommand(deleteCommand0);
-			Assert::AreEqual(ONLY_POSITIVE, feedback.getFeedbackMessage());
+			Assert::AreEqual(false, true);
 
 		} catch (std::string e) {
 			Assert::AreEqual(ONLY_POSITIVE, e);
