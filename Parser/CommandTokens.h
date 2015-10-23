@@ -15,8 +15,10 @@ public:
 		Edit,
 		Export,
 		Help,
+		Import,
 		Invalid,
 		Refresh,
+		Search,
 		Tag,
 		Undo,
 		Untag
@@ -26,11 +28,16 @@ public:
 	enum SecondaryCommandType {
 		All,
 		End,
+		EndAfter,
+		EndBefore,
 		Floating,
 		Index,
 		Name,
 		None,
 		Start,
+		StartAfter,
+		StartBefore,
+		Tags,
 		Timed,
 		Todo
 	};
