@@ -127,8 +127,8 @@ public:
 
 		//normal case
 		std::string taskName = "do something";
-		std::string timeString1("20-01-2002 23:59");
-		std::string timeString2("20-02-2002 23:59");
+		std::string timeString1("2002-01-20 23:59:59.000");
+		std::string timeString2("2002-01-21 23:59:59.000");
 		token.setPrimaryCommand(CommandTokens::Add);
 		token.setSecondaryCommand(CommandTokens::Timed);
 		token.setTaskName(taskName);
@@ -182,7 +182,10 @@ public:
 
 		//boundary case where startDateTime is equals to endDateTime
 		//still allowed
+		testString = testString.substr(0,150);
+		token.setTaskName(testString);
 		token.setStartDateTime(boost::posix_time::time_from_string(timeString2));
+		
 		command = creator.testProcessAddCommand(token);
 		Assert::AreEqual(true, command->getPrimaryCommandType() == CommandTokens::PrimaryCommandType::Add);
 		Assert::AreEqual(true, command->getSecondaryCommandType() == CommandTokens::SecondaryCommandType::Timed);
@@ -217,6 +220,115 @@ public:
 		Assert::AreEqual(false, command->isExecuted());
 		Assert::AreEqual(true, command->isValid());
 		Assert::AreEqual(size_t(1), command->getIndex());
+
+		//Invalid case
+		token.setIndex(0);
+		try {
+			command = creator.testProcessDeleteIndexCommand(token);
+			Assert::AreEqual(false,true); //expect exception thrown to skip this line.
+		} catch (std::exception e) {
+			Assert::AreEqual(MESSAGE_NON_POSITIVE_INDEX.c_str(), e.what());
+		}
+	}
+
+	TEST_METHOD(testCreateDeleteBeforeCommand) {
+		CommandCreator creator;
+		CommandTokens token;
+		token.setPrimaryCommand(CommandTokens::Delete);
+		token.setSecondaryCommand(CommandTokens::Todo);
+
+		DeleteBeforeCommand* command = NULL;
+
+		std::string timeString("2002-01-20 23:59:59");
+		std::string expectedString("2002-Jan-20 23:59:59");
+		boost::posix_time::ptime endTime = boost::posix_time::time_from_string(timeString);
+
+		token.setEndDateTime(endTime);
+		command = creator.testProcessDeleteBeforeCommand(token);
+		Assert::AreEqual(true , CommandTokens::Delete==command->getPrimaryCommandType());
+		Assert::AreEqual(true , CommandTokens::Todo==command->getSecondaryCommandType());
+		Assert::AreEqual(false, command->isExecuted());
+		Assert::AreEqual(true, command->isValid());
+		Assert::AreEqual(expectedString.c_str(), boost::posix_time::to_simple_string(command->getEndDateTime()).c_str());
+
+		token.setEndDateTime(boost::posix_time::ptime());
+		try {
+			command = creator.testProcessDeleteBeforeCommand(token);
+			Assert::AreEqual(false, true); //expect exception thrown to skip this line.
+		} catch (std::exception e) {
+			Assert::AreEqual(MESSAGE_INVALID_DATE_TIME.c_str(), e.what());
+		}
+	}
+
+	TEST_METHOD(testCreateDeleteFromToCommand) {
+		CommandCreator creator;
+		CommandTokens token;
+		token.setPrimaryCommand(CommandTokens::Delete);
+		token.setSecondaryCommand(CommandTokens::Timed);
+
+		DeleteFromToCommand* command = NULL;
+
+		std::string timeString1("2002-01-20 23:59:59");
+		std::string timeString2("2002-01-21 23:59:59");
+		std::string expectedString1("2002-Jan-20 23:59:59");
+		std::string expectedString2("2002-Jan-21 23:59:59");
+		boost::posix_time::ptime startTime = boost::posix_time::time_from_string(timeString1);
+		boost::posix_time::ptime endTime = boost::posix_time::time_from_string(timeString2);
+
+		token.setStartDateTime(startTime);
+		token.setEndDateTime(endTime);
+		command = creator.testProcessDeleteFromToCommand(token);
+		Assert::AreEqual(true , CommandTokens::Delete==command->getPrimaryCommandType());
+		Assert::AreEqual(true , CommandTokens::Timed==command->getSecondaryCommandType());
+		Assert::AreEqual(false, command->isExecuted());
+		Assert::AreEqual(true, command->isValid());
+		Assert::AreEqual(expectedString1.c_str(), boost::posix_time::to_simple_string(command->getStartDateTime()).c_str());
+		Assert::AreEqual(expectedString2.c_str(), boost::posix_time::to_simple_string(command->getEndDateTime()).c_str());
+
+		//startTime cannot be more than endTime, thus exception should be thrown.
+		token.setEndDateTime(startTime);
+		token.setStartDateTime(endTime);
+		try {
+			command = creator.testProcessDeleteFromToCommand(token);
+			Assert::AreEqual(false, true); //expect exception thrown to skip this line.
+		} catch (std::exception e) {
+			Assert::AreEqual(MESSAGE_END_LESS_THAN_START.c_str(), e.what());
+		}
+
+		//endDateTime is not a date time, exception should be thrown.
+		token.setStartDateTime(startTime);
+		token.setEndDateTime(boost::posix_time::ptime());
+		try {
+			command = creator.testProcessDeleteFromToCommand(token);
+			Assert::AreEqual(false, true); //expect exception thrown to skip this line.
+		} catch (std::exception e) {
+			Assert::AreEqual(MESSAGE_INVALID_DATE_TIME.c_str(), e.what());
+		}
+
+		//startDateTime is not a date time, exception should be thrown.
+		token.setStartDateTime(boost::posix_time::ptime());
+		token.setEndDateTime(endTime);
+		try {
+			command = creator.testProcessDeleteFromToCommand(token);
+			Assert::AreEqual(false, true); //expect exception thrown to skip this line.
+		} catch (std::exception e) {
+			Assert::AreEqual(MESSAGE_INVALID_DATE_TIME.c_str(), e.what());
+		}
+	}
+
+	TEST_METHOD (testCreateDeleteAllCommand) {
+		CommandCreator creator;
+		CommandTokens token;
+		token.setPrimaryCommand(CommandTokens::Delete);
+		token.setSecondaryCommand(CommandTokens::All);
+
+		DeleteAllCommand* command = NULL;
+
+		command = creator.testProcessDeleteAllCommand(token);
+		Assert::AreEqual(true , CommandTokens::Delete==command->getPrimaryCommandType());
+		Assert::AreEqual(true , CommandTokens::All==command->getSecondaryCommandType());
+		Assert::AreEqual(false, command->isExecuted());
+		Assert::AreEqual(true, command->isValid());		
 	}
 	};
 }

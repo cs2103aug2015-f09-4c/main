@@ -177,8 +177,8 @@ public:
 			feedback = logic.executeCommand(editCommand0);
 			Assert::AreEqual(ONLY_POSITIVE, feedback.getFeedbackMessage());
 
-		} catch (std::exception e) {
-			Assert::AreEqual(ONLY_POSITIVE, std::string(e.what()));
+		} catch (std::string e) {
+			Assert::AreEqual(ONLY_POSITIVE.c_str(), e.c_str());
 		}
 
 		feedback = logic.executeCommand(CMD_REFRESH);
@@ -199,7 +199,7 @@ public:
 		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getStartDateTime()));
 
 	}
-
+	/*
 	TEST_METHOD(tagUntag) {
 		remove(FILEPATH.c_str());
 
@@ -329,7 +329,7 @@ public:
 		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
 		Assert::AreEqual((size_t) 0, tags.size());
 	}
-
+	*/
 	TEST_METHOD(complete) {
 		remove(FILEPATH.c_str());
 
@@ -363,8 +363,8 @@ public:
 			feedback = logic.executeCommand(completeCommand0);
 			Assert::AreEqual(ONLY_POSITIVE, feedback.getFeedbackMessage());
 
-		} catch (std::exception e) {
-			Assert::AreEqual(ONLY_POSITIVE, std::string(e.what()));
+		} catch (std::string e) {
+			Assert::AreEqual(ONLY_POSITIVE, e);
 		}
 
 		feedback = logic.executeCommand(CMD_REFRESH);
@@ -443,8 +443,8 @@ public:
 			feedback = logic.executeCommand(deleteCommand0);
 			Assert::AreEqual(ONLY_POSITIVE, feedback.getFeedbackMessage());
 
-		} catch (std::exception e) {
-			Assert::AreEqual(ONLY_POSITIVE, std::string(e.what()));
+		} catch (std::string e) {
+			Assert::AreEqual(ONLY_POSITIVE, e);
 		}
 
 		feedback = logic.executeCommand(CMD_REFRESH);
