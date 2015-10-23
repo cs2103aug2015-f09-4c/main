@@ -58,7 +58,7 @@ void PhysicalStorageHandler::saveToFile(std::vector<API::Task>& tasks, std::stri
 		saveFile << start << "\n";
 		saveFile << tasks[i].getTaskText() << "\n";
 		saveFile << boost::posix_time::to_simple_string(tasks[i].getStartDateTime()) << "\n";
-		saveFile << boost::posix_time::to_simple_string(tasks[i].getStartDateTime()) << "\n";
+		saveFile << boost::posix_time::to_simple_string(tasks[i].getEndDateTime()) << "\n";
 		if (tasks[i].isComplete()) {
 			saveFile << "1\n";
 		} else {
