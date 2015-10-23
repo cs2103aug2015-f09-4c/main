@@ -24,11 +24,24 @@ private:
 
 	static DeleteCommand* processDeleteCommand(CommandTokens commandTokens);
 
+	static DeleteIndexCommand* processDeleteIndexCommand(CommandTokens commandTokens);
+	static DeleteBeforeCommand* processDeleteBeforeCommand(CommandTokens commandTokens);
+	static DeleteFromToCommand* processDeleteFromToCommand(CommandTokens commandTokens);
+	static DeleteAllCommand* processDeleteAllCommand(CommandTokens commandTokens);
+
 	static EditCommand* processEditCommand(CommandTokens commandTokens);
+
+	static EditNameCommand* processEditNameCommand(CommandTokens commandTokens);
+	static EditStartCommand* processEditStartCommand(CommandTokens commandTokens);
+	static EditEndCommand* processEditEndCommand(CommandTokens commandTokens);
 
 	static SetCompleteCommand* processSetCompleteCommand(CommandTokens commandTokens);
 
 	static ExportCommand* processExportCommand(CommandTokens commandTokens);
+
+	static RefreshCommand* processRefreshCommand(CommandTokens commandTokens);
+
+	static TagCommand* processTagCommand(CommandTokens commandTokens);
 public:
 	CommandCreator();
 	Command* process(CommandTokens commandTokens);
@@ -41,12 +54,36 @@ public:
 		return processAddCommand(commandTokens);
 	}
 
-	DeleteCommand* testProcessDeleteCommand(CommandTokens commandTokens) {
-		return processDeleteCommand(commandTokens);
+	DeleteIndexCommand* testProcessDeleteIndexCommand(CommandTokens commandTokens) {
+		return processDeleteIndexCommand(commandTokens);
 	}
 
+	DeleteBeforeCommand* testProcessDeleteBeforeCommand(CommandTokens commandTokens) {
+		return processDeleteBeforeCommand(commandTokens);
+	}
+
+	DeleteFromToCommand* testProcessDeleteFromToCommand(CommandTokens commandTokens) {
+		return processDeleteFromToCommand(commandTokens);
+	}
+
+	DeleteAllCommand* testProcessDeleteAllCommand(CommandTokens commandTokens) {
+		return processDeleteAllCommand(commandTokens);
+	}
+	
 	EditCommand* testProcessEditCommand(CommandTokens commandTokens) {
 		return processEditCommand(commandTokens);
+	}
+
+	EditNameCommand* testProcessEditNameCommand(CommandTokens commandTokens) {
+		return processEditNameCommand(commandTokens);
+	}
+
+	EditStartCommand* testProcessEditStartCommand(CommandTokens commandTokens) {
+		return processEditStartCommand(commandTokens);
+	}
+
+	EditEndCommand* testProcessEditEndCommand(CommandTokens commandTokens) {
+		return processEditEndCommand(commandTokens);
 	}
 
 #endif

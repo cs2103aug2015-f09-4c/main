@@ -251,3 +251,4 @@ ParserStub/ParserStub.vcxproj
 UI/defaultSaveFile.txt
 Logic/html/
 Logic/latex/
+UI/save.txt

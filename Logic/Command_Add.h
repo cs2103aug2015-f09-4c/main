@@ -44,4 +44,12 @@ public:
 	bool canUndo();
 
 	virtual ~AddCommand(void);
+
+#ifdef TESTMODE
+
+	Task getTask() {
+		return _task;
+	}
+
+#endif
 };

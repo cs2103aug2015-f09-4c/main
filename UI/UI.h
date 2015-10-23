@@ -46,7 +46,7 @@ namespace UI {
 			feedback = new UIFeedback;
 
 			// to load the saved file if any
-			(*feedback) = logic->executeCommand("");
+			(*feedback) = logic->executeCommand("refresh");
 			displayInOutputBox();
 		}
 	private: 

@@ -126,6 +126,7 @@
     <ClInclude Include="Command_Export.h" />
     <ClInclude Include="Command_Refresh.h" />
     <ClInclude Include="Command_Set.h" />
+    <ClInclude Include="Command_Tag.h" />
     <ClInclude Include="Logic.h" />
     <ClInclude Include="RunTimeStorage.h" />
     <ClInclude Include="Task.h" />
@@ -141,6 +142,7 @@
     <ClCompile Include="Command_Export.cpp" />
     <ClCompile Include="Command_Refresh.cpp" />
     <ClCompile Include="Command_Set.cpp" />
+    <ClCompile Include="Command_Tag.cpp" />
     <ClCompile Include="Logic.cpp" />
     <ClCompile Include="RunTimeStorage.cpp" />
     <ClCompile Include="Task.cpp" />

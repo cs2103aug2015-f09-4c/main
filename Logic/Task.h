@@ -5,6 +5,7 @@
 #include "../boost/date_time/posix_time/posix_time.hpp"
 
 const std::string MESSAGE_EMPTY_TASK_TEXT = "Task text cannot be empty.";
+const std::string MESSAGE_LONG_TASK_TEXT = "Task text cannot be more than 150 characters long.";
 const std::string MESSAGE_END_LESS_THAN_START = "Start date time must be before end date time.";
 const std::string MESSAGE_EMPTY_END_DATE = "When start date time is a defined date-time, end date time cannot be not a date time.";
 const std::string MESSAGE_TAG_NOT_FOUND = "Tag not found. No change is made.";
@@ -47,7 +48,7 @@ public:
 	void changeStartDateTime(boost::posix_time::ptime newStartDateTime);
 	void changeEndDateTime(boost::posix_time::ptime newEndDateTime);
 	void toggleComplete();
-	void addTag(std::string);
+	bool addTag(std::string);
 	void removeTag(std::string);
 
 private:
