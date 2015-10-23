@@ -31,6 +31,10 @@ private:
 
 	static EditCommand* processEditCommand(CommandTokens commandTokens);
 
+	static EditNameCommand* processEditNameCommand(CommandTokens commandTokens);
+	static EditStartCommand* processEditStartCommand(CommandTokens commandTokens);
+	static EditEndCommand* processEditEndCommand(CommandTokens commandTokens);
+
 	static SetCompleteCommand* processSetCompleteCommand(CommandTokens commandTokens);
 
 	static ExportCommand* processExportCommand(CommandTokens commandTokens);
@@ -68,6 +72,18 @@ public:
 	
 	EditCommand* testProcessEditCommand(CommandTokens commandTokens) {
 		return processEditCommand(commandTokens);
+	}
+
+	EditNameCommand* testProcessEditNameCommand(CommandTokens commandTokens) {
+		return processEditNameCommand(commandTokens);
+	}
+
+	EditStartCommand* testProcessEditStartCommand(CommandTokens commandTokens) {
+		return processEditStartCommand(commandTokens);
+	}
+
+	EditEndCommand* testProcessEditEndCommand(CommandTokens commandTokens) {
+		return processEditEndCommand(commandTokens);
 	}
 
 #endif

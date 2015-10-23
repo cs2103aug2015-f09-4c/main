@@ -7,7 +7,7 @@ DateParser::DateParser(void) {
 
 boost::posix_time::ptime DateParser::parse(std::string dateString) {
 	// defaults to dateString, if dateString is not formatted, boost library
-	// will handle exception
+	// will throw the appropriate exception
 	std::string formattedDateString = dateString;
 
 	// checks if any of the common date/time format matches; updates formmatted
@@ -16,8 +16,12 @@ boost::posix_time::ptime DateParser::parse(std::string dateString) {
 		formattedDateString = parseDDMMYYYY_TTTT(dateString);
 	}
 
-	boost::posix_time::ptime ptimeObject(boost::posix_time::time_from_string(formattedDateString));
-	return ptimeObject;
+	try {
+		boost::posix_time::ptime ptimeObject(boost::posix_time::time_from_string(formattedDateString));
+		return ptimeObject;
+	} catch (std::exception e) {
+		return boost::posix_time::ptime();
+	}
 }
 
 bool DateParser::isDDMMYYYY_TTTT(std::string dateString) {

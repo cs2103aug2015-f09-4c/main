@@ -324,6 +324,42 @@ namespace ParserTest {
 			Assert::IsTrue(expected == actual);
 		}
 
+		// upper boundary case for valid date range partition
+		TEST_METHOD(testDateParser_DD_MM_YYYY_HHHH_MaxRange) {
+			std::string testUserInputDate = "31-12-9999 2359";
+			DateParser dateParser;
+
+			boost::posix_time::ptime expected(boost::posix_time::time_from_string("9999-12-31 23:59:00.000"));
+			boost::posix_time::ptime actual;
+			actual = dateParser.parse(testUserInputDate);
+			
+			Assert::IsTrue(expected == actual);
+		}
+		
+		// lower boundary case for valid date range partition
+		TEST_METHOD(testDateParser_DD_MM_YYYY_HHHH_MinRange) {
+			std::string testUserInputDate = "01-01-1400 0000";
+			DateParser dateParser;
+
+			boost::posix_time::ptime expected(boost::posix_time::time_from_string("1400-01-01 00:00:00.000"));
+			boost::posix_time::ptime actual;
+			actual = dateParser.parse(testUserInputDate);
+			
+			Assert::IsTrue(expected == actual);
+		}		
+		
+		// edge cases partition: dates that are invalid because of non-uniform length of months
+		TEST_METHOD(testDateParser_DD_MM_YYYY_HHHH_InvalidDate) {
+			std::string testUserInputDate = "29-02-1999 1345";
+			DateParser dateParser;
+
+			boost::posix_time::ptime expected;
+			boost::posix_time::ptime actual;
+			actual = dateParser.parse(testUserInputDate);
+			
+			Assert::IsTrue(expected == actual);
+		}
+
 		CommandTokens buildExpectedCommandTokens(CommandTokens::PrimaryCommandType primaryCommandType,
 		                                         CommandTokens::SecondaryCommandType secondaryCommandType,
 		                                         std::string taskName,
