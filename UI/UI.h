@@ -22,6 +22,11 @@ namespace UI {
 		NUM, TASKTEXT, START, END, TAGS, DONE
 	};
 
+	struct dateTimeStat{
+		bool isNotDateTime;
+		bool hasPast;
+	};
+
 	public ref class Swiftask : public System::Windows::Forms::Form
 	{
 	private: 
@@ -42,6 +47,8 @@ namespace UI {
 			//
 			//TODO: Add the constructor code here
 			//
+			formatOutputBoxInitial();
+
 			logic = new Logic();
 			feedback = new UIFeedback;
 
@@ -60,10 +67,17 @@ namespace UI {
 		void updateOutputBox(void);
 		void clearOutputBox(void);
 		void displayInOutputBox(void);
-		void formatOutputBoxStartEndColumn(bool isCompleted, boost::posix_time::ptime posixStartDateTime, boost::posix_time::ptime posixEndDateTime, int index);
+
+		void formatOutputBoxInitial(void);
+
+		// Format colours for UI to make it more appealing and 'appetising'
+		void formatOutputBox(bool isCompleted, dateTimeStat start, dateTimeStat end, int index);
+		void formatOutputBoxRows(int index);
+		void formatOutputBoxStartEndColumn(bool isCompleted, dateTimeStat start, dateTimeStat end, int index);
 		void formatOutputBoxDoneColumn(bool isCompleted, int index);
-	public:
-		void updateAutoComplete(std::vector<std::string> lines);
+
+		// Helper function for formatting
+		dateTimeStat timePast(boost::posix_time::ptime posixDateTime);
 
 	protected:
 		/// <summary>
@@ -265,6 +279,5 @@ namespace UI {
 
 				 return;
 			 }
-
 	};
 }
