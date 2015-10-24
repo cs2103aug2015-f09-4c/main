@@ -3,24 +3,28 @@
 #include "CommandTokens.h"
 #include "CommandTokeniser.h"
 #include "Logger\Logger.h"
-#include "AddCommandTokeniser.h"
-#include "CompleteCommandTokeniser.h"
-#include "DeleteCommandTokeniser.h"
-#include "DisplayCommandTokeniser.h"
-#include "ExportCommandTokeniser.h"
-#include "EditCommandTokeniser.h"
-#include "RefreshCommandTokeniser.h"
-#include "TagCommandTokeniser.h"
-#include "UndoCommandTokeniser.h"
-#include "UntagCommandTokeniser.h"
+#include "CommandTokenisers\AddCommandTokeniser.h"
+#include "CommandTokenisers\CompleteCommandTokeniser.h"
+#include "CommandTokenisers\DeleteCommandTokeniser.h"
+#include "CommandTokenisers\DisplayCommandTokeniser.h"
+#include "CommandTokenisers\ExportCommandTokeniser.h"
+#include "CommandTokenisers\EditCommandTokeniser.h"
+#include "CommandTokenisers\ImportCommandTokeniser.h"
+#include "CommandTokenisers\RefreshCommandTokeniser.h"
+#include "CommandTokenisers\SearchCommandTokeniser.h"
+#include "CommandTokenisers\TagCommandTokeniser.h"
+#include "CommandTokenisers\UndoCommandTokeniser.h"
+#include "CommandTokenisers\UntagCommandTokeniser.h"
 
-// tokenises user input for Logic to do the necessary processing
+// facade class to provide uniform way to assess the various CommandTokenisers
 class Parser {
 public:
 	Parser(void);
 	CommandTokens parse(std::string userInput);
 
 private:
+	Logger* _logger;
+
 	CommandTokeniser* _commandTokeniser;
 	CommandTokens _invalidCommandTokens;
 
@@ -30,13 +34,12 @@ private:
 	DisplayCommandTokeniser _displayCommandTokeniser;
 	ExportCommandTokeniser _exportCommandTokeniser;
 	EditCommandTokeniser _editCommandTokeniser;
+	ImportCommandTokeniser _importCommandTokeniser;
 	RefreshCommandTokeniser _refreshCommandTokeniser;
+	SearchCommandTokeniser _searchCommandTokeniser;
 	TagCommandTokeniser _tagCommandTokeniser;
 	UndoCommandTokeniser _undoCommandTokeniser;
 	UntagCommandTokeniser _untagCommandTokeniser;
-
-
-	Logger* _logger;
 
 	void selectCommandTokeniser(std::string userInput);
 
@@ -46,7 +49,9 @@ private:
 	bool isEditCommand(std::string& userInput);
 	bool isDisplayCommand(std::string& userInput);
 	bool isExportCommand(std::string& userInput);
+	bool isImportCommand(std::string& userInput);
 	bool isRefreshCommand(std::string& userInput);
+	bool isSearchCommand(std::string& userInput);
 	bool isTagCommand(std::string& userInput);
 	bool isUndoCommand(std::string& userInput);
 	bool isUntagCommand(std::string& userInput);
