@@ -132,12 +132,15 @@ namespace UI {
 				| System::Windows::Forms::AnchorStyles::Right));
 			this->outputBox->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::Fill;
 			this->outputBox->BackgroundColor = System::Drawing::SystemColors::ControlLightLight;
+			this->outputBox->CellBorderStyle = System::Windows::Forms::DataGridViewCellBorderStyle::None;
+			this->outputBox->ColumnHeadersBorderStyle = System::Windows::Forms::DataGridViewHeaderBorderStyle::None;
 			this->outputBox->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->outputBox->Columns->AddRange(gcnew cli::array< System::Windows::Forms::DataGridViewColumn^  >(6) {this->number, this->tasks, 
 				this->start, this->end, this->tags, this->done});
 			this->outputBox->Location = System::Drawing::Point(0, 1);
 			this->outputBox->Name = L"outputBox";
 			this->outputBox->ReadOnly = true;
+			this->outputBox->RowHeadersBorderStyle = System::Windows::Forms::DataGridViewHeaderBorderStyle::None;
 			this->outputBox->Size = System::Drawing::Size(763, 275);
 			this->outputBox->TabIndex = 0;
 			// 

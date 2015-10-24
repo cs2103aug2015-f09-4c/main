@@ -133,12 +133,13 @@ void UI::Swiftask::formatOutputBoxInitial() {
 
 	outputBox->ColumnHeadersDefaultCellStyle->BackColor = colHeaderBack;
 	outputBox->ColumnHeadersDefaultCellStyle->ForeColor = colHeaderFore;
-	outputBox->RowHeadersDefaultCellStyle->BackColor = rowHeaderBack;
 
 	DataGridViewCellStyle^ colHeaderStyle = outputBox->ColumnHeadersDefaultCellStyle;
 	colHeaderStyle->Font = gcnew System::Drawing::Font(outputBox->Font, FontStyle::Bold);
 
-	outputBox->GridColor = colHeaderFore;
+	outputBox->RowHeadersDefaultCellStyle->BackColor = rowHeaderBack;
+
+	//outputBox->GridColor = colHeaderFore;
 
 	// To be done once in the code will do
 	outputBox->EnableHeadersVisualStyles = false;
@@ -189,10 +190,13 @@ void UI::Swiftask::formatOutputBoxStartEndColumn(bool isCompleted, dateTimeStat 
 
 	if (!isCompleted && !end.isNotDateTime) {
 		if (end.hasPast) {
-			outputBox->Rows[index]->Cells[OutputBoxColumn::END]->Style->BackColor = green;
-		} else {
 			outputBox->Rows[index]->Cells[OutputBoxColumn::END]->Style->BackColor = red;
-			outputBox->Rows[index]->Cells[OutputBoxColumn::START]->Style->BackColor = red;
+			if (!start.isNotDateTime) {
+				outputBox->Rows[index]->Cells[OutputBoxColumn::START]->Style->BackColor = red;
+			}
+		} else {
+			outputBox->Rows[index]->Cells[OutputBoxColumn::END]->Style->BackColor = green;
+
 		}
 	}
 
