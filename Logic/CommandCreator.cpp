@@ -277,6 +277,15 @@ SearchCommand* CommandCreator::processSearchCommand(CommandTokens commandTokens)
 		case CommandTokens::SecondaryCommandType::StartBefore:
 			returnCommand = processSearchStartBeforeCommand(commandTokens);
 			break;
+		case CommandTokens::SecondaryCommandType::StartAfter:
+			returnCommand = processSearchStartAfterCommand(commandTokens);
+			break;
+		case CommandTokens::SecondaryCommandType::EndBefore:
+			returnCommand = processSearchEndBeforeCommand(commandTokens);
+			break;
+		case CommandTokens::SecondaryCommandType::EndAfter:
+			returnCommand = processSearchEndAfterCommand(commandTokens);
+			break;
 		default:
 			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 		}
@@ -291,6 +300,27 @@ SearchStartBeforeCommand* CommandCreator::processSearchStartBeforeCommand(Comman
 	SearchStartBeforeCommand* returnCommand;
 	ptime start = commandTokens.getStartDateTime();
 	returnCommand = new SearchStartBeforeCommand(start);
+	return returnCommand;
+}
+
+SearchStartAfterCommand* CommandCreator::processSearchStartAfterCommand(CommandTokens commandTokens) {
+	SearchStartAfterCommand* returnCommand;
+	ptime start = commandTokens.getStartDateTime();
+	returnCommand = new SearchStartAfterCommand(start);
+	return returnCommand;
+}
+
+SearchEndBeforeCommand* CommandCreator::processSearchEndBeforeCommand(CommandTokens commandTokens) {
+	SearchEndBeforeCommand* returnCommand;
+	ptime end = commandTokens.getEndDateTime();
+	returnCommand = new SearchEndBeforeCommand(end);
+	return returnCommand;
+}
+
+SearchEndAfterCommand* CommandCreator::processSearchEndAfterCommand(CommandTokens commandTokens) {
+	SearchEndAfterCommand* returnCommand;
+	ptime end = commandTokens.getEndDateTime();
+	returnCommand = new SearchEndAfterCommand(end);
 	return returnCommand;
 }
 

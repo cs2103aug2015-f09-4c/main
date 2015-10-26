@@ -122,7 +122,7 @@ DeleteBeforeCommand::~DeleteBeforeCommand(void) {
 }
 
 DeleteFromToCommand::DeleteFromToCommand(ptime startDateTime, ptime endDateTime) : DeleteCommand(CommandTokens::SecondaryCommandType::Timed){
-	assert(startDateTime.is_special() || endDateTime.is_special());
+	assert(!(startDateTime.is_special() || endDateTime.is_special()));
 	if (endDateTime < startDateTime) {
 		throw COMMAND_CREATION_EXCEPTION (MESSAGE_END_LESS_THAN_START);
 	}

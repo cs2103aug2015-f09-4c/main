@@ -24,18 +24,38 @@ public:
 };
 
 class SearchStartBeforeCommand : public SearchStartCommand {
-private:
-	bool isBefore(ptime time) {
-		//Special date time is not valid for comparison.
-		if (time.is_special()) {
-			return false;
-		} else {
-			return time < _start;
-		}
-	}
 public:
 	SearchStartBeforeCommand(ptime);
 	UIFeedback SearchStartCommand::execute(RunTimeStorage*);
 	virtual ~SearchStartBeforeCommand(void);
 };
 
+class SearchStartAfterCommand : public SearchStartCommand {
+public:
+	SearchStartAfterCommand(ptime);
+	UIFeedback SearchStartCommand::execute(RunTimeStorage*);
+	virtual ~SearchStartAfterCommand(void);
+};
+
+class SearchEndCommand : public SearchCommand {
+protected:
+	ptime _end;
+public:
+	SearchEndCommand(ptime);
+	virtual UIFeedback SearchCommand::execute(RunTimeStorage*) = 0;
+	virtual ~SearchEndCommand(void);
+};
+
+class SearchEndBeforeCommand : public SearchEndCommand {
+public:
+	SearchEndBeforeCommand(ptime);
+	UIFeedback SearchEndCommand::execute(RunTimeStorage*);
+	virtual ~SearchEndBeforeCommand(void);
+};
+
+class SearchEndAfterCommand : public SearchEndCommand {
+public:
+	SearchEndAfterCommand(ptime);
+	UIFeedback SearchEndCommand::execute(RunTimeStorage*);
+	virtual ~SearchEndAfterCommand(void);
+};

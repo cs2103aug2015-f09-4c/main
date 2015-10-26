@@ -147,6 +147,12 @@ bool RunTimeStorage::isValidForDisplay(Task task) {
 		return startDateTime.is_special() && !endDateTime.is_special();
 	case Display_Type::displayStartBefore:
 		return !startDateTime.is_special() && startDateTime < _time;
+	case Display_Type::displayStartAfter:
+		return !startDateTime.is_special() && startDateTime > _time;
+	case Display_Type::displayEndBefore:
+		return !endDateTime.is_special() && endDateTime < _time;
+	case Display_Type::displayEndAfter:
+		return !endDateTime.is_special() && endDateTime > _time;
 	default:
 		return true;
 	}

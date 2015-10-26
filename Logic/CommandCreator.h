@@ -39,9 +39,9 @@ private:
 
 	static SearchCommand* processSearchCommand(CommandTokens commandTokens);
 	static SearchStartBeforeCommand* processSearchStartBeforeCommand(CommandTokens commandTokens);
-	//static SearchStartAfterCommand* processSearchStartAfterCommand(CommandTokens commandTokens);
-	//static SearchEndBeforeCommand* processEndBeforeCommand(CommandTokens commandTokens);
-	//static SearchEndAfterCommand* processSearchEndAfterCommand(CommandTokens commandTokens);
+	static SearchStartAfterCommand* processSearchStartAfterCommand(CommandTokens commandTokens);
+	static SearchEndBeforeCommand* processSearchEndBeforeCommand(CommandTokens commandTokens);
+	static SearchEndAfterCommand* processSearchEndAfterCommand(CommandTokens commandTokens);
 
 
 

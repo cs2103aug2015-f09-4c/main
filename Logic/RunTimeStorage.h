@@ -17,11 +17,21 @@ const std::string MESSAGE_INDEX_NOT_FOUND = "No task is found at index ";
 
 
 enum Display_Type {
-	displayAll, displayFloat, displayTimed, displayTodo, displayStartBefore, displayStartAfter
+	displayAll,			//Display all tasks without filter
+	displayFloat,		//Display only floating task
+	displayTimed,		//Display only timed task
+	displayTodo,		//Display only todo task
+	displayStartBefore, //Display all tasks before start date time specified
+	displayStartAfter,	//Display all tasks after start date time specified
+	displayEndBefore,	//Display all tasks before end date time specified
+	displayEndAfter		//Display all tasks after end date time specified
 };
 
 enum Sort_Type {
-	sortByEntryOrder, sortByName, sortByStart, sortByEnd
+	sortByEntryOrder,	//Sort tasks by entry order
+	sortByName,			//Sort tasks by name
+	sortByStart,		//Sort tasks by start date time
+	sortByEnd			//Sort tasks by end date time
 };
 
 class INDEX_NOT_FOUND_EXCEPTION : public std::exception {
