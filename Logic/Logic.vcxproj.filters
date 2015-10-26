@@ -65,6 +65,9 @@
     <ClInclude Include="Command_Untag.h">
       <Filter>Header Files\Command</Filter>
     </ClInclude>
+    <ClInclude Include="Command_Search.h">
+      <Filter>Header Files\Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Logic.cpp">
@@ -110,6 +113,9 @@
       <Filter>Source Files\Command</Filter>
     </ClCompile>
     <ClCompile Include="Command_Untag.cpp">
+      <Filter>Source Files\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command_Search.cpp">
       <Filter>Source Files\Command</Filter>
     </ClCompile>
   </ItemGroup>

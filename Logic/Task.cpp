@@ -25,7 +25,7 @@ Task::Task(std::string taskText) {
 	}
 }
 
-Task::Task(std::string taskText, boost::posix_time::ptime endDateTime) {
+Task::Task(std::string taskText, ptime endDateTime) {
 	try {
 		if (isValidName(taskText)) {
 			_taskText = taskText;
@@ -37,7 +37,7 @@ Task::Task(std::string taskText, boost::posix_time::ptime endDateTime) {
 	}
 }
 
-Task::Task(std::string taskText, boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime) {
+Task::Task(std::string taskText, ptime startDateTime, ptime endDateTime) {
 	if (isEndLessThanStart(startDateTime,endDateTime)) {
 		throw TASK_EXCEPTION(MESSAGE_END_LESS_THAN_START.c_str());
 	} else if (endDateTime.is_special() && !startDateTime.is_special()) {
@@ -65,11 +65,11 @@ std::string Task::getTaskText() {
 	return _taskText;
 }
 
-boost::posix_time::ptime Task::getStartDateTime() {
+ptime Task::getStartDateTime() {
 	return _startDateTime;
 }
 
-boost::posix_time::ptime Task::getEndDateTime() {
+ptime Task::getEndDateTime() {
 	return _endDateTime;
 }
 
@@ -93,7 +93,7 @@ bool Task::isComplete() {
 	return _isComplete;
 }
 
-bool Task::isEndLessThanStart(boost::posix_time::ptime start, boost::posix_time::ptime end) {
+bool Task::isEndLessThanStart(ptime start, ptime end) {
 	if (start.is_special()) {
 		return false;
 	} else if (end.is_special()) {
@@ -129,7 +129,7 @@ void Task::changeTaskText(std::string newTaskText) {
 	}
 }
 
-void Task::changeStartDateTime(boost::posix_time::ptime newStartDateTime) {
+void Task::changeStartDateTime(ptime newStartDateTime) {
 	if (isEndLessThanStart(newStartDateTime,_endDateTime)) {
 		throw TASK_EXCEPTION(MESSAGE_END_LESS_THAN_START.c_str());
 	} else if (!newStartDateTime.is_special() && _endDateTime.is_special()) {
@@ -139,7 +139,7 @@ void Task::changeStartDateTime(boost::posix_time::ptime newStartDateTime) {
 	_startDateTime = newStartDateTime;
 }
 
-void Task::changeEndDateTime(boost::posix_time::ptime newEndDateTime) {
+void Task::changeEndDateTime(ptime newEndDateTime) {
 	if (isEndLessThanStart(_startDateTime,newEndDateTime)) {
 		throw TASK_EXCEPTION(MESSAGE_END_LESS_THAN_START.c_str());
 	} else if (newEndDateTime.is_special() && !_startDateTime.is_special()) {

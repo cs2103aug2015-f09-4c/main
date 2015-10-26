@@ -53,7 +53,7 @@ UIFeedback EditNameCommand::undo() {
 	return UIFeedback(taskToDisplay, MESSAGE_EDIT_UNDO);
 }
 
-EditStartCommand::EditStartCommand(size_t index, boost::posix_time::ptime newStart) : EditCommand(CommandTokens::SecondaryCommandType::Start, index) {
+EditStartCommand::EditStartCommand(size_t index, ptime newStart) : EditCommand(CommandTokens::SecondaryCommandType::Start, index) {
 	_newStart = newStart;
 }
 
@@ -98,7 +98,7 @@ UIFeedback EditStartCommand::undo() {
 	return UIFeedback(taskToDisplay, MESSAGE_EDIT_UNDO);
 }
 
-EditEndCommand::EditEndCommand(size_t index, boost::posix_time::ptime newEnd) : EditCommand(CommandTokens::SecondaryCommandType::End, index) {
+EditEndCommand::EditEndCommand(size_t index, ptime newEnd) : EditCommand(CommandTokens::SecondaryCommandType::End, index) {
 	_newEnd = newEnd;
 }
 

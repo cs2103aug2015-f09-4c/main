@@ -125,6 +125,7 @@
     <ClInclude Include="CommandHeader.h" />
     <ClInclude Include="Command_Export.h" />
     <ClInclude Include="Command_Refresh.h" />
+    <ClInclude Include="Command_Search.h" />
     <ClInclude Include="Command_Set.h" />
     <ClInclude Include="Command_Tag.h" />
     <ClInclude Include="Command_Untag.h" />
@@ -142,6 +143,7 @@
     <ClCompile Include="Command_Edit.cpp" />
     <ClCompile Include="Command_Export.cpp" />
     <ClCompile Include="Command_Refresh.cpp" />
+    <ClCompile Include="Command_Search.cpp" />
     <ClCompile Include="Command_Set.cpp" />
     <ClCompile Include="Command_Tag.cpp" />
     <ClCompile Include="Command_Untag.cpp" />

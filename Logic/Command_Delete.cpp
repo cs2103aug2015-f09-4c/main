@@ -57,9 +57,8 @@ UIFeedback DeleteIndexCommand::undo() {
 DeleteIndexCommand::~DeleteIndexCommand() {
 }
 
-DeleteBeforeCommand::DeleteBeforeCommand(boost::posix_time::ptime endDateTime) 
-	: DeleteCommand(CommandTokens::SecondaryCommandType::Todo) {
-		assert (!endDateTime.is_special());
+DeleteBeforeCommand::DeleteBeforeCommand(ptime endDateTime) : DeleteCommand(CommandTokens::SecondaryCommandType::Todo) {
+		assert(!endDateTime.is_special());
 		_endDateTime = endDateTime;
 }
 
@@ -69,7 +68,7 @@ UIFeedback DeleteBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
 		std::vector<Task> tasks = runTimeStorage ->getAllTasks();
 		int numTask = tasks.size();
 		for (int i = 0 ; i < numTask; ++i) {
-			boost::posix_time::ptime time = tasks[i].getEndDateTime();
+			ptime time = tasks[i].getEndDateTime();
 			if (!time.is_special()) {
 				if (time < _endDateTime) {
 					_tasksDeleted.push_back(tasks[i]);
@@ -122,8 +121,9 @@ UIFeedback DeleteBeforeCommand::undo(void) {
 DeleteBeforeCommand::~DeleteBeforeCommand(void) {
 }
 
-DeleteFromToCommand::DeleteFromToCommand(boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime) : DeleteCommand(CommandTokens::SecondaryCommandType::Timed){
-	if (startDateTime.is_special() || endDateTime.is_special()) {
+DeleteFromToCommand::DeleteFromToCommand(ptime startDateTime, ptime endDateTime) : DeleteCommand(CommandTokens::SecondaryCommandType::Timed){
+	assert(startDateTime.is_special() || endDateTime.is_special());
+	if (endDateTime < startDateTime) {
 		throw COMMAND_CREATION_EXCEPTION (MESSAGE_END_LESS_THAN_START);
 	}
 	_startDateTime = startDateTime;
@@ -136,8 +136,8 @@ UIFeedback DeleteFromToCommand::execute(RunTimeStorage* runTimeStorage) {
 		std::vector<Task> tasks = runTimeStorage ->getAllTasks();
 		int numTask = tasks.size();
 		for (int i = 0 ; i < numTask; ++i) {
-			boost::posix_time::ptime startDateTime = tasks[i].getStartDateTime();
-			boost::posix_time::ptime endDateTime = tasks[i].getEndDateTime();
+			ptime startDateTime = tasks[i].getStartDateTime();
+			ptime endDateTime = tasks[i].getEndDateTime();
 			if (!(startDateTime.is_special()||endDateTime.is_special())) {
 				if (startDateTime > _startDateTime && endDateTime < _endDateTime) {
 					_tasksDeleted.push_back(tasks[i]);

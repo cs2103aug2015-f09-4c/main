@@ -17,7 +17,7 @@ const std::string MESSAGE_INDEX_NOT_FOUND = "No task is found at index ";
 
 
 enum Display_Type {
-	displayAll, displayFloat, displayTimed, displayTodo
+	displayAll, displayFloat, displayTimed, displayTodo, displayStartBefore, displayStartAfter
 };
 
 enum Sort_Type {
@@ -53,6 +53,9 @@ private:
 
 	Display_Type _displayMode;
 	Sort_Type _sortMode;
+	
+	//Time object used for comparison when selecting tasks to display for displayBefore and displayAfter
+	ptime _time;
 
 	//If the task fit _displayMode, return true, else return false
 	bool isValidForDisplay(Task task);
@@ -95,6 +98,7 @@ public:
 	bool isDuplicate(Task task);
 	bool isValidIndex(size_t index);
 
+	void setTimeForCompare(ptime time);
 	void changeDisplayType(Display_Type type);
 	void changeSortType(Sort_Type type);
 

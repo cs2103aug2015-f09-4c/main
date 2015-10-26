@@ -123,6 +123,10 @@ void RunTimeStorage::removeAll(void) {
 	return;
 }
 
+void RunTimeStorage::setTimeForCompare(ptime time) {
+	_time = time;
+}
+
 void RunTimeStorage::changeDisplayType(Display_Type type) {
 	_displayMode = type;
 }
@@ -141,6 +145,8 @@ bool RunTimeStorage::isValidForDisplay(Task task) {
 		return !startDateTime.is_special() && !endDateTime.is_special();
 	case Display_Type::displayTodo:
 		return startDateTime.is_special() && !endDateTime.is_special();
+	case Display_Type::displayStartBefore:
+		return !startDateTime.is_special() && startDateTime < _time;
 	default:
 		return true;
 	}

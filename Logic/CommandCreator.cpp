@@ -32,6 +32,9 @@ Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens
 		case CommandTokens::PrimaryCommandType::Untag:
 			returnCommand = processUntagCommand(commandTokens);
 			break;
+		case CommandTokens::PrimaryCommandType::Search:
+			returnCommand = processSearchCommand(commandTokens);
+			break;
 		case CommandTokens::PrimaryCommandType::Invalid:
 			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 			break;
@@ -92,8 +95,8 @@ DeleteCommand* CommandCreator::processDeleteCommand(CommandTokens commandTokens)
 	DeleteCommand* returnCommand = NULL;
 	CommandTokens::SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
 
-	boost::posix_time::ptime startDateTime = commandTokens.getStartDateTime();
-	boost::posix_time::ptime endDateTime = commandTokens.getEndDateTime();
+	ptime startDateTime = commandTokens.getStartDateTime();
+	ptime endDateTime = commandTokens.getEndDateTime();
 	try{
 		switch (command2) {
 		case CommandTokens::SecondaryCommandType::Index:
@@ -130,7 +133,7 @@ DeleteIndexCommand* CommandCreator::processDeleteIndexCommand(CommandTokens comm
 
 DeleteBeforeCommand* CommandCreator::processDeleteBeforeCommand(CommandTokens commandTokens) {
 	DeleteBeforeCommand* returnCommand = NULL;
-	boost::posix_time::ptime endDateTime = commandTokens.getEndDateTime();
+	ptime endDateTime = commandTokens.getEndDateTime();
 	if (endDateTime.is_special()) {
 		throw INVALID_COMMAND_EXCEPTION (MESSAGE_INVALID_DATE_TIME);
 	}
@@ -140,8 +143,8 @@ DeleteBeforeCommand* CommandCreator::processDeleteBeforeCommand(CommandTokens co
 
 DeleteFromToCommand* CommandCreator::processDeleteFromToCommand(CommandTokens commandTokens) {
 	DeleteFromToCommand* returnCommand = NULL;
-	boost::posix_time::ptime startDateTime = commandTokens.getStartDateTime();
-	boost::posix_time::ptime endDateTime = commandTokens.getEndDateTime();
+	ptime startDateTime = commandTokens.getStartDateTime();
+	ptime endDateTime = commandTokens.getEndDateTime();
 	if (startDateTime.is_special() || endDateTime.is_special()) {
 		throw INVALID_COMMAND_EXCEPTION (MESSAGE_INVALID_DATE_TIME);
 	} else if (startDateTime > endDateTime) {
@@ -159,7 +162,7 @@ DeleteAllCommand* CommandCreator::processDeleteAllCommand(CommandTokens commandT
 EditCommand* CommandCreator::processEditCommand(CommandTokens commandTokens) {
 	EditCommand* returnCommand = NULL;
 	CommandTokens::SecondaryCommandType command2 = commandTokens.getSecondaryCommand();
-	
+
 	try {
 		switch (command2) {
 		case CommandTokens::SecondaryCommandType::Name:
@@ -201,7 +204,7 @@ EditStartCommand* CommandCreator::processEditStartCommand(CommandTokens commandT
 	if (index < 1) {
 		throw INVALID_COMMAND_EXCEPTION(MESSAGE_NON_POSITIVE_INDEX);
 	}
-	boost::posix_time::ptime newStart = commandTokens.getStartDateTime();
+	ptime newStart = commandTokens.getStartDateTime();
 	returnCommand = new EditStartCommand(index, newStart);
 	return returnCommand;
 }
@@ -212,7 +215,7 @@ EditEndCommand* CommandCreator::processEditEndCommand(CommandTokens commandToken
 	if (index < 1) {
 		throw INVALID_COMMAND_EXCEPTION(MESSAGE_NON_POSITIVE_INDEX);
 	}
-	boost::posix_time::ptime newEnd = commandTokens.getEndDateTime();
+	ptime newEnd = commandTokens.getEndDateTime();
 	returnCommand = new EditEndCommand(index, newEnd);
 	return returnCommand;
 }
@@ -263,6 +266,31 @@ UntagCommand* CommandCreator::processUntagCommand(CommandTokens commandTokens) {
 	}
 	std::vector<std::string> untags = commandTokens.getTags();
 	UntagCommand* returnCommand = new UntagCommand(index, untags);
+	return returnCommand;
+}
+
+SearchCommand* CommandCreator::processSearchCommand(CommandTokens commandTokens) {
+	CommandTokens::SecondaryCommandType type2 = commandTokens.getSecondaryCommand();
+	SearchCommand* returnCommand;
+	try {
+		switch (type2) {
+		case CommandTokens::SecondaryCommandType::StartBefore:
+			returnCommand = processSearchStartBeforeCommand(commandTokens);
+			break;
+		default:
+			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
+		}
+	} catch (INVALID_COMMAND_EXCEPTION e) {
+		throw e;
+	}
+
+	return returnCommand;
+}
+
+SearchStartBeforeCommand* CommandCreator::processSearchStartBeforeCommand(CommandTokens commandTokens) {
+	SearchStartBeforeCommand* returnCommand;
+	ptime start = commandTokens.getStartDateTime();
+	returnCommand = new SearchStartBeforeCommand(start);
 	return returnCommand;
 }
 
