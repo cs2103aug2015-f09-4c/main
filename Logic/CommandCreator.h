@@ -42,6 +42,8 @@ private:
 	static RefreshCommand* processRefreshCommand(CommandTokens commandTokens);
 
 	static TagCommand* processTagCommand(CommandTokens commandTokens);
+
+	static UntagCommand* processUntagCommand(CommandTokens commandTokens);
 public:
 	CommandCreator();
 	Command* process(CommandTokens commandTokens);

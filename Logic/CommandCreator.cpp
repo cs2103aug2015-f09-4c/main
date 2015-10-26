@@ -29,6 +29,9 @@ Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens
 		case CommandTokens::PrimaryCommandType::Tag:
 			returnCommand = processTagCommand(commandTokens);
 			break;
+		case CommandTokens::PrimaryCommandType::Untag:
+			returnCommand = processUntagCommand(commandTokens);
+			break;
 		case CommandTokens::PrimaryCommandType::Invalid:
 			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 			break;
@@ -103,7 +106,7 @@ DeleteCommand* CommandCreator::processDeleteCommand(CommandTokens commandTokens)
 			returnCommand = processDeleteBeforeCommand(commandTokens);
 			break;
 		case CommandTokens::SecondaryCommandType::Timed:
-
+			returnCommand = processDeleteFromToCommand(commandTokens);
 			break;
 		default:
 			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
@@ -250,6 +253,16 @@ TagCommand* CommandCreator::processTagCommand(CommandTokens commandTokens) {
 	}
 	std::vector<std::string> tags = commandTokens.getTags();
 	TagCommand* returnCommand = new TagCommand(index, tags);
+	return returnCommand;
+}
+
+UntagCommand* CommandCreator::processUntagCommand(CommandTokens commandTokens) {
+	int index = commandTokens.getIndex();
+	if (index < 1) {
+		throw INVALID_COMMAND_EXCEPTION(MESSAGE_NON_POSITIVE_INDEX);
+	}
+	std::vector<std::string> untags = commandTokens.getTags();
+	UntagCommand* returnCommand = new UntagCommand(index, untags);
 	return returnCommand;
 }
 

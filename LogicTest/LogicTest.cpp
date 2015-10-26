@@ -36,10 +36,10 @@ public:
 
 		//String length = 150 which is character limit of task text.
 		//Upper boundary of valid region.
-		std::string testString = "                                                                                                                                                      ";
+		std::string testString = "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111";
 		token.setTaskName(testString);
 
-		Assert::AreEqual((size_t)150, testString.size());
+		Assert::AreEqual((size_t)128, testString.size());
 
 		command = creator.testProcessAddCommand(token);
 		Assert::AreEqual(true, command->getPrimaryCommandType() == CommandTokens::PrimaryCommandType::Add);
@@ -49,8 +49,8 @@ public:
 		Assert::AreEqual(true, command->getTask() == Task(testString));
 
 		//Smaller character no. that exceed character limit
-		testString += " ";
-		Assert::AreEqual((size_t)151, testString.size());
+		testString += "1";
+		Assert::AreEqual((size_t)129, testString.size());
 
 		token.setTaskName(testString);
 
@@ -95,10 +95,10 @@ public:
 
 		//String length = 150 which is character limit of task text.
 		//Upper boundary of valid region.
-		std::string testString = "                                                                                                                                                      ";
+		std::string testString = "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111";
 		token.setTaskName(testString);
 
-		Assert::AreEqual((size_t)150, testString.size());
+		Assert::AreEqual((size_t)128, testString.size());
 
 		command = creator.testProcessAddCommand(token);
 		Assert::AreEqual(true, command->getPrimaryCommandType() == CommandTokens::PrimaryCommandType::Add);
@@ -108,8 +108,8 @@ public:
 		Assert::AreEqual(true, command->getTask() == Task(testString, boost::posix_time::time_from_string(timeString)));
 
 		//Smaller character no. that exceed character limit
-		testString += " ";
-		Assert::AreEqual((size_t)151, testString.size());
+		testString += "1";
+		Assert::AreEqual((size_t)129, testString.size());
 
 		token.setTaskName(testString);
 
@@ -127,8 +127,8 @@ public:
 
 		//normal case
 		std::string taskName = "do something";
-		std::string timeString1("2002-01-20 23:59:59.000");
-		std::string timeString2("2002-01-21 23:59:59.000");
+		std::string timeString1("2002-01-20 23:59:59");
+		std::string timeString2("2002-01-21 23:59:59");
 		token.setPrimaryCommand(CommandTokens::Add);
 		token.setSecondaryCommand(CommandTokens::Timed);
 		token.setTaskName(taskName);
@@ -155,10 +155,10 @@ public:
 
 		//String length = 150 which is character limit of task text.
 		//Upper boundary of valid region.
-		std::string testString = "                                                                                                                                                      ";
+		std::string testString = "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111";
 		token.setTaskName(testString);
 
-		Assert::AreEqual((size_t)150, testString.size());
+		Assert::AreEqual((size_t)128, testString.size());
 
 		command = creator.testProcessAddCommand(token);
 		Assert::AreEqual(true, command->getPrimaryCommandType() == CommandTokens::PrimaryCommandType::Add);
@@ -168,8 +168,8 @@ public:
 		Assert::AreEqual(true, command->getTask() == Task(testString, boost::posix_time::time_from_string(timeString1), boost::posix_time::time_from_string(timeString2)));
 
 		//Smaller character no. that exceed character limit
-		testString += " ";
-		Assert::AreEqual((size_t)151, testString.size());
+		testString += "1";
+		Assert::AreEqual((size_t)129, testString.size());
 
 		token.setTaskName(testString);
 
@@ -182,7 +182,7 @@ public:
 
 		//boundary case where startDateTime is equals to endDateTime
 		//still allowed
-		testString = testString.substr(0,150);
+		testString = testString.substr(0,128);
 		token.setTaskName(testString);
 		token.setStartDateTime(boost::posix_time::time_from_string(timeString2));
 		
