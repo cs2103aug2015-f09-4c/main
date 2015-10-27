@@ -68,6 +68,11 @@ public:
 	void addTag(std::string);
 	void removeTag(std::string);
 
+	//comparator functions for sorting
+	static bool sortByStartDateTime (Task task1, Task task2);
+	static bool sortByEndDateTime (Task task1, Task task2);
+	static bool sortByName (Task task1, Task task2);
+
 private:
 	std::string _taskText;
 	ptime _startDateTime;

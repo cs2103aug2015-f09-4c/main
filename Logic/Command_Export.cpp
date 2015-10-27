@@ -16,7 +16,7 @@ UIFeedback ExportCommand::execute(RunTimeStorage* runTimeStorage) {
 
 	char buffer[255];
 	sprintf_s(buffer, MESSAGE_EXPORT_SUCCESS.c_str(), _filePath.c_str());
-	return UIFeedback(runTimeStorage->getTasksToDisplay(), std::string(buffer));
+	return UIFeedback(runTimeStorage->refreshTasksToDisplay(), std::string(buffer));
 }
 
 UIFeedback ExportCommand::undo() {

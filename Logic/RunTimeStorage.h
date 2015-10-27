@@ -20,11 +20,7 @@ enum Display_Type {
 	displayAll,			//Display all tasks without filter
 	displayFloat,		//Display only floating task
 	displayTimed,		//Display only timed task
-	displayTodo,		//Display only todo task
-	displayStartBefore, //Display all tasks before start date time specified
-	displayStartAfter,	//Display all tasks after start date time specified
-	displayEndBefore,	//Display all tasks before end date time specified
-	displayEndAfter		//Display all tasks after end date time specified
+	displayTodo		//Display only todo task
 };
 
 enum Sort_Type {
@@ -70,11 +66,6 @@ private:
 	//If the task fit _displayMode, return true, else return false
 	bool isValidForDisplay(Task task);
 
-	//comparator functions for sorting
-	static bool sortByStartDateTime (Task task1, Task task2);
-	static bool sortByEndDateTime (Task task1, Task task2);
-	static bool sortByName (Task task1, Task task2);
-
 	//Filter tasks from Tasks into TasksToDisplay based on _displayMode
 	//Post-condition: Tasks in TasksToDisplay is sorted by entry order
 	void reformTasksToDisplay();
@@ -92,6 +83,8 @@ public:
 
 	std::vector<Task>& getAllTasks();
 	std::vector<Task>& getTasksToDisplay();
+	std::vector<Task>& refreshTasksToDisplay();
+	void setTasksToDisplay(std::vector<Task>);
 
 	void add(Task task);
 	void insert(Task task, size_t index);

@@ -6,6 +6,8 @@ const std::string MESSAGE_SEARCH_SUCCESS = "%i task(s) have been found.";
 const std::string MESSAGE_NO_TASK_FOUND = "There is no task fulfilling the search criteria.";
 
 class SearchCommand : public Command {
+protected:
+	std::vector<Task> _searchResult;
 public:
 	SearchCommand(void);
 	virtual UIFeedback Command::execute(RunTimeStorage*) = 0;
@@ -58,4 +60,13 @@ public:
 	SearchEndAfterCommand(ptime);
 	UIFeedback SearchEndCommand::execute(RunTimeStorage*);
 	virtual ~SearchEndAfterCommand(void);
+};
+
+class SearchTagCommand : public SearchCommand {
+private:
+	std::set<std::string> _tags;
+public:
+	SearchTagCommand(std::vector<std::string> tags);
+	UIFeedback SearchCommand::execute(RunTimeStorage*);
+	virtual ~SearchTagCommand(void);
 };

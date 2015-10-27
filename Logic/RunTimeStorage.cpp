@@ -16,8 +16,20 @@ std::vector<Task>& RunTimeStorage::getAllTasks() {
 }
 
 std::vector<Task>& RunTimeStorage::getTasksToDisplay() {
+	return _tasksToDisplay;
+}
+
+std::vector<Task>& RunTimeStorage::refreshTasksToDisplay() {
 	updateDisplay();
 	return _tasksToDisplay;
+}
+
+void RunTimeStorage::setTasksToDisplay(std::vector<Task> tasks) {
+	for (int i = 0 ; i < tasks.size() ; ++i) {
+		assert(std::find(_tasks.begin(), _tasks.end(), tasks[i]) != _tasks.end());
+	}
+
+	_tasksToDisplay = tasks;
 }
 
 //return the task reference object in _tasks based on index of _tasksToDisplay
@@ -145,14 +157,6 @@ bool RunTimeStorage::isValidForDisplay(Task task) {
 		return !startDateTime.is_special() && !endDateTime.is_special();
 	case Display_Type::displayTodo:
 		return startDateTime.is_special() && !endDateTime.is_special();
-	case Display_Type::displayStartBefore:
-		return !startDateTime.is_special() && startDateTime < _time;
-	case Display_Type::displayStartAfter:
-		return !startDateTime.is_special() && startDateTime > _time;
-	case Display_Type::displayEndBefore:
-		return !endDateTime.is_special() && endDateTime < _time;
-	case Display_Type::displayEndAfter:
-		return !endDateTime.is_special() && endDateTime > _time;
 	default:
 		return true;
 	}
@@ -160,68 +164,6 @@ bool RunTimeStorage::isValidForDisplay(Task task) {
 
 bool RunTimeStorage::isValidIndex(size_t index) {
 	if (index < _tasks.size()) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-bool RunTimeStorage::sortByStartDateTime (Task task1, Task task2) {
-	boost::posix_time::ptime startDateTime1 = task1.getStartDateTime();
-	boost::posix_time::ptime startDateTime2 = task2.getStartDateTime();
-
-	if (startDateTime2.is_special()) {
-		return false;
-	} else if (startDateTime1.is_special()) {
-		return true;
-	}
-
-	if (startDateTime1 < startDateTime2) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-bool RunTimeStorage::sortByEndDateTime (Task task1, Task task2) {
-	boost::posix_time::ptime endDateTime1 = task1.getStartDateTime();
-	boost::posix_time::ptime endDateTime2 = task2.getStartDateTime();
-
-	if (endDateTime2.is_special()) {
-		return false;
-	} else if (endDateTime1.is_special()) {
-		return true;
-	}
-
-	if (endDateTime1 < endDateTime2) {
-		return true;
-	} else {
-		return false;
-	}
-}
-
-
-bool RunTimeStorage::sortByName (Task task1, Task task2) {
-	std::string task1Text = task1.getTaskText();
-	std::string task2Text = task2.getTaskText();
-
-	size_t minStringLength = (std::min)(task1Text.size(), task2Text.size());
-
-
-	for (size_t i = 0 ; i < minStringLength ; ++i) {
-		task1Text[i] = std::tolower(task1Text[i]);
-		task2Text[i] = std::tolower(task2Text[i]);
-	}
-
-	for (size_t i = 0 ; i < minStringLength ; ++i) {
-		if (task1Text[i] < task2Text[i]) {
-			return true;
-		} else if (task1Text[i] > task2Text[i]) {
-			return false;
-		}
-	}
-
-	if (task1Text.size() < task2Text.size()) {
 		return true;
 	} else {
 		return false;
@@ -248,13 +190,13 @@ void RunTimeStorage::sortTasksToDisplay() {
 	case Sort_Type::sortByEntryOrder:
 		break;
 	case Sort_Type::sortByName:
-		std::stable_sort(_tasksToDisplay.begin(),_tasksToDisplay.end(),sortByName);
+		std::stable_sort(_tasksToDisplay.begin(),_tasksToDisplay.end(),Task::sortByName);
 		break;
 	case Sort_Type::sortByStart:
-		std::stable_sort(_tasksToDisplay.begin(),_tasksToDisplay.end(),sortByStartDateTime);
+		std::stable_sort(_tasksToDisplay.begin(),_tasksToDisplay.end(),Task::sortByStartDateTime);
 		break;
 	case Sort_Type::sortByEnd:
-		std::stable_sort(_tasksToDisplay.begin(),_tasksToDisplay.end(),sortByEndDateTime);
+		std::stable_sort(_tasksToDisplay.begin(),_tasksToDisplay.end(),Task::sortByEndDateTime);
 		break;
 	}
 	return;
