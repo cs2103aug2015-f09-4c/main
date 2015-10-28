@@ -6,24 +6,66 @@ DateParser::DateParser(void) {
 }
 
 boost::posix_time::ptime DateParser::parse(std::string userInputDateString) {
+	boost::posix_time::ptime retVal;
 
-	// formattedDateString defaults to userInputDateString,
-	// if userInputDateString is not properly formatted, boost library will
-	// throw the appropriate exception
-	std::string formattedDateString = userInputDateString;
+	if (isLocallySupportedDateFormat(userInputDateString)) {
+		std::string formattedDateString = convertToFormattedDateString(userInputDateString);
+		retVal = getPtimeObject(formattedDateString);
 
-	// checks if any of the supported date/time format matches userInputDateString
-	// if so, parses it and update the formattedDateSTring accordingly
+	} else if (isBoostLibrarySupportedDateFormat(userInputDateString)) {
+		retVal = getPtimeObject(userInputDateString);
+
+	} else {
+		retVal = getInvalidPtimeObject();
+	}
+
+	return retVal;
+}
+
+bool DateParser::isLocallySupportedDateFormat(std::string userInputDateString) {
+	if (isDDMMYYYY_TTTT(userInputDateString)) {
+		return true;
+	}
+	return false;
+}
+
+// checks if userInputDateString is in a format supported by Boost Library
+// by passing it as parameter to in-built function
+// if exception is thrown, format is not supported;
+// otherwise, format is supported
+bool DateParser::isBoostLibrarySupportedDateFormat(std::string userInputDateString) {
+	try {
+		boost::posix_time::time_from_string(userInputDateString);
+		return true;
+	} catch (std::exception e) {
+		return false;
+	}
+}
+
+std::string DateParser::convertToFormattedDateString(std::string userInputDateString) {
+	std::string formattedDateString = "";
+
 	if (isDDMMYYYY_TTTT(userInputDateString)) {
 		formattedDateString = parseDDMMYYYY_TTTT(userInputDateString);
 	}
 
+	return formattedDateString;
+}
+
+boost::posix_time::ptime DateParser::getPtimeObject(std::string formattedDateString) {
+	boost::posix_time::ptime retVal;
+
 	try {
-		boost::posix_time::ptime ptimeObject(boost::posix_time::time_from_string(formattedDateString));
-		return ptimeObject;
+		retVal = boost::posix_time::ptime(boost::posix_time::time_from_string(formattedDateString));
 	} catch (std::exception e) {
-		return boost::posix_time::ptime(); // defaults to invalid date/time
+		retVal = getInvalidPtimeObject();
 	}
+
+	return retVal;
+}
+
+boost::posix_time::ptime DateParser::getInvalidPtimeObject() {
+	return boost::posix_time::ptime();
 }
 
 bool DateParser::isDDMMYYYY_TTTT(std::string dateString) {
