@@ -34,6 +34,8 @@ void Parser::selectCommandTokeniser(std::string userInput) {
 		_commandTokeniser = &_editCommandTokeniser;
 	} else if (isExportCommand(userInput)) {
 		_commandTokeniser = &_exportCommandTokeniser;
+	} else if (isImportCommand(userInput)) {
+		_commandTokeniser = &_importCommandTokeniser;
 	} else if (isRefreshCommand(userInput)) {
 		_commandTokeniser = &_refreshCommandTokeniser;
 	} else if (isSearchCommand(userInput)) {
