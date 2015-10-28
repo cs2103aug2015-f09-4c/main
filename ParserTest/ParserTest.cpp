@@ -249,6 +249,21 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
+		TEST_METHOD(unitTest_parser_TokeniseImportCommand) {
+			std::string testUserInput = "IMPORT D:\\aRandomFile.txt";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Import,
+			                                      CommandTokens::SecondaryCommandType::None,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      -1);
+			expected.setOtherCommandParameter("D:\\aRandomFile.txt");
+
+			compareCommandTokens(expected, actual);
+		}
+
 		TEST_METHOD(unitTest_parser_TokeniseRefreshCommand) {
 			std::string testUserInput = "REFRESH";
 			CommandTokens actual, expected;
