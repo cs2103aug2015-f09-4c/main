@@ -102,7 +102,7 @@ void UI::Swiftask::displayInOutputBox(void) {
 		std::string stdTags = "";
 		if (tagsList.size() != 0) {
 			for (std::set<std::string>::iterator iter = tagsList.begin(); iter != tagsList.end(); iter++) {
-				stdTags = stdTags + (*iter);
+				stdTags = stdTags + " " + (*iter);
 			}
 			theTags = gcnew String(stdTags.c_str());
 		} else {

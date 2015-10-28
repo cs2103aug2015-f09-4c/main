@@ -463,7 +463,6 @@ public:
 	}
 
 	TEST_METHOD(dateTimeFormat) {
-		// Important to do it here because logic keeps a copy of data on construction
 		remove(FILEPATH.c_str());
 
 		// Tests flexible formats
@@ -483,6 +482,16 @@ public:
 		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getStartDateTime()));
 		Assert::AreEqual(DATE_TIME_2, boost::posix_time::to_simple_string(task.getEndDateTime()));
 	}
+
+	/*TEST_METHOD(corruptedSavedFile) {
+		remove(FILEPATH.c_str());
+
+		std::ofstream saveFile(FILEPATH.c_str());
+		saveFile << DATE_TIME_1 << "\n" << DATE_TIME_2;
+		saveFile.close();
+
+		// TBC
+	}*/
 	// TODO: Below
 
 	// Testing flexible inputs like variation of date-time
