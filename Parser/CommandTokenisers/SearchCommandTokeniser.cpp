@@ -72,7 +72,7 @@ bool SearchCommandTokeniser::isSearchEndAfterCommand(std::string userInput) {
 
 bool SearchCommandTokeniser::isSearchTagsCommand(std::string userInput) {
 	return std::regex_match(userInput,
-	                        std::regex("search tags( #[^ ])+",
+	                        std::regex("search tags( #[^ ]+)+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
