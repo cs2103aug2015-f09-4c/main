@@ -17,15 +17,15 @@ private:
 	static bool isDeleteAll(std::string userInput);
 	static bool isDeleteCompleted(std::string userInput);
 	static bool isDeleteIndex(std::string userInput);
+	static bool isDeleteBy(std::string userInput);
 	static bool isDeleteFromTo(std::string userInput);
 	static bool isDeleteFrom(std::string userInput);
-	static bool isDeleteBy(std::string userInput);
 
 	// tokenisers for the various types of DELETE commands
 	void tokeniseDeleteAllCommand(void);
 	void tokeniseDeleteCompleted(std::string userInput);
 	void tokeniseDeleteIndex(std::string userInput);
+	void tokeniseDeleteByCommand(std::string userInput);
 	void tokeniseDeleteFromToCommand(std::string userInput);
 	void tokeniseDeleteFromCommand(std::string userInput);
-	void tokeniseDeleteByCommand(std::string userInput);
 };
