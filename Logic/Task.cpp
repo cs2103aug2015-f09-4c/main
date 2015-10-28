@@ -5,46 +5,60 @@ using namespace API;
 TASK_EXCEPTION::TASK_EXCEPTION(std::string message) : std::exception(message.c_str()){
 }
 
+TAG_LIMIT_EXCEPTION::TAG_LIMIT_EXCEPTION() : TASK_EXCEPTION(MESSAGE_TAG_LIMIT_REACHED.c_str()) {
+}
+
+DUPLICATE_TAG_EXCEPTION::DUPLICATE_TAG_EXCEPTION(std::string message) : TASK_EXCEPTION(message.c_str()) {
+}
+
 Task::Task() {
-	_taskText = "";
-	_isComplete = false;
 }
 
 Task::Task(std::string taskText) {
-	if (taskText.empty()) {
-		throw TASK_EXCEPTION(MESSAGE_EMPTY_TASK_TEXT.c_str());
-	} else if (taskText.size() > 150) {
-		throw TASK_EXCEPTION(MESSAGE_LONG_TASK_TEXT.c_str());
+	try {
+		if (isValidName(taskText)) {
+			_taskText = taskText;
+			_isComplete = false;
+		}
+	} catch (TASK_EXCEPTION e) {
+		throw e;
 	}
-	_taskText = taskText;
-	_isComplete = false;
 }
 
 Task::Task(std::string taskText, boost::posix_time::ptime endDateTime) {
-	if (taskText.empty()) {
-		throw TASK_EXCEPTION(MESSAGE_EMPTY_TASK_TEXT.c_str());
-	} else if (taskText.size() > 150) {
-		throw TASK_EXCEPTION(MESSAGE_LONG_TASK_TEXT.c_str());
+	try {
+		if (isValidName(taskText)) {
+			_taskText = taskText;
+			_endDateTime = endDateTime;
+			_isComplete = false;
+		}
+	} catch (TASK_EXCEPTION e) {
+		throw e;
 	}
-	_taskText = taskText;
-	_endDateTime = endDateTime;
-	_isComplete = false;
 }
 
 Task::Task(std::string taskText, boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime) {
-	if (taskText.empty()) {
-		throw TASK_EXCEPTION(MESSAGE_EMPTY_TASK_TEXT.c_str());
-	} else if (taskText.size() > 150) {
-		throw TASK_EXCEPTION(MESSAGE_LONG_TASK_TEXT.c_str());
-	} else if (isEndLessThanStart(startDateTime,endDateTime)) {
+	if (isEndLessThanStart(startDateTime,endDateTime)) {
 		throw TASK_EXCEPTION(MESSAGE_END_LESS_THAN_START.c_str());
 	} else if (endDateTime.is_special() && !startDateTime.is_special()) {
 		throw TASK_EXCEPTION(MESSAGE_EMPTY_END_DATE.c_str());
 	}
-	_taskText = taskText;
-	_startDateTime = startDateTime;
-	_endDateTime = endDateTime;
-	_isComplete = false;
+
+	try {
+		if (isValidName(taskText)) {
+			_taskText = taskText;
+			_startDateTime = startDateTime;
+			_endDateTime = endDateTime;
+			_isComplete = false;
+		}
+	} catch (TASK_EXCEPTION e) {
+		throw e;
+	}
+
+}
+
+bool Task::isValid() {
+	return _taskText.size() > 0;
 }
 
 std::string Task::getTaskText() {
@@ -75,14 +89,6 @@ bool Task::operator== (Task another) {
 	}
 }
 
-bool Task::isValid() {
-	if (_taskText.size() < 1) {
-		return false;
-	} else {
-		return true;
-	}
-}
-
 bool Task::isComplete() {
 	return _isComplete;
 }
@@ -97,17 +103,30 @@ bool Task::isEndLessThanStart(boost::posix_time::ptime start, boost::posix_time:
 	}
 }
 
+bool Task::isValidName(std::string name) {
+	if (name.empty()) {
+		throw TASK_EXCEPTION(MESSAGE_EMPTY_TASK_TEXT.c_str());
+	} else if (!std::isalnum(name[0])) {
+		throw TASK_EXCEPTION(MESSAGE_INVALID_FIRST_CHARACTER.c_str());
+	} else if (name.size() > MAX_TASK_NAME_LENGTH) {
+		throw TASK_EXCEPTION(MESSAGE_LONG_TASK_TEXT.c_str());
+	} else {
+		return true;
+	}
+}
+
 void Task::toggleComplete() {
 	_isComplete = !_isComplete;
 }
 
 void Task::changeTaskText(std::string newTaskText) {
-	if (newTaskText.empty()) {
-		throw TASK_EXCEPTION(MESSAGE_EMPTY_TASK_TEXT.c_str());
-	} else if (newTaskText.size() > 150) {
-		throw TASK_EXCEPTION(MESSAGE_LONG_TASK_TEXT.c_str());
+	try{
+		if (isValidName(newTaskText)) {
+			_taskText = newTaskText;
+		}
+	} catch (TASK_EXCEPTION e) {
+		throw e;
 	}
-	_taskText = newTaskText;
 }
 
 void Task::changeStartDateTime(boost::posix_time::ptime newStartDateTime) {
@@ -116,6 +135,7 @@ void Task::changeStartDateTime(boost::posix_time::ptime newStartDateTime) {
 	} else if (!newStartDateTime.is_special() && _endDateTime.is_special()) {
 		throw TASK_EXCEPTION(MESSAGE_EMPTY_END_DATE.c_str());
 	}
+
 	_startDateTime = newStartDateTime;
 }
 
@@ -129,19 +149,25 @@ void Task::changeEndDateTime(boost::posix_time::ptime newEndDateTime) {
 	_endDateTime = newEndDateTime;
 }
 
-bool Task::addTag(std::string tag) {
-	if (_tags.find(tag) == _tags.end()) {
-		_tags.insert(tag);
-		return true;
+void Task::addTag(std::string tag) {
+	if (_tags.size() == MAX_TAG_NUM) {
+		throw TAG_LIMIT_EXCEPTION();
+	} else if (_tags.find(tag) != _tags.end()) {
+		char buffer[255];
+		sprintf_s(buffer, MESSAGE_DUPLICATE_TAG.c_str(), tag.c_str());
+		throw TASK_EXCEPTION(buffer);
 	} else {
-		return false;
+		_tags.insert(tag);
+		return;
 	}
 }
 
 void Task::removeTag(std::string tag) {
 	std::set<std::string>::iterator iter = _tags.find(tag);
 	if (iter == _tags.end()) {
-		throw TASK_EXCEPTION(MESSAGE_TAG_NOT_FOUND);
+		char buffer[255];
+		sprintf_s(buffer, MESSAGE_TAG_NOT_FOUND.c_str(), tag.c_str());
+		throw TASK_EXCEPTION(buffer);
 	} else {
 		_tags.erase(iter);
 	}
