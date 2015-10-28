@@ -27,6 +27,7 @@ public:
 	// Command Type to further specify the operation
 	enum SecondaryCommandType {
 		All,
+		Completed,
 		End,
 		EndAfter,
 		EndBefore,

@@ -22,6 +22,8 @@ CommandTokens DeleteCommandTokeniser::tokeniseUserInput(::std::string userInput)
 		tokeniseDeleteByCommand(userInput);
 	} else if (isDeleteIndex(userInput)) {
 		tokeniseDeleteIndex(userInput);
+	} else if (isDeleteCompleted(userInput)) {
+		tokeniseDeleteCompleted(userInput);
 	}
 
 	return _commandTokens;
@@ -41,6 +43,7 @@ void DeleteCommandTokeniser::tokeniseDeleteByCommand(std::string userInput) {
 
 bool DeleteCommandTokeniser::isDeleteCommand(std::string userInput) {
 	if (isDeleteBy(userInput) ||
+		isDeleteCompleted(userInput) ||
 		isDeleteAll(userInput) ||
 		isDeleteFrom(userInput) ||
 		isDeleteFromTo(userInput) ||
@@ -76,6 +79,12 @@ bool DeleteCommandTokeniser::isDeleteFromTo(std::string userInput) {
 bool DeleteCommandTokeniser::isDeleteFrom(std::string userInput) {
 	return std::regex_match(userInput,
 	                        std::regex("delete from .+",
+	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
+bool DeleteCommandTokeniser::isDeleteCompleted(std::string userInput) {
+	return std::regex_match(userInput,
+	                        std::regex("delete completed",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
@@ -122,4 +131,8 @@ void DeleteCommandTokeniser::tokeniseDeleteIndex(std::string userInput) {
 
 	int index = stoi(matchResults[1]);
 	_commandTokens.setIndex(index);
+}
+
+void DeleteCommandTokeniser::tokeniseDeleteCompleted(std::string userInput) {
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Completed);
 }
