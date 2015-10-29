@@ -211,6 +211,7 @@ UIFeedback SearchTagsCommand::execute(RunTimeStorage* runTimeStorage) {
 		}
 	}
 
+	runTimeStorage->setTasksToDisplay(_searchResult);
 	delete[] taskCounter;
 
 	char buffer[255];
