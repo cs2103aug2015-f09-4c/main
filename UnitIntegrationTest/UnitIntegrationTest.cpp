@@ -224,6 +224,7 @@ public:
 		std::string tagCommand3 = CMD_TAG + " 3 " + TAG_A;
 		std::string tagCommand0 = CMD_TAG + " 0 " + TAG_A;
 		std::string tagCommand4 = CMD_TAG + " 4 " + TAG_A;
+		std::string tagCommand1Space = CMD_TAG + " 1 " + TAG_WITHSPACE;
 
 		std::string untagCommand1A = CMD_UNTAG + " 1 " + TAG_A;
 		std::string untagCommand3 = CMD_UNTAG + " 3 " + TAG_A;
@@ -237,6 +238,22 @@ public:
 		// Tag Tests
 		// Testing tag lower bound of valid partition
 		feedback = logic.executeCommand(tagCommand1A);
+		tags = feedback.getTasksForDisplay()[0].getTags();
+
+		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
+		Assert::AreEqual((size_t) 1, tags.size());
+		Assert::AreEqual(TAG_A, *tags.begin());
+
+		// Testing tags with space in invalid format partition
+		try {
+			feedback = logic.executeCommand(tagCommand1Space);
+			Assert::AreEqual(false, true);
+
+		} catch (std::string e) {
+			Assert::AreEqual(CMD_INVALID, e);
+		}
+
+		feedback = logic.executeCommand(CMD_REFRESH);
 		tags = feedback.getTasksForDisplay()[0].getTags();
 
 		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
