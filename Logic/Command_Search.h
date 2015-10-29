@@ -70,3 +70,12 @@ public:
 	UIFeedback SearchCommand::execute(RunTimeStorage*);
 	virtual ~SearchTagsCommand(void);
 };
+
+class SearchNameCommand : public SearchCommand {
+private:
+	std::string _searchString;
+public:
+	SearchNameCommand(std::string searchString);
+	UIFeedback SearchNameCommand::execute(RunTimeStorage*);
+	virtual ~SearchNameCommand(void);
+};

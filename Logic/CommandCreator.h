@@ -46,13 +46,9 @@ private:
 	static SearchEndBeforeCommand* processSearchEndBeforeCommand(CommandTokens commandTokens);
 	static SearchEndAfterCommand* processSearchEndAfterCommand(CommandTokens commandTokens);
 	static SearchTagsCommand* processSearchTagsCommand(CommandTokens commandTokens);
-
+	static SearchNameCommand* processSearchNameCommand(CommandTokens commandTokens);
 
 	static SetCompleteCommand* processSetCompleteCommand(CommandTokens commandTokens);
-
-
-
-
 
 	static TagCommand* processTagCommand(CommandTokens commandTokens);
 
