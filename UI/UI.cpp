@@ -194,7 +194,7 @@ void UI::Swiftask::formatOutputBoxStartEndColumn(bool isCompleted, dateTimeStat 
 			if (!start.isNotDateTime) {
 				outputBox->Rows[index]->Cells[OutputBoxColumn::START]->Style->BackColor = red;
 			}
-		} else {
+		} else if (start.hasPast) {
 			outputBox->Rows[index]->Cells[OutputBoxColumn::END]->Style->BackColor = green;
 
 		}
