@@ -23,6 +23,9 @@ Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens
 		case CommandTokens::PrimaryCommandType::Export:
 			returnCommand = processExportCommand(commandTokens);
 			break;
+		case CommandTokens::PrimaryCommandType::Import:
+			returnCommand = processImportCommand(commandTokens);
+			break;
 		case CommandTokens::PrimaryCommandType::Refresh:
 			returnCommand = processRefreshCommand(commandTokens);
 			break;
@@ -241,6 +244,12 @@ SetCompleteCommand* CommandCreator::processSetCompleteCommand(CommandTokens comm
 ExportCommand* CommandCreator::processExportCommand(CommandTokens commandTokens) {
 	std::string filePath = commandTokens.getOtherCommandParameter();
 	ExportCommand* returnCommand = new ExportCommand(filePath);
+	return returnCommand;
+}
+
+ImportCommand* CommandCreator::processImportCommand(CommandTokens commandTokens) {
+	std::string filePath = commandTokens.getOtherCommandParameter();
+	ImportCommand* returnCommand = new ImportCommand(filePath);
 	return returnCommand;
 }
 

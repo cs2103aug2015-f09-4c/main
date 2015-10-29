@@ -35,6 +35,8 @@ private:
 
 	static ExportCommand* processExportCommand(CommandTokens commandTokens);
 
+	static ImportCommand* processImportCommand(CommandTokens commandTokens);
+
 	static RefreshCommand* processRefreshCommand(CommandTokens commandTokens);
 
 	static SearchCommand* processSearchCommand(CommandTokens commandTokens);

@@ -107,4 +107,6 @@ public:
 
 	void saveToFile();
 	void saveToFile(std::string filePath);
+	void loadFromFile();
+	void loadFromFile(std::string filePath);
 };

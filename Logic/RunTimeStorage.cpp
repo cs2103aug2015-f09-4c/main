@@ -54,7 +54,7 @@ size_t RunTimeStorage::find(Task& task) {
 			return i;
 		}
 	}
-	
+
 	//if not found, return an invalid index
 	return _tasks.size();
 }
@@ -215,5 +215,15 @@ void RunTimeStorage::saveToFile() {
 
 void RunTimeStorage::saveToFile(std::string filePath) {
 	_physicalStorageHandler->saveToFile(_tasks, filePath);
+	return;
+}
+
+void RunTimeStorage::loadFromFile() {
+	_physicalStorageHandler->loadFromFile(_tasks);
+	return;
+}
+
+void RunTimeStorage::loadFromFile(std::string filePath) {
+	_physicalStorageHandler->loadFromFile(_tasks, filePath);
 	return;
 }
