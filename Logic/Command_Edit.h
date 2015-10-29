@@ -32,20 +32,20 @@ public:
 
 class EditStartCommand: public EditCommand {
 private:
-	boost::posix_time::ptime _newStart;
-	boost::posix_time::ptime _oldStart;
+	ptime _newStart;
+	ptime _oldStart;
 public:
-	EditStartCommand(size_t index, boost::posix_time::ptime newStart);
+	EditStartCommand(size_t index, ptime newStart);
 	UIFeedback EditCommand::execute(RunTimeStorage*);
 	UIFeedback EditCommand::undo();
 };
 
 class EditEndCommand: public EditCommand {
 private:
-	boost::posix_time::ptime _newEnd;
-	boost::posix_time::ptime _oldEnd; //for undo
+	ptime _newEnd;
+	ptime _oldEnd; //for undo
 public:
-	EditEndCommand(size_t index, boost::posix_time::ptime newEnd);
+	EditEndCommand(size_t index, ptime newEnd);
 	UIFeedback EditCommand::execute(RunTimeStorage*);
 	UIFeedback EditCommand::undo();
 };

@@ -32,7 +32,7 @@ UIFeedback EditNameCommand::execute(RunTimeStorage* runTimeStorage) {
 
 		_statusExecuted = true;
 		_runTimeStorageExecuted = runTimeStorage;
-		return UIFeedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
+		return UIFeedback(runTimeStorage->refreshTasksToDisplay(), feedbackMessage);
 	} catch (INDEX_NOT_FOUND_EXCEPTION e){
 		throw COMMAND_EXECUTION_EXCEPTION(e.what());
 	}
@@ -47,13 +47,13 @@ UIFeedback EditNameCommand::undo() {
 	taskToEdit.changeTaskText(_oldTaskText);
 
 	_statusExecuted = false;
-	std::vector<Task> taskToDisplay = _runTimeStorageExecuted->getTasksToDisplay();
+	std::vector<Task> taskToDisplay = _runTimeStorageExecuted->refreshTasksToDisplay();
 	_runTimeStorageExecuted = NULL;
 
 	return UIFeedback(taskToDisplay, MESSAGE_EDIT_UNDO);
 }
 
-EditStartCommand::EditStartCommand(size_t index, boost::posix_time::ptime newStart) : EditCommand(CommandTokens::SecondaryCommandType::Start, index) {
+EditStartCommand::EditStartCommand(size_t index, ptime newStart) : EditCommand(CommandTokens::SecondaryCommandType::Start, index) {
 	_newStart = newStart;
 }
 
@@ -75,7 +75,7 @@ UIFeedback EditStartCommand::execute(RunTimeStorage* runTimeStorage) {
 
 		_statusExecuted = true;
 		_runTimeStorageExecuted = runTimeStorage;
-		return UIFeedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
+		return UIFeedback(runTimeStorage->refreshTasksToDisplay(), feedbackMessage);
 	} catch (INDEX_NOT_FOUND_EXCEPTION e) {
 		throw COMMAND_EXECUTION_EXCEPTION(e.what());
 	} catch (TASK_EXCEPTION e) {
@@ -92,13 +92,13 @@ UIFeedback EditStartCommand::undo() {
 	taskToEdit.changeStartDateTime(_oldStart);
 
 	_statusExecuted = false;
-	std::vector<Task> taskToDisplay = _runTimeStorageExecuted->getTasksToDisplay();
+	std::vector<Task> taskToDisplay = _runTimeStorageExecuted->refreshTasksToDisplay();
 	_runTimeStorageExecuted = NULL;
 
 	return UIFeedback(taskToDisplay, MESSAGE_EDIT_UNDO);
 }
 
-EditEndCommand::EditEndCommand(size_t index, boost::posix_time::ptime newEnd) : EditCommand(CommandTokens::SecondaryCommandType::End, index) {
+EditEndCommand::EditEndCommand(size_t index, ptime newEnd) : EditCommand(CommandTokens::SecondaryCommandType::End, index) {
 	_newEnd = newEnd;
 }
 
@@ -119,7 +119,7 @@ UIFeedback EditEndCommand::execute(RunTimeStorage* runTimeStorage) {
 		_statusExecuted = true;
 		_runTimeStorageExecuted = runTimeStorage;
 
-		return UIFeedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
+		return UIFeedback(runTimeStorage->refreshTasksToDisplay(), feedbackMessage);
 	} catch(INDEX_NOT_FOUND_EXCEPTION e) {
 		throw COMMAND_EXECUTION_EXCEPTION(e.what());
 	} catch(TASK_EXCEPTION e) {
@@ -136,7 +136,7 @@ UIFeedback EditEndCommand::undo() {
 	taskToEdit.changeEndDateTime(_oldEnd);
 
 	_statusExecuted = false;
-	std::vector<Task> taskToDisplay = _runTimeStorageExecuted->getTasksToDisplay();
+	std::vector<Task> taskToDisplay = _runTimeStorageExecuted->refreshTasksToDisplay();
 	_runTimeStorageExecuted = NULL;
 
 	return UIFeedback(taskToDisplay, MESSAGE_EDIT_UNDO);

@@ -17,7 +17,7 @@ UIFeedback AddCommand::execute(RunTimeStorage* runTimeStorage) {
 		char buffer[255];
 		sprintf_s(buffer, MESSAGE_ADD_SUCCESS.c_str(), taskText.c_str(), startDateTime.c_str(), endDateTime.c_str());
 		std::string feedbackMessage(buffer);
-		feedback = UIFeedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
+		feedback = UIFeedback(runTimeStorage->refreshTasksToDisplay(), feedbackMessage);
 		_statusExecuted = true;
 		_runTimeStorageExecuted = runTimeStorage;
 	} catch (DUPLICATE_TASK_EXCEPTION e) {
@@ -30,7 +30,7 @@ UIFeedback AddCommand::undo() {
 	assert (_statusExecuted);
 	assert(_runTimeStorageExecuted != NULL);
 	_runTimeStorageExecuted -> removeLastEntry();
-	std::vector<Task>& tasksToDisplay = _runTimeStorageExecuted->getTasksToDisplay();
+	std::vector<Task>& tasksToDisplay = _runTimeStorageExecuted->refreshTasksToDisplay();
 	_runTimeStorageExecuted = NULL;
 	return UIFeedback(tasksToDisplay, MESSAGE_UNDO_ADD);
 }

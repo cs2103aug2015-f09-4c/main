@@ -41,14 +41,14 @@ class DeleteBeforeCommand: public DeleteCommand{
 private:
 	std::vector<Task> _tasksDeleted;
 	std::vector<int> _indexTaskDeleted;
-	boost::posix_time::ptime _endDateTime;
+	ptime _endDateTime;
 public:
-	DeleteBeforeCommand(boost::posix_time::ptime);
+	DeleteBeforeCommand(ptime);
 	UIFeedback DeleteCommand::execute(RunTimeStorage*);
 	UIFeedback DeleteCommand::undo(void);
 	virtual ~DeleteBeforeCommand(void);
 #ifdef TESTMODE
-	boost::posix_time::ptime getEndDateTime() {
+	ptime getEndDateTime() {
 		return _endDateTime;
 	}
 #endif
@@ -58,19 +58,19 @@ class DeleteFromToCommand: public DeleteCommand{
 private:
 	std::vector<Task> _tasksDeleted;
 	std::vector<int> _indexTaskDeleted;
-	boost::posix_time::ptime _startDateTime;
-	boost::posix_time::ptime _endDateTime;
+	ptime _startDateTime;
+	ptime _endDateTime;
 public:
-	DeleteFromToCommand(boost::posix_time::ptime start, boost::posix_time::ptime end);
+	DeleteFromToCommand(ptime start, ptime end);
 	UIFeedback DeleteCommand::execute(RunTimeStorage*);
 	UIFeedback DeleteCommand::undo(void);
 	virtual ~DeleteFromToCommand(void);
 #ifdef TESTMODE
-	boost::posix_time::ptime getEndDateTime() {
+	ptime getEndDateTime() {
 		return _endDateTime;
 	}
 
-	boost::posix_time::ptime getStartDateTime() {
+	ptime getStartDateTime() {
 		return _startDateTime;
 	}
 #endif

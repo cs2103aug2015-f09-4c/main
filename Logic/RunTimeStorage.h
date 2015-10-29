@@ -17,11 +17,17 @@ const std::string MESSAGE_INDEX_NOT_FOUND = "No task is found at index ";
 
 
 enum Display_Type {
-	displayAll, displayFloat, displayTimed, displayTodo
+	displayAll,			//Display all tasks without filter
+	displayFloat,		//Display only floating task
+	displayTimed,		//Display only timed task
+	displayTodo		//Display only todo task
 };
 
 enum Sort_Type {
-	sortByEntryOrder, sortByName, sortByStart, sortByEnd
+	sortByEntryOrder,	//Sort tasks by entry order
+	sortByName,			//Sort tasks by name
+	sortByStart,		//Sort tasks by start date time
+	sortByEnd			//Sort tasks by end date time
 };
 
 class INDEX_NOT_FOUND_EXCEPTION : public std::exception {
@@ -53,14 +59,12 @@ private:
 
 	Display_Type _displayMode;
 	Sort_Type _sortMode;
+	
+	//Time object used for comparison when selecting tasks to display for displayBefore and displayAfter
+	ptime _time;
 
 	//If the task fit _displayMode, return true, else return false
 	bool isValidForDisplay(Task task);
-
-	//comparator functions for sorting
-	static bool sortByStartDateTime (Task task1, Task task2);
-	static bool sortByEndDateTime (Task task1, Task task2);
-	static bool sortByName (Task task1, Task task2);
 
 	//Filter tasks from Tasks into TasksToDisplay based on _displayMode
 	//Post-condition: Tasks in TasksToDisplay is sorted by entry order
@@ -79,6 +83,8 @@ public:
 
 	std::vector<Task>& getAllTasks();
 	std::vector<Task>& getTasksToDisplay();
+	std::vector<Task>& refreshTasksToDisplay();
+	void setTasksToDisplay(std::vector<Task>);
 
 	void add(Task task);
 	void insert(Task task, size_t index);
@@ -95,9 +101,12 @@ public:
 	bool isDuplicate(Task task);
 	bool isValidIndex(size_t index);
 
+	void setTimeForCompare(ptime time);
 	void changeDisplayType(Display_Type type);
 	void changeSortType(Sort_Type type);
 
 	void saveToFile();
 	void saveToFile(std::string filePath);
+	void loadFromFile();
+	void loadFromFile(std::string filePath);
 };
