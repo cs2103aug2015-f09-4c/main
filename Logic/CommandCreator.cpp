@@ -295,6 +295,9 @@ SearchCommand* CommandCreator::processSearchCommand(CommandTokens commandTokens)
 		case CommandTokens::SecondaryCommandType::EndAfter:
 			returnCommand = processSearchEndAfterCommand(commandTokens);
 			break;
+		case CommandTokens::SecondaryCommandType::Tags:
+			returnCommand = processSearchTagsCommand(commandTokens);
+			break;
 		default:
 			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 		}
@@ -330,6 +333,13 @@ SearchEndAfterCommand* CommandCreator::processSearchEndAfterCommand(CommandToken
 	SearchEndAfterCommand* returnCommand;
 	ptime end = commandTokens.getEndDateTime();
 	returnCommand = new SearchEndAfterCommand(end);
+	return returnCommand;
+}
+
+SearchTagsCommand* CommandCreator::processSearchTagsCommand(CommandTokens commandTokens) {
+	SearchTagsCommand* returnCommand;
+	std::vector<std::string> tags = commandTokens.getTags();
+	returnCommand = new SearchTagsCommand(tags);
 	return returnCommand;
 }
 

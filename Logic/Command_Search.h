@@ -62,11 +62,11 @@ public:
 	virtual ~SearchEndAfterCommand(void);
 };
 
-class SearchTagCommand : public SearchCommand {
+class SearchTagsCommand : public SearchCommand {
 private:
 	std::set<std::string> _tags;
 public:
-	SearchTagCommand(std::vector<std::string> tags);
+	SearchTagsCommand(std::vector<std::string> tags);
 	UIFeedback SearchCommand::execute(RunTimeStorage*);
-	virtual ~SearchTagCommand(void);
+	virtual ~SearchTagsCommand(void);
 };

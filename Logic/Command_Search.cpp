@@ -175,14 +175,14 @@ UIFeedback SearchEndAfterCommand::execute(RunTimeStorage* runTimeStorage) {
 SearchEndAfterCommand::~SearchEndAfterCommand(void) {
 }
 
-SearchTagCommand::SearchTagCommand(std::vector<std::string> tags) : SearchCommand() {
+SearchTagsCommand::SearchTagsCommand(std::vector<std::string> tags) : SearchCommand() {
 	for (size_t i = 0 ; i < tags.size() ; ++i) {
 		_tags.insert(tags[i]);
 	}
 	_type2 = CommandTokens::SecondaryCommandType::Tags;
 }
 
-UIFeedback SearchTagCommand::execute(RunTimeStorage* runTimeStorage) {
+UIFeedback SearchTagsCommand::execute(RunTimeStorage* runTimeStorage) {
 	assert(runTimeStorage!=NULL);
 	std::set<std::string>::iterator iter;
 	std::vector<Task>& tasks = runTimeStorage->getAllTasks();
@@ -219,5 +219,5 @@ UIFeedback SearchTagCommand::execute(RunTimeStorage* runTimeStorage) {
 	return UIFeedback(runTimeStorage->getTasksToDisplay(), buffer);
 }
 
-SearchTagCommand::~SearchTagCommand(void) {
+SearchTagsCommand::~SearchTagsCommand(void) {
 }
