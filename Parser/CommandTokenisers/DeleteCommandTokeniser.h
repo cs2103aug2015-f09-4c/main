@@ -15,15 +15,17 @@ public:
 private:
 	// identifiers to determine the exact type of DELETE command called
 	static bool isDeleteAll(std::string userInput);
+	static bool isDeleteCompleted(std::string userInput);
+	static bool isDeleteIndex(std::string userInput);
+	static bool isDeleteBy(std::string userInput);
 	static bool isDeleteFromTo(std::string userInput);
 	static bool isDeleteFrom(std::string userInput);
-	static bool isDeleteBy(std::string userInput);
-	static bool isDeleteIndex(std::string userInput);
 
 	// tokenisers for the various types of DELETE commands
 	void tokeniseDeleteAllCommand(void);
-	void tokeniseDeleteFromToCommand(std::string userInput);
-	void tokeniseDeleteFromCommand(std::string userInput);
+	void tokeniseDeleteCompleted(std::string userInput);
 	void tokeniseDeleteIndex(std::string userInput);
 	void tokeniseDeleteByCommand(std::string userInput);
+	void tokeniseDeleteFromToCommand(std::string userInput);
+	void tokeniseDeleteFromCommand(std::string userInput);
 };

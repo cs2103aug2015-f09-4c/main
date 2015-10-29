@@ -35,7 +35,7 @@ UIFeedback DeleteIndexCommand::execute(RunTimeStorage* runTimeStorage) {
 			char buffer[255];
 			sprintf_s(buffer,MESSAGE_DELETE_INDEX_SUCCESS.c_str(),_index);
 			std::string feedbackMessage(buffer);
-			feedback = UIFeedback(runTimeStorage->getTasksToDisplay(),feedbackMessage);
+			feedback = UIFeedback(runTimeStorage->refreshTasksToDisplay(),feedbackMessage);
 			_statusExecuted = true;
 			_runTimeStorageExecuted = runTimeStorage;
 		} 
@@ -51,16 +51,15 @@ UIFeedback DeleteIndexCommand::undo() {
 	_runTimeStorageExecuted -> insert(_taskDeleted, _entryIndex);
 	_taskDeleted = Task();
 	_entryIndex = std::numeric_limits<size_t>::infinity();
-	return UIFeedback(_runTimeStorageExecuted->getTasksToDisplay(), MESSAGE_DELETE_UNDO);
+	return UIFeedback(_runTimeStorageExecuted->refreshTasksToDisplay(), MESSAGE_DELETE_UNDO);
 }
 
 DeleteIndexCommand::~DeleteIndexCommand() {
 }
 
-DeleteBeforeCommand::DeleteBeforeCommand(boost::posix_time::ptime endDateTime) 
-	: DeleteCommand(CommandTokens::SecondaryCommandType::Todo) {
-		assert (!endDateTime.is_special());
-		_endDateTime = endDateTime;
+DeleteBeforeCommand::DeleteBeforeCommand(ptime endDateTime) : DeleteCommand(CommandTokens::SecondaryCommandType::Todo) {
+	assert(!endDateTime.is_special());
+	_endDateTime = endDateTime;
 }
 
 UIFeedback DeleteBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
@@ -69,7 +68,7 @@ UIFeedback DeleteBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
 		std::vector<Task> tasks = runTimeStorage ->getAllTasks();
 		int numTask = tasks.size();
 		for (int i = 0 ; i < numTask; ++i) {
-			boost::posix_time::ptime time = tasks[i].getEndDateTime();
+			ptime time = tasks[i].getEndDateTime();
 			if (!time.is_special()) {
 				if (time < _endDateTime) {
 					_tasksDeleted.push_back(tasks[i]);
@@ -90,6 +89,8 @@ UIFeedback DeleteBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
 		}
 	} catch (INDEX_NOT_FOUND_EXCEPTION e) {
 		throw COMMAND_EXECUTION_EXCEPTION(e.what());
+	} catch (COMMAND_EXECUTION_EXCEPTION e) {
+		throw e;
 	}
 
 	_runTimeStorageExecuted = runTimeStorage;
@@ -100,7 +101,7 @@ UIFeedback DeleteBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
 		MESSAGE_DELETE_BEFORE_SUCCESS.c_str(),						
 		boost::posix_time::to_simple_string(_endDateTime).c_str());
 	feedbackMessage = std::string(buffer);
-	return UIFeedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
+	return UIFeedback(runTimeStorage->refreshTasksToDisplay(), feedbackMessage);
 }
 
 UIFeedback DeleteBeforeCommand::undo(void) {
@@ -116,14 +117,15 @@ UIFeedback DeleteBeforeCommand::undo(void) {
 	_tasksDeleted.clear();
 	_indexTaskDeleted.clear();
 
-	return UIFeedback(_runTimeStorageExecuted -> getTasksToDisplay(), MESSAGE_DELETE_UNDO);
+	return UIFeedback(_runTimeStorageExecuted -> refreshTasksToDisplay(), MESSAGE_DELETE_UNDO);
 }
 
 DeleteBeforeCommand::~DeleteBeforeCommand(void) {
 }
 
-DeleteFromToCommand::DeleteFromToCommand(boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime) : DeleteCommand(CommandTokens::SecondaryCommandType::Timed){
-	if (startDateTime.is_special() || endDateTime.is_special()) {
+DeleteFromToCommand::DeleteFromToCommand(ptime startDateTime, ptime endDateTime) : DeleteCommand(CommandTokens::SecondaryCommandType::Timed){
+	assert(!(startDateTime.is_special() || endDateTime.is_special()));
+	if (endDateTime < startDateTime) {
 		throw COMMAND_CREATION_EXCEPTION (MESSAGE_END_LESS_THAN_START);
 	}
 	_startDateTime = startDateTime;
@@ -136,8 +138,8 @@ UIFeedback DeleteFromToCommand::execute(RunTimeStorage* runTimeStorage) {
 		std::vector<Task> tasks = runTimeStorage ->getAllTasks();
 		int numTask = tasks.size();
 		for (int i = 0 ; i < numTask; ++i) {
-			boost::posix_time::ptime startDateTime = tasks[i].getStartDateTime();
-			boost::posix_time::ptime endDateTime = tasks[i].getEndDateTime();
+			ptime startDateTime = tasks[i].getStartDateTime();
+			ptime endDateTime = tasks[i].getEndDateTime();
 			if (!(startDateTime.is_special()||endDateTime.is_special())) {
 				if (startDateTime > _startDateTime && endDateTime < _endDateTime) {
 					_tasksDeleted.push_back(tasks[i]);
@@ -158,6 +160,8 @@ UIFeedback DeleteFromToCommand::execute(RunTimeStorage* runTimeStorage) {
 		}
 	} catch (INDEX_NOT_FOUND_EXCEPTION e) {
 		throw COMMAND_EXECUTION_EXCEPTION(e.what());
+	} catch (COMMAND_EXECUTION_EXCEPTION e) {
+		throw e;
 	}
 
 	_runTimeStorageExecuted = runTimeStorage;
@@ -169,8 +173,9 @@ UIFeedback DeleteFromToCommand::execute(RunTimeStorage* runTimeStorage) {
 		boost::posix_time::to_simple_string(_startDateTime).c_str(),
 		boost::posix_time::to_simple_string(_endDateTime).c_str());
 	feedbackMessage = std::string(buffer);
-	return UIFeedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
+	return UIFeedback(runTimeStorage->refreshTasksToDisplay(), feedbackMessage);
 }
+
 UIFeedback DeleteFromToCommand::undo(void) {
 	assert (_statusExecuted);
 	assert(_runTimeStorageExecuted!=NULL);
@@ -184,7 +189,7 @@ UIFeedback DeleteFromToCommand::undo(void) {
 	_tasksDeleted.clear();
 	_indexTaskDeleted.clear();
 
-	return UIFeedback(_runTimeStorageExecuted -> getTasksToDisplay(), MESSAGE_DELETE_UNDO);
+	return UIFeedback(_runTimeStorageExecuted -> refreshTasksToDisplay(), MESSAGE_DELETE_UNDO);
 }
 
 DeleteFromToCommand::~DeleteFromToCommand(void) {
@@ -195,11 +200,12 @@ DeleteAllCommand::DeleteAllCommand(void) : DeleteCommand(CommandTokens::Secondar
 
 UIFeedback DeleteAllCommand::execute(RunTimeStorage* runTimeStorage) {
 	assert (runTimeStorage != NULL);
+	assert (_tasksDeleted.empty());
 	UIFeedback feedback;
 	try {
 		_tasksDeleted = runTimeStorage->getAllTasks();
 		runTimeStorage->removeAll();
-		feedback = UIFeedback(runTimeStorage->getTasksToDisplay(), MESSAGE_DELETE_ALL_SUCCESS);
+		feedback = UIFeedback(runTimeStorage->refreshTasksToDisplay(), MESSAGE_DELETE_ALL_SUCCESS);
 		_statusExecuted = true;
 		_runTimeStorageExecuted = runTimeStorage;
 	} catch (EMPTY_STORAGE_EXCEPTION e) {
@@ -218,8 +224,67 @@ UIFeedback DeleteAllCommand::undo() {
 	}
 
 	_tasksDeleted.clear();
-	return UIFeedback(_runTimeStorageExecuted->getTasksToDisplay(), MESSAGE_DELETE_UNDO);
+	return UIFeedback(_runTimeStorageExecuted->refreshTasksToDisplay(), MESSAGE_DELETE_UNDO);
 }
 
 DeleteAllCommand::~DeleteAllCommand() {
+}
+
+DeleteCompleteCommand::DeleteCompleteCommand (void) : DeleteCommand(CommandTokens::Completed){
+}
+
+UIFeedback DeleteCompleteCommand::execute(RunTimeStorage* runTimeStorage) {
+	assert (runTimeStorage != NULL);
+	assert (_tasksDeleted.empty());
+	UIFeedback feedback;
+	try {
+		std::vector<Task> tasks = runTimeStorage->getAllTasks();
+		size_t numTask = tasks.size();
+		for (size_t i = 0 ; i < numTask ; ++i) {
+			if (tasks[i].isComplete()) {
+				_tasksDeleted.push_back(tasks[i]);
+				_indexTaskDeleted.push_back(i);
+			}
+		}
+
+		if (_tasksDeleted.empty()) {
+			throw COMMAND_EXECUTION_EXCEPTION(MESSAGE_DELETE_EMPTY);
+		}
+
+		numTask = _tasksDeleted.size();
+
+		//backward delete so that index of tasks before it will not be affected.
+		for (int i = numTask -1 ; i >= 0 ; --i) {
+			runTimeStorage->removeEntry(_indexTaskDeleted[i]);
+		}		
+	} catch (COMMAND_EXECUTION_EXCEPTION e) {
+		throw e;
+	}
+
+	_statusExecuted = true;
+	_runTimeStorageExecuted = runTimeStorage;
+
+	char buffer[255];
+	sprintf_s(buffer, MESSAGE_DELETE_COMPLETE_SUCCESS.c_str());
+
+	return UIFeedback(runTimeStorage->refreshTasksToDisplay(), buffer);
+}
+
+UIFeedback DeleteCompleteCommand::undo(void) {
+	assert (_statusExecuted);
+	assert(_runTimeStorageExecuted!=NULL);
+	assert(!_tasksDeleted.empty());
+	assert(_tasksDeleted.size() == _indexTaskDeleted.size());
+
+	for (size_t i = 0 ; i < _tasksDeleted.size() ; ++i) {
+		_runTimeStorageExecuted -> insert (_tasksDeleted[i], _indexTaskDeleted[i]);
+	}
+
+	_tasksDeleted.clear();
+	_indexTaskDeleted.clear();
+
+	return UIFeedback(_runTimeStorageExecuted -> refreshTasksToDisplay(), MESSAGE_DELETE_UNDO);
+}
+
+DeleteCompleteCommand::~DeleteCompleteCommand(void) {
 }

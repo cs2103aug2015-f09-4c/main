@@ -25,7 +25,7 @@ Task::Task(std::string taskText) {
 	}
 }
 
-Task::Task(std::string taskText, boost::posix_time::ptime endDateTime) {
+Task::Task(std::string taskText, ptime endDateTime) {
 	try {
 		if (isValidName(taskText)) {
 			_taskText = taskText;
@@ -37,7 +37,7 @@ Task::Task(std::string taskText, boost::posix_time::ptime endDateTime) {
 	}
 }
 
-Task::Task(std::string taskText, boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime) {
+Task::Task(std::string taskText, ptime startDateTime, ptime endDateTime) {
 	if (isEndLessThanStart(startDateTime,endDateTime)) {
 		throw TASK_EXCEPTION(MESSAGE_END_LESS_THAN_START.c_str());
 	} else if (endDateTime.is_special() && !startDateTime.is_special()) {
@@ -65,15 +65,15 @@ std::string Task::getTaskText() {
 	return _taskText;
 }
 
-boost::posix_time::ptime Task::getStartDateTime() {
+ptime Task::getStartDateTime() {
 	return _startDateTime;
 }
 
-boost::posix_time::ptime Task::getEndDateTime() {
+ptime Task::getEndDateTime() {
 	return _endDateTime;
 }
 
-std::set<std::string>& Task::getTags() {
+std::set<std::string>& Task::getTags(){
 	return _tags;
 }
 
@@ -89,11 +89,11 @@ bool Task::operator== (Task another) {
 	}
 }
 
-bool Task::isComplete() {
+bool Task::isComplete(){
 	return _isComplete;
 }
 
-bool Task::isEndLessThanStart(boost::posix_time::ptime start, boost::posix_time::ptime end) {
+bool Task::isEndLessThanStart(ptime start, ptime end) {
 	if (start.is_special()) {
 		return false;
 	} else if (end.is_special()) {
@@ -129,7 +129,7 @@ void Task::changeTaskText(std::string newTaskText) {
 	}
 }
 
-void Task::changeStartDateTime(boost::posix_time::ptime newStartDateTime) {
+void Task::changeStartDateTime(ptime newStartDateTime) {
 	if (isEndLessThanStart(newStartDateTime,_endDateTime)) {
 		throw TASK_EXCEPTION(MESSAGE_END_LESS_THAN_START.c_str());
 	} else if (!newStartDateTime.is_special() && _endDateTime.is_special()) {
@@ -139,7 +139,7 @@ void Task::changeStartDateTime(boost::posix_time::ptime newStartDateTime) {
 	_startDateTime = newStartDateTime;
 }
 
-void Task::changeEndDateTime(boost::posix_time::ptime newEndDateTime) {
+void Task::changeEndDateTime(ptime newEndDateTime) {
 	if (isEndLessThanStart(_startDateTime,newEndDateTime)) {
 		throw TASK_EXCEPTION(MESSAGE_END_LESS_THAN_START.c_str());
 	} else if (newEndDateTime.is_special() && !_startDateTime.is_special()) {
@@ -170,5 +170,67 @@ void Task::removeTag(std::string tag) {
 		throw TASK_EXCEPTION(buffer);
 	} else {
 		_tags.erase(iter);
+	}
+}
+
+bool Task::sortByStartDateTime (Task task1, Task task2) {
+	boost::posix_time::ptime startDateTime1 = task1.getStartDateTime();
+	boost::posix_time::ptime startDateTime2 = task2.getStartDateTime();
+
+	if (startDateTime2.is_special()) {
+		return false;
+	} else if (startDateTime1.is_special()) {
+		return true;
+	}
+
+	if (startDateTime1 < startDateTime2) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+bool Task::sortByEndDateTime (Task task1, Task task2) {
+	boost::posix_time::ptime endDateTime1 = task1.getStartDateTime();
+	boost::posix_time::ptime endDateTime2 = task2.getStartDateTime();
+
+	if (endDateTime2.is_special()) {
+		return false;
+	} else if (endDateTime1.is_special()) {
+		return true;
+	}
+
+	if (endDateTime1 < endDateTime2) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
+bool Task::sortByName (Task task1, Task task2) {
+	std::string task1Text = task1.getTaskText();
+	std::string task2Text = task2.getTaskText();
+
+	size_t minStringLength = (std::min)(task1Text.size(), task2Text.size());
+
+
+	for (size_t i = 0 ; i < minStringLength ; ++i) {
+		task1Text[i] = std::tolower(task1Text[i]);
+		task2Text[i] = std::tolower(task2Text[i]);
+	}
+
+	for (size_t i = 0 ; i < minStringLength ; ++i) {
+		if (task1Text[i] < task2Text[i]) {
+			return true;
+		} else if (task1Text[i] > task2Text[i]) {
+			return false;
+		}
+	}
+
+	if (task1Text.size() < task2Text.size()) {
+		return true;
+	} else {
+		return false;
 	}
 }

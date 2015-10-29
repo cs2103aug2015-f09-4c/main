@@ -6,6 +6,7 @@ const std::string MESSAGE_DELETE_INDEX_SUCCESS = "Task at index %i have been del
 const std::string MESSAGE_DELETE_ALL_SUCCESS = "All tasks have been removed.";
 const std::string MESSAGE_DELETE_BEFORE_SUCCESS = "All tasks end before %s have been removed.";
 const std::string MESSAGE_DELETE_FROMTO_SUCCESS = "All tasks start after %s and end before %s have been removed.";
+const std::string MESSAGE_DELETE_COMPLETE_SUCCESS = "All completed tasks have been removed.";
 const std::string MESSAGE_DELETE_EMPTY = "No task suited the condition is found. No task is deleted.";
 
 const std::string MESSAGE_DELETE_UNDO = "Previous delete operation is undoed.";
@@ -41,14 +42,14 @@ class DeleteBeforeCommand: public DeleteCommand{
 private:
 	std::vector<Task> _tasksDeleted;
 	std::vector<int> _indexTaskDeleted;
-	boost::posix_time::ptime _endDateTime;
+	ptime _endDateTime;
 public:
-	DeleteBeforeCommand(boost::posix_time::ptime);
+	DeleteBeforeCommand(ptime);
 	UIFeedback DeleteCommand::execute(RunTimeStorage*);
 	UIFeedback DeleteCommand::undo(void);
 	virtual ~DeleteBeforeCommand(void);
 #ifdef TESTMODE
-	boost::posix_time::ptime getEndDateTime() {
+	ptime getEndDateTime() {
 		return _endDateTime;
 	}
 #endif
@@ -58,25 +59,25 @@ class DeleteFromToCommand: public DeleteCommand{
 private:
 	std::vector<Task> _tasksDeleted;
 	std::vector<int> _indexTaskDeleted;
-	boost::posix_time::ptime _startDateTime;
-	boost::posix_time::ptime _endDateTime;
+	ptime _startDateTime;
+	ptime _endDateTime;
 public:
-	DeleteFromToCommand(boost::posix_time::ptime start, boost::posix_time::ptime end);
+	DeleteFromToCommand(ptime start, ptime end);
 	UIFeedback DeleteCommand::execute(RunTimeStorage*);
 	UIFeedback DeleteCommand::undo(void);
 	virtual ~DeleteFromToCommand(void);
 #ifdef TESTMODE
-	boost::posix_time::ptime getEndDateTime() {
+	ptime getEndDateTime() {
 		return _endDateTime;
 	}
 
-	boost::posix_time::ptime getStartDateTime() {
+	ptime getStartDateTime() {
 		return _startDateTime;
 	}
 #endif
 };
 
-class DeleteAllCommand: public DeleteCommand{
+class DeleteAllCommand : public DeleteCommand{
 private:
 	std::vector<Task> _tasksDeleted;
 public:
@@ -84,4 +85,15 @@ public:
 	UIFeedback DeleteCommand::execute(RunTimeStorage*);
 	UIFeedback DeleteCommand::undo(void);
 	virtual ~DeleteAllCommand(void);
+};
+
+class DeleteCompleteCommand : public DeleteCommand {
+private:
+	std::vector<Task> _tasksDeleted;
+	std::vector<int> _indexTaskDeleted;
+public:
+	DeleteCompleteCommand (void);
+	UIFeedback DeleteCommand::execute(RunTimeStorage*);
+	UIFeedback DeleteCommand::undo(void);
+	virtual ~DeleteCompleteCommand(void);
 };

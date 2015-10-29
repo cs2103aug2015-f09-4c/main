@@ -6,7 +6,7 @@ RefreshCommand::RefreshCommand(void) : Command(CommandTokens::PrimaryCommandType
 }
 
 UIFeedback RefreshCommand::execute(RunTimeStorage* runTimeStorage) {
-	return UIFeedback(runTimeStorage->getTasksToDisplay(), "");
+	return UIFeedback(runTimeStorage->refreshTasksToDisplay(), "");
 }
 
 UIFeedback RefreshCommand::undo() {
