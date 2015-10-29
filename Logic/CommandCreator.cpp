@@ -306,6 +306,9 @@ SearchCommand* CommandCreator::processSearchCommand(CommandTokens commandTokens)
 		case CommandTokens::SecondaryCommandType::Tags:
 			returnCommand = processSearchTagsCommand(commandTokens);
 			break;
+		case CommandTokens::SecondaryCommandType::Name:
+			returnCommand = processSearchNameCommand(commandTokens);
+			break;
 		default:
 			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 		}
@@ -348,6 +351,13 @@ SearchTagsCommand* CommandCreator::processSearchTagsCommand(CommandTokens comman
 	SearchTagsCommand* returnCommand;
 	std::vector<std::string> tags = commandTokens.getTags();
 	returnCommand = new SearchTagsCommand(tags);
+	return returnCommand;
+}
+
+SearchNameCommand* CommandCreator::processSearchNameCommand(CommandTokens commandTokens) {
+	SearchNameCommand* returnCommand;
+	std::string searchString = commandTokens.getTaskName();
+	returnCommand = new SearchNameCommand(searchString);
 	return returnCommand;
 }
 

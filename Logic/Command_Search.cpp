@@ -222,3 +222,32 @@ UIFeedback SearchTagsCommand::execute(RunTimeStorage* runTimeStorage) {
 
 SearchTagsCommand::~SearchTagsCommand(void) {
 }
+
+SearchNameCommand::SearchNameCommand(std::string searchString) {
+	_searchString = searchString;
+}
+
+UIFeedback SearchNameCommand::execute(RunTimeStorage* runTimeStorage) {
+	assert(runTimeStorage!=NULL);
+	std::vector<Task>& tasks = runTimeStorage->getAllTasks();
+	size_t numTask = tasks.size();
+	for (size_t i = 0 ; i < numTask ; ++i) {
+		if (tasks[i].getTaskText().find(_searchString) != std::string::npos) {
+			_searchResult.push_back(tasks[i]);
+		}
+	}
+	
+	if (_searchResult.empty()) {
+		throw COMMAND_EXECUTION_EXCEPTION(MESSAGE_NO_TASK_FOUND);
+	}
+
+	runTimeStorage -> setTasksToDisplay(_searchResult);
+
+	char buffer[255];
+	sprintf_s(buffer, MESSAGE_SEARCH_SUCCESS.c_str(), _searchResult.size());
+
+	return UIFeedback(runTimeStorage->getTasksToDisplay(), std::string(buffer));
+}
+
+SearchNameCommand::~SearchNameCommand() {
+}
