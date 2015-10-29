@@ -58,8 +58,8 @@ DeleteIndexCommand::~DeleteIndexCommand() {
 }
 
 DeleteBeforeCommand::DeleteBeforeCommand(ptime endDateTime) : DeleteCommand(CommandTokens::SecondaryCommandType::Todo) {
-		assert(!endDateTime.is_special());
-		_endDateTime = endDateTime;
+	assert(!endDateTime.is_special());
+	_endDateTime = endDateTime;
 }
 
 UIFeedback DeleteBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
@@ -89,6 +89,8 @@ UIFeedback DeleteBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
 		}
 	} catch (INDEX_NOT_FOUND_EXCEPTION e) {
 		throw COMMAND_EXECUTION_EXCEPTION(e.what());
+	} catch (COMMAND_EXECUTION_EXCEPTION e) {
+		throw e;
 	}
 
 	_runTimeStorageExecuted = runTimeStorage;
@@ -158,6 +160,8 @@ UIFeedback DeleteFromToCommand::execute(RunTimeStorage* runTimeStorage) {
 		}
 	} catch (INDEX_NOT_FOUND_EXCEPTION e) {
 		throw COMMAND_EXECUTION_EXCEPTION(e.what());
+	} catch (COMMAND_EXECUTION_EXCEPTION e) {
+		throw e;
 	}
 
 	_runTimeStorageExecuted = runTimeStorage;
@@ -171,6 +175,7 @@ UIFeedback DeleteFromToCommand::execute(RunTimeStorage* runTimeStorage) {
 	feedbackMessage = std::string(buffer);
 	return UIFeedback(runTimeStorage->refreshTasksToDisplay(), feedbackMessage);
 }
+
 UIFeedback DeleteFromToCommand::undo(void) {
 	assert (_statusExecuted);
 	assert(_runTimeStorageExecuted!=NULL);
@@ -195,6 +200,7 @@ DeleteAllCommand::DeleteAllCommand(void) : DeleteCommand(CommandTokens::Secondar
 
 UIFeedback DeleteAllCommand::execute(RunTimeStorage* runTimeStorage) {
 	assert (runTimeStorage != NULL);
+	assert (_tasksDeleted.empty());
 	UIFeedback feedback;
 	try {
 		_tasksDeleted = runTimeStorage->getAllTasks();
@@ -222,4 +228,63 @@ UIFeedback DeleteAllCommand::undo() {
 }
 
 DeleteAllCommand::~DeleteAllCommand() {
+}
+
+DeleteCompleteCommand::DeleteCompleteCommand (void) : DeleteCommand(CommandTokens::Completed){
+}
+
+UIFeedback DeleteCompleteCommand::execute(RunTimeStorage* runTimeStorage) {
+	assert (runTimeStorage != NULL);
+	assert (_tasksDeleted.empty());
+	UIFeedback feedback;
+	try {
+		std::vector<Task> tasks = runTimeStorage->getAllTasks();
+		size_t numTask = tasks.size();
+		for (size_t i = 0 ; i < numTask ; ++i) {
+			if (tasks[i].isComplete()) {
+				_tasksDeleted.push_back(tasks[i]);
+				_indexTaskDeleted.push_back(i);
+			}
+		}
+
+		if (_tasksDeleted.empty()) {
+			throw COMMAND_EXECUTION_EXCEPTION(MESSAGE_DELETE_EMPTY);
+		}
+
+		numTask = _tasksDeleted.size();
+
+		//backward delete so that index of tasks before it will not be affected.
+		for (int i = numTask -1 ; i >= 0 ; --i) {
+			runTimeStorage->removeEntry(_indexTaskDeleted[i]);
+		}		
+	} catch (COMMAND_EXECUTION_EXCEPTION e) {
+		throw e;
+	}
+
+	_statusExecuted = true;
+	_runTimeStorageExecuted = runTimeStorage;
+
+	char buffer[255];
+	sprintf_s(buffer, MESSAGE_DELETE_COMPLETE_SUCCESS.c_str());
+
+	return UIFeedback(runTimeStorage->refreshTasksToDisplay(), buffer);
+}
+
+UIFeedback DeleteCompleteCommand::undo(void) {
+	assert (_statusExecuted);
+	assert(_runTimeStorageExecuted!=NULL);
+	assert(!_tasksDeleted.empty());
+	assert(_tasksDeleted.size() == _indexTaskDeleted.size());
+
+	for (size_t i = 0 ; i < _tasksDeleted.size() ; ++i) {
+		_runTimeStorageExecuted -> insert (_tasksDeleted[i], _indexTaskDeleted[i]);
+	}
+
+	_tasksDeleted.clear();
+	_indexTaskDeleted.clear();
+
+	return UIFeedback(_runTimeStorageExecuted -> refreshTasksToDisplay(), MESSAGE_DELETE_UNDO);
+}
+
+DeleteCompleteCommand::~DeleteCompleteCommand(void) {
 }

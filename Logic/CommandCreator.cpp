@@ -114,6 +114,9 @@ DeleteCommand* CommandCreator::processDeleteCommand(CommandTokens commandTokens)
 		case CommandTokens::SecondaryCommandType::Timed:
 			returnCommand = processDeleteFromToCommand(commandTokens);
 			break;
+		case CommandTokens::SecondaryCommandType::Completed:
+			returnCommand = processDeleteCompleteCommand(commandTokens);
+			break;
 		default:
 			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 		}
@@ -159,6 +162,11 @@ DeleteFromToCommand* CommandCreator::processDeleteFromToCommand(CommandTokens co
 
 DeleteAllCommand* CommandCreator::processDeleteAllCommand(CommandTokens commandTokens) {
 	DeleteAllCommand* returnCommand = new DeleteAllCommand();
+	return returnCommand;
+}
+
+DeleteCompleteCommand* CommandCreator::processDeleteCompleteCommand(CommandTokens commandTokens) {
+	DeleteCompleteCommand* returnCommand = new DeleteCompleteCommand();
 	return returnCommand;
 }
 
