@@ -108,6 +108,20 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
+		TEST_METHOD(unitTest_parser_TokeniseDeleteCompleted) {
+			std::string testUserInput = "DELETE COMPLETED";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Delete,
+			                                      CommandTokens::SecondaryCommandType::Completed,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      -1);
+
+			compareCommandTokens(expected, actual);
+		}
+
 		TEST_METHOD(unitTest_parser_TokeniseDeleteBy) {
 			std::string testUserInput = "DELETE BY 2002-01-22 23:59:59.000";
 			CommandTokens actual, expected;
@@ -420,6 +434,17 @@ namespace ParserTest {
 			DateParser dateParser;
 
 			boost::posix_time::ptime expected(boost::posix_time::time_from_string("1999-05-13 13:20:00.000"));
+			boost::posix_time::ptime actual;
+			actual = dateParser.parse(testUserInputDate);
+			
+			Assert::IsTrue(expected == actual);
+		}
+
+		TEST_METHOD(unitTest_parser_DateParser_DD_MM_YYYY) {
+			std::string testUserInputDate = "13-05-1999";
+			DateParser dateParser;
+
+			boost::posix_time::ptime expected(boost::posix_time::time_from_string("1999-05-13 00:00:00.000"));
 			boost::posix_time::ptime actual;
 			actual = dateParser.parse(testUserInputDate);
 			
