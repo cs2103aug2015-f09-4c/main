@@ -1,7 +1,7 @@
 #pragma once
 #include "Command.h"
 
-const std::string MESSAGE_TAG_SUCCESS = "Task at index %i have %i new tags added.";
+const std::string MESSAGE_TAG_SUCCESS = "Task at index %i have %i new tag(s) added.";
 const std::string MESSAGE_TAG_UNDO = "Previous tag operation have been undoed.";
 
 class TagCommand : public Command {

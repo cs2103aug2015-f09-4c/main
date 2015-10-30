@@ -102,7 +102,7 @@ void UI::Swiftask::displayInOutputBox(void) {
 		std::string stdTags = "";
 		if (tagsList.size() != 0) {
 			for (std::set<std::string>::iterator iter = tagsList.begin(); iter != tagsList.end(); iter++) {
-				stdTags = stdTags + (*iter);
+				stdTags = stdTags + " " + (*iter);
 			}
 			theTags = gcnew String(stdTags.c_str());
 		} else {
@@ -194,7 +194,7 @@ void UI::Swiftask::formatOutputBoxStartEndColumn(bool isCompleted, dateTimeStat 
 			if (!start.isNotDateTime) {
 				outputBox->Rows[index]->Cells[OutputBoxColumn::START]->Style->BackColor = red;
 			}
-		} else {
+		} else if (start.hasPast) {
 			outputBox->Rows[index]->Cells[OutputBoxColumn::END]->Style->BackColor = green;
 
 		}

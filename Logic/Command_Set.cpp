@@ -33,7 +33,7 @@ UIFeedback SetCompleteCommand::execute(RunTimeStorage* runTimeStorage) {
 		sprintf_s(buffer, MESSAGE_SET_COMPLETE_SUCCESS.c_str(), _index);
 
 		feedbackMessage = std::string(buffer);
-		feedback = UIFeedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
+		feedback = UIFeedback(runTimeStorage->refreshTasksToDisplay(), feedbackMessage);
 	} catch (INDEX_NOT_FOUND_EXCEPTION e) {
 		throw COMMAND_EXECUTION_EXCEPTION(e.what());
 	} catch (ALREADY_COMPLETE_EXCEPTION e) {
@@ -51,7 +51,7 @@ UIFeedback SetCompleteCommand::undo() {
 	assert(taskToSet.isComplete());
 	taskToSet.toggleComplete();
 
-	return UIFeedback(_runTimeStorageExecuted->getTasksToDisplay(), MESSAGE_SET_UNDO);
+	return UIFeedback(_runTimeStorageExecuted->refreshTasksToDisplay(), MESSAGE_SET_UNDO);
 }
 
 bool SetCompleteCommand::canUndo() {

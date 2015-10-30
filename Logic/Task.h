@@ -4,6 +4,8 @@
 #include <set>
 #include "../boost/date_time/posix_time/posix_time.hpp"
 
+typedef class boost::posix_time::ptime ptime;
+
 const std::string MESSAGE_EMPTY_TASK_TEXT = "Task text cannot be empty.";
 const std::string MESSAGE_LONG_TASK_TEXT = "Task text cannot be more than 128 characters long.";
 const std::string MESSAGE_INVALID_FIRST_CHARACTER = "First character of task text has to be alphanumeric.";
@@ -42,15 +44,15 @@ public:
 	Task(std::string taskText);
 
 	//Constructor for toDo task
-	Task(std::string taskText, boost::posix_time::ptime endDateTime);
+	Task(std::string taskText, ptime endDateTime);
 
 	//Constructor for timed task
-	Task(std::string taskText, boost::posix_time::ptime startDateTime, boost::posix_time::ptime endDateTime);
+	Task(std::string taskText, ptime startDateTime, ptime endDateTime);
 
 	//Getters
 	std::string getTaskText();
-	boost::posix_time::ptime getStartDateTime();
-	boost::posix_time::ptime getEndDateTime();
+	ptime getStartDateTime();
+	ptime getEndDateTime();
 	std::set<std::string>& getTags();
 
 	//Methods
@@ -60,20 +62,25 @@ public:
 
 	//Modifiers
 	void changeTaskText(std::string newTaskText);
-	void changeStartDateTime(boost::posix_time::ptime newStartDateTime);
-	void changeEndDateTime(boost::posix_time::ptime newEndDateTime);
+	void changeStartDateTime(ptime newStartDateTime);
+	void changeEndDateTime(ptime newEndDateTime);
 	void toggleComplete();
 	void addTag(std::string);
 	void removeTag(std::string);
 
+	//comparator functions for sorting
+	static bool sortByStartDateTime (Task task1, Task task2);
+	static bool sortByEndDateTime (Task task1, Task task2);
+	static bool sortByName (Task task1, Task task2);
+
 private:
 	std::string _taskText;
-	boost::posix_time::ptime _startDateTime;
-	boost::posix_time::ptime _endDateTime;
+	ptime _startDateTime;
+	ptime _endDateTime;
 	bool _isComplete;
 	std::set<std::string> _tags; 
 
-	static bool isEndLessThanStart(boost::posix_time::ptime start, boost::posix_time::ptime end);
+	static bool isEndLessThanStart(ptime start, ptime end);
 	static bool isValidName(std::string name);
 };
 }

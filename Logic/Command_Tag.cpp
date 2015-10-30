@@ -38,7 +38,7 @@ UIFeedback TagCommand::execute(RunTimeStorage* runTimeStorage) {
 		feedbackMessage += std::string(buffer);
 	}
 
-	return UIFeedback(runTimeStorage->getTasksToDisplay(), feedbackMessage);
+	return UIFeedback(runTimeStorage->refreshTasksToDisplay(), feedbackMessage);
 }
 
 UIFeedback TagCommand::undo() {
@@ -48,7 +48,7 @@ UIFeedback TagCommand::undo() {
 	for (size_t i = 0 ; i < _successTags.size() ; ++i) {
 		taskToUntag.removeTag(_successTags[i]);
 	}
-	return UIFeedback(_runTimeStorageExecuted->getTasksToDisplay(), MESSAGE_TAG_UNDO);
+	return UIFeedback(_runTimeStorageExecuted->refreshTasksToDisplay(), MESSAGE_TAG_UNDO);
 }
 
 bool TagCommand::canUndo() {

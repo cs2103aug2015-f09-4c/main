@@ -1,4 +1,5 @@
 #include "PhysicalStorageHandler.h"
+#include "Logger/Logger.h"
 
 
 PhysicalStorageHandler::PhysicalStorageHandler() {
@@ -10,12 +11,18 @@ PhysicalStorageHandler::~PhysicalStorageHandler(void) {
 
 void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::string filePath) {
 	tasks.clear();
-	std::string identityString;
+	std::string identityString = "";
 	std::ifstream loadFile(filePath.c_str());
-	if (loadFile.is_open()) {
-		std::getline(loadFile, identityString);
-		while (identityString != end)
-		{
+
+	Logger* logger = Logger::getInstance();
+	logger->logDEBUG("Loading from file...");
+
+	if (loadFile.is_open() && !loadFile.eof()) {
+		while (!loadFile.eof() && identityString != start) {
+			std::getline(loadFile, identityString);
+		}
+
+		while (identityString != end) {
 			std::string taskText;
 			std::string startDateTimeString;
 			std::string endDateTimeString;
@@ -26,13 +33,21 @@ void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::st
 			std::getline(loadFile,startDateTimeString);
 			boost::posix_time::ptime startDateTime;
 			if (startDateTimeString != "not-a-date-time") {
-				startDateTime = boost::posix_time::time_from_string(startDateTimeString);
+				try {
+					startDateTime = boost::posix_time::time_from_string(startDateTimeString);
+				} catch (boost::exception const & e) {
+					logger->logERROR(startDateTimeString + " is not a format for boost::posix_time");
+				}
 			}
 
 			std::getline(loadFile,endDateTimeString);
 			boost::posix_time::ptime endDateTime;
 			if (endDateTimeString != "not-a-date-time") {
+				try {
 				endDateTime = boost::posix_time::time_from_string(endDateTimeString);
+				} catch (boost::exception const & e) {
+					logger->logERROR(endDateTimeString + " is not a format for boost::posix_time");
+				}
 			}
 
 			std::getline(loadFile, isCompleteString);
@@ -44,7 +59,11 @@ void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::st
 
 			std::getline(loadFile, identityString);
 			while (identityString != start && identityString != end) {
-				taskToAdd.addTag(identityString);
+				try {
+					taskToAdd.addTag(identityString);
+				} catch (std::exception e) {
+					logger->logDEBUG("Tag: " + identityString + " not added");
+				}
 				std::getline(loadFile, identityString);
 			}
 			tasks.push_back(taskToAdd);
