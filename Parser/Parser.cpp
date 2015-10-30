@@ -24,6 +24,8 @@ CommandTokens Parser::parse(std::string userInput) {
 void Parser::selectCommandTokeniser(std::string userInput) {
 	if (isAddCommand(userInput)) {
 		_commandTokeniser = &_addCommandTokeniser;
+	} else if (isConfigureCommand(userInput)) {
+		_commandTokeniser = &_configureCommandTokeniser;
 	} else if (isCompleteCommand(userInput)) {
 		_commandTokeniser = &_completeCommandTokeniser;
 	} else if (isDeleteCommand(userInput)) {
@@ -54,6 +56,10 @@ void Parser::selectCommandTokeniser(std::string userInput) {
 
 bool Parser::isAddCommand(std::string& userInput) {
 	return AddCommandTokeniser::isAddCommand(userInput);
+}
+
+bool Parser::isConfigureCommand(std::string& userInput) {
+	return ConfigureCommandTokeniser::isConfigureCommand(userInput);
 }
 
 bool Parser::isCompleteCommand(std::string& userInput) {

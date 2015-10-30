@@ -16,5 +16,7 @@ private:
 	boost::posix_time::ptime getInvalidPtimeObject(void);
 
 	bool isDDMMYYYY_TTTT(std::string dateString);
+	bool isDDMMYY(std::string dateString);
 	std::string parseDDMMYYYY_TTTT(std::string dateString);
+	std::string parseDDMMYYYY(std::string dateString);
 };
