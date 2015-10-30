@@ -10,14 +10,13 @@ public:
 	AddCommandTokeniser(void);
 	virtual ~AddCommandTokeniser(void);
 	virtual CommandTokens tokeniseUserInput(std::string userInput) override;
-	static bool isAddCommand(std::string userInput);
 	virtual bool isValidCommand(std::string userInput) override;
 
 private:
 	// identifiers to determine the exact type of ADD command called
-	static bool isAddActivityCommand(std::string userInput);
-	static bool isAddTodoCommand(std::string userInput);
-	static bool isAddFloatingCommand(std::string userInput);
+	static bool isAddFromTo(std::string userInput);
+	static bool isAddBy(std::string userInput);
+	static bool isAddFloating(std::string userInput);
 
 	// tokenisers for the various types of ADD commands
 	void tokeniseAddActivityCommand(std::string userInput);

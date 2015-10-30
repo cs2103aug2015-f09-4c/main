@@ -9,14 +9,11 @@ AddCommandTokeniser::~AddCommandTokeniser(void) {
 }
 
 bool AddCommandTokeniser::isValidCommand(std::string userInput) {
-	return isAddCommand(userInput);
-}
-
-bool AddCommandTokeniser::isAddCommand(std::string userInput) {
-	if (isAddActivityCommand(userInput) || isAddTodoCommand(userInput) || isAddFloatingCommand(userInput)) {
+	if (isAddFromTo(userInput) ||
+		isAddBy(userInput) ||
+		isAddFloating(userInput)) {
 		return true;
 	}
-
 	return false;
 }
 
@@ -29,11 +26,11 @@ CommandTokens AddCommandTokeniser::tokeniseUserInput(std::string userInput) {
 		userInput = trimTags(userInput);
 	}
 
-	if (isAddActivityCommand(userInput)) {
+	if (isAddFromTo(userInput)) {
 		tokeniseAddActivityCommand(userInput);
-	} else if (isAddTodoCommand(userInput)) {
+	} else if (isAddBy(userInput)) {
 		tokeniseAddTodoCommand(userInput);
-	} else if (isAddFloatingCommand(userInput)) {
+	} else if (isAddFloating(userInput)) {
 		tokeniseAddFloatingCommand(userInput);
 	}
 
@@ -53,21 +50,21 @@ bool AddCommandTokeniser::hasTags(std::string userInput) {
 
 // returns true if userInput contains "from" and subsequently "to";
 // case-insensitive
-bool AddCommandTokeniser::isAddActivityCommand(std::string userInput) {
+bool AddCommandTokeniser::isAddFromTo(std::string userInput) {
 	return std::regex_match(userInput,
 	                        std::regex("add .+ from .+ to .+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 // returns true if userInput contains "by"; case-insensitive
-bool AddCommandTokeniser::isAddTodoCommand(std::string userInput) {
+bool AddCommandTokeniser::isAddBy(std::string userInput) {
 	return std::regex_match(userInput,
 	                        std::regex("add .+ by .+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 // returns true if userInput contains "by"; case-insensitive
-bool AddCommandTokeniser::isAddFloatingCommand(std::string userInput) {
+bool AddCommandTokeniser::isAddFloating(std::string userInput) {
 	return std::regex_match(userInput,
 	                        std::regex("add .+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
