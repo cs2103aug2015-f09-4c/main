@@ -17,7 +17,7 @@ CommandTokens::CommandTokens(PrimaryCommandType primaryCommandType,
 	_index(index) {
 }
 
-void CommandTokens::resetMemberVariables() {
+void CommandTokens::reset() {
 	_primaryCommandType = Invalid;
 	_secondaryCommandType = None;
 	_taskName = "";
@@ -33,7 +33,6 @@ bool CommandTokens::isValid() {
 	return _primaryCommandType == Invalid;
 }
 
-// getters
 CommandTokens::PrimaryCommandType CommandTokens::getPrimaryCommand() {
 	return _primaryCommandType;
 }
@@ -66,7 +65,6 @@ std::string CommandTokens::getOtherCommandParameter() {
 	return _otherCommandParameter;
 }
 
-// setters
 void CommandTokens::setPrimaryCommand(PrimaryCommandType newPrimaryCommand) {
 	_primaryCommandType = newPrimaryCommand;
 }

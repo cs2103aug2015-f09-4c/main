@@ -9,7 +9,7 @@ EditCommandTokeniser::~EditCommandTokeniser(void) {
 }
 
 CommandTokens EditCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	_commandTokens.resetMemberVariables();
+	_commandTokens.reset();
 	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Edit);
 
 	if (isEditName(userInput)) {

@@ -9,7 +9,7 @@ CompleteCommandTokeniser::~CompleteCommandTokeniser(void) {
 }
 
 CommandTokens CompleteCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	_commandTokens.resetMemberVariables();
+	_commandTokens.reset();
 	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Complete);
 
 	tokeniseCompleteIndexCommand(userInput);

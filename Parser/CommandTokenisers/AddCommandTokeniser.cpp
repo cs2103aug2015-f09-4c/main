@@ -18,102 +18,29 @@ bool AddCommandTokeniser::isValidCommand(std::string userInput) {
 }
 
 CommandTokens AddCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	_commandTokens.resetMemberVariables();
+	_commandTokens.reset();
 	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Add);
 
-	if (hasTags(userInput)) {
+	if (isTagged(userInput)) {
 		tokeniseTags(userInput);
 		userInput = trimTags(userInput);
 	}
 
 	if (isAddFromTo(userInput)) {
-		tokeniseAddActivityCommand(userInput);
+		tokeniseAddFromTo(userInput);
 	} else if (isAddBy(userInput)) {
-		tokeniseAddTodoCommand(userInput);
+		tokeniseAddBy(userInput);
 	} else if (isAddFloating(userInput)) {
-		tokeniseAddFloatingCommand(userInput);
+		tokeniseAddFloating(userInput);
 	}
 
 	return _commandTokens;
 }
 
-std::string AddCommandTokeniser::trimTags(std::string userInput) {
-	int endIndex = userInput.find(" #");
-	return userInput.substr(0, endIndex);
-}
-
-bool AddCommandTokeniser::hasTags(std::string userInput) {
+bool AddCommandTokeniser::isTagged(std::string userInput) {
 	return std::regex_match(userInput,
 	                        std::regex(".+?( #[^ ]+)+",
 	                                   std::regex_constants::ECMAScript));
-}
-
-// returns true if userInput contains "from" and subsequently "to";
-// case-insensitive
-bool AddCommandTokeniser::isAddFromTo(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("add .+ from .+ to .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
-}
-
-// returns true if userInput contains "by"; case-insensitive
-bool AddCommandTokeniser::isAddBy(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("add .+ by .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
-}
-
-// returns true if userInput contains "by"; case-insensitive
-bool AddCommandTokeniser::isAddFloating(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("add .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
-}
-
-// extract taskName, startDateTime, and endDateTime; and call the setters on
-// _commandTokens to set these three fields
-void AddCommandTokeniser::tokeniseAddActivityCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Timed);
-
-	std::smatch matchResults;
-	std::regex_match(userInput, matchResults,
-	                 std::regex("add (.+) from (.+) TO (.+)",
-	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
-
-	std::string taskName = matchResults[1];
-	_commandTokens.setTaskName(taskName);
-
-	_commandTokens.setStartDateTime(parseUserInputDate(matchResults[2]));
-	_commandTokens.setEndDateTime(parseUserInputDate(matchResults[3]));
-}
-
-// extract taskName, and endDateTime; and call the setters on _commandTokens
-// to set these two fields
-void AddCommandTokeniser::tokeniseAddTodoCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Todo);
-
-	std::smatch matchResults;
-	std::regex_match(userInput, matchResults,
-	                 std::regex("add (.+) by (.+)",
-	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
-
-	std::string taskName = matchResults[1];
-	_commandTokens.setTaskName(taskName);
-
-	_commandTokens.setEndDateTime(parseUserInputDate(matchResults[2]));
-}
-
-// extract taskName; and call the setter on _commandTokens to set this field
-void AddCommandTokeniser::tokeniseAddFloatingCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Floating);
-
-	std::smatch matchResults;
-	std::regex_match(userInput, matchResults,
-	                 std::regex("add (.+)",
-	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
-
-	std::string taskName = matchResults[1];
-	_commandTokens.setTaskName(taskName);
 }
 
 void AddCommandTokeniser::tokeniseTags(std::string userInput) {
@@ -122,7 +49,7 @@ void AddCommandTokeniser::tokeniseTags(std::string userInput) {
 	std::smatch matchResults;
 	while (std::regex_search(userInput, matchResults,
 	                         std::regex(" (#[^ ]+)",
-	                                    std::regex_constants::ECMAScript | std::regex_constants::icase))) {
+	                                    std::regex_constants::ECMAScript))) {
 
 		newTags.push_back(matchResults[1]);
 
@@ -131,4 +58,70 @@ void AddCommandTokeniser::tokeniseTags(std::string userInput) {
 	}
 
 	_commandTokens.setTags(newTags);
+}
+
+std::string AddCommandTokeniser::trimTags(std::string userInput) {
+	int endIndex = userInput.find(" #");
+	return userInput.substr(0, endIndex);
+}
+
+bool AddCommandTokeniser::isAddFromTo(std::string userInput) {
+	return std::regex_match(userInput,
+	                        std::regex("ADD .+ FROM .+ TO .+",
+	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
+bool AddCommandTokeniser::isAddBy(std::string userInput) {
+	return std::regex_match(userInput,
+	                        std::regex("ADD .+ BY .+",
+	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
+bool AddCommandTokeniser::isAddFloating(std::string userInput) {
+	return std::regex_match(userInput,
+	                        std::regex("ADD .+",
+	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
+void AddCommandTokeniser::tokeniseAddFromTo(std::string userInput) {
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Timed);
+
+	std::smatch matchResults;
+	std::regex_match(userInput, matchResults,
+	                 std::regex("ADD (.+) FROM (.+) TO (.+)",
+	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
+
+	std::string taskName = matchResults[1];
+	boost::posix_time::ptime startDateTime = parseUserInputDate(matchResults[2]);
+	boost::posix_time::ptime endDateTime = parseUserInputDate(matchResults[3]);
+
+	_commandTokens.setTaskName(taskName);
+	_commandTokens.setStartDateTime(startDateTime);
+	_commandTokens.setEndDateTime(endDateTime);
+}
+
+void AddCommandTokeniser::tokeniseAddBy(std::string userInput) {
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Todo);
+
+	std::smatch matchResults;
+	std::regex_match(userInput, matchResults,
+	                 std::regex("ADD (.+) BY (.+)",
+	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
+
+	std::string taskName = matchResults[1];
+	_commandTokens.setTaskName(taskName);
+
+	_commandTokens.setEndDateTime(parseUserInputDate(matchResults[2]));
+}
+
+void AddCommandTokeniser::tokeniseAddFloating(std::string userInput) {
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Floating);
+
+	std::smatch matchResults;
+	std::regex_match(userInput, matchResults,
+	                 std::regex("ADD (.+)",
+	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
+
+	std::string taskName = matchResults[1];
+	_commandTokens.setTaskName(taskName);
 }

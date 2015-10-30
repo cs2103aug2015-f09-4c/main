@@ -9,7 +9,7 @@ DeleteCommandTokeniser::~DeleteCommandTokeniser(void) {
 }
 
 CommandTokens DeleteCommandTokeniser::tokeniseUserInput(::std::string userInput) {
-	_commandTokens.resetMemberVariables();
+	_commandTokens.reset();
 	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Delete);
 
 	if (isDeleteAll(userInput)) {

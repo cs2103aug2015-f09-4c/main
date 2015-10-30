@@ -9,7 +9,7 @@ DisplayCommandTokeniser::~DisplayCommandTokeniser(void) {
 }
 
 CommandTokens DisplayCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	_commandTokens.resetMemberVariables();
+	_commandTokens.reset();
 	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Display);
 
 	if (isDisplayAll(userInput)) {
