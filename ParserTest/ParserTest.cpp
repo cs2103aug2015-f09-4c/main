@@ -8,7 +8,7 @@ namespace ParserTest {
 	public:
 		Parser _parser;
 
-		TEST_METHOD(unitTest_parser_TokeniseAddActivityCommand) {
+		TEST_METHOD(unitTest_parser_TokeniseAddFromToCommand) {
 			std::string testUserInput = "ADD activityTask FROM 2002-01-20 23:59:59.000 TO 2002-01-22 23:59:59.000";
 			CommandTokens actual, expected;
 
@@ -23,7 +23,7 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseAddTodoCommand) {
+		TEST_METHOD(unitTest_parser_TokeniseAddByCommand) {
 			std::string testUserInput = "ADD todoTask BY 2002-01-22 23:59:59.000";
 			CommandTokens actual, expected;
 
