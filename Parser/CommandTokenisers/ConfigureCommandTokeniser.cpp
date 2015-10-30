@@ -36,6 +36,8 @@ bool ConfigureCommandTokeniser::isConfigureSaveLocation(std::string userInput) {
 }
 
 void ConfigureCommandTokeniser::tokeniseConfigureSaveLocation(std::string userInput) {
+	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::SaveLocation);
+
 	std::smatch matchResults;
 
 	std::regex_match(userInput,

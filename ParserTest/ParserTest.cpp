@@ -66,6 +66,21 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
+		TEST_METHOD(unitTest_parser_TokeniseConfigureSaveLocationCommand) {
+			std::string testUserInput = "CONFIGURE SAVE LOCATION D:\\";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Configure,
+			                                      CommandTokens::SecondaryCommandType::SaveLocation,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      -1);
+			
+			expected.setOtherCommandParameter("D:\\");
+			compareCommandTokens(expected, actual);
+		}
+
 		TEST_METHOD(unitTest_parser_TokeniseDeleteFromTo) {
 			std::string testUserInput = "DELETE FROM 2002-01-20 23:59:59.000 TO 2002-01-22 23:59:59.000";
 			CommandTokens actual, expected;
