@@ -18,23 +18,24 @@ bool AddCommandTokeniser::isValidCommand(std::string userInput) {
 }
 
 CommandTokens AddCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	_commandTokens.reset();
-	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Add);
+	assert(isValidCommand(userInput));
+
+	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Add);
 
 	if (isTagged(userInput)) {
-		tokeniseTags(userInput);
+		tokeniseTags(userInput, &tokenisedCommand);
 		userInput = trimTags(userInput);
 	}
 
 	if (isAddFromTo(userInput)) {
-		tokeniseAddFromTo(userInput);
+		tokeniseAddFromTo(userInput, &tokenisedCommand);
 	} else if (isAddBy(userInput)) {
-		tokeniseAddBy(userInput);
+		tokeniseAddBy(userInput, &tokenisedCommand);
 	} else if (isAddFloating(userInput)) {
-		tokeniseAddFloating(userInput);
+		tokeniseAddFloating(userInput, &tokenisedCommand);
 	}
 
-	return _commandTokens;
+	return tokenisedCommand;
 }
 
 bool AddCommandTokeniser::isTagged(std::string userInput) {
@@ -43,7 +44,7 @@ bool AddCommandTokeniser::isTagged(std::string userInput) {
 	                                   std::regex_constants::ECMAScript));
 }
 
-void AddCommandTokeniser::tokeniseTags(std::string userInput) {
+void AddCommandTokeniser::tokeniseTags(std::string userInput, CommandTokens* tokenisedCommand) {
 	std::vector<std::string> newTags;
 
 	std::smatch matchResults;
@@ -57,7 +58,7 @@ void AddCommandTokeniser::tokeniseTags(std::string userInput) {
 		userInput = matchResults.suffix().str();
 	}
 
-	_commandTokens.setTags(newTags);
+	tokenisedCommand->setTags(newTags);
 }
 
 std::string AddCommandTokeniser::trimTags(std::string userInput) {
@@ -83,8 +84,8 @@ bool AddCommandTokeniser::isAddFloating(std::string userInput) {
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
-void AddCommandTokeniser::tokeniseAddFromTo(std::string userInput) {
-	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Timed);
+void AddCommandTokeniser::tokeniseAddFromTo(std::string userInput, CommandTokens* tokenisedCommand) {
+	tokenisedCommand->setSecondaryCommand(CommandTokens::SecondaryCommandType::Timed);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
@@ -95,13 +96,13 @@ void AddCommandTokeniser::tokeniseAddFromTo(std::string userInput) {
 	boost::posix_time::ptime startDateTime = parseUserInputDate(matchResults[2]);
 	boost::posix_time::ptime endDateTime = parseUserInputDate(matchResults[3]);
 
-	_commandTokens.setTaskName(taskName);
-	_commandTokens.setStartDateTime(startDateTime);
-	_commandTokens.setEndDateTime(endDateTime);
+	tokenisedCommand->setTaskName(taskName);
+	tokenisedCommand->setStartDateTime(startDateTime);
+	tokenisedCommand->setEndDateTime(endDateTime);
 }
 
-void AddCommandTokeniser::tokeniseAddBy(std::string userInput) {
-	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Todo);
+void AddCommandTokeniser::tokeniseAddBy(std::string userInput, CommandTokens* tokenisedCommand) {
+	tokenisedCommand->setSecondaryCommand(CommandTokens::SecondaryCommandType::Todo);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
@@ -109,13 +110,14 @@ void AddCommandTokeniser::tokeniseAddBy(std::string userInput) {
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	std::string taskName = matchResults[1];
-	_commandTokens.setTaskName(taskName);
+	boost::posix_time::ptime endDateTime = parseUserInputDate(matchResults[2]);
 
-	_commandTokens.setEndDateTime(parseUserInputDate(matchResults[2]));
+	tokenisedCommand->setTaskName(taskName);
+	tokenisedCommand->setEndDateTime(endDateTime);
 }
 
-void AddCommandTokeniser::tokeniseAddFloating(std::string userInput) {
-	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Floating);
+void AddCommandTokeniser::tokeniseAddFloating(std::string userInput, CommandTokens* tokenisedCommand) {
+	tokenisedCommand->setSecondaryCommand(CommandTokens::SecondaryCommandType::Floating);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
@@ -123,5 +125,5 @@ void AddCommandTokeniser::tokeniseAddFloating(std::string userInput) {
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	std::string taskName = matchResults[1];
-	_commandTokens.setTaskName(taskName);
+	tokenisedCommand->setTaskName(taskName);
 }
