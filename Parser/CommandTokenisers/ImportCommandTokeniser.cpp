@@ -18,6 +18,10 @@ CommandTokens ImportCommandTokeniser::tokeniseUserInput(std::string userInput) {
 	return _commandTokens;
 }
 
+bool ImportCommandTokeniser::isValidCommand(std::string userInput) {
+	return isImportCommand(userInput);
+}
+
 bool ImportCommandTokeniser::isImportCommand(std::string userInput) {
 	if (isImportLocalCommand(userInput)) {
 		return true;

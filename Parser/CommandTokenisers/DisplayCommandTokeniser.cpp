@@ -69,6 +69,10 @@ void DisplayCommandTokeniser::tokeniseDisplayFromCommand(std::string userInput) 
 	_commandTokens.setStartDateTime(parseUserInputDate(matchResults[1]));
 }
 
+bool DisplayCommandTokeniser::isValidCommand(std::string userInput) {
+	return isDisplayCommand(userInput);
+}
+
 bool DisplayCommandTokeniser::isDisplayCommand(std::string userInput) {
 	if (isDisplayFloating(userInput) ||
 		isDisplayBy(userInput) ||

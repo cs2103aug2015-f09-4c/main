@@ -8,6 +8,7 @@ public:
 	CommandTokeniser(void);
 	virtual ~CommandTokeniser(void);
 	virtual CommandTokens tokeniseUserInput(std::string userInput);
+	virtual bool isValidCommand(std::string userInput) = 0;
 
 protected:
 	CommandTokens _commandTokens;

@@ -29,6 +29,10 @@ CommandTokens DeleteCommandTokeniser::tokeniseUserInput(::std::string userInput)
 	return _commandTokens;
 }
 
+bool DeleteCommandTokeniser::isValidCommand(std::string userInput) {
+	return isDeleteCommand(userInput);
+}
+
 bool DeleteCommandTokeniser::isDeleteCommand(std::string userInput) {
 	if (isDeleteAll(userInput) ||
 		isDeleteCompleted(userInput) ||

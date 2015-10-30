@@ -11,6 +11,7 @@ public:
 	virtual ~AddCommandTokeniser(void);
 	virtual CommandTokens tokeniseUserInput(std::string userInput) override;
 	static bool isAddCommand(std::string userInput);
+	virtual bool isValidCommand(std::string userInput) override;
 
 private:
 	// identifiers to determine the exact type of ADD command called

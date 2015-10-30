@@ -8,6 +8,10 @@ ConfigureCommandTokeniser::~ConfigureCommandTokeniser(void) {
 	// nothing here
 }
 
+bool ConfigureCommandTokeniser::isValidCommand(std::string userInput) {
+	return isConfigureCommand(userInput);
+}
+
 bool ConfigureCommandTokeniser::isConfigureCommand(std::string userInput) {
 	if (isConfigureSaveLocation(userInput)) {
 		return true;

@@ -20,6 +20,10 @@ CommandTokens TagCommandTokeniser::tokeniseUserInput(std::string userInput) {
 	return _commandTokens;
 }
 
+bool TagCommandTokeniser::isValidCommand(std::string userInput) {
+	return isTagCommand(userInput);
+}
+
 bool TagCommandTokeniser::isTagCommand(std::string userInput) {
 	if (isTagIndexCommand(userInput)) {
 		return true;

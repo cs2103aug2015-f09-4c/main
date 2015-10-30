@@ -23,6 +23,10 @@ CommandTokens EditCommandTokeniser::tokeniseUserInput(std::string userInput) {
 	return _commandTokens;
 }
 
+bool EditCommandTokeniser::isValidCommand(std::string userInput) {
+	return isEditCommand(userInput);
+}
+
 bool EditCommandTokeniser::isEditCommand(std::string userInput) {
 	if (isEditEndDate(userInput) ||
 		isEditStartDate(userInput) ||

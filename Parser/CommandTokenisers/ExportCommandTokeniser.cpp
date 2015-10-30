@@ -19,6 +19,10 @@ CommandTokens ExportCommandTokeniser::tokeniseUserInput(std::string userInput) {
 	return _commandTokens;
 }
 
+bool ExportCommandTokeniser::isValidCommand(std::string userInput) {
+	return isExportCommand(userInput);
+}
+
 bool ExportCommandTokeniser::isExportCommand(std::string userInput) {
 	if (isExportToLocalDiskCommand(userInput)) {
 		return true;

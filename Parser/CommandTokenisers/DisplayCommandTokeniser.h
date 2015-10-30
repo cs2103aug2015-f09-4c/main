@@ -11,6 +11,7 @@ public:
 	virtual ~DisplayCommandTokeniser(void);
 	virtual CommandTokens tokeniseUserInput(std::string userInput) override;
 	static bool isDisplayCommand(std::string userInput);
+	virtual bool isValidCommand(std::string userInput) override;
 
 private:
 	// identifiers to determine the exact type of DISPLAY command called

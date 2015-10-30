@@ -11,6 +11,7 @@ public:
 	virtual ~UndoCommandTokeniser(void);
 	virtual CommandTokens tokeniseUserInput(std::string userInput) override;
 	static bool isUndoCommand(std::string userInput);
+	virtual bool isValidCommand(std::string userInput) override;
 
 private:
 	// identifiers to determine the exact type of UNDO command called

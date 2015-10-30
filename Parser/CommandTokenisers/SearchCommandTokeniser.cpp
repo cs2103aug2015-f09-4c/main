@@ -28,6 +28,10 @@ CommandTokens SearchCommandTokeniser::tokeniseUserInput(std::string userInput) {
 	return _commandTokens;
 }
 
+bool SearchCommandTokeniser::isValidCommand(std::string userInput) {
+	return isSearchCommand(userInput);
+}
+
 bool SearchCommandTokeniser::isSearchCommand(std::string userInput) {
 	if (isSearchNameCommand(userInput) ||
 		isSearchStartBeforeCommand(userInput) ||

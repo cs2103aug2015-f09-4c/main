@@ -8,6 +8,10 @@ AddCommandTokeniser::~AddCommandTokeniser(void) {
 	// nothing here
 }
 
+bool AddCommandTokeniser::isValidCommand(std::string userInput) {
+	return isAddCommand(userInput);
+}
+
 bool AddCommandTokeniser::isAddCommand(std::string userInput) {
 	if (isAddActivityCommand(userInput) || isAddTodoCommand(userInput) || isAddFloatingCommand(userInput)) {
 		return true;

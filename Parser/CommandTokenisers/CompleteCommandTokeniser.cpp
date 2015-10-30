@@ -16,6 +16,10 @@ CommandTokens CompleteCommandTokeniser::tokeniseUserInput(std::string userInput)
 	return _commandTokens;
 }
 
+bool CompleteCommandTokeniser::isValidCommand(std::string userInput) {
+	return isCompleteCommand(userInput);
+}
+
 bool CompleteCommandTokeniser::isCompleteCommand(std::string userInput) {
 	if (isCompleteIndexCommand(userInput)) {
 		return true;

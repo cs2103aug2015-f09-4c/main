@@ -11,6 +11,7 @@ public:
 	virtual ~ExportCommandTokeniser(void);
 	virtual CommandTokens tokeniseUserInput(std::string userInput) override;
 	static bool isExportCommand(std::string userInput);
+	virtual bool isValidCommand(std::string userInput) override;
 
 private:
 	// identifiers to determine the exact type of EXPORT command called,

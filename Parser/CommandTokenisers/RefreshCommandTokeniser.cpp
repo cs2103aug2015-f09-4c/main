@@ -19,6 +19,10 @@ CommandTokens RefreshCommandTokeniser::tokeniseUserInput(std::string userInput) 
 	return _commandTokens;
 }
 
+bool RefreshCommandTokeniser::isValidCommand(std::string userInput) {
+	return isRefreshCommand(userInput);
+}
+
 bool RefreshCommandTokeniser::isRefreshCommand(std::string userInput) {
 	if (isRefreshSimpliciterCommand(userInput)) {
 		return true;

@@ -19,6 +19,10 @@ CommandTokens UndoCommandTokeniser::tokeniseUserInput(std::string userInput) {
 	return _commandTokens;
 }
 
+bool UndoCommandTokeniser::isValidCommand(std::string userInput) {
+	return isUndoCommand(userInput);
+}
+
 bool UndoCommandTokeniser::isUndoCommand(std::string userInput) {
 	if (isUndoOnceCommand(userInput)) {
 		return true;
