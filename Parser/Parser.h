@@ -4,6 +4,7 @@
 #include "CommandTokeniser.h"
 #include "Logger\Logger.h"
 #include "CommandTokenisers\AddCommandTokeniser.h"
+#include "CommandTokenisers\ConfigureCommandTokeniser.h"
 #include "CommandTokenisers\CompleteCommandTokeniser.h"
 #include "CommandTokenisers\DeleteCommandTokeniser.h"
 #include "CommandTokenisers\DisplayCommandTokeniser.h"
@@ -29,6 +30,7 @@ private:
 	CommandTokens _invalidCommandTokens;
 
 	AddCommandTokeniser _addCommandTokeniser;
+	ConfigureCommandTokeniser _configureCommandTokeniser;
 	CompleteCommandTokeniser _completeCommandTokeniser;
 	DeleteCommandTokeniser _deleteCommandTokeniser;
 	DisplayCommandTokeniser _displayCommandTokeniser;
@@ -44,6 +46,7 @@ private:
 	void selectCommandTokeniser(std::string userInput);
 
 	bool isAddCommand(std::string& userInput);
+	bool isConfigureCommand(std::string& userInput);
 	bool isCompleteCommand(std::string& userInput);
 	bool isDeleteCommand(std::string& userInput);
 	bool isEditCommand(std::string& userInput);

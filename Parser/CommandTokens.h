@@ -10,6 +10,7 @@ public:
 	enum PrimaryCommandType {
 		Add,
 		Complete,
+		Configure,
 		Delete,
 		Display,
 		Edit,
@@ -35,6 +36,7 @@ public:
 		Index,
 		Name,
 		None,
+		SaveLocation,
 		Start,
 		StartAfter,
 		StartBefore,
