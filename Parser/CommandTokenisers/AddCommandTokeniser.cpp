@@ -9,7 +9,7 @@ AddCommandTokeniser::~AddCommandTokeniser(void) {
 	// nothing here
 }
 
-bool AddCommandTokeniser::isValidCommand(std::string userInput) {
+bool AddCommandTokeniser::canTokeniseUserInput(std::string userInput) {
 	if (isAddFromTo(userInput) ||
 		isAddBy(userInput) ||
 		isAddFloating(userInput)) {
@@ -19,7 +19,7 @@ bool AddCommandTokeniser::isValidCommand(std::string userInput) {
 }
 
 CommandTokens AddCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	assert(isValidCommand(userInput));
+	assert(canTokeniseUserInput(userInput));
 
 	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Add);
 

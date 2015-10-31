@@ -9,7 +9,7 @@ ConfigureCommandTokeniser::~ConfigureCommandTokeniser(void) {
 	// nothing here
 }
 
-bool ConfigureCommandTokeniser::isValidCommand(std::string userInput) {
+bool ConfigureCommandTokeniser::canTokeniseUserInput(std::string userInput) {
 	if (isConfigureSaveLocation(userInput)) {
 		return true;
 	}
@@ -17,7 +17,7 @@ bool ConfigureCommandTokeniser::isValidCommand(std::string userInput) {
 }
 
 CommandTokens ConfigureCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	assert(isValidCommand(userInput));
+	assert(canTokeniseUserInput(userInput));
 
 	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Configure);
 

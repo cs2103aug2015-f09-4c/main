@@ -9,7 +9,7 @@ DeleteCommandTokeniser::~DeleteCommandTokeniser(void) {
 	// nothing here
 }
 
-bool DeleteCommandTokeniser::isValidCommand(std::string userInput) {
+bool DeleteCommandTokeniser::canTokeniseUserInput(std::string userInput) {
 	if (isDeleteAll(userInput) ||
 		isDeleteCompleted(userInput) ||
 		isDeleteIndex(userInput) ||
@@ -22,7 +22,7 @@ bool DeleteCommandTokeniser::isValidCommand(std::string userInput) {
 }
 
 CommandTokens DeleteCommandTokeniser::tokeniseUserInput(::std::string userInput) {
-	assert(isValidCommand(userInput));
+	assert(canTokeniseUserInput(userInput));
 
 	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Delete);
 

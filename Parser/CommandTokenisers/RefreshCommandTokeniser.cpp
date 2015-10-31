@@ -9,7 +9,7 @@ RefreshCommandTokeniser::~RefreshCommandTokeniser(void) {
 	// nothing
 }
 
-bool RefreshCommandTokeniser::isValidCommand(std::string userInput) {
+bool RefreshCommandTokeniser::canTokeniseUserInput(std::string userInput) {
 	if (isRefreshBasic(userInput)) {
 		return true;
 	}
@@ -17,7 +17,7 @@ bool RefreshCommandTokeniser::isValidCommand(std::string userInput) {
 }
 
 CommandTokens RefreshCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	assert(isValidCommand(userInput));
+	assert(canTokeniseUserInput(userInput));
 
 	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Refresh);
 

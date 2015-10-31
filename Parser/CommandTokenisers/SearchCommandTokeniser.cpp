@@ -9,7 +9,7 @@ SearchCommandTokeniser::~SearchCommandTokeniser(void) {
 	// nothing
 }
 
-bool SearchCommandTokeniser::isValidCommand(std::string userInput) {
+bool SearchCommandTokeniser::canTokeniseUserInput(std::string userInput) {
 	if (isSearchName(userInput) ||
 		isSearchStartBefore(userInput) ||
 		isSearchStartAfter(userInput) ||
@@ -22,7 +22,7 @@ bool SearchCommandTokeniser::isValidCommand(std::string userInput) {
 }
 
 CommandTokens SearchCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	assert(isValidCommand(userInput));
+	assert(canTokeniseUserInput(userInput));
 
 	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Search);
 

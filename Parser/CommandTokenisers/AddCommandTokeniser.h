@@ -7,7 +7,7 @@ public:
 	AddCommandTokeniser(void);
 	virtual ~AddCommandTokeniser(void);
 
-	virtual bool isValidCommand(std::string userInput) override;
+	virtual bool canTokeniseUserInput(std::string userInput) override;
 	virtual CommandTokens tokeniseUserInput(std::string userInput) override;
 
 private:

@@ -9,7 +9,7 @@ ExportCommandTokeniser::~ExportCommandTokeniser(void) {
 	// nothing here
 }
 
-bool ExportCommandTokeniser::isValidCommand(std::string userInput) {
+bool ExportCommandTokeniser::canTokeniseUserInput(std::string userInput) {
 	if (isExportToLocalDisk(userInput)) {
 		return true;
 	}
@@ -17,7 +17,7 @@ bool ExportCommandTokeniser::isValidCommand(std::string userInput) {
 }
 
 CommandTokens ExportCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	assert(isValidCommand(userInput));
+	assert(canTokeniseUserInput(userInput));
 
 	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Export);
 

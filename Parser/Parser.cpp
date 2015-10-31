@@ -52,7 +52,7 @@ CommandTokens Parser::parse(std::string userInput) {
 
 CommandTokeniser* Parser::getCommandTokeniser(std::string userInput) {
 	for (CommandTokeniser* commandTokeniser : _commandTokenisers) {
-		if (commandTokeniser->isValidCommand(userInput)) {
+		if (commandTokeniser->canTokeniseUserInput(userInput)) {
 			return commandTokeniser;
 		}
 	}

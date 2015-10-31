@@ -9,7 +9,7 @@ CompleteCommandTokeniser::~CompleteCommandTokeniser(void) {
 	// nothing here
 }
 
-bool CompleteCommandTokeniser::isValidCommand(std::string userInput) {
+bool CompleteCommandTokeniser::canTokeniseUserInput(std::string userInput) {
 	if (isCompleteIndex(userInput)) {
 		return true;
 	}
@@ -17,7 +17,7 @@ bool CompleteCommandTokeniser::isValidCommand(std::string userInput) {
 }
 
 CommandTokens CompleteCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	assert(isValidCommand(userInput));
+	assert(canTokeniseUserInput(userInput));
 
 	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Complete);
 

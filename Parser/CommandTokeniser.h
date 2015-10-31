@@ -8,8 +8,9 @@ class CommandTokeniser {
 public:
 	CommandTokeniser(void);
 	virtual ~CommandTokeniser(void);
-	virtual CommandTokens tokeniseUserInput(std::string userInput);
-	virtual bool isValidCommand(std::string userInput) = 0;
+
+	virtual CommandTokens tokeniseUserInput(std::string userInput) = 0;
+	virtual bool canTokeniseUserInput(std::string userInput) = 0;
 
 protected:
 	DateParser _dateParser;

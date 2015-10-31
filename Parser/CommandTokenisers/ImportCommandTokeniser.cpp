@@ -8,7 +8,7 @@ ImportCommandTokeniser::~ImportCommandTokeniser(void) {
 	// nothing
 }
 
-bool ImportCommandTokeniser::isValidCommand(std::string userInput) {
+bool ImportCommandTokeniser::canTokeniseUserInput(std::string userInput) {
 	if (isImportLocal(userInput)) {
 		return true;
 	}
@@ -16,7 +16,7 @@ bool ImportCommandTokeniser::isValidCommand(std::string userInput) {
 }
 
 CommandTokens ImportCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	assert(isValidCommand(userInput));
+	assert(canTokeniseUserInput(userInput));
 
 	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Import);
 

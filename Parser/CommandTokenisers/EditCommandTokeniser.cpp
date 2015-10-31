@@ -9,7 +9,7 @@ EditCommandTokeniser::~EditCommandTokeniser(void) {
 	// nothing here
 }
 
-bool EditCommandTokeniser::isValidCommand(std::string userInput) {
+bool EditCommandTokeniser::canTokeniseUserInput(std::string userInput) {
 	if (isEditName(userInput) ||
 		isEditEndDate(userInput) ||
 		isEditStartDate(userInput)) {
@@ -19,7 +19,7 @@ bool EditCommandTokeniser::isValidCommand(std::string userInput) {
 }
 
 CommandTokens EditCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	assert(isValidCommand(userInput));
+	assert(canTokeniseUserInput(userInput));
 
 	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Edit);
 

@@ -9,7 +9,7 @@ UntagCommandTokeniser::~UntagCommandTokeniser(void) {
 	// nothing here
 }
 
-bool UntagCommandTokeniser::isValidCommand(std::string userInput) {
+bool UntagCommandTokeniser::canTokeniseUserInput(std::string userInput) {
 	if (isUntagIndex(userInput)) {
 		return true;
 	}
@@ -17,7 +17,7 @@ bool UntagCommandTokeniser::isValidCommand(std::string userInput) {
 }
 
 CommandTokens UntagCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	assert(isValidCommand(userInput));
+	assert(canTokeniseUserInput(userInput));
 
 	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Untag);
 

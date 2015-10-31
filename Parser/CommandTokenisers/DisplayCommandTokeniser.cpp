@@ -9,7 +9,7 @@ DisplayCommandTokeniser::~DisplayCommandTokeniser(void) {
 	// nothing here
 }
 
-bool DisplayCommandTokeniser::isValidCommand(std::string userInput) {
+bool DisplayCommandTokeniser::canTokeniseUserInput(std::string userInput) {
 	if (isDisplayAll(userInput) ||
 		isDisplayFloating(userInput) ||
 		isDisplayFromTo(userInput) ||
@@ -21,7 +21,7 @@ bool DisplayCommandTokeniser::isValidCommand(std::string userInput) {
 }
 
 CommandTokens DisplayCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	assert(isValidCommand(userInput));
+	assert(canTokeniseUserInput(userInput));
 
 	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Display);
 

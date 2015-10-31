@@ -9,7 +9,7 @@ TagCommandTokeniser::~TagCommandTokeniser(void) {
 	// nothing here
 }
 
-bool TagCommandTokeniser::isValidCommand(std::string userInput) {
+bool TagCommandTokeniser::canTokeniseUserInput(std::string userInput) {
 	if (isTagIndex(userInput)) {
 		return true;
 	}
@@ -17,7 +17,7 @@ bool TagCommandTokeniser::isValidCommand(std::string userInput) {
 }
 
 CommandTokens TagCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	assert(isValidCommand(userInput));
+	assert(canTokeniseUserInput(userInput));
 
 	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Tag);
 
