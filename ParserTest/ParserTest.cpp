@@ -1,3 +1,4 @@
+//@@ author A0097681N
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
@@ -8,7 +9,7 @@ namespace ParserTest {
 	public:
 		Parser _parser;
 
-		TEST_METHOD(unitTest_parser_TokeniseAddActivityCommand) {
+		TEST_METHOD(unitTest_parser_TokeniseAddFromTo) {
 			std::string testUserInput = "ADD activityTask FROM 2002-01-20 23:59:59.000 TO 2002-01-22 23:59:59.000";
 			CommandTokens actual, expected;
 
@@ -23,7 +24,7 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseAddTodoCommand) {
+		TEST_METHOD(unitTest_parser_TokeniseAddBy) {
 			std::string testUserInput = "ADD todoTask BY 2002-01-22 23:59:59.000";
 			CommandTokens actual, expected;
 
@@ -38,7 +39,7 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseAddFloatingCommand) {
+		TEST_METHOD(unitTest_parser_TokeniseAddFloating) {
 			std::string testUserInput = "ADD floatingTask";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
@@ -52,7 +53,7 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseCompleteCommand) {
+		TEST_METHOD(unitTest_parser_TokeniseComplete) {
 			std::string testUserInput = "COMPLETE 11";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
@@ -62,6 +63,77 @@ namespace ParserTest {
 			                                      "",
 			                                      "",
 			                                      11);
+
+			compareCommandTokens(expected, actual);
+		}
+
+		TEST_METHOD(unitTest_parser_TokeniseConfigureSaveLocation) {
+			std::string testUserInput = "CONFIGURE SAVE LOCATION D:\\";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Configure,
+			                                      CommandTokens::SecondaryCommandType::SaveLocation,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      -1);
+
+			expected.setOtherCommandParameter("D:\\");
+			compareCommandTokens(expected, actual);
+		}
+
+		TEST_METHOD(unitTest_parser_TokeniseDeleteAll) {
+			std::string testUserInput = "DELETE ALL";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Delete,
+			                                      CommandTokens::SecondaryCommandType::All,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      -1);
+
+			compareCommandTokens(expected, actual);
+		}
+
+		TEST_METHOD(unitTest_parser_TokeniseDeleteCompleted) {
+			std::string testUserInput = "DELETE COMPLETED";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Delete,
+			                                      CommandTokens::SecondaryCommandType::Completed,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      -1);
+
+			compareCommandTokens(expected, actual);
+		}
+
+		TEST_METHOD(unitTest_parser_TokeniseDeleteIndex) {
+			std::string testUserInput = "DELETE 3";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Delete,
+			                                      CommandTokens::SecondaryCommandType::Index,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      3);
+
+			compareCommandTokens(expected, actual);
+		}
+
+		TEST_METHOD(unitTest_parser_TokeniseDeleteBy) {
+			std::string testUserInput = "DELETE BY 2002-01-22 23:59:59.000";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Delete,
+			                                      CommandTokens::SecondaryCommandType::Todo,
+			                                      "",
+			                                      "",
+			                                      "2002-01-22 23:59:59.000",
+			                                      -1);
 
 			compareCommandTokens(expected, actual);
 		}
@@ -85,76 +157,6 @@ namespace ParserTest {
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
 			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Delete,
-			                                      CommandTokens::SecondaryCommandType::Start,
-			                                      "",
-			                                      "2002-01-20 23:59:59.000",
-			                                      "",
-			                                      -1);
-
-			compareCommandTokens(expected, actual);
-		}
-
-		TEST_METHOD(unitTest_parser_TokeniseDeleteAll) {
-			std::string testUserInput = "DELETE ALL";
-			CommandTokens actual, expected;
-			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Delete,
-			                                      CommandTokens::SecondaryCommandType::All,
-			                                      "",
-			                                      "",
-			                                      "",
-			                                      -1);
-
-			compareCommandTokens(expected, actual);
-		}
-
-		TEST_METHOD(unitTest_parser_TokeniseDeleteBy) {
-			std::string testUserInput = "DELETE BY 2002-01-22 23:59:59.000";
-			CommandTokens actual, expected;
-			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Delete,
-			                                      CommandTokens::SecondaryCommandType::Todo,
-			                                      "",
-			                                      "",
-			                                      "2002-01-22 23:59:59.000",
-			                                      -1);
-
-			compareCommandTokens(expected, actual);
-		}
-
-		TEST_METHOD(unitTest_parser_TokeniseDeleteIndex) {
-			std::string testUserInput = "DELETE 3";
-			CommandTokens actual, expected;
-			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Delete,
-			                                      CommandTokens::SecondaryCommandType::Index,
-			                                      "",
-			                                      "",
-			                                      "",
-			                                      3);
-
-			compareCommandTokens(expected, actual);
-		}
-
-		TEST_METHOD(unitTest_parser_TokeniseDisplayBy) {
-			std::string testUserInput = "DISPLAY BY 2002-01-22 23:59:59.000";
-			CommandTokens actual, expected;
-			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Display,
-			                                      CommandTokens::SecondaryCommandType::Todo,
-			                                      "",
-			                                      "",
-			                                      "2002-01-22 23:59:59.000",
-			                                      -1);
-
-			compareCommandTokens(expected, actual);
-		}
-
-		TEST_METHOD(unitTest_parser_TokeniseDisplayFrom) {
-			std::string testUserInput = "DISPLAY FROM 2002-01-20 23:59:59.000";
-			CommandTokens actual, expected;
-			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Display,
 			                                      CommandTokens::SecondaryCommandType::Start,
 			                                      "",
 			                                      "2002-01-20 23:59:59.000",
@@ -192,7 +194,49 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseEditNameCommand) {
+		TEST_METHOD(unitTest_parser_TokeniseDisplayBy) {
+			std::string testUserInput = "DISPLAY BY 2002-01-22 23:59:59.000";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Display,
+			                                      CommandTokens::SecondaryCommandType::Todo,
+			                                      "",
+			                                      "",
+			                                      "2002-01-22 23:59:59.000",
+			                                      -1);
+
+			compareCommandTokens(expected, actual);
+		}
+
+		TEST_METHOD(unitTest_parser_TokeniseDisplayFromTo) {
+			std::string testUserInput = "DISPLAY FROM 2002-01-20 23:59:59.000 TO 2002-01-22 23:59:59.000";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Display,
+			                                      CommandTokens::SecondaryCommandType::Timed,
+			                                      "",
+			                                      "2002-01-20 23:59:59.000",
+			                                      "2002-01-22 23:59:59.000",
+			                                      -1);
+
+			compareCommandTokens(expected, actual);
+		}
+
+		TEST_METHOD(unitTest_parser_TokeniseDisplayFrom) {
+			std::string testUserInput = "DISPLAY FROM 2002-01-20 23:59:59.000";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Display,
+			                                      CommandTokens::SecondaryCommandType::Start,
+			                                      "",
+			                                      "2002-01-20 23:59:59.000",
+			                                      "",
+			                                      -1);
+
+			compareCommandTokens(expected, actual);
+		}
+
+		TEST_METHOD(unitTest_parser_TokeniseEditName) {
 			std::string testUserInput = "EDIT NAME 3 newTaskName";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
@@ -206,7 +250,7 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseEditStartDateCommand) {
+		TEST_METHOD(unitTest_parser_TokeniseEditStartDate) {
 			std::string testUserInput = "EDIT START 5 2002-01-20 23:59:59.000";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
@@ -220,7 +264,7 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseEditEndDateCommand) {
+		TEST_METHOD(unitTest_parser_TokeniseEditEndDate) {
 			std::string testUserInput = "EDIT END 7 2002-01-20 23:59:59.000";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
@@ -234,7 +278,7 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseExportCommand) {
+		TEST_METHOD(unitTest_parser_TokeniseExport) {
 			std::string testUserInput = "EXPORT C:\\";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
@@ -249,7 +293,7 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseImportCommand) {
+		TEST_METHOD(unitTest_parser_TokeniseImport) {
 			std::string testUserInput = "IMPORT D:\\aRandomFile.txt";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
@@ -264,7 +308,7 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseRefreshCommand) {
+		TEST_METHOD(unitTest_parser_TokeniseRefresh) {
 			std::string testUserInput = "REFRESH";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
@@ -278,8 +322,8 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseSearchNameCommand) {
-			std::string testUserInput = "Search Name a Random Task";
+		TEST_METHOD(unitTest_parser_TokeniseSearchName) {
+			std::string testUserInput = "SEARCH NAME a Random Task";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
 			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Search,
@@ -292,8 +336,8 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseSearchStartBeforeCommand) {
-			std::string testUserInput = "Search Start Before 2002-01-20 23:59:59.000";
+		TEST_METHOD(unitTest_parser_TokeniseSearchStartBefore) {
+			std::string testUserInput = "SEARCH START BEFORE 2002-01-20 23:59:59.000";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
 			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Search,
@@ -306,8 +350,8 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseSearchStartAfterCommand) {
-			std::string testUserInput = "Search Start After 2002-01-20 23:59:59.000";
+		TEST_METHOD(unitTest_parser_TokeniseSearchStartAfter) {
+			std::string testUserInput = "SEARCH START AFTER 2002-01-20 23:59:59.000";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
 			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Search,
@@ -320,8 +364,8 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseSearchEndBeforeCommand) {
-			std::string testUserInput = "Search End Before 2002-01-20 23:59:59.000";
+		TEST_METHOD(unitTest_parser_TokeniseSearchEndBefore) {
+			std::string testUserInput = "SEARCH END BEFORE 2002-01-20 23:59:59.000";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
 			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Search,
@@ -334,8 +378,8 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseSearchEndAfterCommand) {
-			std::string testUserInput = "Search End After 2002-01-20 23:59:59.000";
+		TEST_METHOD(unitTest_parser_TokeniseSearchEndAfter) {
+			std::string testUserInput = "SEARCH END AFTER 2002-01-20 23:59:59.000";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
 			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Search,
@@ -348,8 +392,8 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseSearchTagsCommand) {
-			std::string testUserInput = "Search Tags #123";
+		TEST_METHOD(unitTest_parser_TokeniseSearchTags) {
+			std::string testUserInput = "SEARCH TAGS #123";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
 			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Search,
@@ -358,14 +402,14 @@ namespace ParserTest {
 			                                      "",
 			                                      "",
 			                                      -1);
-			std::vector< std::string > newTags;
+			std::vector<std::string> newTags;
 			newTags.push_back("#123");
 			expected.setTags(newTags);
 
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseTagCommand) {
+		TEST_METHOD(unitTest_parser_TokeniseTag) {
 			std::string testUserInput = "TAG 19 #123 #abc";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
@@ -375,7 +419,7 @@ namespace ParserTest {
 			                                      "",
 			                                      "",
 			                                      19);
-			std::vector< std::string > newTags;
+			std::vector<std::string> newTags;
 			newTags.push_back("#123");
 			newTags.push_back("#abc");
 			expected.setTags(newTags);
@@ -383,7 +427,7 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseUndoCommand) {
+		TEST_METHOD(unitTest_parser_TokeniseUndo) {
 			std::string testUserInput = "UNDO";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
@@ -397,7 +441,7 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseUntagCommand) {
+		TEST_METHOD(unitTest_parser_TokeniseUntag) {
 			std::string testUserInput = "UNTAG 23 #12c #ab3";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
@@ -407,7 +451,7 @@ namespace ParserTest {
 			                                      "",
 			                                      "",
 			                                      23);
-			std::vector< std::string > newTags;
+			std::vector<std::string> newTags;
 			newTags.push_back("#12c");
 			newTags.push_back("#ab3");
 			expected.setTags(newTags);
@@ -422,7 +466,18 @@ namespace ParserTest {
 			boost::posix_time::ptime expected(boost::posix_time::time_from_string("1999-05-13 13:20:00.000"));
 			boost::posix_time::ptime actual;
 			actual = dateParser.parse(testUserInputDate);
-			
+
+			Assert::IsTrue(expected == actual);
+		}
+
+		TEST_METHOD(unitTest_parser_DateParser_DD_MM_YYYY) {
+			std::string testUserInputDate = "13-05-1999";
+			DateParser dateParser;
+
+			boost::posix_time::ptime expected(boost::posix_time::time_from_string("1999-05-13 00:00:00.000"));
+			boost::posix_time::ptime actual;
+			actual = dateParser.parse(testUserInputDate);
+
 			Assert::IsTrue(expected == actual);
 		}
 
@@ -434,10 +489,10 @@ namespace ParserTest {
 			boost::posix_time::ptime expected(boost::posix_time::time_from_string("9999-12-31 23:59:00.000"));
 			boost::posix_time::ptime actual;
 			actual = dateParser.parse(testUserInputDate);
-			
+
 			Assert::IsTrue(expected == actual);
 		}
-		
+
 		// lower boundary case for valid date range partition
 		TEST_METHOD(unitTest_parser_DateParser_DD_MM_YYYY_HHHH_MinRange) {
 			std::string testUserInputDate = "01-01-1400 0000";
@@ -446,10 +501,10 @@ namespace ParserTest {
 			boost::posix_time::ptime expected(boost::posix_time::time_from_string("1400-01-01 00:00:00.000"));
 			boost::posix_time::ptime actual;
 			actual = dateParser.parse(testUserInputDate);
-			
+
 			Assert::IsTrue(expected == actual);
-		}		
-		
+		}
+
 		// edge cases partition: dates that are invalid because of non-uniform length of months
 		TEST_METHOD(unitTest_parser_DateParser_DD_MM_YYYY_HHHH_InvalidDate) {
 			std::string testUserInputDate = "29-02-1999 1345";
@@ -458,7 +513,7 @@ namespace ParserTest {
 			boost::posix_time::ptime expected;
 			boost::posix_time::ptime actual;
 			actual = dateParser.parse(testUserInputDate);
-			
+
 			Assert::IsTrue(expected == actual);
 		}
 

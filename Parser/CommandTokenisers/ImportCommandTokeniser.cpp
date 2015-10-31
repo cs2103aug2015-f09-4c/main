@@ -8,36 +8,40 @@ ImportCommandTokeniser::~ImportCommandTokeniser(void) {
 	// nothing
 }
 
-CommandTokens ImportCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Import);
-
-	if (isImportLocalCommand(userInput)) {
-		tokeniseImportLocalCommand(userInput);
-	}
-
-	return _commandTokens;
-}
-
-bool ImportCommandTokeniser::isImportCommand(std::string userInput) {
-	if (isImportLocalCommand(userInput)) {
+bool ImportCommandTokeniser::canTokeniseUserInput(std::string userInput) {
+	if (isImportLocal(userInput)) {
 		return true;
 	}
 	return false;
 }
 
-bool ImportCommandTokeniser::isImportLocalCommand(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("Import [^ ]+", std::regex_constants::ECMAScript | std::regex_constants::icase));
+CommandTokens ImportCommandTokeniser::tokeniseUserInput(std::string userInput) {
+	assert(canTokeniseUserInput(userInput));
+
+	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Import);
+
+	if (isImportLocal(userInput)) {
+		tokeniseImportLocal(userInput, &tokenisedCommand);
+	}
+
+	return tokenisedCommand;
 }
 
-void ImportCommandTokeniser::tokeniseImportLocalCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::None);
+bool ImportCommandTokeniser::isImportLocal(std::string userInput) {
+	return std::regex_match(userInput,
+	                        std::regex("IMPORT [^ ]+",
+	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
+void ImportCommandTokeniser::tokeniseImportLocal(std::string userInput, CommandTokens* outputCommandTokens) {
+	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::None);
 
 	std::smatch matchResults;
 	std::regex_match(userInput,
 	                 matchResults,
-	                 std::regex("import ([^ ]+)", std::regex_constants::ECMAScript | std::regex_constants::icase));
+	                 std::regex("IMPORT ([^ ]+)",
+	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	std::string importFilePath = matchResults[1];
-	_commandTokens.setOtherCommandParameter(importFilePath);
+	outputCommandTokens->setOtherCommandParameter(importFilePath);
 }

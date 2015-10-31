@@ -1,3 +1,4 @@
+//@@ author A0097681N
 #include "ConfigureCommandTokeniser.h"
 
 ConfigureCommandTokeniser::ConfigureCommandTokeniser(void) {
@@ -8,7 +9,7 @@ ConfigureCommandTokeniser::~ConfigureCommandTokeniser(void) {
 	// nothing here
 }
 
-bool ConfigureCommandTokeniser::isConfigureCommand(std::string userInput) {
+bool ConfigureCommandTokeniser::canTokeniseUserInput(std::string userInput) {
 	if (isConfigureSaveLocation(userInput)) {
 		return true;
 	}
@@ -16,13 +17,15 @@ bool ConfigureCommandTokeniser::isConfigureCommand(std::string userInput) {
 }
 
 CommandTokens ConfigureCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Configure);
+	assert(canTokeniseUserInput(userInput));
+
+	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Configure);
 
 	if (isConfigureSaveLocation(userInput)) {
-		tokeniseConfigureSaveLocation(userInput);
+		tokeniseConfigureSaveLocation(userInput, &tokenisedCommand);
 	}
 
-	return _commandTokens;
+	return tokenisedCommand;
 }
 
 bool ConfigureCommandTokeniser::isConfigureSaveLocation(std::string userInput) {
@@ -31,13 +34,14 @@ bool ConfigureCommandTokeniser::isConfigureSaveLocation(std::string userInput) {
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
-void ConfigureCommandTokeniser::tokeniseConfigureSaveLocation(std::string userInput) {
-	std::smatch matchResults;
+void ConfigureCommandTokeniser::tokeniseConfigureSaveLocation(std::string userInput, CommandTokens* outputCommandTokens) {
+	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::SaveLocation);
 
+	std::smatch matchResults;
 	std::regex_match(userInput,
 	                 std::regex("Configure Save Location ([^ ]+)",
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	std::string saveLocation = matchResults[1];
-	_commandTokens.setOtherCommandParameter(saveLocation);
+	outputCommandTokens->setOtherCommandParameter(saveLocation);
 }

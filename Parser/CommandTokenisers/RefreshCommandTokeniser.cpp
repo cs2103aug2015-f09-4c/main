@@ -1,5 +1,5 @@
+//@@ author A0097681N
 #include "RefreshCommandTokeniser.h"
-
 
 RefreshCommandTokeniser::RefreshCommandTokeniser(void) {
 	// nothing
@@ -9,29 +9,31 @@ RefreshCommandTokeniser::~RefreshCommandTokeniser(void) {
 	// nothing
 }
 
-CommandTokens RefreshCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Refresh);
-
-	if (isRefreshSimpliciterCommand(userInput)) {
-		tokeniseRefreshSimpliciterCommand(userInput);
-	}
-
-	return _commandTokens;
-}
-
-bool RefreshCommandTokeniser::isRefreshCommand(std::string userInput) {
-	if (isRefreshSimpliciterCommand(userInput)) {
+bool RefreshCommandTokeniser::canTokeniseUserInput(std::string userInput) {
+	if (isRefreshBasic(userInput)) {
 		return true;
 	}
 	return false;
 }
 
-bool RefreshCommandTokeniser::isRefreshSimpliciterCommand(std::string userInput) {
+CommandTokens RefreshCommandTokeniser::tokeniseUserInput(std::string userInput) {
+	assert(canTokeniseUserInput(userInput));
+
+	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Refresh);
+
+	if (isRefreshBasic(userInput)) {
+		tokeniseRefreshBasic(userInput, &tokenisedCommand);
+	}
+
+	return tokenisedCommand;
+}
+
+bool RefreshCommandTokeniser::isRefreshBasic(std::string userInput) {
 	return std::regex_match(userInput,
-	                        std::regex("refresh",
+	                        std::regex("REFRESH",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
-void RefreshCommandTokeniser::tokeniseRefreshSimpliciterCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::None);
+void RefreshCommandTokeniser::tokeniseRefreshBasic(std::string userInput, CommandTokens* outputCommandTokens) {
+	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::None);
 }

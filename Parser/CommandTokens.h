@@ -1,3 +1,4 @@
+//@@ author A0097681N
 #pragma once
 #include <exception>
 #include <vector>
@@ -5,7 +6,6 @@
 
 class CommandTokens {
 public:
-
 	// Command Type for main groups of operation
 	enum PrimaryCommandType {
 		Add,
@@ -54,7 +54,7 @@ public:
 	              int index = -1);
 
 	bool isValid();
-	void resetMemberVariables();
+	void reset();
 
 	PrimaryCommandType getPrimaryCommand();
 	SecondaryCommandType getSecondaryCommand();
