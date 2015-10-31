@@ -5,7 +5,6 @@ CommandTokeniser::CommandTokeniser(void) {
 	// nothing here
 }
 
-
 CommandTokeniser::~CommandTokeniser(void) {
 	// nothing here
 }

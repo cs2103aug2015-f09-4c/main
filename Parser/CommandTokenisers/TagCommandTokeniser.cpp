@@ -9,50 +9,46 @@ TagCommandTokeniser::~TagCommandTokeniser(void) {
 	// nothing here
 }
 
-
-CommandTokens TagCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Tag);
-
-	if (isTagIndexCommand(userInput)) {
-		tokeniseTagIndexCommand(userInput);
-	}
-
-	return _commandTokens;
-}
-
 bool TagCommandTokeniser::isValidCommand(std::string userInput) {
-	return isTagCommand(userInput);
-}
-
-bool TagCommandTokeniser::isTagCommand(std::string userInput) {
-	if (isTagIndexCommand(userInput)) {
+	if (isTagIndex(userInput)) {
 		return true;
 	}
-
 	return false;
 }
 
-bool TagCommandTokeniser::isTagIndexCommand(std::string userInput) {
+CommandTokens TagCommandTokeniser::tokeniseUserInput(std::string userInput) {
+	assert(isValidCommand(userInput));
+
+	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Tag);
+
+	if (isTagIndex(userInput)) {
+		tokeniseTagIndex(userInput, &tokenisedCommand);
+	}
+
+	return tokenisedCommand;
+}
+
+bool TagCommandTokeniser::isTagIndex(std::string userInput) {
 	return std::regex_match(userInput,
-	                        std::regex("tag [0-9]+( (#[^ ]+))+",
+	                        std::regex("TAG [0-9]+( (#[^ ]+))+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
-void TagCommandTokeniser::tokeniseTagIndexCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Index);
+void TagCommandTokeniser::tokeniseTagIndex(std::string userInput, CommandTokens* outputCommandTokens) {
+	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::Index);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-	                 std::regex("tag ([0-9]+) .*",
+	                 std::regex("TAG ([0-9]+) .*",
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	int index = stoi(matchResults[1]);
-	_commandTokens.setIndex(index);
+	outputCommandTokens->setIndex(index);
 
-	tokeniseTags(userInput);
+	tokeniseTags(userInput, outputCommandTokens);
 }
 
-void TagCommandTokeniser::tokeniseTags(std::string userInput) {
+void TagCommandTokeniser::tokeniseTags(std::string userInput, CommandTokens* outputCommandTokens) {
 	std::vector<std::string> newTags;
 
 	std::smatch matchResults;
@@ -66,5 +62,5 @@ void TagCommandTokeniser::tokeniseTags(std::string userInput) {
 		userInput = matchResults.suffix().str();
 	}
 
-	_commandTokens.setTags(newTags);
+	outputCommandTokens->setTags(newTags);
 }

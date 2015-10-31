@@ -9,40 +9,38 @@ ExportCommandTokeniser::~ExportCommandTokeniser(void) {
 	// nothing here
 }
 
-CommandTokens ExportCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Export);
-
-	if (isExportToLocalDiskCommand(userInput)) {
-		tokeniseExportToLocalDiskCommand(userInput);
-	}
-
-	return _commandTokens;
-}
-
 bool ExportCommandTokeniser::isValidCommand(std::string userInput) {
-	return isExportCommand(userInput);
-}
-
-bool ExportCommandTokeniser::isExportCommand(std::string userInput) {
-	if (isExportToLocalDiskCommand(userInput)) {
+	if (isExportToLocalDisk(userInput)) {
 		return true;
 	}
 	return false;
 }
 
-bool ExportCommandTokeniser::isExportToLocalDiskCommand(std::string userInput) {
-	return std::regex_match(userInput, std::regex("export [^ ]+",
+CommandTokens ExportCommandTokeniser::tokeniseUserInput(std::string userInput) {
+	assert(isValidCommand(userInput));
+
+	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Export);
+
+	if (isExportToLocalDisk(userInput)) {
+		tokeniseExportToLocalDisk(userInput, &tokenisedCommand);
+	}
+
+	return tokenisedCommand;
+}
+
+bool ExportCommandTokeniser::isExportToLocalDisk(std::string userInput) {
+	return std::regex_match(userInput, std::regex("EXPORT [^ ]+",
 	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
-void ExportCommandTokeniser::tokeniseExportToLocalDiskCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::None);
+void ExportCommandTokeniser::tokeniseExportToLocalDisk(std::string userInput, CommandTokens* outputCommandTokens) {
+	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::None);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-	                 std::regex("export ([^ ]+)",
+	                 std::regex("EXPORT ([^ ]+)",
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	std::string exportPath = matchResults[1];
-	_commandTokens.setOtherCommandParameter(exportPath);
+	outputCommandTokens->setOtherCommandParameter(exportPath);
 }

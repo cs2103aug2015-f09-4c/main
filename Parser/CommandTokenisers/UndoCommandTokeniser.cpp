@@ -5,37 +5,35 @@ UndoCommandTokeniser::UndoCommandTokeniser(void) {
 	// nothing here
 }
 
-
 UndoCommandTokeniser::~UndoCommandTokeniser(void) {
 	// nothing here
 }
 
-CommandTokens UndoCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Undo);
-
-	if (isUndoOnceCommand(userInput)) {
-		tokeniseUndoOnceCommand();
-	}
-
-	return _commandTokens;
-}
-
 bool UndoCommandTokeniser::isValidCommand(std::string userInput) {
-	return isUndoCommand(userInput);
-}
-
-bool UndoCommandTokeniser::isUndoCommand(std::string userInput) {
-	if (isUndoOnceCommand(userInput)) {
+	if (isUndoOnce(userInput)) {
 		return true;
 	}
 	return false;
 }
 
-bool UndoCommandTokeniser::isUndoOnceCommand(std::string userInput) {
-	return std::regex_match(userInput, std::regex("undo",
-	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+CommandTokens UndoCommandTokeniser::tokeniseUserInput(std::string userInput) {
+	assert(isValidCommand(userInput));
+
+	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Undo);
+
+	if (isUndoOnce(userInput)) {
+		tokeniseUndoOnce(&tokenisedCommand);
+	}
+
+	return tokenisedCommand;
 }
 
-void UndoCommandTokeniser::tokeniseUndoOnceCommand() {
-	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::None);
+bool UndoCommandTokeniser::isUndoOnce(std::string userInput) {
+	return std::regex_match(userInput,
+	                        std::regex("UNDO",
+	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
+void UndoCommandTokeniser::tokeniseUndoOnce(CommandTokens* outputCommandTokens) {
+	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::None);
 }

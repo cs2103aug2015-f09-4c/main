@@ -11,7 +11,6 @@ public:
 	virtual CommandTokens tokeniseUserInput(std::string userInput) override;
 
 private:
-	static bool isCompleteIndex(std::string userInput);
-
-	void tokeniseCompleteIndex(std::string userInput);
+	bool isCompleteIndex(std::string userInput);
+	void tokeniseCompleteIndex(std::string userInput, CommandTokens* outputCommandTokens);
 };

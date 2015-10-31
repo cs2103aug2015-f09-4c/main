@@ -12,7 +12,6 @@ public:
 	virtual bool isValidCommand(std::string userInput) = 0;
 
 protected:
-	CommandTokens _commandTokens;
 	DateParser _dateParser;
 	boost::posix_time::ptime parseUserInputDate(std::string userInputDate);
 };

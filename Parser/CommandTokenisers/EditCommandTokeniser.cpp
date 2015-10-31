@@ -9,92 +9,90 @@ EditCommandTokeniser::~EditCommandTokeniser(void) {
 	// nothing here
 }
 
-CommandTokens EditCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	_commandTokens.reset();
-	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Edit);
-
-	if (isEditName(userInput)) {
-		tokeniseEditNameCommand(userInput);
-	} else if (isEditStartDate(userInput)) {
-		tokeniseEditStartDateCommand(userInput);
-	} else if (isEditEndDate(userInput)) {
-		tokeniseEditEndDateCommand(userInput);
-	}
-
-	return _commandTokens;
-}
-
 bool EditCommandTokeniser::isValidCommand(std::string userInput) {
-	return isEditCommand(userInput);
-}
-
-bool EditCommandTokeniser::isEditCommand(std::string userInput) {
-	if (isEditEndDate(userInput) ||
-		isEditStartDate(userInput) ||
-		isEditName(userInput)) {
+	if (isEditName(userInput) ||
+		isEditEndDate(userInput) ||
+		isEditStartDate(userInput)) {
 		return true;
 	}
 	return false;
 }
 
-bool EditCommandTokeniser::isEditEndDate(std::string userInput) {
+CommandTokens EditCommandTokeniser::tokeniseUserInput(std::string userInput) {
+	assert(isValidCommand(userInput));
+
+	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Edit);
+
+	if (isEditName(userInput)) {
+		tokeniseEditName(userInput, &tokenisedCommand);
+	} else if (isEditStartDate(userInput)) {
+		tokeniseEditStartDate(userInput, &tokenisedCommand);
+	} else if (isEditEndDate(userInput)) {
+		tokeniseEditEndDate(userInput, &tokenisedCommand);
+	}
+
+	return tokenisedCommand;
+}
+
+bool EditCommandTokeniser::isEditName(std::string userInput) {
 	return std::regex_match(userInput,
-	                        std::regex("edit end [0-9]+ .+",
+	                        std::regex("EDIT NAME [0-9]+ .+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 bool EditCommandTokeniser::isEditStartDate(std::string userInput) {
 	return std::regex_match(userInput,
-	                        std::regex("edit start [0-9]+ .+",
+	                        std::regex("EDIT START [0-9]+ .+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
-bool EditCommandTokeniser::isEditName(std::string userInput) {
+bool EditCommandTokeniser::isEditEndDate(std::string userInput) {
 	return std::regex_match(userInput,
-	                        std::regex("edit name [0-9]+ .+",
+	                        std::regex("EDIT END [0-9]+ .+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
-void EditCommandTokeniser::tokeniseEditEndDateCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::End);
+void EditCommandTokeniser::tokeniseEditName(std::string userInput, CommandTokens* outputCommandTokens) {
+	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::Name);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-	                 std::regex("edit end ([0-9]+) (.*)",
+	                 std::regex("EDIT NAME ([0-9]+) (.+)",
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	int index = stoi(matchResults[1]);
-	_commandTokens.setIndex(index);
+	std::string taskName = matchResults[2];
 
-	boost::posix_time::ptime endDate = parseUserInputDate(matchResults[2]);
-	_commandTokens.setEndDateTime(endDate);
+	outputCommandTokens->setIndex(index);
+	outputCommandTokens->setTaskName(taskName);
 }
 
-void EditCommandTokeniser::tokeniseEditStartDateCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Start);
+void EditCommandTokeniser::tokeniseEditStartDate(std::string userInput, CommandTokens* outputCommandTokens) {
+	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::Start);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-	                 std::regex("edit start ([0-9]+) (.*)",
+	                 std::regex("EDIT START ([0-9]+) (.+)",
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	int index = stoi(matchResults[1]);
-	_commandTokens.setIndex(index);
-
 	boost::posix_time::ptime startDate = parseUserInputDate(matchResults[2]);
-	_commandTokens.setStartDateTime(startDate);
+
+	outputCommandTokens->setIndex(index);
+	outputCommandTokens->setStartDateTime(startDate);
 }
 
-void EditCommandTokeniser::tokeniseEditNameCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Name);
+void EditCommandTokeniser::tokeniseEditEndDate(std::string userInput, CommandTokens* outputCommandTokens) {
+	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::End);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-	                 std::regex("edit name ([0-9]+) (.*)",
+	                 std::regex("EDIT END ([0-9]+) (.+)",
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	int index = stoi(matchResults[1]);
-	_commandTokens.setIndex(index);
+	boost::posix_time::ptime endDate = parseUserInputDate(matchResults[2]);
 
-	_commandTokens.setTaskName(matchResults[2]);
+	outputCommandTokens->setIndex(index);
+	outputCommandTokens->setEndDateTime(endDate);
 }
