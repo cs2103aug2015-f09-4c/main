@@ -11,27 +11,23 @@ PhysicalStorageHandler::~PhysicalStorageHandler(void) {
 
 void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::string filePath) {
 	tasks.clear();
-	std::string identityString = "";
 	std::ifstream loadFile(filePath.c_str());
+	std::string taskText;
+	std::string startDateTimeString;
+	std::string endDateTimeString;
+	std::string isCompleteString;
+	std::string tag;
 
 	Logger* logger = Logger::getInstance();
 	logger->logDEBUG("Loading from file...");
 
 	try {
 		if (loadFile.is_open() && !loadFile.eof()) {
-			while (!loadFile.eof() && identityString != start) {
-				std::getline(loadFile, identityString);
-			}
+			std::getline(loadFile,taskText);
 
 			while (!loadFile.eof()) {
-				std::string taskText;
-				std::string startDateTimeString;
-				std::string endDateTimeString;
-				std::string isCompleteString;
 				API::Task *taskToAdd;
-
-				std::getline(loadFile,taskText);
-
+				
 				std::getline(loadFile,startDateTimeString);
 				boost::posix_time::ptime startDateTime;
 				if (startDateTimeString != "not-a-date-time") {
@@ -67,14 +63,21 @@ void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::st
 					taskToAdd->toggleComplete();
 				}
 
-				std::getline(loadFile, identityString);
-				while (!loadFile.eof() && identityString != start) {
+				bool isTag = true;
+				while (!loadFile.eof() && isTag) {
+					std::getline(loadFile, tag);
 					try {
-						taskToAdd->addTag(identityString);
+						taskToAdd->addTag(tag);
 					} catch (std::exception e) {
-						logger->logDEBUG("Tag: " + identityString + " not added");
+						logger->logDEBUG("Tag: " + tag + " Message: " + e.what());
+						if (tag[0] != '#') {
+							isTag = false;
+							taskText = tag;
+						}
 					}
-					std::getline(loadFile, identityString);
+				}
+				if (!loadFile.eof() && isTag) {
+					getline(loadFile, taskText);
 				}
 				tasks.push_back(*taskToAdd);
 			}
@@ -92,7 +95,6 @@ void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::st
 void PhysicalStorageHandler::saveToFile(std::vector<API::Task>& tasks, std::string filePath) {
 	std::ofstream saveFile(filePath.c_str());
 	for (size_t i = 0 ; i < tasks.size() ; ++i) {
-		saveFile << start << "\n";
 		saveFile << tasks[i].getTaskText() << "\n";
 		saveFile << boost::posix_time::to_simple_string(tasks[i].getStartDateTime()) << "\n";
 		saveFile << boost::posix_time::to_simple_string(tasks[i].getEndDateTime()) << "\n";
