@@ -49,7 +49,7 @@ void DisplayCommandTokeniser::tokeniseDisplayFloating(CommandTokens* outputComma
 }
 
 void DisplayCommandTokeniser::tokeniseDisplayFromTo(std::string userInput, CommandTokens* outputCommandTokens) {
-	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::Timed);
+	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::FromTo);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
@@ -76,7 +76,7 @@ void DisplayCommandTokeniser::tokeniseDisplayFrom(std::string userInput, Command
 }
 
 void DisplayCommandTokeniser::tokeniseDisplayBy(std::string userInput, CommandTokens* outputCommandTokens) {
-	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::Todo);
+	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::By);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,

@@ -9,7 +9,7 @@ const char* ALREADY_COMPLETE_EXCEPTION::what(void) const throw() {
 }
 
 
-SetCompleteCommand::SetCompleteCommand(size_t index) : Command(CommandTokens::PrimaryCommandType::Complete) {
+SetCompleteCommand::SetCompleteCommand(size_t index) : Command(CommandTokens::PrimaryCommandType::MarkAsComplete) {
 	_type2 = CommandTokens::SecondaryCommandType::Index;
 	_index = index;
 }

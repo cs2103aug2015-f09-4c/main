@@ -15,7 +15,7 @@ namespace ParserTest {
 
 			actual = _parser.parse(testUserInput);
 			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Add,
-			                                      CommandTokens::SecondaryCommandType::Timed,
+			                                      CommandTokens::SecondaryCommandType::FromTo,
 			                                      "activityTask",
 			                                      "2002-01-20 23:59:59.000",
 			                                      "2002-01-22 23:59:59.000",
@@ -30,7 +30,7 @@ namespace ParserTest {
 
 			actual = _parser.parse(testUserInput);
 			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Add,
-			                                      CommandTokens::SecondaryCommandType::Todo,
+			                                      CommandTokens::SecondaryCommandType::By,
 			                                      "todoTask",
 			                                      "",
 			                                      "2002-01-22 23:59:59.000",
@@ -57,7 +57,7 @@ namespace ParserTest {
 			std::string testUserInput = "COMPLETE 11";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Complete,
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::MarkAsComplete,
 			                                      CommandTokens::SecondaryCommandType::Index,
 			                                      "",
 			                                      "",
@@ -129,7 +129,7 @@ namespace ParserTest {
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
 			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Delete,
-			                                      CommandTokens::SecondaryCommandType::Todo,
+			                                      CommandTokens::SecondaryCommandType::By,
 			                                      "",
 			                                      "",
 			                                      "2002-01-22 23:59:59.000",
@@ -143,7 +143,7 @@ namespace ParserTest {
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
 			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Delete,
-			                                      CommandTokens::SecondaryCommandType::Timed,
+			                                      CommandTokens::SecondaryCommandType::FromTo,
 			                                      "",
 			                                      "2002-01-20 23:59:59.000",
 			                                      "2002-01-22 23:59:59.000",
@@ -199,7 +199,7 @@ namespace ParserTest {
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
 			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Display,
-			                                      CommandTokens::SecondaryCommandType::Todo,
+			                                      CommandTokens::SecondaryCommandType::By,
 			                                      "",
 			                                      "",
 			                                      "2002-01-22 23:59:59.000",
@@ -213,7 +213,7 @@ namespace ParserTest {
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
 			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Display,
-			                                      CommandTokens::SecondaryCommandType::Timed,
+			                                      CommandTokens::SecondaryCommandType::FromTo,
 			                                      "",
 			                                      "2002-01-20 23:59:59.000",
 			                                      "2002-01-22 23:59:59.000",
@@ -406,6 +406,96 @@ namespace ParserTest {
 			newTags.push_back("#123");
 			expected.setTags(newTags);
 
+			compareCommandTokens(expected, actual);
+		}
+
+		TEST_METHOD(unitTest_parser_TokeniseSortName) {
+			std::string testUserInput = "SORT NAME";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Sort,
+			                                      CommandTokens::SecondaryCommandType::Name,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      -1);
+			
+			expected.setOtherCommandParameter("Ascending");
+			compareCommandTokens(expected, actual);
+		}
+
+		TEST_METHOD(unitTest_parser_TokeniseSortNameDesc) {
+			std::string testUserInput = "SORT NAME DESC";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Sort,
+			                                      CommandTokens::SecondaryCommandType::Name,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      -1);
+			
+			expected.setOtherCommandParameter("Descending");
+			compareCommandTokens(expected, actual);
+		}
+
+		TEST_METHOD(unitTest_parser_TokeniseSortStart) {
+			std::string testUserInput = "SORT START";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Sort,
+			                                      CommandTokens::SecondaryCommandType::Start,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      -1);
+			
+			expected.setOtherCommandParameter("Ascending");
+			compareCommandTokens(expected, actual);
+		}
+
+		TEST_METHOD(unitTest_parser_TokeniseSortStartDesc) {
+			std::string testUserInput = "SORT START DESC";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Sort,
+			                                      CommandTokens::SecondaryCommandType::Start,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      -1);
+			
+			expected.setOtherCommandParameter("Descending");
+			compareCommandTokens(expected, actual);
+		}
+
+		TEST_METHOD(unitTest_parser_TokeniseSortEnd) {
+			std::string testUserInput = "SORT END";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Sort,
+			                                      CommandTokens::SecondaryCommandType::End,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      -1);
+			
+			expected.setOtherCommandParameter("Ascending");
+			compareCommandTokens(expected, actual);
+		}
+
+		TEST_METHOD(unitTest_parser_TokeniseSortEndDesc) {
+			std::string testUserInput = "SORT END DESC";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Sort,
+			                                      CommandTokens::SecondaryCommandType::End,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      -1);
+			
+			expected.setOtherCommandParameter("Descending");
 			compareCommandTokens(expected, actual);
 		}
 

@@ -19,7 +19,7 @@ bool CompleteCommandTokeniser::canTokeniseUserInput(std::string userInput) {
 CommandTokens CompleteCommandTokeniser::tokeniseUserInput(std::string userInput) {
 	assert(canTokeniseUserInput(userInput));
 
-	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Complete);
+	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::MarkAsComplete);
 
 	if (isCompleteIndex(userInput)) {
 		tokeniseCompleteIndex(userInput, &tokenisedCommand);
