@@ -98,6 +98,7 @@
     <ClInclude Include="CommandTokeniser.h" />
     <ClInclude Include="CommandTokens.h" />
     <ClInclude Include="CommandTokenisers\CompleteCommandTokeniser.h" />
+    <ClInclude Include="CommandTokenisers\ConfigureCommandTokeniser.h" />
     <ClInclude Include="DateParser.h" />
     <ClInclude Include="CommandTokenisers\DeleteCommandTokeniser.h" />
     <ClInclude Include="CommandTokenisers\DisplayCommandTokeniser.h" />
@@ -110,12 +111,14 @@
     <ClInclude Include="CommandTokenisers\TagCommandTokeniser.h" />
     <ClInclude Include="CommandTokenisers\UndoCommandTokeniser.h" />
     <ClInclude Include="CommandTokenisers\UntagCommandTokeniser.h" />
+    <ClInclude Include="CommandTokenisers\SortCommandTokeniser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CommandTokenisers\AddCommandTokeniser.cpp" />
     <ClCompile Include="CommandTokeniser.cpp" />
     <ClCompile Include="CommandTokens.cpp" />
     <ClCompile Include="CommandTokenisers\CompleteCommandTokeniser.cpp" />
+    <ClCompile Include="CommandTokenisers\ConfigureCommandTokeniser.cpp" />
     <ClCompile Include="DateParser.cpp" />
     <ClCompile Include="CommandTokenisers\DeleteCommandTokeniser.cpp" />
     <ClCompile Include="CommandTokenisers\DisplayCommandTokeniser.cpp" />
@@ -128,6 +131,7 @@
     <ClCompile Include="CommandTokenisers\TagCommandTokeniser.cpp" />
     <ClCompile Include="CommandTokenisers\UndoCommandTokeniser.cpp" />
     <ClCompile Include="CommandTokenisers\UntagCommandTokeniser.cpp" />
+    <ClCompile Include="CommandTokenisers\SortCommandTokeniser.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

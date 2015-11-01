@@ -57,7 +57,7 @@ UIFeedback DeleteIndexCommand::undo() {
 DeleteIndexCommand::~DeleteIndexCommand() {
 }
 
-DeleteBeforeCommand::DeleteBeforeCommand(ptime endDateTime) : DeleteCommand(CommandTokens::SecondaryCommandType::Todo) {
+DeleteBeforeCommand::DeleteBeforeCommand(ptime endDateTime) : DeleteCommand(CommandTokens::SecondaryCommandType::By) {
 	assert(!endDateTime.is_special());
 	_endDateTime = endDateTime;
 }
@@ -123,7 +123,7 @@ UIFeedback DeleteBeforeCommand::undo(void) {
 DeleteBeforeCommand::~DeleteBeforeCommand(void) {
 }
 
-DeleteFromToCommand::DeleteFromToCommand(ptime startDateTime, ptime endDateTime) : DeleteCommand(CommandTokens::SecondaryCommandType::Timed){
+DeleteFromToCommand::DeleteFromToCommand(ptime startDateTime, ptime endDateTime) : DeleteCommand(CommandTokens::SecondaryCommandType::FromTo){
 	assert(!(startDateTime.is_special() || endDateTime.is_special()));
 	if (endDateTime < startDateTime) {
 		throw COMMAND_CREATION_EXCEPTION (MESSAGE_END_LESS_THAN_START);

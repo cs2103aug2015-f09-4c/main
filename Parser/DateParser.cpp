@@ -1,3 +1,4 @@
+//@@ author A0097681N
 #include "DateParser.h"
 #include "boost\date_time\posix_time\time_parsers.hpp"
 
@@ -23,7 +24,8 @@ boost::posix_time::ptime DateParser::parse(std::string userInputDateString) {
 }
 
 bool DateParser::isLocallySupportedDateFormat(std::string userInputDateString) {
-	if (isDDMMYYYY_TTTT(userInputDateString)) {
+	if (isDDMMYY(userInputDateString) ||
+		isDDMMYYYY_TTTT(userInputDateString)) {
 		return true;
 	}
 	return false;
@@ -45,7 +47,9 @@ bool DateParser::isBoostLibrarySupportedDateFormat(std::string userInputDateStri
 std::string DateParser::convertToFormattedDateString(std::string userInputDateString) {
 	std::string formattedDateString = "";
 
-	if (isDDMMYYYY_TTTT(userInputDateString)) {
+	if (isDDMMYY(userInputDateString)) {
+		formattedDateString = parseDDMMYYYY(userInputDateString);
+	} else if (isDDMMYYYY_TTTT(userInputDateString)) {
 		formattedDateString = parseDDMMYYYY_TTTT(userInputDateString);
 	}
 
@@ -68,10 +72,33 @@ boost::posix_time::ptime DateParser::getInvalidPtimeObject() {
 	return boost::posix_time::ptime();
 }
 
+bool DateParser::isDDMMYY(std::string dateString) {
+	return std::regex_match(dateString,
+	                        std::regex("[0-9]{2}-[0-9]{2}-[0-9]{4}",
+	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
 bool DateParser::isDDMMYYYY_TTTT(std::string dateString) {
 	return std::regex_match(dateString,
 	                        std::regex("[0-9]{2}-[0-9]{2}-[0-9]{4} [0-9]{2}[0-9]{2}",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
+std::string DateParser::parseDDMMYYYY(std::string dateString) {
+	std::smatch matchResults;
+	std::regex_match(dateString, matchResults,
+	                 std::regex("([0-9]{2})-([0-9]{2})-([0-9]{4})",
+	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
+
+	std::string day, month, year, hour, minute, formattedDateString;
+	day = matchResults[1];
+	month = matchResults[2];
+	year = matchResults[3];
+	hour = "00";
+	minute = "00";
+	formattedDateString = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":00.000";
+
+	return formattedDateString;
 }
 
 std::string DateParser::parseDDMMYYYY_TTTT(std::string dateString) {

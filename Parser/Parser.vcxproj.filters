@@ -65,6 +65,12 @@
     <ClInclude Include="CommandTokenisers\UntagCommandTokeniser.h">
       <Filter>Header Files\CommandTokenisers</Filter>
     </ClInclude>
+    <ClInclude Include="CommandTokenisers\ConfigureCommandTokeniser.h">
+      <Filter>Header Files\CommandTokenisers</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandTokenisers\SortCommandTokeniser.h">
+      <Filter>Header Files\CommandTokenisers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Parser.cpp">
@@ -113,6 +119,12 @@
       <Filter>Source Files\CommandTokenisers</Filter>
     </ClCompile>
     <ClCompile Include="CommandTokenisers\UntagCommandTokeniser.cpp">
+      <Filter>Source Files\CommandTokenisers</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandTokenisers\ConfigureCommandTokeniser.cpp">
+      <Filter>Source Files\CommandTokenisers</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandTokenisers\SortCommandTokeniser.cpp">
       <Filter>Source Files\CommandTokenisers</Filter>
     </ClCompile>
   </ItemGroup>

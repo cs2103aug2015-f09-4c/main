@@ -1,3 +1,4 @@
+//@@ author A0097681N
 #pragma once
 #include <regex>
 #include "../boost/date_time/posix_time/ptime.hpp"
@@ -16,5 +17,7 @@ private:
 	boost::posix_time::ptime getInvalidPtimeObject(void);
 
 	bool isDDMMYYYY_TTTT(std::string dateString);
+	bool isDDMMYY(std::string dateString);
 	std::string parseDDMMYYYY_TTTT(std::string dateString);
+	std::string parseDDMMYYYY(std::string dateString);
 };

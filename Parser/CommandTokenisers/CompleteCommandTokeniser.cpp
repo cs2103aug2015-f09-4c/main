@@ -1,3 +1,4 @@
+//@@ author A0097681N
 #include "CompleteCommandTokeniser.h"
 
 CompleteCommandTokeniser::CompleteCommandTokeniser(void) {
@@ -8,34 +9,39 @@ CompleteCommandTokeniser::~CompleteCommandTokeniser(void) {
 	// nothing here
 }
 
-CommandTokens CompleteCommandTokeniser::tokeniseUserInput(std::string userInput) {
-	_commandTokens.resetMemberVariables();
-	_commandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Complete);
-
-	tokeniseCompleteIndexCommand(userInput);
-	return _commandTokens;
-}
-
-bool CompleteCommandTokeniser::isCompleteCommand(std::string userInput) {
-	if (isCompleteIndexCommand(userInput)) {
+bool CompleteCommandTokeniser::canTokeniseUserInput(std::string userInput) {
+	if (isCompleteIndex(userInput)) {
 		return true;
 	}
 	return false;
 }
 
-bool CompleteCommandTokeniser::isCompleteIndexCommand(std::string userInput) {
-	return std::regex_match(userInput, std::regex("complete [0-9]+",
-	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+CommandTokens CompleteCommandTokeniser::tokeniseUserInput(std::string userInput) {
+	assert(canTokeniseUserInput(userInput));
+
+	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::MarkAsComplete);
+
+	if (isCompleteIndex(userInput)) {
+		tokeniseCompleteIndex(userInput, &tokenisedCommand);
+	}
+
+	return tokenisedCommand;
 }
 
-void CompleteCommandTokeniser::tokeniseCompleteIndexCommand(std::string userInput) {
-	_commandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::Index);
+bool CompleteCommandTokeniser::isCompleteIndex(std::string userInput) {
+	return std::regex_match(userInput,
+	                        std::regex("COMPLETE [0-9]+",
+	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
+void CompleteCommandTokeniser::tokeniseCompleteIndex(std::string userInput, CommandTokens* outputCommandTokens) {
+	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::Index);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
-	                 std::regex("complete ([0-9]+)",
+	                 std::regex("COMPLETE ([0-9]+)",
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	int index = std::stoi(matchResults[1]);
-	_commandTokens.setIndex(index);
+	outputCommandTokens->setIndex(index);
 }

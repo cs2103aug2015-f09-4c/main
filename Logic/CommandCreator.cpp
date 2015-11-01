@@ -17,7 +17,7 @@ Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens
 		case CommandTokens::PrimaryCommandType::Edit:
 			returnCommand = processEditCommand(commandTokens);
 			break;
-		case CommandTokens::PrimaryCommandType::Complete:
+		case CommandTokens::PrimaryCommandType::MarkAsComplete:
 			returnCommand = processSetCompleteCommand(commandTokens);
 			break;
 		case CommandTokens::PrimaryCommandType::Export:
@@ -69,19 +69,19 @@ AddCommand* CommandCreator::processAddCommand(CommandTokens commandTokens) {
 			}
 			returnCommand = new AddCommand(CommandTokens::SecondaryCommandType::Floating,task);
 			break;
-		case CommandTokens::SecondaryCommandType::Todo:
+		case CommandTokens::SecondaryCommandType::By:
 			task = Task(taskName,commandTokens.getEndDateTime());
 			for (size_t i = 0 ; i < tags.size() ; ++i) {
 				task.addTag(tags[i]);
 			}
-			returnCommand = new AddCommand(CommandTokens::SecondaryCommandType::Todo,task);
+			returnCommand = new AddCommand(CommandTokens::SecondaryCommandType::By,task);
 			break;
-		case CommandTokens::SecondaryCommandType::Timed:
+		case CommandTokens::SecondaryCommandType::FromTo:
 			task = Task(taskName,commandTokens.getStartDateTime(), commandTokens.getEndDateTime());
 			for (size_t i = 0 ; i < tags.size() ; ++i) {
 				task.addTag(tags[i]);
 			}
-			returnCommand = new AddCommand(CommandTokens::SecondaryCommandType::Timed, task);
+			returnCommand = new AddCommand(CommandTokens::SecondaryCommandType::FromTo, task);
 			break;
 		default:
 			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
@@ -108,10 +108,10 @@ DeleteCommand* CommandCreator::processDeleteCommand(CommandTokens commandTokens)
 		case CommandTokens::SecondaryCommandType::All:
 			returnCommand = processDeleteAllCommand(commandTokens);
 			break;
-		case CommandTokens::SecondaryCommandType::Todo:
+		case CommandTokens::SecondaryCommandType::By:
 			returnCommand = processDeleteBeforeCommand(commandTokens);
 			break;
-		case CommandTokens::SecondaryCommandType::Timed:
+		case CommandTokens::SecondaryCommandType::FromTo:
 			returnCommand = processDeleteFromToCommand(commandTokens);
 			break;
 		case CommandTokens::SecondaryCommandType::Completed:
