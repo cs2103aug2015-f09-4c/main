@@ -21,7 +21,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Storage", "Storage\Storage.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Logger", "Logger\Logger.vcxproj", "{E21E3B62-AD22-4535-B601-0D04DA45EE06}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitIntegrationTest", "UnitIntegrationTest\UnitIntegrationTest.vcxproj", "{F89F816F-B969-4D65-AED1-7F667188415C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IntegrationTest", "IntegrationTest\IntegrationTest.vcxproj", "{F89F816F-B969-4D65-AED1-7F667188415C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
