@@ -25,7 +25,7 @@ std::vector<Task>& RunTimeStorage::refreshTasksToDisplay() {
 }
 
 void RunTimeStorage::setTasksToDisplay(std::vector<Task> tasks) {
-	for (int i = 0 ; i < tasks.size() ; ++i) {
+	for (size_t i = 0 ; i < tasks.size() ; ++i) {
 		assert(std::find(_tasks.begin(), _tasks.end(), tasks[i]) != _tasks.end());
 	}
 
