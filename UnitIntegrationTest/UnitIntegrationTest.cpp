@@ -65,7 +65,7 @@ const std::string addCommand3 = CMD_ADD + SPACE + TASK_C + SPACE + FROM + DATE_T
 namespace UnitIntegrationTest {		
 	TEST_CLASS(UnitIntegrationTest) {
 public:
-	TEST_METHOD(add) {
+	TEST_METHOD(integrationAdd) {
 		// Important to do it here because logic keeps a copy of data on construction
 		remove(FILEPATH.c_str());
 
@@ -118,7 +118,7 @@ public:
 		Assert::AreEqual((size_t) 3, feedback.getTasksForDisplay().size());
 	}
 
-	TEST_METHOD(refresh) {
+	TEST_METHOD(integrationRefresh) {
 		remove(FILEPATH.c_str());
 
 		Logic logic;
@@ -137,7 +137,7 @@ public:
 		Assert::AreEqual((size_t) 3, feedback.getTasksForDisplay().size());
 	}
 
-	TEST_METHOD(edit) {
+	TEST_METHOD(integrationEdit) {
 		remove(FILEPATH.c_str());
 
 		Logic logic;
@@ -206,7 +206,7 @@ public:
 
 	}
 
-	TEST_METHOD(tagUntag) {
+	TEST_METHOD(integrationTagUntag) {
 		remove(FILEPATH.c_str());
 
 		Logic logic;
@@ -414,7 +414,7 @@ public:
 		Assert::AreEqual((size_t) 0, tags.size());
 	}
 
-	TEST_METHOD(complete) {
+	TEST_METHOD(integrationComplete) {
 		remove(FILEPATH.c_str());
 
 		Logic logic;
@@ -468,8 +468,7 @@ public:
 
 	}
 
-	// delete is a keyword hence deleteTasks
-	TEST_METHOD(deleteTasks) {
+	TEST_METHOD(integrationDelete) {
 		remove(FILEPATH.c_str());
 
 		Logic logic;
@@ -546,7 +545,7 @@ public:
 		// Not worth testing deleting empty because it is part of the invalid partitions
 	}
 
-	TEST_METHOD(dateTimeFormat) {
+	TEST_METHOD(integrationDateTimeFormat) {
 		remove(FILEPATH.c_str());
 
 		// Tests flexible formats
@@ -567,21 +566,45 @@ public:
 		Assert::AreEqual(DATE_TIME_2, boost::posix_time::to_simple_string(task.getEndDateTime()));
 	}
 
-	/*TEST_METHOD(corruptedSavedFile) {
-	remove(FILEPATH.c_str());
+	TEST_METHOD(integrationDataCorrupted) {
+		remove(FILEPATH.c_str());
 
-	std::ofstream saveFile(FILEPATH.c_str());
-	saveFile << DATE_TIME_1 << "\n" << DATE_TIME_2;
-	saveFile.close();
+		// Logic only loads from file at construction
+		Logic *logic;
+		UIFeedback feedback;
+		API::Task task;
 
-	// TBC
-	}*/
-	// TODO: Below
+		// Testing manually added incomplete entry in the invalid entries partition
+		std::ofstream saveFile(FILEPATH.c_str());
+		saveFile << DATE_TIME_1 << "\n" << DATE_TIME_2;
+		saveFile.close();
 
-	// Testing flexible inputs like variation of date-time
+		logic = new Logic;
 
-	// Testing limits of input, number of tasks etc.
+		feedback = logic->executeCommand(CMD_REFRESH);
 
-	// Testing more complex permutation of commands; combining multiple inputs.
+		// The program should remove the offending entry.
+		Assert::AreEqual((size_t) 0, feedback.getTasksForDisplay().size());
+		delete logic;
+
+		// Testing manually added complete entry in the valid entries partition
+		remove(FILEPATH.c_str());
+		saveFile.open(FILEPATH.c_str());
+		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n" << "0" << "\n";
+		saveFile.close();
+
+		logic = new Logic;
+
+		feedback = logic->executeCommand(CMD_REFRESH);
+		task = feedback.getTasksForDisplay()[0];
+
+		// The program should accept the entry
+		Assert::AreEqual((size_t) 1, feedback.getTasksForDisplay().size());
+		Assert::AreEqual(TASK_A, task.getTaskText());
+		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getStartDateTime()));
+		Assert::AreEqual(DATE_TIME_2, boost::posix_time::to_simple_string(task.getEndDateTime()));
+		Assert::AreEqual(false, task.isComplete());
+		delete logic;
+	}
 	};
 }
