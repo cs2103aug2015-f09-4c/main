@@ -660,6 +660,30 @@ public:
 		Assert::AreEqual(DATE_TIME_3, boost::posix_time::to_simple_string(task.getEndDateTime()));
 		Assert::AreEqual(false, task.isComplete());
 		delete logic;
+
+		// Testing manually adding task with valid start but invalid end date-time in the invalid partition
+		saveFile.open(FILEPATH.c_str());
+		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << NOT_A_DATE_TIME << "\n" << "0" << "\n";
+		saveFile << TASK_B << "\n" << DATE_TIME_2 << "\n" << TAG_A << "\n" << "0" << "\n";
+		saveFile.close();
+
+		logic = new Logic;
+		feedback = logic->executeCommand(CMD_REFRESH);
+		Assert::AreEqual((size_t) 2, feedback.getTasksForDisplay().size());
+
+		task = feedback.getTasksForDisplay()[0];
+		Assert::AreEqual(TASK_A, task.getTaskText());
+		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getStartDateTime()));
+		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getEndDateTime()));
+		Assert::AreEqual(false, task.isComplete());
+		Assert::AreEqual((size_t) 0, task.getTags().size());
+
+		task = feedback.getTasksForDisplay()[1];
+		Assert::AreEqual(TASK_B, task.getTaskText());
+		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getStartDateTime()));
+		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getEndDateTime()));
+		Assert::AreEqual(false, task.isComplete());
+		delete logic;
 	}
 	};
 }
