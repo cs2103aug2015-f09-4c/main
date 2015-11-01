@@ -111,6 +111,7 @@
     <ClInclude Include="CommandTokenisers\TagCommandTokeniser.h" />
     <ClInclude Include="CommandTokenisers\UndoCommandTokeniser.h" />
     <ClInclude Include="CommandTokenisers\UntagCommandTokeniser.h" />
+    <ClInclude Include="CommandTokenisers\SortCommandTokeniser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CommandTokenisers\AddCommandTokeniser.cpp" />
@@ -130,6 +131,7 @@
     <ClCompile Include="CommandTokenisers\TagCommandTokeniser.cpp" />
     <ClCompile Include="CommandTokenisers\UndoCommandTokeniser.cpp" />
     <ClCompile Include="CommandTokenisers\UntagCommandTokeniser.cpp" />
+    <ClCompile Include="CommandTokenisers\SortCommandTokeniser.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

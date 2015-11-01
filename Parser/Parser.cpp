@@ -11,6 +11,7 @@
 #include "CommandTokenisers\ImportCommandTokeniser.h"
 #include "CommandTokenisers\RefreshCommandTokeniser.h"
 #include "CommandTokenisers\SearchCommandTokeniser.h"
+#include "CommandTokenisers\SortCommandTokeniser.h"
 #include "CommandTokenisers\TagCommandTokeniser.h"
 #include "CommandTokenisers\UndoCommandTokeniser.h"
 #include "CommandTokenisers\UntagCommandTokeniser.h"
@@ -32,6 +33,7 @@ Parser::Parser(void) {
 	_commandTokenisers.push_back(new ImportCommandTokeniser);
 	_commandTokenisers.push_back(new RefreshCommandTokeniser);
 	_commandTokenisers.push_back(new SearchCommandTokeniser);
+	_commandTokenisers.push_back(new SortCommandTokeniser);
 	_commandTokenisers.push_back(new TagCommandTokeniser);
 	_commandTokenisers.push_back(new UndoCommandTokeniser);
 	_commandTokenisers.push_back(new UntagCommandTokeniser);
