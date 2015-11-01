@@ -71,14 +71,14 @@ public:
 		std::string taskName = "do something";
 		std::string timeString("2002-01-20 23:59:59.000");
 		token.setPrimaryCommand(CommandTokens::Add);
-		token.setSecondaryCommand(CommandTokens::Todo);
+		token.setSecondaryCommand(CommandTokens::By);
 		token.setTaskName(taskName);
 		token.setEndDateTime(boost::posix_time::time_from_string(timeString));
 
 		AddCommand* command = creator.testProcessAddCommand(token);
 		Task task("do something", boost::posix_time::time_from_string(timeString));
 		Assert::AreEqual(true, command->getPrimaryCommandType() == CommandTokens::Add);
-		Assert::AreEqual(true, command->getSecondaryCommandType() == CommandTokens::Todo);
+		Assert::AreEqual(true, command->getSecondaryCommandType() == CommandTokens::By);
 		Assert::AreEqual(false, command->isExecuted());
 		Assert::AreEqual(true, command->isValid());
 		Assert::AreEqual(true, command->getTask() == task);
@@ -102,7 +102,7 @@ public:
 
 		command = creator.testProcessAddCommand(token);
 		Assert::AreEqual(true, command->getPrimaryCommandType() == CommandTokens::PrimaryCommandType::Add);
-		Assert::AreEqual(true, command->getSecondaryCommandType() == CommandTokens::SecondaryCommandType::Todo);
+		Assert::AreEqual(true, command->getSecondaryCommandType() == CommandTokens::SecondaryCommandType::By);
 		Assert::AreEqual(false, command->isExecuted());
 		Assert::AreEqual(true, command->isValid());
 		Assert::AreEqual(true, command->getTask() == Task(testString, boost::posix_time::time_from_string(timeString)));
@@ -130,7 +130,7 @@ public:
 		std::string timeString1("2002-01-20 23:59:59");
 		std::string timeString2("2002-01-21 23:59:59");
 		token.setPrimaryCommand(CommandTokens::Add);
-		token.setSecondaryCommand(CommandTokens::Timed);
+		token.setSecondaryCommand(CommandTokens::FromTo);
 		token.setTaskName(taskName);
 		token.setStartDateTime(boost::posix_time::time_from_string(timeString1));
 		token.setEndDateTime(boost::posix_time::time_from_string(timeString2));
@@ -138,7 +138,7 @@ public:
 		AddCommand* command = creator.testProcessAddCommand(token);
 		Task task("do something", boost::posix_time::time_from_string(timeString1), boost::posix_time::time_from_string(timeString2));
 		Assert::AreEqual(true, command->getPrimaryCommandType() == CommandTokens::Add);
-		Assert::AreEqual(true, command->getSecondaryCommandType() == CommandTokens::Timed);
+		Assert::AreEqual(true, command->getSecondaryCommandType() == CommandTokens::FromTo);
 		Assert::AreEqual(false, command->isExecuted());
 		Assert::AreEqual(true, command->isValid());
 		Assert::AreEqual(true, command->getTask() == task);
@@ -162,7 +162,7 @@ public:
 
 		command = creator.testProcessAddCommand(token);
 		Assert::AreEqual(true, command->getPrimaryCommandType() == CommandTokens::PrimaryCommandType::Add);
-		Assert::AreEqual(true, command->getSecondaryCommandType() == CommandTokens::SecondaryCommandType::Timed);
+		Assert::AreEqual(true, command->getSecondaryCommandType() == CommandTokens::SecondaryCommandType::FromTo);
 		Assert::AreEqual(false, command->isExecuted());
 		Assert::AreEqual(true, command->isValid());
 		Assert::AreEqual(true, command->getTask() == Task(testString, boost::posix_time::time_from_string(timeString1), boost::posix_time::time_from_string(timeString2)));
@@ -188,7 +188,7 @@ public:
 		
 		command = creator.testProcessAddCommand(token);
 		Assert::AreEqual(true, command->getPrimaryCommandType() == CommandTokens::PrimaryCommandType::Add);
-		Assert::AreEqual(true, command->getSecondaryCommandType() == CommandTokens::SecondaryCommandType::Timed);
+		Assert::AreEqual(true, command->getSecondaryCommandType() == CommandTokens::SecondaryCommandType::FromTo);
 		Assert::AreEqual(false, command->isExecuted());
 		Assert::AreEqual(true, command->isValid());
 		Assert::AreEqual(true, command->getTask() == Task(testString, boost::posix_time::time_from_string(timeString2), boost::posix_time::time_from_string(timeString2)));
@@ -235,7 +235,7 @@ public:
 		CommandCreator creator;
 		CommandTokens token;
 		token.setPrimaryCommand(CommandTokens::Delete);
-		token.setSecondaryCommand(CommandTokens::Todo);
+		token.setSecondaryCommand(CommandTokens::By);
 
 		DeleteBeforeCommand* command = NULL;
 
@@ -246,7 +246,7 @@ public:
 		token.setEndDateTime(endTime);
 		command = creator.testProcessDeleteBeforeCommand(token);
 		Assert::AreEqual(true , CommandTokens::Delete==command->getPrimaryCommandType());
-		Assert::AreEqual(true , CommandTokens::Todo==command->getSecondaryCommandType());
+		Assert::AreEqual(true , CommandTokens::By==command->getSecondaryCommandType());
 		Assert::AreEqual(false, command->isExecuted());
 		Assert::AreEqual(true, command->isValid());
 		Assert::AreEqual(expectedString.c_str(), boost::posix_time::to_simple_string(command->getEndDateTime()).c_str());
@@ -264,7 +264,7 @@ public:
 		CommandCreator creator;
 		CommandTokens token;
 		token.setPrimaryCommand(CommandTokens::Delete);
-		token.setSecondaryCommand(CommandTokens::Timed);
+		token.setSecondaryCommand(CommandTokens::FromTo);
 
 		DeleteFromToCommand* command = NULL;
 
@@ -279,7 +279,7 @@ public:
 		token.setEndDateTime(endTime);
 		command = creator.testProcessDeleteFromToCommand(token);
 		Assert::AreEqual(true , CommandTokens::Delete==command->getPrimaryCommandType());
-		Assert::AreEqual(true , CommandTokens::Timed==command->getSecondaryCommandType());
+		Assert::AreEqual(true , CommandTokens::FromTo==command->getSecondaryCommandType());
 		Assert::AreEqual(false, command->isExecuted());
 		Assert::AreEqual(true, command->isValid());
 		Assert::AreEqual(expectedString1.c_str(), boost::posix_time::to_simple_string(command->getStartDateTime()).c_str());

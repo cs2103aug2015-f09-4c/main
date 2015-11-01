@@ -8,41 +8,39 @@ class CommandTokens {
 public:
 	// Command Type for main groups of operation
 	enum PrimaryCommandType {
-		Add,
-		Complete,
-		Configure,
-		Delete,
-		Display,
-		Edit,
-		Export,
-		Help,
-		Import,
 		Invalid,
+
+		// administrative commands
+		Help,
+		Configure,
 		Refresh,
-		Search,
-		Tag,
 		Undo,
-		Untag
+
+		// task management commands
+		Add, Display, Edit, Delete,
+		Search,	Sort,
+		Tag, Untag,
+		MarkAsComplete,
+		Export,	Import
 	};
 
 	// Command Type to further specify the operation
 	enum SecondaryCommandType {
-		All,
-		Completed,
-		End,
-		EndAfter,
-		EndBefore,
-		Floating,
-		Index,
-		Name,
 		None,
-		SaveLocation,
-		Start,
-		StartAfter,
-		StartBefore,
+
+		// general task filters
+		All, Index,
+		FromTo, By,	Floating,
+		Completed,
+		Name, Start, End,
 		Tags,
-		Timed,
-		Todo
+
+		// specific task filters
+		EndAfter,EndBefore,
+		StartAfter,	StartBefore,
+
+		// miscellaneous
+		SaveLocation
 	};
 
 	CommandTokens(PrimaryCommandType primaryCommandType = Invalid,

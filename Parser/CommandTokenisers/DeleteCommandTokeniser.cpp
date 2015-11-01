@@ -100,7 +100,7 @@ void DeleteCommandTokeniser::tokeniseDeleteIndex(std::string userInput, CommandT
 }
 
 void DeleteCommandTokeniser::tokeniseDeleteFromTo(std::string userInput, CommandTokens* outputCommandTokens) {
-	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::Timed);
+	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::FromTo);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
@@ -127,7 +127,7 @@ void DeleteCommandTokeniser::tokeniseDeleteFrom(std::string userInput, CommandTo
 }
 
 void DeleteCommandTokeniser::tokeniseDeleteBy(std::string userInput, CommandTokens* outputCommandTokens) {
-	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::Todo);
+	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::By);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,

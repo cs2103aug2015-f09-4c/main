@@ -86,7 +86,7 @@ bool AddCommandTokeniser::isAddFloating(std::string userInput) {
 }
 
 void AddCommandTokeniser::tokeniseAddFromTo(std::string userInput, CommandTokens* tokenisedCommand) {
-	tokenisedCommand->setSecondaryCommand(CommandTokens::SecondaryCommandType::Timed);
+	tokenisedCommand->setSecondaryCommand(CommandTokens::SecondaryCommandType::FromTo);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
@@ -103,7 +103,7 @@ void AddCommandTokeniser::tokeniseAddFromTo(std::string userInput, CommandTokens
 }
 
 void AddCommandTokeniser::tokeniseAddBy(std::string userInput, CommandTokens* tokenisedCommand) {
-	tokenisedCommand->setSecondaryCommand(CommandTokens::SecondaryCommandType::Todo);
+	tokenisedCommand->setSecondaryCommand(CommandTokens::SecondaryCommandType::By);
 
 	std::smatch matchResults;
 	std::regex_match(userInput, matchResults,
