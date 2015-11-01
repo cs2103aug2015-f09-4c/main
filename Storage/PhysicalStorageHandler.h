@@ -8,7 +8,6 @@
 
 const std::string defaultPath = "defaultSaveFile.txt";
 const std::string start = "@@start@@";
-const std::string end = "@@end@@";
 
 
 class PhysicalStorageHandler

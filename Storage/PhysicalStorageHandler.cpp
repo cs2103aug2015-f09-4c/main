@@ -17,57 +17,75 @@ void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::st
 	Logger* logger = Logger::getInstance();
 	logger->logDEBUG("Loading from file...");
 
-	if (loadFile.is_open() && !loadFile.eof()) {
-		while (!loadFile.eof() && identityString != start) {
-			std::getline(loadFile, identityString);
-		}
-
-		while (identityString != end) {
-			std::string taskText;
-			std::string startDateTimeString;
-			std::string endDateTimeString;
-			std::string isCompleteString;
-
-			std::getline(loadFile,taskText);
-
-			std::getline(loadFile,startDateTimeString);
-			boost::posix_time::ptime startDateTime;
-			if (startDateTimeString != "not-a-date-time") {
-				try {
-					startDateTime = boost::posix_time::time_from_string(startDateTimeString);
-				} catch (boost::exception const & e) {
-					logger->logERROR(startDateTimeString + " is not a format for boost::posix_time");
-				}
-			}
-
-			std::getline(loadFile,endDateTimeString);
-			boost::posix_time::ptime endDateTime;
-			if (endDateTimeString != "not-a-date-time") {
-				try {
-				endDateTime = boost::posix_time::time_from_string(endDateTimeString);
-				} catch (boost::exception const & e) {
-					logger->logERROR(endDateTimeString + " is not a format for boost::posix_time");
-				}
-			}
-
-			std::getline(loadFile, isCompleteString);
-
-			API::Task taskToAdd(taskText, startDateTime, endDateTime);
-			if (isCompleteString == "1") {
-				taskToAdd.toggleComplete();
-			}
-
-			std::getline(loadFile, identityString);
-			while (identityString != start && identityString != end) {
-				try {
-					taskToAdd.addTag(identityString);
-				} catch (std::exception e) {
-					logger->logDEBUG("Tag: " + identityString + " not added");
-				}
+	try {
+		if (loadFile.is_open() && !loadFile.eof()) {
+			while (!loadFile.eof() && identityString != start) {
 				std::getline(loadFile, identityString);
 			}
-			tasks.push_back(taskToAdd);
+
+			while (!loadFile.eof()) {
+				std::string taskText;
+				std::string startDateTimeString;
+				std::string endDateTimeString;
+				std::string isCompleteString;
+				API::Task *taskToAdd;
+
+				std::getline(loadFile,taskText);
+
+				std::getline(loadFile,startDateTimeString);
+				boost::posix_time::ptime startDateTime;
+				if (startDateTimeString != "not-a-date-time") {
+					try {
+						startDateTime = boost::posix_time::time_from_string(startDateTimeString);
+					} catch (boost::exception const & e) {
+						logger->logERROR(startDateTimeString + " is not a format for boost::posix_time");
+					}
+				}
+
+				std::getline(loadFile,endDateTimeString);
+				boost::posix_time::ptime endDateTime;
+				if (endDateTimeString != "not-a-date-time") {
+					try {
+						endDateTime = boost::posix_time::time_from_string(endDateTimeString);
+					} catch (boost::exception const & e) {
+						logger->logERROR(endDateTimeString + " is not a format for boost::posix_time");
+					}
+				}
+
+				std::getline(loadFile, isCompleteString);
+
+				try {
+					taskToAdd = new API::Task(taskText, startDateTime, endDateTime);
+				} catch (std::exception e) {
+					logger->logERROR(e.what());
+
+					boost::posix_time::ptime notDateTime;
+					taskToAdd = new API::Task(taskText, notDateTime, notDateTime);
+				}
+
+				if (isCompleteString == "1") {
+					taskToAdd->toggleComplete();
+				}
+
+				std::getline(loadFile, identityString);
+				while (!loadFile.eof() && identityString != start) {
+					try {
+						taskToAdd->addTag(identityString);
+					} catch (std::exception e) {
+						logger->logDEBUG("Tag: " + identityString + " not added");
+					}
+					std::getline(loadFile, identityString);
+				}
+				tasks.push_back(*taskToAdd);
+			}
 		}
+	} catch (std::exception e) {
+		std::string errorMessage = e.what();
+
+		remove(filePath.c_str());
+
+		logger->logERROR("ERROR: " + errorMessage);
+		logger->logERROR("Deleted savedFile");
 	}
 }
 
@@ -89,5 +107,4 @@ void PhysicalStorageHandler::saveToFile(std::vector<API::Task>& tasks, std::stri
 			saveFile << *iter << "\n";
 		}
 	}
-	saveFile << end << "\n";
 }
