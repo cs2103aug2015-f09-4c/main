@@ -322,6 +322,34 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
+		TEST_METHOD(unitTest_parser_TokeniseSearchFromTo) {
+			std::string testUserInput = "SEARCH FROM 2002-01-20 23:59:59.000 TO 2002-01-22 23:59:59.000";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Search,
+			                                      CommandTokens::SecondaryCommandType::FromTo,
+			                                      "",
+			                                      "2002-01-20 23:59:59.000",
+			                                      "2002-01-22 23:59:59.000",
+			                                      -1);
+
+			compareCommandTokens(expected, actual);
+		}
+
+		TEST_METHOD(unitTest_parser_TokeniseSearchFreeSlot) {
+			std::string testUserInput = "SEARCH FREE";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Search,
+			                                      CommandTokens::SecondaryCommandType::FreeSlot,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      -1);
+
+			compareCommandTokens(expected, actual);
+		}
+
 		TEST_METHOD(unitTest_parser_TokeniseSearchStartBefore) {
 			std::string testUserInput = "SEARCH START BEFORE 2002-01-20 23:59:59.000";
 			CommandTokens actual, expected;
