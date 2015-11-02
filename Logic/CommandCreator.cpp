@@ -14,6 +14,9 @@ Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens
 		case CommandTokens::PrimaryCommandType::Delete:
 			returnCommand = processDeleteCommand(commandTokens);
 			break;
+		case CommandTokens::PrimaryCommandType::Display:
+			returnCommand = processDisplayCommand(commandTokens);
+			break;
 		case CommandTokens::PrimaryCommandType::Edit:
 			returnCommand = processEditCommand(commandTokens);
 			break;
@@ -37,6 +40,9 @@ Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens
 			break;
 		case CommandTokens::PrimaryCommandType::Search:
 			returnCommand = processSearchCommand(commandTokens);
+			break;
+		case CommandTokens::PrimaryCommandType::Sort:
+			returnCommand = processSortCommand(commandTokens);
 			break;
 		case CommandTokens::PrimaryCommandType::Invalid:
 			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
@@ -167,6 +173,28 @@ DeleteAllCommand* CommandCreator::processDeleteAllCommand(CommandTokens commandT
 
 DeleteCompleteCommand* CommandCreator::processDeleteCompleteCommand(CommandTokens commandTokens) {
 	DeleteCompleteCommand* returnCommand = new DeleteCompleteCommand();
+	return returnCommand;
+}
+
+DisplayCommand* CommandCreator::processDisplayCommand(CommandTokens commandTokens) {
+	DisplayCommand* returnCommand = NULL;
+	CommandTokens::SecondaryCommandType type2 = commandTokens.getSecondaryCommand();
+	switch (type2) {
+	case CommandTokens::SecondaryCommandType::All:
+		returnCommand = new DisplayCommand(Display_Type::displayAll);
+		break;
+	case CommandTokens::SecondaryCommandType::Floating:
+		returnCommand = new DisplayCommand(Display_Type::displayFloat);
+		break;
+	case CommandTokens::SecondaryCommandType::By:
+		returnCommand = new DisplayCommand(Display_Type::displayTodo);
+		break;
+	case CommandTokens::SecondaryCommandType::FromTo:
+		returnCommand = new DisplayCommand(Display_Type::displayTimed);
+		break;
+	default:
+		throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
+	}
 	return returnCommand;
 }
 
@@ -358,6 +386,25 @@ SearchNameCommand* CommandCreator::processSearchNameCommand(CommandTokens comman
 	SearchNameCommand* returnCommand;
 	std::string searchString = commandTokens.getTaskName();
 	returnCommand = new SearchNameCommand(searchString);
+	return returnCommand;
+}
+
+SortCommand* CommandCreator::processSortCommand(CommandTokens commandTokens) {
+	SortCommand* returnCommand;
+	CommandTokens::SecondaryCommandType type2 = commandTokens.getSecondaryCommand();
+	switch (type2) {
+	case CommandTokens::SecondaryCommandType::Name:
+		returnCommand = new SortCommand(Sort_Type::sortByName);
+		break;
+	case CommandTokens::SecondaryCommandType::Start:
+		returnCommand = new SortCommand(Sort_Type::sortByStart);
+		break;
+	case CommandTokens::SecondaryCommandType::End:
+		returnCommand = new SortCommand(Sort_Type::sortByEnd);
+		break;
+	default:
+		throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
+	}
 	return returnCommand;
 }
 

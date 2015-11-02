@@ -135,12 +135,16 @@ void RunTimeStorage::removeAll(void) {
 	return;
 }
 
-void RunTimeStorage::setTimeForCompare(ptime time) {
-	_time = time;
+Display_Type RunTimeStorage::getDisplayType() {
+	return _displayMode;
 }
 
 void RunTimeStorage::changeDisplayType(Display_Type type) {
 	_displayMode = type;
+}
+
+Sort_Type RunTimeStorage::getSortType() {
+	return _sortMode;
 }
 
 void RunTimeStorage::changeSortType(Sort_Type type) {

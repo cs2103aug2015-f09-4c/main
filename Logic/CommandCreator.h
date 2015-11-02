@@ -29,6 +29,8 @@ private:
 	static DeleteAllCommand* processDeleteAllCommand(CommandTokens commandTokens);
 	static DeleteCompleteCommand* processDeleteCompleteCommand(CommandTokens commandTokens);
 
+	static DisplayCommand* processDisplayCommand(CommandTokens commandTokens);
+
 	static EditCommand* processEditCommand(CommandTokens commandTokens);
 	static EditNameCommand* processEditNameCommand(CommandTokens commandTokens);
 	static EditStartCommand* processEditStartCommand(CommandTokens commandTokens);
@@ -49,6 +51,8 @@ private:
 	static SearchNameCommand* processSearchNameCommand(CommandTokens commandTokens);
 
 	static SetCompleteCommand* processSetCompleteCommand(CommandTokens commandTokens);
+
+	static SortCommand* processSortCommand(CommandTokens commandTokens);
 
 	static TagCommand* processTagCommand(CommandTokens commandTokens);
 

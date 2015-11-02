@@ -59,9 +59,6 @@ private:
 
 	Display_Type _displayMode;
 	Sort_Type _sortMode;
-	
-	//Time object used for comparison when selecting tasks to display for displayBefore and displayAfter
-	ptime _time;
 
 	//If the task fit _displayMode, return true, else return false
 	bool isValidForDisplay(Task task);
@@ -101,8 +98,9 @@ public:
 	bool isDuplicate(Task task);
 	bool isValidIndex(size_t index);
 
-	void setTimeForCompare(ptime time);
+	Display_Type getDisplayType();
 	void changeDisplayType(Display_Type type);
+	Sort_Type getSortType();
 	void changeSortType(Sort_Type type);
 
 	void saveToFile();

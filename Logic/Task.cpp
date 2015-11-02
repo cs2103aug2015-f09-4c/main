@@ -169,16 +169,14 @@ bool Task::sortByStartDateTime (Task task1, Task task2) {
 	boost::posix_time::ptime startDateTime1 = task1.getStartDateTime();
 	boost::posix_time::ptime startDateTime2 = task2.getStartDateTime();
 
-	if (startDateTime2.is_special()) {
+	if (startDateTime1.is_special() && startDateTime2.is_special()) {
 		return false;
 	} else if (startDateTime1.is_special()) {
-		return true;
-	}
-
-	if (startDateTime1 < startDateTime2) {
+		return false;
+	} else if (startDateTime2.is_special()) {
 		return true;
 	} else {
-		return false;
+		return startDateTime1 < startDateTime2;
 	}
 }
 
@@ -186,26 +184,22 @@ bool Task::sortByEndDateTime (Task task1, Task task2) {
 	boost::posix_time::ptime endDateTime1 = task1.getStartDateTime();
 	boost::posix_time::ptime endDateTime2 = task2.getStartDateTime();
 
-	if (endDateTime2.is_special()) {
+	if (endDateTime1.is_special() && endDateTime2.is_special()) {
 		return false;
 	} else if (endDateTime1.is_special()) {
-		return true;
-	}
-
-	if (endDateTime1 < endDateTime2) {
+		return false;
+	} else if (endDateTime2.is_special()) {
 		return true;
 	} else {
-		return false;
+		return endDateTime1 < endDateTime2;
 	}
 }
-
 
 bool Task::sortByName (Task task1, Task task2) {
 	std::string task1Text = task1.getTaskText();
 	std::string task2Text = task2.getTaskText();
 
 	size_t minStringLength = (std::min)(task1Text.size(), task2Text.size());
-
 
 	for (size_t i = 0 ; i < minStringLength ; ++i) {
 		task1Text[i] = std::tolower(task1Text[i]);

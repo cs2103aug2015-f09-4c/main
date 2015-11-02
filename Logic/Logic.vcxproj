@@ -120,6 +120,7 @@
     <ClInclude Include="Command_Add.h" />
     <ClInclude Include="CommandCreator.h" />
     <ClInclude Include="Command_Delete.h" />
+    <ClInclude Include="Command_Display.h" />
     <ClInclude Include="Command_Edit.h" />
     <ClInclude Include="CommandExecutor.h" />
     <ClInclude Include="CommandHeader.h" />
@@ -128,6 +129,7 @@
     <ClInclude Include="Command_Refresh.h" />
     <ClInclude Include="Command_Search.h" />
     <ClInclude Include="Command_Set.h" />
+    <ClInclude Include="Command_Sort.h" />
     <ClInclude Include="Command_Tag.h" />
     <ClInclude Include="Command_Untag.h" />
     <ClInclude Include="Logic.h" />
@@ -141,12 +143,14 @@
     <ClCompile Include="Command_Add.cpp" />
     <ClCompile Include="CommandCreator.cpp" />
     <ClCompile Include="Command_Delete.cpp" />
+    <ClCompile Include="Command_Display.cpp" />
     <ClCompile Include="Command_Edit.cpp" />
     <ClCompile Include="Command_Export.cpp" />
     <ClCompile Include="Command_Import.cpp" />
     <ClCompile Include="Command_Refresh.cpp" />
     <ClCompile Include="Command_Search.cpp" />
     <ClCompile Include="Command_Set.cpp" />
+    <ClCompile Include="Command_Sort.cpp" />
     <ClCompile Include="Command_Tag.cpp" />
     <ClCompile Include="Command_Untag.cpp" />
     <ClCompile Include="Logic.cpp" />
