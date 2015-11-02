@@ -74,6 +74,9 @@
     <ClInclude Include="Command_Display.h">
       <Filter>Header Files\Command</Filter>
     </ClInclude>
+    <ClInclude Include="Command_Sort.h">
+      <Filter>Header Files\Command</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Logic.cpp">
@@ -128,6 +131,9 @@
       <Filter>Source Files\Command</Filter>
     </ClCompile>
     <ClCompile Include="Command_Display.cpp">
+      <Filter>Source Files\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="Command_Sort.cpp">
       <Filter>Source Files\Command</Filter>
     </ClCompile>
   </ItemGroup>

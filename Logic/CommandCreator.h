@@ -52,6 +52,8 @@ private:
 
 	static SetCompleteCommand* processSetCompleteCommand(CommandTokens commandTokens);
 
+	static SortCommand* processSortCommand(CommandTokens commandTokens);
+
 	static TagCommand* processTagCommand(CommandTokens commandTokens);
 
 	static UntagCommand* processUntagCommand(CommandTokens commandTokens);

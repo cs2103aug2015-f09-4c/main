@@ -41,6 +41,9 @@ Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens
 		case CommandTokens::PrimaryCommandType::Search:
 			returnCommand = processSearchCommand(commandTokens);
 			break;
+		case CommandTokens::PrimaryCommandType::Sort:
+			returnCommand = processSortCommand(commandTokens);
+			break;
 		case CommandTokens::PrimaryCommandType::Invalid:
 			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 			break;
@@ -383,6 +386,25 @@ SearchNameCommand* CommandCreator::processSearchNameCommand(CommandTokens comman
 	SearchNameCommand* returnCommand;
 	std::string searchString = commandTokens.getTaskName();
 	returnCommand = new SearchNameCommand(searchString);
+	return returnCommand;
+}
+
+SortCommand* CommandCreator::processSortCommand(CommandTokens commandTokens) {
+	SortCommand* returnCommand;
+	CommandTokens::SecondaryCommandType type2 = commandTokens.getSecondaryCommand();
+	switch (type2) {
+	case CommandTokens::SecondaryCommandType::Name:
+		returnCommand = new SortCommand(Sort_Type::sortByName);
+		break;
+	case CommandTokens::SecondaryCommandType::Start:
+		returnCommand = new SortCommand(Sort_Type::sortByStart);
+		break;
+	case CommandTokens::SecondaryCommandType::End:
+		returnCommand = new SortCommand(Sort_Type::sortByEnd);
+		break;
+	default:
+		throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
+	}
 	return returnCommand;
 }
 
