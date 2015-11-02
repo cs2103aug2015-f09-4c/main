@@ -14,6 +14,9 @@ Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens
 		case CommandTokens::PrimaryCommandType::Delete:
 			returnCommand = processDeleteCommand(commandTokens);
 			break;
+		case CommandTokens::PrimaryCommandType::Display:
+			returnCommand = processDisplayCommand(commandTokens);
+			break;
 		case CommandTokens::PrimaryCommandType::Edit:
 			returnCommand = processEditCommand(commandTokens);
 			break;
@@ -167,6 +170,28 @@ DeleteAllCommand* CommandCreator::processDeleteAllCommand(CommandTokens commandT
 
 DeleteCompleteCommand* CommandCreator::processDeleteCompleteCommand(CommandTokens commandTokens) {
 	DeleteCompleteCommand* returnCommand = new DeleteCompleteCommand();
+	return returnCommand;
+}
+
+DisplayCommand* CommandCreator::processDisplayCommand(CommandTokens commandTokens) {
+	DisplayCommand* returnCommand = NULL;
+	CommandTokens::SecondaryCommandType type2 = commandTokens.getSecondaryCommand();
+	switch (type2) {
+	case CommandTokens::SecondaryCommandType::All:
+		returnCommand = new DisplayCommand(Display_Type::displayAll);
+		break;
+	case CommandTokens::SecondaryCommandType::Floating:
+		returnCommand = new DisplayCommand(Display_Type::displayFloat);
+		break;
+	case CommandTokens::SecondaryCommandType::By:
+		returnCommand = new DisplayCommand(Display_Type::displayTodo);
+		break;
+	case CommandTokens::SecondaryCommandType::FromTo:
+		returnCommand = new DisplayCommand(Display_Type::displayTimed);
+		break;
+	default:
+		throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
+	}
 	return returnCommand;
 }
 

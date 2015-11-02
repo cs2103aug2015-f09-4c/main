@@ -4,6 +4,7 @@
 
 #include "Command_Add.h"
 #include "Command_Delete.h"
+#include "Command_Display.h"
 #include "Command_Edit.h"
 #include "Command_Export.h"
 #include "Command_Import.h"

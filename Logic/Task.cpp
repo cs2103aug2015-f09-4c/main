@@ -199,13 +199,11 @@ bool Task::sortByEndDateTime (Task task1, Task task2) {
 	}
 }
 
-
 bool Task::sortByName (Task task1, Task task2) {
 	std::string task1Text = task1.getTaskText();
 	std::string task2Text = task2.getTaskText();
 
 	size_t minStringLength = (std::min)(task1Text.size(), task2Text.size());
-
 
 	for (size_t i = 0 ; i < minStringLength ; ++i) {
 		task1Text[i] = std::tolower(task1Text[i]);
