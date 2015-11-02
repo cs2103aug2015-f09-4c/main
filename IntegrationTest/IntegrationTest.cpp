@@ -65,7 +65,7 @@ const std::string addCommand3 = CMD_ADD + SPACE + TASK_C + SPACE + FROM + DATE_T
 namespace UnitIntegrationTest {		
 	TEST_CLASS(UnitIntegrationTest) {
 public:
-	TEST_METHOD(add) {
+	TEST_METHOD(integrationAdd) {
 		// Important to do it here because logic keeps a copy of data on construction
 		remove(FILEPATH.c_str());
 
@@ -118,7 +118,7 @@ public:
 		Assert::AreEqual((size_t) 3, feedback.getTasksForDisplay().size());
 	}
 
-	TEST_METHOD(refresh) {
+	TEST_METHOD(integrationRefresh) {
 		remove(FILEPATH.c_str());
 
 		Logic logic;
@@ -137,7 +137,7 @@ public:
 		Assert::AreEqual((size_t) 3, feedback.getTasksForDisplay().size());
 	}
 
-	TEST_METHOD(edit) {
+	TEST_METHOD(integrationEdit) {
 		remove(FILEPATH.c_str());
 
 		Logic logic;
@@ -206,7 +206,7 @@ public:
 
 	}
 
-	TEST_METHOD(tagUntag) {
+	TEST_METHOD(integrationTagUntag) {
 		remove(FILEPATH.c_str());
 
 		Logic logic;
@@ -224,6 +224,7 @@ public:
 		std::string tagCommand3 = CMD_TAG + " 3 " + TAG_A;
 		std::string tagCommand0 = CMD_TAG + " 0 " + TAG_A;
 		std::string tagCommand4 = CMD_TAG + " 4 " + TAG_A;
+		std::string tagCommand1Space = CMD_TAG + " 1 " + TAG_WITHSPACE;
 
 		std::string untagCommand1A = CMD_UNTAG + " 1 " + TAG_A;
 		std::string untagCommand3 = CMD_UNTAG + " 3 " + TAG_A;
@@ -237,6 +238,22 @@ public:
 		// Tag Tests
 		// Testing tag lower bound of valid partition
 		feedback = logic.executeCommand(tagCommand1A);
+		tags = feedback.getTasksForDisplay()[0].getTags();
+
+		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
+		Assert::AreEqual((size_t) 1, tags.size());
+		Assert::AreEqual(TAG_A, *tags.begin());
+
+		// Testing tags with space in invalid format partition
+		try {
+			feedback = logic.executeCommand(tagCommand1Space);
+			Assert::AreEqual(false, true);
+
+		} catch (std::string e) {
+			Assert::AreEqual(CMD_INVALID, e);
+		}
+
+		feedback = logic.executeCommand(CMD_REFRESH);
 		tags = feedback.getTasksForDisplay()[0].getTags();
 
 		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
@@ -397,7 +414,7 @@ public:
 		Assert::AreEqual((size_t) 0, tags.size());
 	}
 
-	TEST_METHOD(complete) {
+	TEST_METHOD(integrationComplete) {
 		remove(FILEPATH.c_str());
 
 		Logic logic;
@@ -451,8 +468,7 @@ public:
 
 	}
 
-	// delete is a keyword hence deleteTasks
-	TEST_METHOD(deleteTasks) {
+	TEST_METHOD(integrationDelete) {
 		remove(FILEPATH.c_str());
 
 		Logic logic;
@@ -529,7 +545,7 @@ public:
 		// Not worth testing deleting empty because it is part of the invalid partitions
 	}
 
-	TEST_METHOD(dateTimeFormat) {
+	TEST_METHOD(integrationDateTimeFormat) {
 		remove(FILEPATH.c_str());
 
 		// Tests flexible formats
@@ -550,21 +566,124 @@ public:
 		Assert::AreEqual(DATE_TIME_2, boost::posix_time::to_simple_string(task.getEndDateTime()));
 	}
 
-	/*TEST_METHOD(corruptedSavedFile) {
-	remove(FILEPATH.c_str());
+	TEST_METHOD(integrationDataCorrupted) {
+		remove(FILEPATH.c_str());
 
-	std::ofstream saveFile(FILEPATH.c_str());
-	saveFile << DATE_TIME_1 << "\n" << DATE_TIME_2;
-	saveFile.close();
+		// Logic only loads from file at construction
+		Logic *logic;
+		UIFeedback feedback;
+		API::Task task;
 
-	// TBC
-	}*/
-	// TODO: Below
+		// Testing manually added incomplete entry in the valid entries partition
+		std::ofstream saveFile(FILEPATH.c_str());
+		saveFile << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n";
+		saveFile.close();
 
-	// Testing flexible inputs like variation of date-time
+		logic = new Logic;
 
-	// Testing limits of input, number of tasks etc.
+		feedback = logic->executeCommand(CMD_REFRESH);
+		task = feedback.getTasksForDisplay()[0];
 
-	// Testing more complex permutation of commands; combining multiple inputs.
+		Assert::AreEqual((size_t) 1, feedback.getTasksForDisplay().size());
+		Assert::AreEqual(DATE_TIME_1, task.getTaskText());
+		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getStartDateTime()));
+		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getEndDateTime()));
+		Assert::AreEqual(false, task.isComplete());
+		delete logic;
+
+		// Testing manually added complete entry in the valid entries partition
+		remove(FILEPATH.c_str());
+		saveFile.open(FILEPATH.c_str());
+		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n" << "0" << "\n";
+		saveFile.close();
+
+		logic = new Logic;
+		feedback = logic->executeCommand(CMD_REFRESH);
+		task = feedback.getTasksForDisplay()[0];
+
+		Assert::AreEqual((size_t) 1, feedback.getTasksForDisplay().size());
+		Assert::AreEqual(TASK_A, task.getTaskText());
+		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getStartDateTime()));
+		Assert::AreEqual(DATE_TIME_2, boost::posix_time::to_simple_string(task.getEndDateTime()));
+		Assert::AreEqual(false, task.isComplete());
+		delete logic;
+
+		// Testing manually added 6th tag that is more than the maximum 5 tags in invalid partition
+		saveFile.open(FILEPATH.c_str());
+		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n" << "0" << "\n";
+		saveFile << TAG_A << "\n" << TAG_B << "\n" << TAG_C << "\n" << TAG_D << "\n" << TAG_E << "\n";
+		saveFile << TAG_F << "\n";
+		saveFile.close();
+		std::set<std::string> tags;
+
+		logic = new Logic;
+		feedback = logic->executeCommand(CMD_REFRESH);
+		task = feedback.getTasksForDisplay()[0];
+		tags = task.getTags();
+
+		Assert::AreEqual((size_t) 1, feedback.getTasksForDisplay().size());
+		Assert::AreEqual(TASK_A, task.getTaskText());
+		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getStartDateTime()));
+		Assert::AreEqual(DATE_TIME_2, boost::posix_time::to_simple_string(task.getEndDateTime()));
+		Assert::AreEqual(false, task.isComplete());
+		Assert::AreEqual((size_t) 5, tags.size());
+		std::set<std::string>::iterator it = tags.begin();
+		Assert::AreEqual(TAG_A, *it);
+		Assert::AreEqual(TAG_B, *(++it));
+		Assert::AreEqual(TAG_C, *(++it));
+		Assert::AreEqual(TAG_D, *(++it));
+		Assert::AreEqual(TAG_E, *(++it));
+		delete logic;
+
+		// Testing manually adding tag with length > 32 in invalid partition
+		const std::string longTag = "#01234567890123456789012345678912";
+		saveFile.open(FILEPATH.c_str());
+		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n" << "0" << "\n";
+		saveFile << longTag << "\n";
+		saveFile << TASK_B << "\n" << DATE_TIME_2 << "\n" << DATE_TIME_3 << "\n" << "0" << "\n";
+		saveFile.close();
+
+		logic = new Logic;
+		feedback = logic->executeCommand(CMD_REFRESH);
+		Assert::AreEqual((size_t) 2, feedback.getTasksForDisplay().size());
+
+		task = feedback.getTasksForDisplay()[0];
+		Assert::AreEqual(TASK_A, task.getTaskText());
+		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getStartDateTime()));
+		Assert::AreEqual(DATE_TIME_2, boost::posix_time::to_simple_string(task.getEndDateTime()));
+		Assert::AreEqual(false, task.isComplete());
+		Assert::AreEqual((size_t) 0, task.getTags().size());
+
+		task = feedback.getTasksForDisplay()[1];
+		Assert::AreEqual(TASK_B, task.getTaskText());
+		Assert::AreEqual(DATE_TIME_2, boost::posix_time::to_simple_string(task.getStartDateTime()));
+		Assert::AreEqual(DATE_TIME_3, boost::posix_time::to_simple_string(task.getEndDateTime()));
+		Assert::AreEqual(false, task.isComplete());
+		delete logic;
+
+		// Testing manually adding task with valid start but invalid end date-time in the invalid partition
+		saveFile.open(FILEPATH.c_str());
+		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << NOT_A_DATE_TIME << "\n" << "0" << "\n";
+		saveFile << TASK_B << "\n" << DATE_TIME_2 << "\n" << TAG_A << "\n" << "0" << "\n";
+		saveFile.close();
+
+		logic = new Logic;
+		feedback = logic->executeCommand(CMD_REFRESH);
+		Assert::AreEqual((size_t) 2, feedback.getTasksForDisplay().size());
+
+		task = feedback.getTasksForDisplay()[0];
+		Assert::AreEqual(TASK_A, task.getTaskText());
+		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getStartDateTime()));
+		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getEndDateTime()));
+		Assert::AreEqual(false, task.isComplete());
+		Assert::AreEqual((size_t) 0, task.getTags().size());
+
+		task = feedback.getTasksForDisplay()[1];
+		Assert::AreEqual(TASK_B, task.getTaskText());
+		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getStartDateTime()));
+		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getEndDateTime()));
+		Assert::AreEqual(false, task.isComplete());
+		delete logic;
+	}
 	};
 }
