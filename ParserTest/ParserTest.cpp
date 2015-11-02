@@ -180,6 +180,20 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
+		TEST_METHOD(unitTest_parser_TokeniseDisplayActivity) {
+			std::string testUserInput = "DISPLAY ACTIVITY";
+			CommandTokens actual, expected;
+			actual = _parser.parse(testUserInput);
+			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Display,
+			                                      CommandTokens::SecondaryCommandType::FromTo,
+			                                      "",
+			                                      "",
+			                                      "",
+			                                      -1);
+
+			compareCommandTokens(expected, actual);
+		}
+
 		TEST_METHOD(unitTest_parser_TokeniseDisplayFloating) {
 			std::string testUserInput = "DISPLAY FLOATING";
 			CommandTokens actual, expected;
@@ -194,42 +208,14 @@ namespace ParserTest {
 			compareCommandTokens(expected, actual);
 		}
 
-		TEST_METHOD(unitTest_parser_TokeniseDisplayBy) {
-			std::string testUserInput = "DISPLAY BY 2002-01-22 23:59:59.000";
+		TEST_METHOD(unitTest_parser_TokeniseDisplayTodo) {
+			std::string testUserInput = "DISPLAY TODO";
 			CommandTokens actual, expected;
 			actual = _parser.parse(testUserInput);
 			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Display,
 			                                      CommandTokens::SecondaryCommandType::By,
 			                                      "",
 			                                      "",
-			                                      "2002-01-22 23:59:59.000",
-			                                      -1);
-
-			compareCommandTokens(expected, actual);
-		}
-
-		TEST_METHOD(unitTest_parser_TokeniseDisplayFromTo) {
-			std::string testUserInput = "DISPLAY FROM 2002-01-20 23:59:59.000 TO 2002-01-22 23:59:59.000";
-			CommandTokens actual, expected;
-			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Display,
-			                                      CommandTokens::SecondaryCommandType::FromTo,
-			                                      "",
-			                                      "2002-01-20 23:59:59.000",
-			                                      "2002-01-22 23:59:59.000",
-			                                      -1);
-
-			compareCommandTokens(expected, actual);
-		}
-
-		TEST_METHOD(unitTest_parser_TokeniseDisplayFrom) {
-			std::string testUserInput = "DISPLAY FROM 2002-01-20 23:59:59.000";
-			CommandTokens actual, expected;
-			actual = _parser.parse(testUserInput);
-			expected = buildExpectedCommandTokens(CommandTokens::PrimaryCommandType::Display,
-			                                      CommandTokens::SecondaryCommandType::Start,
-			                                      "",
-			                                      "2002-01-20 23:59:59.000",
 			                                      "",
 			                                      -1);
 

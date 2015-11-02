@@ -12,14 +12,12 @@ public:
 
 private:
 	bool isDisplayAll(std::string userInput);
+	bool isDisplayActivity(std::string userInput);
+	bool isDisplayTodo(std::string userInput);
 	bool isDisplayFloating(std::string userInput);
-	bool isDisplayFromTo(std::string userInput);
-	bool isDisplayFrom(std::string userInput);
-	bool isDisplayBy(std::string userInput);
 
 	void tokeniseDisplayAll(CommandTokens* outputCommandTokens);
+	void tokeniseDisplayActivity(CommandTokens* outputCommandTokens);
+	void tokeniseDisplayTodo(CommandTokens* outputCommandTokens);
 	void tokeniseDisplayFloating(CommandTokens* outputCommandTokens);
-	void tokeniseDisplayFromTo(std::string userInput, CommandTokens* outputCommandTokens);
-	void tokeniseDisplayFrom(std::string userInput, CommandTokens* outputCommandTokens);
-	void tokeniseDisplayBy(std::string userInput, CommandTokens* outputCommandTokens);
 };
