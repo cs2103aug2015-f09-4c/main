@@ -205,11 +205,15 @@ namespace UI {
 			// 
 			// commandBox
 			// 
-			this->commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(32) {L"add ", L"complete ", L"delete ", 
-				L"Delete completed", L"delete by ", L"delete from ", L"Delete all", L"Display all", L"display by ", L"Display floating", L"display from ", 
-				L"edit name ", L"edit start ", L"edit end ", L"export ", L"import ", L"Refresh", L"search name ", L"search start after ", L"search start before ", 
-				L"search end after ", L"search end before ", L"search tags #", L"Sort name", L"Sort name desc", L"Sort start", L"Sort start desc", 
-				L"Sort end", L"Sort end desc", L"tag ", L"Undo", L"untag "});
+			this->commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(51) {L"ADD taskname FROM datetime TO datetime (tags)", 
+				L"ADD taskname BY datetime (tags)", L"ADD taskname (tags)", L"", L"COMPLETE index", L"", L"CONFIGURE SAVE LOCATION saveLocation // no spaces allowed", 
+				L"", L"DELETE ALL", L"DELETE COMPLETED", L"DELETE index", L"DELETE BY datetime", L"DELETE FROM datetime TO datetime", L"DELETE FROM datetime", 
+				L"", L"DISPLAY ALL", L"DISPLAY ACTIVITY", L"DISPLAY TODO", L"DISPLAY FLOATING", L"", L"EDIT NAME index newName", L"EDIT START index newStartDatetime", 
+				L"EDIT END index newEndDatetime", L"", L"EXPORT exportLocation // no spaces allowed", L"", L"IMPORT importLocation // no spaces allowed", 
+				L"", L"REFRESH", L"", L"SEARCH FREE", L"SEARCH NAME queryName", L"SEARCH FROM datetime TO datetime", L"SEARCH START BEFORE queryDatetime", 
+				L"SEARCH START AFTER queryDatetime", L"SEARCH END BEFORE queryDatetime", L"SEARCH END AFTER queryDatetime", L"SEARCH TAGS tags", 
+				L"", L"SORT NAME", L"SORT NAME DESC", L"SORT START", L"SORT START DESC", L"SORT END", L"SORT END DESC", L"", L"TAG index tags", 
+				L"", L"UNDO", L"", L"UNTAG index tags"});
 			this->commandBox->AutoCompleteMode = System::Windows::Forms::AutoCompleteMode::Suggest;
 			this->commandBox->AutoCompleteSource = System::Windows::Forms::AutoCompleteSource::CustomSource;
 			this->commandBox->Dock = System::Windows::Forms::DockStyle::Bottom;
