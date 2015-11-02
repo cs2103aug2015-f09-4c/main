@@ -205,8 +205,11 @@ namespace UI {
 			// 
 			// commandBox
 			// 
-			this->commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(13) {L"add ", L"complete ", L"delete ", 
-				L"display", L"edit name ", L"edit start ", L"edit end ", L"exit ", L"search ", L"sort ", L"tag ", L"undo", L"untag "});
+			this->commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(32) {L"add ", L"complete ", L"delete ", 
+				L"Delete completed", L"delete by ", L"delete from ", L"Delete all", L"Display all", L"display by ", L"Display floating", L"display from ", 
+				L"edit name ", L"edit start ", L"edit end ", L"export ", L"import ", L"Refresh", L"search name ", L"search start after ", L"search start before ", 
+				L"search end after ", L"search end before ", L"search tags #", L"Sort name", L"Sort name desc", L"Sort start", L"Sort start desc", 
+				L"Sort end", L"Sort end desc", L"tag ", L"Undo", L"untag "});
 			this->commandBox->AutoCompleteMode = System::Windows::Forms::AutoCompleteMode::Suggest;
 			this->commandBox->AutoCompleteSource = System::Windows::Forms::AutoCompleteSource::CustomSource;
 			this->commandBox->Dock = System::Windows::Forms::DockStyle::Bottom;
