@@ -10,7 +10,9 @@ SearchCommandTokeniser::~SearchCommandTokeniser(void) {
 }
 
 bool SearchCommandTokeniser::canTokeniseUserInput(std::string userInput) {
-	if (isSearchName(userInput) ||
+	if (isSearchFreeSlot(userInput) ||
+		isSearchName(userInput) ||
+		isSearchFromTo(userInput) ||
 		isSearchStartBefore(userInput) ||
 		isSearchStartAfter(userInput) ||
 		isSearchEndBefore(userInput) ||
@@ -26,8 +28,12 @@ CommandTokens SearchCommandTokeniser::tokeniseUserInput(std::string userInput) {
 
 	CommandTokens tokenisedCommand(CommandTokens::PrimaryCommandType::Search);
 
-	if (isSearchName(userInput)) {
+	if (isSearchFreeSlot(userInput)) {
+		tokeniseSearchFreeSlot(&tokenisedCommand);
+	} else if (isSearchName(userInput)) {
 		tokeniseSearchName(userInput, &tokenisedCommand);
+	} else if (isSearchFromTo(userInput)) {
+		tokeniseSearchFromTo(userInput, &tokenisedCommand);
 	} else if (isSearchStartBefore(userInput)) {
 		tokeniseSearchStartBefore(userInput, &tokenisedCommand);
 	} else if (isSearchStartAfter(userInput)) {
@@ -43,9 +49,21 @@ CommandTokens SearchCommandTokeniser::tokeniseUserInput(std::string userInput) {
 	return tokenisedCommand;
 }
 
+bool SearchCommandTokeniser::isSearchFreeSlot(std::string userInput) {
+	return std::regex_match(userInput,
+	                        std::regex("SEARCH FREE",
+	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
 bool SearchCommandTokeniser::isSearchName(std::string userInput) {
 	return std::regex_match(userInput,
 	                        std::regex("SEARCH NAME .+",
+	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
+bool SearchCommandTokeniser::isSearchFromTo(std::string userInput) {
+	return std::regex_match(userInput,
+	                        std::regex("SEARCH FROM .+ TO .+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
@@ -79,6 +97,10 @@ bool SearchCommandTokeniser::isSearchTags(std::string userInput) {
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
+void SearchCommandTokeniser::tokeniseSearchFreeSlot(CommandTokens* outputCommandTokens) {
+	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::FreeSlot);
+}
+
 void SearchCommandTokeniser::tokeniseSearchName(std::string userInput, CommandTokens* outputCommandTokens) {
 	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::Name);
 
@@ -89,6 +111,20 @@ void SearchCommandTokeniser::tokeniseSearchName(std::string userInput, CommandTo
 
 	std::string taskNameToSearch = matchResults[1];
 	outputCommandTokens->setTaskName(taskNameToSearch);
+}
+
+void SearchCommandTokeniser::tokeniseSearchFromTo(std::string userInput, CommandTokens* outputCommandTokens) {
+	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::FromTo);
+
+	std::smatch matchResults;
+	std::regex_match(userInput, matchResults,
+	                 std::regex("SEARCH FROM (.+) TO (.+)",
+	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
+
+	boost::posix_time::ptime startDateTime = parseUserInputDate(matchResults[1]);
+	boost::posix_time::ptime endDateTime = parseUserInputDate(matchResults[2]);
+	outputCommandTokens->setStartDateTime(startDateTime);
+	outputCommandTokens->setEndDateTime(endDateTime);
 }
 
 void SearchCommandTokeniser::tokeniseSearchStartBefore(std::string userInput, CommandTokens* outputCommandTokens) {

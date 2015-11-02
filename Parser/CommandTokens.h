@@ -38,6 +38,7 @@ public:
 		// specific task filters
 		EndAfter,EndBefore,
 		StartAfter,	StartBefore,
+		FreeSlot,
 
 		// miscellaneous
 		SaveLocation
