@@ -1,4 +1,4 @@
-//@@ author A0097681N
+//@@author A0097681N
 #include "DisplayCommandTokeniser.h"
 
 DisplayCommandTokeniser::DisplayCommandTokeniser(void) {
