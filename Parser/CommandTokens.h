@@ -85,10 +85,3 @@ private:
 	int _index;
 	std::string _otherCommandParameter;
 };
-
-class CommandDoesNotExistException: public std::exception {
-public:
-	virtual const char* what() const throw() override {
-		return "Command does not exist";
-	}
-};

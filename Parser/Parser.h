@@ -16,8 +16,9 @@ private:
 	Logger* _logger;
 
 	std::vector<CommandTokeniser*> _commandTokenisers;
-	CommandTokeniser* _commandTokeniser;
 	CommandTokens _invalidCommandTokens;
 
+	void initialiseAllCommandTokenisers(void);
+	void initialiseInvalidCommandTokens(void);
 	CommandTokeniser* getCommandTokeniser(std::string userInput);
 };
