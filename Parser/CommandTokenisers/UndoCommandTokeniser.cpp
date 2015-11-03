@@ -29,7 +29,7 @@ CommandTokens UndoCommandTokeniser::tokeniseUserInput(std::string userInput) {
 }
 
 bool UndoCommandTokeniser::isUndoOnce(std::string userInput) {
-	return isRegexMatch(userInput, "UNDO");
+	return isRegexMatch(&userInput, "UNDO");
 }
 
 void UndoCommandTokeniser::tokeniseUndoOnce(CommandTokens* outputCommandTokens) {

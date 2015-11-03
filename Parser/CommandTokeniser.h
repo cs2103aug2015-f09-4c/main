@@ -19,5 +19,6 @@ public:
 protected:
 	// utility methods for common user input processing tasks
 	boost::posix_time::ptime parseUserInputDate(std::string userInputDate);
-	bool isRegexMatch(std::string userInput, std::string regexString);
+	bool isRegexMatch(const std::string* userInput, std::string regexString);
+	std::smatch getRegexMatches(const std::string* userInput, std::string regexString);
 };

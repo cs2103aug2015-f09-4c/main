@@ -57,17 +57,17 @@ void DisplayCommandTokeniser::tokeniseDisplayFloating(CommandTokens* outputComma
 }
 
 bool DisplayCommandTokeniser::isDisplayAll(std::string userInput) {
-	return isRegexMatch(userInput, "DISPLAY ALL");
+	return isRegexMatch(&userInput, "DISPLAY ALL");
 }
 
 bool DisplayCommandTokeniser::isDisplayActivity(std::string userInput) {
-	return isRegexMatch(userInput, "DISPLAY ACTIVITY");
+	return isRegexMatch(&userInput, "DISPLAY ACTIVITY");
 }
 
 bool DisplayCommandTokeniser::isDisplayTodo(std::string userInput) {
-	return isRegexMatch(userInput, "DISPLAY TODO");
+	return isRegexMatch(&userInput, "DISPLAY TODO");
 }
 
 bool DisplayCommandTokeniser::isDisplayFloating(std::string userInput) {
-	return isRegexMatch(userInput, "DISPLAY FLOATING");
+	return isRegexMatch(&userInput, "DISPLAY FLOATING");
 }

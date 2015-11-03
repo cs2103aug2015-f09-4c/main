@@ -37,15 +37,15 @@ CommandTokens SortCommandTokeniser::tokeniseUserInput(std::string userInput) {
 }
 
 bool SortCommandTokeniser::isSortName(std::string userInput) {
-	return isRegexMatch(userInput, "SORT NAME( DESC)?");
+	return isRegexMatch(&userInput, "SORT NAME( DESC)?");
 }
 
 bool SortCommandTokeniser::isSortStart(std::string userInput) {
-	return isRegexMatch(userInput, "SORT START( DESC)?");
+	return isRegexMatch(&userInput, "SORT START( DESC)?");
 }
 
 bool SortCommandTokeniser::isSortEnd(std::string userInput) {
-	return isRegexMatch(userInput, "SORT END( DESC)?");
+	return isRegexMatch(&userInput, "SORT END( DESC)?");
 }
 
 void SortCommandTokeniser::tokeniseSortName(std::string userInput, CommandTokens* outputCommandTokens) {

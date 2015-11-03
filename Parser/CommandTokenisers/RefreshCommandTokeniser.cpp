@@ -29,7 +29,7 @@ CommandTokens RefreshCommandTokeniser::tokeniseUserInput(std::string userInput) 
 }
 
 bool RefreshCommandTokeniser::isRefreshBasic(std::string userInput) {
-	return isRegexMatch(userInput, "REFRESH");
+	return isRegexMatch(&userInput, "REFRESH");
 }
 
 void RefreshCommandTokeniser::tokeniseRefreshBasic(std::string userInput, CommandTokens* outputCommandTokens) {
