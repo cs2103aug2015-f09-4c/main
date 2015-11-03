@@ -6,18 +6,18 @@
 class DateParser {
 public:
 	DateParser(void);
-	boost::posix_time::ptime parse(std::string dateString);
+	static boost::posix_time::ptime parse(std::string dateString);
 
 private:
-	bool isLocallySupportedDateFormat(std::string userInputDateString);
-	bool isBoostLibrarySupportedDateFormat(std::string userInputDateString);
+	static bool isLocallySupportedDateFormat(std::string userInputDateString);
+	static bool isBoostLibrarySupportedDateFormat(std::string userInputDateString);
 
-	std::string convertToFormattedDateString(std::string userInputDateString);
-	boost::posix_time::ptime getPtimeObject(std::string formattedDateString);
-	boost::posix_time::ptime getInvalidPtimeObject(void);
+	static std::string convertToFormattedDateString(std::string userInputDateString);
+	static boost::posix_time::ptime getPtimeObject(std::string formattedDateString);
+	static boost::posix_time::ptime getInvalidPtimeObject(void);
 
-	bool isDDMMYYYY_TTTT(std::string dateString);
-	bool isDDMMYY(std::string dateString);
-	std::string parseDDMMYYYY_TTTT(std::string dateString);
-	std::string parseDDMMYYYY(std::string dateString);
+	static bool isDDMMYYYY_TTTT(std::string dateString);
+	static bool isDDMMYY(std::string dateString);
+	static std::string parseDDMMYYYY_TTTT(std::string dateString);
+	static std::string parseDDMMYYYY(std::string dateString);
 };

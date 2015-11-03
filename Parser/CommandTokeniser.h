@@ -2,7 +2,6 @@
 #pragma once
 #include <regex>
 #include "CommandTokens.h"
-#include "DateParser.h"
 
 // abstract class used to create concrete class for processing each kind of
 // command;
@@ -19,8 +18,6 @@ public:
 
 protected:
 	// utility methods for common user input processing tasks
-	DateParser _dateParser;
 	boost::posix_time::ptime parseUserInputDate(std::string userInputDate);
-
 	bool isRegexMatch(std::string userInput, std::string regexString);
 };
