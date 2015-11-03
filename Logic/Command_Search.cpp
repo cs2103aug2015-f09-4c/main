@@ -49,7 +49,7 @@ UIFeedback SearchStartBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
 		throw COMMAND_EXECUTION_EXCEPTION(MESSAGE_NO_TASK_FOUND);
 	}
 
-	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByStartDateTime);
+	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByStartDateTimeAscending);
 
 	runTimeStorage -> setTasksToDisplay(_searchResult);
 
@@ -84,7 +84,7 @@ UIFeedback SearchStartAfterCommand::execute(RunTimeStorage* runTimeStorage) {
 		throw COMMAND_EXECUTION_EXCEPTION(MESSAGE_NO_TASK_FOUND);
 	}
 
-	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByStartDateTime);
+	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByStartDateTimeAscending);
 
 	runTimeStorage -> setTasksToDisplay(_searchResult);
 
@@ -115,7 +115,7 @@ UIFeedback SearchEndBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
 	std::vector<Task>& tasks = runTimeStorage -> getAllTasks();
 
 	for (size_t i = 0 ; i < tasks.size() ; ++i) {
-		ptime end = tasks[i].getStartDateTime();
+		ptime end = tasks[i].getEndDateTime();
 		if (!end.is_special()) {
 			if (end < _end) {
 				_searchResult.push_back(tasks[i]);
@@ -127,7 +127,7 @@ UIFeedback SearchEndBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
 		throw COMMAND_EXECUTION_EXCEPTION(MESSAGE_NO_TASK_FOUND);
 	}
 
-	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByEndDateTime);
+	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByEndDateTimeAscending);
 
 	runTimeStorage -> setTasksToDisplay(_searchResult);
 
@@ -150,7 +150,7 @@ UIFeedback SearchEndAfterCommand::execute(RunTimeStorage* runTimeStorage) {
 	std::vector<Task>& tasks = runTimeStorage -> getAllTasks();
 
 	for (size_t i = 0 ; i < tasks.size() ; ++i) {
-		ptime end = tasks[i].getStartDateTime();
+		ptime end = tasks[i].getEndDateTime();
 		if (!end.is_special()) {
 			if (end > _end) {
 				_searchResult.push_back(tasks[i]);
@@ -162,7 +162,7 @@ UIFeedback SearchEndAfterCommand::execute(RunTimeStorage* runTimeStorage) {
 		throw COMMAND_EXECUTION_EXCEPTION(MESSAGE_NO_TASK_FOUND);
 	}
 
-	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByEndDateTime);
+	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByEndDateTimeAscending);
 
 	runTimeStorage -> setTasksToDisplay(_searchResult);
 

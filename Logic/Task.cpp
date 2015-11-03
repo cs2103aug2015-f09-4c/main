@@ -165,7 +165,7 @@ void Task::removeTag(std::string tag) {
 	}
 }
 
-bool Task::sortByStartDateTime (Task task1, Task task2) {
+bool Task::sortByStartDateTimeAscending (Task task1, Task task2) {
 	boost::posix_time::ptime startDateTime1 = task1.getStartDateTime();
 	boost::posix_time::ptime startDateTime2 = task2.getStartDateTime();
 
@@ -180,7 +180,7 @@ bool Task::sortByStartDateTime (Task task1, Task task2) {
 	}
 }
 
-bool Task::sortByEndDateTime (Task task1, Task task2) {
+bool Task::sortByEndDateTimeAscending (Task task1, Task task2) {
 	boost::posix_time::ptime endDateTime1 = task1.getStartDateTime();
 	boost::posix_time::ptime endDateTime2 = task2.getStartDateTime();
 
@@ -195,7 +195,7 @@ bool Task::sortByEndDateTime (Task task1, Task task2) {
 	}
 }
 
-bool Task::sortByName (Task task1, Task task2) {
+bool Task::sortByNameAscending (Task task1, Task task2) {
 	std::string task1Text = task1.getTaskText();
 	std::string task2Text = task2.getTaskText();
 
@@ -219,4 +219,60 @@ bool Task::sortByName (Task task1, Task task2) {
 	} else {
 		return false;
 	}
+}
+
+bool Task::sortByStartDateTimeDescending (Task task1, Task task2) {
+	boost::posix_time::ptime startDateTime1 = task1.getStartDateTime();
+	boost::posix_time::ptime startDateTime2 = task2.getStartDateTime();
+
+	if (startDateTime1.is_special() && startDateTime2.is_special()) {
+		return false;
+	} else if (startDateTime1.is_special()) {
+		return false;
+	} else if (startDateTime2.is_special()) {
+		return true;
+	} else {
+		return startDateTime1 > startDateTime2;
+	}		
+}
+
+bool Task::sortByEndDateTimeDescending (Task task1, Task task2) {
+	boost::posix_time::ptime endDateTime1 = task1.getStartDateTime();
+	boost::posix_time::ptime endDateTime2 = task2.getStartDateTime();
+
+	if (endDateTime1.is_special() && endDateTime2.is_special()) {
+		return false;
+	} else if (endDateTime1.is_special()) {
+		return false;
+	} else if (endDateTime2.is_special()) {
+		return true;
+	} else {
+		return endDateTime1 > endDateTime2;
+	}
+}
+
+bool Task::sortByNameDescending(Task task1, Task task2) {
+	std::string task1Text = task1.getTaskText();
+	std::string task2Text = task2.getTaskText();
+
+	size_t minStringLength = (std::min)(task1Text.size(), task2Text.size());
+
+	for (size_t i = 0 ; i < minStringLength ; ++i) {
+		task1Text[i] = std::tolower(task1Text[i]);
+		task2Text[i] = std::tolower(task2Text[i]);
+	}
+
+	for (size_t i = 0 ; i < minStringLength ; ++i) {
+		if (task1Text[i] > task2Text[i]) {
+			return true;
+		} else if (task1Text[i] < task2Text[i]) {
+			return false;
+		}
+	}
+
+	if (task1Text.size() < task2Text.size()) {
+		return true;
+	} else {
+		return false;
+	}	
 }
