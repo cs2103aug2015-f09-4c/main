@@ -205,8 +205,15 @@ namespace UI {
 			// 
 			// commandBox
 			// 
-			this->commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(13) {L"add ", L"complete ", L"delete ", 
-				L"display", L"edit name ", L"edit start ", L"edit end ", L"exit ", L"search ", L"sort ", L"tag ", L"undo", L"untag "});
+			this->commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(51) {L"ADD taskname FROM datetime TO datetime (tags)", 
+				L"ADD taskname BY datetime (tags)", L"ADD taskname (tags)", L"", L"COMPLETE index", L"", L"CONFIGURE SAVE LOCATION saveLocation // no spaces allowed", 
+				L"", L"DELETE ALL", L"DELETE COMPLETED", L"DELETE index", L"DELETE BY datetime", L"DELETE FROM datetime TO datetime", L"DELETE FROM datetime", 
+				L"", L"DISPLAY ALL", L"DISPLAY ACTIVITY", L"DISPLAY TODO", L"DISPLAY FLOATING", L"", L"EDIT NAME index newName", L"EDIT START index newStartDatetime", 
+				L"EDIT END index newEndDatetime", L"", L"EXPORT exportLocation // no spaces allowed", L"", L"IMPORT importLocation // no spaces allowed", 
+				L"", L"REFRESH", L"", L"SEARCH FREE", L"SEARCH NAME queryName", L"SEARCH FROM datetime TO datetime", L"SEARCH START BEFORE queryDatetime", 
+				L"SEARCH START AFTER queryDatetime", L"SEARCH END BEFORE queryDatetime", L"SEARCH END AFTER queryDatetime", L"SEARCH TAGS tags", 
+				L"", L"SORT NAME", L"SORT NAME DESC", L"SORT START", L"SORT START DESC", L"SORT END", L"SORT END DESC", L"", L"TAG index tags", 
+				L"", L"UNDO", L"", L"UNTAG index tags"});
 			this->commandBox->AutoCompleteMode = System::Windows::Forms::AutoCompleteMode::Suggest;
 			this->commandBox->AutoCompleteSource = System::Windows::Forms::AutoCompleteSource::CustomSource;
 			this->commandBox->Dock = System::Windows::Forms::DockStyle::Bottom;

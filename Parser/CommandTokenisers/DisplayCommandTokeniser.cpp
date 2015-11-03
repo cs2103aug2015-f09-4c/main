@@ -12,9 +12,8 @@ DisplayCommandTokeniser::~DisplayCommandTokeniser(void) {
 bool DisplayCommandTokeniser::canTokeniseUserInput(std::string userInput) {
 	if (isDisplayAll(userInput) ||
 		isDisplayFloating(userInput) ||
-		isDisplayFromTo(userInput) ||
-		isDisplayFrom(userInput) ||
-		isDisplayBy(userInput)) {
+		isDisplayActivity(userInput) ||
+		isDisplayTodo(userInput)) {
 		return true;
 	}
 	return false;
@@ -27,14 +26,12 @@ CommandTokens DisplayCommandTokeniser::tokeniseUserInput(std::string userInput) 
 
 	if (isDisplayAll(userInput)) {
 		tokeniseDisplayAll(&tokenisedCommand);
+	} else if (isDisplayActivity(userInput)) {
+		tokeniseDisplayActivity(&tokenisedCommand);
+	} else if (isDisplayTodo(userInput)) {
+		tokeniseDisplayTodo(&tokenisedCommand);
 	} else if (isDisplayFloating(userInput)) {
 		tokeniseDisplayFloating(&tokenisedCommand);
-	} else if (isDisplayFromTo(userInput)) {
-		tokeniseDisplayFromTo(userInput, &tokenisedCommand);
-	} else if (isDisplayFrom(userInput)) {
-		tokeniseDisplayFrom(userInput, &tokenisedCommand);
-	} else if (isDisplayBy(userInput)) {
-		tokeniseDisplayBy(userInput, &tokenisedCommand);
 	}
 
 	return tokenisedCommand;
@@ -44,47 +41,16 @@ void DisplayCommandTokeniser::tokeniseDisplayAll(CommandTokens* outputCommandTok
 	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::All);
 }
 
+void DisplayCommandTokeniser::tokeniseDisplayActivity(CommandTokens* outputCommandTokens) {
+	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::FromTo);
+}
+
+void DisplayCommandTokeniser::tokeniseDisplayTodo(CommandTokens* outputCommandTokens) {
+	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::By);
+}
+
 void DisplayCommandTokeniser::tokeniseDisplayFloating(CommandTokens* outputCommandTokens) {
 	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::Floating);
-}
-
-void DisplayCommandTokeniser::tokeniseDisplayFromTo(std::string userInput, CommandTokens* outputCommandTokens) {
-	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::FromTo);
-
-	std::smatch matchResults;
-	std::regex_match(userInput, matchResults,
-	                 std::regex("DISPLAY FROM (.+) TO (.+)",
-	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
-
-	boost::posix_time::ptime startDateTime = parseUserInputDate(matchResults[1]);
-	boost::posix_time::ptime endDateTime = parseUserInputDate(matchResults[2]);
-
-	outputCommandTokens->setStartDateTime(startDateTime);
-	outputCommandTokens->setEndDateTime(endDateTime);
-}
-
-void DisplayCommandTokeniser::tokeniseDisplayFrom(std::string userInput, CommandTokens* outputCommandTokens) {
-	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::Start);
-
-	std::smatch matchResults;
-	std::regex_match(userInput, matchResults,
-	                 std::regex("DISPLAY FROM (.+)",
-	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
-
-	boost::posix_time::ptime startDateTime = parseUserInputDate(matchResults[1]);
-	outputCommandTokens->setStartDateTime(startDateTime);
-}
-
-void DisplayCommandTokeniser::tokeniseDisplayBy(std::string userInput, CommandTokens* outputCommandTokens) {
-	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::By);
-
-	std::smatch matchResults;
-	std::regex_match(userInput, matchResults,
-	                 std::regex("DISPLAY BY (.+)",
-	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
-
-	boost::posix_time::ptime endDateTime = parseUserInputDate(matchResults[1]);
-	outputCommandTokens->setEndDateTime(endDateTime);
 }
 
 bool DisplayCommandTokeniser::isDisplayAll(std::string userInput) {
@@ -93,26 +59,20 @@ bool DisplayCommandTokeniser::isDisplayAll(std::string userInput) {
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
+bool DisplayCommandTokeniser::isDisplayActivity(std::string userInput) {
+	return std::regex_match(userInput,
+	                        std::regex("DISPLAY ACTIVITY",
+	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
+bool DisplayCommandTokeniser::isDisplayTodo(std::string userInput) {
+	return std::regex_match(userInput,
+	                        std::regex("DISPLAY TODO",
+	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+}
+
 bool DisplayCommandTokeniser::isDisplayFloating(std::string userInput) {
 	return std::regex_match(userInput,
 	                        std::regex("DISPLAY FLOATING",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
-}
-
-bool DisplayCommandTokeniser::isDisplayFromTo(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("DISPLAY FROM .+ TO .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
-}
-
-bool DisplayCommandTokeniser::isDisplayFrom(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("DISPLAY FROM .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
-}
-
-bool DisplayCommandTokeniser::isDisplayBy(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("DISPLAY BY .+",
 	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
