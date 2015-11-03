@@ -18,6 +18,9 @@ public:
 	virtual bool canTokeniseUserInput(std::string userInput) = 0;
 
 protected:
+	// utility methods for common user input processing tasks
 	DateParser _dateParser;
 	boost::posix_time::ptime parseUserInputDate(std::string userInputDate);
+
+	bool isRegexMatch(std::string userInput, std::string regexString);
 };

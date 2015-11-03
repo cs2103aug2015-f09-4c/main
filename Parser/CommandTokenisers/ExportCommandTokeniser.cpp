@@ -29,8 +29,7 @@ CommandTokens ExportCommandTokeniser::tokeniseUserInput(std::string userInput) {
 }
 
 bool ExportCommandTokeniser::isExportToLocalDisk(std::string userInput) {
-	return std::regex_match(userInput, std::regex("EXPORT [^ ]+",
-	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(userInput,"EXPORT [^ ]+");
 }
 
 void ExportCommandTokeniser::tokeniseExportToLocalDisk(std::string userInput, CommandTokens* outputCommandTokens) {

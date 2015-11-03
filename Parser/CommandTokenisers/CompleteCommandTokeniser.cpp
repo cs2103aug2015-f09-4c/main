@@ -29,9 +29,7 @@ CommandTokens CompleteCommandTokeniser::tokeniseUserInput(std::string userInput)
 }
 
 bool CompleteCommandTokeniser::isCompleteIndex(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("COMPLETE [0-9]+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(userInput, "COMPLETE [0-9]+");
 }
 
 void CompleteCommandTokeniser::tokeniseCompleteIndex(std::string userInput, CommandTokens* outputCommandTokens) {

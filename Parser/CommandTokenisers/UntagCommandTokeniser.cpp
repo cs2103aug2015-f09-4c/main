@@ -29,9 +29,7 @@ CommandTokens UntagCommandTokeniser::tokeniseUserInput(std::string userInput) {
 }
 
 bool UntagCommandTokeniser::isUntagIndex(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("UNTAG [0-9]+( (#[^ ]+))+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(userInput, "UNTAG [0-9]+( (#[^ ]+))+");
 }
 
 void UntagCommandTokeniser::tokeniseUntagIndex(std::string userInput, CommandTokens* outputCommandTokens) {

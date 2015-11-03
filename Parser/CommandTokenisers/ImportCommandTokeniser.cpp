@@ -28,9 +28,7 @@ CommandTokens ImportCommandTokeniser::tokeniseUserInput(std::string userInput) {
 }
 
 bool ImportCommandTokeniser::isImportLocal(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("IMPORT [^ ]+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(userInput, "IMPORT [^ ]+");
 }
 
 void ImportCommandTokeniser::tokeniseImportLocal(std::string userInput, CommandTokens* outputCommandTokens) {

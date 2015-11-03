@@ -30,8 +30,10 @@ CommandTokens AddCommandTokeniser::tokeniseUserInput(std::string userInput) {
 
 	if (isAddFromTo(userInput)) {
 		tokeniseAddFromTo(userInput, &tokenisedCommand);
+
 	} else if (isAddBy(userInput)) {
 		tokeniseAddBy(userInput, &tokenisedCommand);
+
 	} else if (isAddFloating(userInput)) {
 		tokeniseAddFloating(userInput, &tokenisedCommand);
 	}
@@ -40,9 +42,7 @@ CommandTokens AddCommandTokeniser::tokeniseUserInput(std::string userInput) {
 }
 
 bool AddCommandTokeniser::isTagged(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex(".+?( #[^ ]+)+",
-	                                   std::regex_constants::ECMAScript));
+	return isRegexMatch(userInput, ".+?( #[^ ]+)+");
 }
 
 void AddCommandTokeniser::tokeniseTags(std::string userInput, CommandTokens* tokenisedCommand) {
@@ -68,21 +68,15 @@ std::string AddCommandTokeniser::trimTags(std::string userInput) {
 }
 
 bool AddCommandTokeniser::isAddFromTo(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("ADD .+ FROM .+ TO .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(userInput, "ADD .+ FROM .+ TO .+");
 }
 
 bool AddCommandTokeniser::isAddBy(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("ADD .+ BY .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(userInput, "ADD .+ BY .+");
 }
 
 bool AddCommandTokeniser::isAddFloating(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("ADD .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(userInput, "ADD .+");
 }
 
 void AddCommandTokeniser::tokeniseAddFromTo(std::string userInput, CommandTokens* tokenisedCommand) {

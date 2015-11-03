@@ -30,18 +30,25 @@ CommandTokens SearchCommandTokeniser::tokeniseUserInput(std::string userInput) {
 
 	if (isSearchFreeSlot(userInput)) {
 		tokeniseSearchFreeSlot(&tokenisedCommand);
+
 	} else if (isSearchName(userInput)) {
 		tokeniseSearchName(userInput, &tokenisedCommand);
+
 	} else if (isSearchFromTo(userInput)) {
 		tokeniseSearchFromTo(userInput, &tokenisedCommand);
+
 	} else if (isSearchStartBefore(userInput)) {
 		tokeniseSearchStartBefore(userInput, &tokenisedCommand);
+
 	} else if (isSearchStartAfter(userInput)) {
 		tokeniseSearchStartAfter(userInput, &tokenisedCommand);
+
 	} else if (isSearchEndBefore(userInput)) {
 		tokeniseSearchEndBefore(userInput, &tokenisedCommand);
+
 	} else if (isSearchEndAfter(userInput)) {
 		tokeniseSearchEndAfter(userInput, &tokenisedCommand);
+
 	} else if (isSearchTags(userInput)) {
 		tokeniseSearchTags(userInput, &tokenisedCommand);
 	}
@@ -50,51 +57,35 @@ CommandTokens SearchCommandTokeniser::tokeniseUserInput(std::string userInput) {
 }
 
 bool SearchCommandTokeniser::isSearchFreeSlot(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("SEARCH FREE",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(userInput, "SEARCH FREE");
 }
 
 bool SearchCommandTokeniser::isSearchName(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("SEARCH NAME .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(userInput, "SEARCH NAME .+");
 }
 
 bool SearchCommandTokeniser::isSearchFromTo(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("SEARCH FROM .+ TO .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(userInput, "SEARCH FROM .+ TO .+");
 }
 
 bool SearchCommandTokeniser::isSearchStartBefore(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("SEARCH START BEFORE .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(userInput, "SEARCH START BEFORE .+");
 }
 
 bool SearchCommandTokeniser::isSearchStartAfter(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("SEARCH START AFTER .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(userInput, "SEARCH START AFTER .+");
 }
 
 bool SearchCommandTokeniser::isSearchEndBefore(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("SEARCH END BEFORE .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(userInput, "SEARCH END BEFORE .+");
 }
 
 bool SearchCommandTokeniser::isSearchEndAfter(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("SEARCH END AFTER .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(userInput, "SEARCH END AFTER .+");
 }
 
 bool SearchCommandTokeniser::isSearchTags(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("SEARCH TAGS( #[^ ]+)+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(userInput, "SEARCH TAGS( #[^ ]+)+");
 }
 
 void SearchCommandTokeniser::tokeniseSearchFreeSlot(CommandTokens* outputCommandTokens) {

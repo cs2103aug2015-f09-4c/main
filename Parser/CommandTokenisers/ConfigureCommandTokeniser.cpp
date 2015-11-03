@@ -29,9 +29,7 @@ CommandTokens ConfigureCommandTokeniser::tokeniseUserInput(std::string userInput
 }
 
 bool ConfigureCommandTokeniser::isConfigureSaveLocation(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("Configure Save Location [^ ]+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(userInput, "CONFIGURE SAVE LOCATION [^ ]+");
 }
 
 void ConfigureCommandTokeniser::tokeniseConfigureSaveLocation(std::string userInput, CommandTokens* outputCommandTokens) {
@@ -39,7 +37,7 @@ void ConfigureCommandTokeniser::tokeniseConfigureSaveLocation(std::string userIn
 
 	std::smatch matchResults;
 	std::regex_match(userInput,
-	                 std::regex("Configure Save Location ([^ ]+)",
+	                 std::regex("CONFIGURE SAVE LOCATION ([^ ]+)",
 	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
 
 	std::string saveLocation = matchResults[1];

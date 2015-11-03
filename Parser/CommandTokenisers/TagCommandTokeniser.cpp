@@ -29,9 +29,7 @@ CommandTokens TagCommandTokeniser::tokeniseUserInput(std::string userInput) {
 }
 
 bool TagCommandTokeniser::isTagIndex(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("TAG [0-9]+( (#[^ ]+))+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(userInput, "TAG [0-9]+( (#[^ ]+))+");
 }
 
 void TagCommandTokeniser::tokeniseTagIndex(std::string userInput, CommandTokens* outputCommandTokens) {
