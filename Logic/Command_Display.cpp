@@ -1,5 +1,6 @@
-#include "Command_Display.h"
+//@@author A0112218W
 
+#include "Command_Display.h"
 
 DisplayCommand::DisplayCommand(Display_Type type) : Command (CommandTokens::PrimaryCommandType::Display){
 	_newDisplayType = type;

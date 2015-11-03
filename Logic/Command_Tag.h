@@ -1,4 +1,6 @@
+//@@author A0112218W
 #pragma once
+
 #include "Command.h"
 
 const std::string MESSAGE_TAG_SUCCESS = "Task at index %i have %i new tag(s) added.";
@@ -17,4 +19,3 @@ public:
 	bool canUndo();
 	~TagCommand(void);
 };
-
