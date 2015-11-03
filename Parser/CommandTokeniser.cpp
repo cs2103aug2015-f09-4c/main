@@ -12,7 +12,8 @@ CommandTokeniser::~CommandTokeniser(void) {
 
 bool CommandTokeniser::isRegexMatch(std::string userInput, std::string regexString) {
 	return std::regex_match(userInput,
-	                        std::regex(regexString, std::regex_constants::ECMAScript));
+	                        std::regex(regexString,
+	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
 }
 
 boost::posix_time::ptime CommandTokeniser::parseUserInputDate(std::string userInputDate) {
