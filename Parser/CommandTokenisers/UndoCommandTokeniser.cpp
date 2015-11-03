@@ -1,4 +1,4 @@
-//@@ author A0097681N
+//@@author A0097681N
 #include "UndoCommandTokeniser.h"
 
 UndoCommandTokeniser::UndoCommandTokeniser(void) {
@@ -29,9 +29,7 @@ CommandTokens UndoCommandTokeniser::tokeniseUserInput(std::string userInput) {
 }
 
 bool UndoCommandTokeniser::isUndoOnce(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("UNDO",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(&userInput, "UNDO");
 }
 
 void UndoCommandTokeniser::tokeniseUndoOnce(CommandTokens* outputCommandTokens) {

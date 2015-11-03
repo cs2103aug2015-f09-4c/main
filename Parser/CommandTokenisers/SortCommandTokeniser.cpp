@@ -1,4 +1,4 @@
-//@@ author A0097681N
+//@@author A0097681N
 #include "SortCommandTokeniser.h"
 
 SortCommandTokeniser::SortCommandTokeniser(void) {
@@ -25,8 +25,10 @@ CommandTokens SortCommandTokeniser::tokeniseUserInput(std::string userInput) {
 
 	if (isSortName(userInput)) {
 		tokeniseSortName(userInput, &tokenisedCommand);
+
 	} else if (isSortStart(userInput)) {
 		tokeniseSortStart(userInput, &tokenisedCommand);
+
 	} else if (isSortEnd(userInput)) {
 		tokeniseSortEnd(userInput, &tokenisedCommand);
 	}
@@ -35,21 +37,15 @@ CommandTokens SortCommandTokeniser::tokeniseUserInput(std::string userInput) {
 }
 
 bool SortCommandTokeniser::isSortName(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("SORT NAME( DESC)?",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(&userInput, "SORT NAME( DESC)?");
 }
 
 bool SortCommandTokeniser::isSortStart(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("SORT START( DESC)?",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(&userInput, "SORT START( DESC)?");
 }
 
 bool SortCommandTokeniser::isSortEnd(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("SORT END( DESC)?",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(&userInput, "SORT END( DESC)?");
 }
 
 void SortCommandTokeniser::tokeniseSortName(std::string userInput, CommandTokens* outputCommandTokens) {

@@ -1,4 +1,4 @@
-//@@ author A0097681N
+//@@author A0097681N
 #include "RefreshCommandTokeniser.h"
 
 RefreshCommandTokeniser::RefreshCommandTokeniser(void) {
@@ -29,9 +29,7 @@ CommandTokens RefreshCommandTokeniser::tokeniseUserInput(std::string userInput) 
 }
 
 bool RefreshCommandTokeniser::isRefreshBasic(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("REFRESH",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(&userInput, "REFRESH");
 }
 
 void RefreshCommandTokeniser::tokeniseRefreshBasic(std::string userInput, CommandTokens* outputCommandTokens) {

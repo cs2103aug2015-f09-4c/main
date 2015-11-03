@@ -1,9 +1,11 @@
-//@@ author A0097681N
+//@@author A0097681N
 #pragma once
 #include <exception>
 #include <vector>
 #include "boost\date_time\posix_time\ptime.hpp"
 
+// wrapper class to contain the various components of a user input that has
+// been tokenised
 class CommandTokens {
 public:
 	// Command Type for main groups of operation
@@ -82,11 +84,4 @@ private:
 	std::vector<std::string> _tags;
 	int _index;
 	std::string _otherCommandParameter;
-};
-
-class CommandDoesNotExistException: public std::exception {
-public:
-	virtual const char* what() const throw() override {
-		return "Command does not exist";
-	}
 };

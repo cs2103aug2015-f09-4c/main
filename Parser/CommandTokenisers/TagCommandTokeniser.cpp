@@ -1,4 +1,4 @@
-//@@ author A0097681N
+//@@author A0097681N
 #include "TagCommandTokeniser.h"
 
 TagCommandTokeniser::TagCommandTokeniser(void) {
@@ -29,18 +29,13 @@ CommandTokens TagCommandTokeniser::tokeniseUserInput(std::string userInput) {
 }
 
 bool TagCommandTokeniser::isTagIndex(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("TAG [0-9]+( (#[^ ]+))+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(&userInput, "TAG [0-9]+( (#[^ ]+))+");
 }
 
 void TagCommandTokeniser::tokeniseTagIndex(std::string userInput, CommandTokens* outputCommandTokens) {
 	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::Index);
 
-	std::smatch matchResults;
-	std::regex_match(userInput, matchResults,
-	                 std::regex("TAG ([0-9]+) .*",
-	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
+	std::smatch matchResults = getRegexMatches(&userInput, "TAG ([0-9]+) .*");
 
 	int index = stoi(matchResults[1]);
 	outputCommandTokens->setIndex(index);

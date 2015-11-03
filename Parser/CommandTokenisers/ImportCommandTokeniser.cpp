@@ -28,19 +28,13 @@ CommandTokens ImportCommandTokeniser::tokeniseUserInput(std::string userInput) {
 }
 
 bool ImportCommandTokeniser::isImportLocal(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("IMPORT [^ ]+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(&userInput, "IMPORT [^ ]+");
 }
 
 void ImportCommandTokeniser::tokeniseImportLocal(std::string userInput, CommandTokens* outputCommandTokens) {
 	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::None);
 
-	std::smatch matchResults;
-	std::regex_match(userInput,
-	                 matchResults,
-	                 std::regex("IMPORT ([^ ]+)",
-	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
+	std::smatch matchResults = getRegexMatches(&userInput, "IMPORT ([^ ]+)");
 
 	std::string importFilePath = matchResults[1];
 	outputCommandTokens->setOtherCommandParameter(importFilePath);
