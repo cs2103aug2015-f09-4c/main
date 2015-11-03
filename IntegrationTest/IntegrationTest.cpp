@@ -549,7 +549,7 @@ public:
 		remove(FILEPATH.c_str());
 
 		// Tests flexible formats
-		// yyyy-mmm-dd hh:mm
+		// yyyy-mm-dd hh:mm
 		// dd-mm-yyyy hhmm
 		std::string command1 = CMD_ADD + SPACE + TASK_A + SPACE + FROM + "2015-10-10 16:00" + SPACE + TO + "10-10-2015 1800";
 
@@ -574,7 +574,7 @@ public:
 		UIFeedback feedback;
 		API::Task task;
 
-		// Testing manually added incomplete entry in the valid entries partition
+		// Testing manually added incomplete entry in the invalid entries partition
 		std::ofstream saveFile(FILEPATH.c_str());
 		saveFile << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n";
 		saveFile.close();
@@ -582,26 +582,22 @@ public:
 		logic = new Logic;
 
 		feedback = logic->executeCommand(CMD_REFRESH);
-		task = feedback.getTasksForDisplay()[0];
 
-		Assert::AreEqual((size_t) 1, feedback.getTasksForDisplay().size());
-		Assert::AreEqual(DATE_TIME_1, task.getTaskText());
-		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getStartDateTime()));
-		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getEndDateTime()));
-		Assert::AreEqual(false, task.isComplete());
+		Assert::AreEqual((size_t) 0, feedback.getTasksForDisplay().size());
 		delete logic;
 
 		// Testing manually added complete entry in the valid entries partition
 		remove(FILEPATH.c_str());
 		saveFile.open(FILEPATH.c_str());
+		saveFile << taskIdentityString << "\n";
 		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n" << "0" << "\n";
 		saveFile.close();
 
 		logic = new Logic;
 		feedback = logic->executeCommand(CMD_REFRESH);
+		Assert::AreEqual((size_t) 1, feedback.getTasksForDisplay().size());
 		task = feedback.getTasksForDisplay()[0];
 
-		Assert::AreEqual((size_t) 1, feedback.getTasksForDisplay().size());
 		Assert::AreEqual(TASK_A, task.getTaskText());
 		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getStartDateTime()));
 		Assert::AreEqual(DATE_TIME_2, boost::posix_time::to_simple_string(task.getEndDateTime()));
@@ -610,6 +606,7 @@ public:
 
 		// Testing manually added 6th tag that is more than the maximum 5 tags in invalid partition
 		saveFile.open(FILEPATH.c_str());
+		saveFile << taskIdentityString << "\n";
 		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n" << "0" << "\n";
 		saveFile << TAG_A << "\n" << TAG_B << "\n" << TAG_C << "\n" << TAG_D << "\n" << TAG_E << "\n";
 		saveFile << TAG_F << "\n";
@@ -638,8 +635,10 @@ public:
 		// Testing manually adding tag with length > 32 in invalid partition
 		const std::string longTag = "#01234567890123456789012345678912";
 		saveFile.open(FILEPATH.c_str());
+		saveFile << taskIdentityString << "\n";
 		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n" << "0" << "\n";
 		saveFile << longTag << "\n";
+		saveFile << taskIdentityString << "\n";
 		saveFile << TASK_B << "\n" << DATE_TIME_2 << "\n" << DATE_TIME_3 << "\n" << "0" << "\n";
 		saveFile.close();
 
@@ -663,7 +662,9 @@ public:
 
 		// Testing manually adding task with valid start but invalid end date-time in the invalid partition
 		saveFile.open(FILEPATH.c_str());
+		saveFile << taskIdentityString << "\n";
 		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << NOT_A_DATE_TIME << "\n" << "0" << "\n";
+		saveFile << taskIdentityString << "\n";
 		saveFile << TASK_B << "\n" << DATE_TIME_2 << "\n" << TAG_A << "\n" << "0" << "\n";
 		saveFile.close();
 
