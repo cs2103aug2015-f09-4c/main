@@ -5,7 +5,8 @@
 #include "CommandTokeniser.h"
 #include "Logger\Logger.h"
 
-// facade class to provide uniform way to assess the various CommandTokenisers
+// facade class to provide uniform way to assess the various concrete
+// CommandTokeniser classes
 class Parser {
 public:
 	Parser(void);

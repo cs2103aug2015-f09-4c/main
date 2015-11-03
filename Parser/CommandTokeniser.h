@@ -4,6 +4,11 @@
 #include "CommandTokens.h"
 #include "DateParser.h"
 
+// abstract class used to create concrete class for processing each kind of
+// command;
+// usage: implement canTokeniseUserInput() to return true for user input that
+// the concrete class is supposed to process; implement tokeniserUserInput()
+// for actual tokenising of the user input
 class CommandTokeniser {
 public:
 	CommandTokeniser(void);

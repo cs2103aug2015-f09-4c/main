@@ -4,6 +4,8 @@
 #include <vector>
 #include "boost\date_time\posix_time\ptime.hpp"
 
+// wrapper class to contain the various components of a user input that has
+// been tokenised
 class CommandTokens {
 public:
 	// Command Type for main groups of operation
