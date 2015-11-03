@@ -4,6 +4,7 @@
 
 const std::string MESSAGE_SEARCH_SUCCESS = "%i task(s) have been found.";
 const std::string MESSAGE_NO_TASK_FOUND = "There is no task fulfilling the search criteria.";
+const std::string SEARCH_FORMAT_STRING = "\\b(%s)([^ ]*)";
 
 class SearchCommand : public Command {
 protected:
