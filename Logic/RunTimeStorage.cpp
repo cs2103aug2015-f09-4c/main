@@ -194,13 +194,22 @@ void RunTimeStorage::sortTasksToDisplay() {
 	case Sort_Type::sortByEntryOrder:
 		break;
 	case Sort_Type::sortByName:
-		std::stable_sort(_tasksToDisplay.begin(),_tasksToDisplay.end(),Task::sortByName);
+		std::stable_sort(_tasksToDisplay.begin(),_tasksToDisplay.end(),Task::sortByNameAscending);
 		break;
 	case Sort_Type::sortByStart:
-		std::stable_sort(_tasksToDisplay.begin(),_tasksToDisplay.end(),Task::sortByStartDateTime);
+		std::stable_sort(_tasksToDisplay.begin(),_tasksToDisplay.end(),Task::sortByStartDateTimeAscending);
 		break;
 	case Sort_Type::sortByEnd:
-		std::stable_sort(_tasksToDisplay.begin(),_tasksToDisplay.end(),Task::sortByEndDateTime);
+		std::stable_sort(_tasksToDisplay.begin(),_tasksToDisplay.end(),Task::sortByEndDateTimeAscending);
+		break;
+	case Sort_Type::sortByNameDesc:
+		std::stable_sort(_tasksToDisplay.begin(),_tasksToDisplay.end(),Task::sortByNameDescending);
+		break;
+	case Sort_Type::sortByStartDesc:
+		std::stable_sort(_tasksToDisplay.begin(),_tasksToDisplay.end(),Task::sortByStartDateTimeDescending);
+		break;
+	case Sort_Type::sortByEndDesc:
+		std::stable_sort(_tasksToDisplay.begin(),_tasksToDisplay.end(),Task::sortByEndDateTimeDescending);
 		break;
 	}
 	return;

@@ -67,9 +67,12 @@ public:
 	void removeTag(std::string);
 
 	//comparator functions for sorting
-	static bool sortByStartDateTime (Task task1, Task task2);
-	static bool sortByEndDateTime (Task task1, Task task2);
-	static bool sortByName (Task task1, Task task2);
+	static bool sortByStartDateTimeAscending (Task task1, Task task2);
+	static bool sortByEndDateTimeAscending (Task task1, Task task2);
+	static bool sortByNameAscending (Task task1, Task task2);
+	static bool sortByStartDateTimeDescending (Task task1, Task task2);
+	static bool sortByEndDateTimeDescending (Task task1, Task task2);
+	static bool sortByNameDescending(Task task1, Task task2);
 
 private:
 	std::string _taskText;
