@@ -566,7 +566,8 @@ public:
 		Assert::AreEqual(DATE_TIME_2, boost::posix_time::to_simple_string(task.getEndDateTime()));
 	}
 
-	TEST_METHOD(integrationDataCorrupted) {
+	// The following test method tests the program for changes in saved data by the user
+	TEST_METHOD(integrationSavedDataChanges) {
 		remove(FILEPATH.c_str());
 
 		// Logic only loads from file at construction
@@ -574,21 +575,8 @@ public:
 		UIFeedback feedback;
 		API::Task task;
 
-		// Testing manually added incomplete entry in the invalid entries partition
-		std::ofstream saveFile(FILEPATH.c_str());
-		saveFile << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n";
-		saveFile.close();
-
-		logic = new Logic;
-
-		feedback = logic->executeCommand(CMD_REFRESH);
-
-		Assert::AreEqual((size_t) 0, feedback.getTasksForDisplay().size());
-		delete logic;
-
 		// Testing manually added complete entry in the valid entries partition
-		remove(FILEPATH.c_str());
-		saveFile.open(FILEPATH.c_str());
+		std::ofstream saveFile(FILEPATH.c_str());
 		saveFile << taskIdentityString << "\n";
 		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n" << "0" << "\n";
 		saveFile.close();
@@ -601,6 +589,51 @@ public:
 		Assert::AreEqual(TASK_A, task.getTaskText());
 		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getStartDateTime()));
 		Assert::AreEqual(DATE_TIME_2, boost::posix_time::to_simple_string(task.getEndDateTime()));
+		Assert::AreEqual(false, task.isComplete());
+		delete logic;
+
+		// Testing manually added incomplete entry in the valid entries partition
+		remove(FILEPATH.c_str());
+		saveFile.open(FILEPATH.c_str());
+		saveFile << taskIdentityString << "\n";
+		saveFile << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n";
+		saveFile.close();
+
+		logic = new Logic;
+
+		feedback = logic->executeCommand(CMD_REFRESH);
+		Assert::AreEqual((size_t) 1, feedback.getTasksForDisplay().size());
+		task = feedback.getTasksForDisplay()[0];
+		Assert::AreEqual(DATE_TIME_1, task.getTaskText());
+		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getStartDateTime()));
+		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getEndDateTime()));
+		Assert::AreEqual(false, task.isComplete());
+
+		delete logic;
+
+		// Testing manually adding task with valid start but invalid end date-time in the valid entries partition
+		saveFile.open(FILEPATH.c_str());
+		saveFile << taskIdentityString << "\n";
+		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << NOT_A_DATE_TIME << "\n" << "0" << "\n";
+		saveFile << taskIdentityString << "\n";
+		saveFile << TASK_B << "\n" << DATE_TIME_2 << "\n" << TAG_A << "\n" << "0" << "\n";
+		saveFile.close();
+
+		logic = new Logic;
+		feedback = logic->executeCommand(CMD_REFRESH);
+		Assert::AreEqual((size_t) 2, feedback.getTasksForDisplay().size());
+
+		task = feedback.getTasksForDisplay()[0];
+		Assert::AreEqual(TASK_A, task.getTaskText());
+		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getStartDateTime()));
+		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getEndDateTime()));
+		Assert::AreEqual(false, task.isComplete());
+		Assert::AreEqual((size_t) 0, task.getTags().size());
+
+		task = feedback.getTasksForDisplay()[1];
+		Assert::AreEqual(TASK_B, task.getTaskText());
+		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getStartDateTime()));
+		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getEndDateTime()));
 		Assert::AreEqual(false, task.isComplete());
 		delete logic;
 
@@ -657,32 +690,6 @@ public:
 		Assert::AreEqual(TASK_B, task.getTaskText());
 		Assert::AreEqual(DATE_TIME_2, boost::posix_time::to_simple_string(task.getStartDateTime()));
 		Assert::AreEqual(DATE_TIME_3, boost::posix_time::to_simple_string(task.getEndDateTime()));
-		Assert::AreEqual(false, task.isComplete());
-		delete logic;
-
-		// Testing manually adding task with valid start but invalid end date-time in the invalid partition
-		saveFile.open(FILEPATH.c_str());
-		saveFile << taskIdentityString << "\n";
-		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << NOT_A_DATE_TIME << "\n" << "0" << "\n";
-		saveFile << taskIdentityString << "\n";
-		saveFile << TASK_B << "\n" << DATE_TIME_2 << "\n" << TAG_A << "\n" << "0" << "\n";
-		saveFile.close();
-
-		logic = new Logic;
-		feedback = logic->executeCommand(CMD_REFRESH);
-		Assert::AreEqual((size_t) 2, feedback.getTasksForDisplay().size());
-
-		task = feedback.getTasksForDisplay()[0];
-		Assert::AreEqual(TASK_A, task.getTaskText());
-		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getStartDateTime()));
-		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getEndDateTime()));
-		Assert::AreEqual(false, task.isComplete());
-		Assert::AreEqual((size_t) 0, task.getTags().size());
-
-		task = feedback.getTasksForDisplay()[1];
-		Assert::AreEqual(TASK_B, task.getTaskText());
-		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getStartDateTime()));
-		Assert::AreEqual(NOT_A_DATE_TIME, boost::posix_time::to_simple_string(task.getEndDateTime()));
 		Assert::AreEqual(false, task.isComplete());
 		delete logic;
 	}

@@ -42,18 +42,15 @@ void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::st
 				if (taskIdentityString == startDateTimeString) {
 					identityString = startDateTimeString;
 					taskToAdd = new API::Task(taskText);
+					tasks.push_back(*taskToAdd);
 					continue;
 				}
 
 				std::getline(loadFile, endDateTimeString);
 				if (taskIdentityString == endDateTimeString) {
 					identityString = endDateTimeString;
-					continue;
-				}
-
-				std::getline(loadFile, isCompleteString);
-				if (taskIdentityString == isCompleteString) {
-					identityString = isCompleteString;
+					taskToAdd = new API::Task(taskText);
+					tasks.push_back(*taskToAdd);
 					continue;
 				}
 
@@ -83,6 +80,7 @@ void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::st
 					taskToAdd = new API::Task(taskText, notDateTime, notDateTime);
 				}
 
+				std::getline(loadFile, isCompleteString);
 				if (isCompleteString == "1") {
 					taskToAdd->toggleComplete();
 				}
@@ -99,6 +97,7 @@ void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::st
 				identityString = tag;
 
 				tasks.push_back(*taskToAdd);
+				delete taskToAdd;
 			}
 		}
 	} catch (std::exception e) {
