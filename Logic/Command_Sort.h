@@ -1,4 +1,6 @@
+//@@author A0112218W
 #pragma once
+
 #include "Command.h"
 
 const std::string MESSAGE_SORT_SUCCESS = "Sort mode have been changed successfully.";
@@ -15,4 +17,3 @@ public:
 	bool canUndo();
 	virtual ~SortCommand(void);
 };
-

@@ -1,3 +1,4 @@
+//@@author A0112218W
 #pragma once
 
 #include <cstdio>
@@ -8,6 +9,9 @@
 const std::string MESSAGE_INVALID_COMMAND = "Invalid Command. No change is made.";
 const std::string MESSAGE_NON_POSITIVE_INDEX = "Only positive index is allowed. No change is made.";
 const std::string MESSAGE_INVALID_DATE_TIME = "Invalid date time is found. Please use the following format for date time : dd-mm-yyyy hhmm";
+
+const std::string ASCENDING_ORDER = "Ascending";
+const std::string DESCENDING_ORDER = "Descending";
 
 class INVALID_COMMAND_EXCEPTION : public std::exception{
 public:

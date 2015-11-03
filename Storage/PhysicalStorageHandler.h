@@ -7,13 +7,15 @@
 #include "../boost/date_time/posix_time/posix_time.hpp"
 
 const std::string defaultPath = "defaultSaveFile.txt";
+const std::string taskIdentityString = "--task--";
 
-class PhysicalStorageHandler
-{
+class PhysicalStorageHandler {
 public:
 	PhysicalStorageHandler();
+
 	void saveToFile(std::vector<API::Task>&, std::string = defaultPath);
 	void loadFromFile(std::vector<API::Task>&, std::string = defaultPath);
+
 	virtual ~PhysicalStorageHandler(void);
 };
 

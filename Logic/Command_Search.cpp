@@ -1,3 +1,5 @@
+//@@author A0112218W
+
 #include "Command_Search.h"
 
 bool compareCount(const std::pair<int, Task>&i, const std::pair<int, Task>&j) {
@@ -49,7 +51,7 @@ UIFeedback SearchStartBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
 		throw COMMAND_EXECUTION_EXCEPTION(MESSAGE_NO_TASK_FOUND);
 	}
 
-	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByStartDateTime);
+	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByStartDateTimeAscending);
 
 	runTimeStorage -> setTasksToDisplay(_searchResult);
 
@@ -84,7 +86,7 @@ UIFeedback SearchStartAfterCommand::execute(RunTimeStorage* runTimeStorage) {
 		throw COMMAND_EXECUTION_EXCEPTION(MESSAGE_NO_TASK_FOUND);
 	}
 
-	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByStartDateTime);
+	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByStartDateTimeAscending);
 
 	runTimeStorage -> setTasksToDisplay(_searchResult);
 
@@ -115,7 +117,7 @@ UIFeedback SearchEndBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
 	std::vector<Task>& tasks = runTimeStorage -> getAllTasks();
 
 	for (size_t i = 0 ; i < tasks.size() ; ++i) {
-		ptime end = tasks[i].getStartDateTime();
+		ptime end = tasks[i].getEndDateTime();
 		if (!end.is_special()) {
 			if (end < _end) {
 				_searchResult.push_back(tasks[i]);
@@ -127,7 +129,7 @@ UIFeedback SearchEndBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
 		throw COMMAND_EXECUTION_EXCEPTION(MESSAGE_NO_TASK_FOUND);
 	}
 
-	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByEndDateTime);
+	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByEndDateTimeAscending);
 
 	runTimeStorage -> setTasksToDisplay(_searchResult);
 
@@ -150,7 +152,7 @@ UIFeedback SearchEndAfterCommand::execute(RunTimeStorage* runTimeStorage) {
 	std::vector<Task>& tasks = runTimeStorage -> getAllTasks();
 
 	for (size_t i = 0 ; i < tasks.size() ; ++i) {
-		ptime end = tasks[i].getStartDateTime();
+		ptime end = tasks[i].getEndDateTime();
 		if (!end.is_special()) {
 			if (end > _end) {
 				_searchResult.push_back(tasks[i]);
@@ -162,7 +164,7 @@ UIFeedback SearchEndAfterCommand::execute(RunTimeStorage* runTimeStorage) {
 		throw COMMAND_EXECUTION_EXCEPTION(MESSAGE_NO_TASK_FOUND);
 	}
 
-	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByEndDateTime);
+	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByEndDateTimeAscending);
 
 	runTimeStorage -> setTasksToDisplay(_searchResult);
 
@@ -231,8 +233,15 @@ UIFeedback SearchNameCommand::execute(RunTimeStorage* runTimeStorage) {
 	assert(runTimeStorage!=NULL);
 	std::vector<Task>& tasks = runTimeStorage->getAllTasks();
 	size_t numTask = tasks.size();
+
+	std::smatch m;
+
+	char buffer[255];
+	sprintf_s(buffer,SEARCH_FORMAT_STRING.c_str(),_searchString.c_str());
+	std::regex e(buffer, std::regex_constants::ECMAScript | std::regex_constants::icase);
+
 	for (size_t i = 0 ; i < numTask ; ++i) {
-		if (tasks[i].getTaskText().find(_searchString) != std::string::npos) {
+		if (std::regex_search(tasks[i].getTaskText(),m,e)) {
 			_searchResult.push_back(tasks[i]);
 		}
 	}
@@ -243,7 +252,6 @@ UIFeedback SearchNameCommand::execute(RunTimeStorage* runTimeStorage) {
 
 	runTimeStorage -> setTasksToDisplay(_searchResult);
 
-	char buffer[255];
 	sprintf_s(buffer, MESSAGE_SEARCH_SUCCESS.c_str(), _searchResult.size());
 
 	return UIFeedback(runTimeStorage->getTasksToDisplay(), std::string(buffer));

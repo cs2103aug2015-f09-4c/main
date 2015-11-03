@@ -1,3 +1,5 @@
+//@@author A0112218W
+
 #pragma once
 
 #include <fstream>
@@ -25,9 +27,12 @@ enum Display_Type {
 
 enum Sort_Type {
 	sortByEntryOrder,	//Sort tasks by entry order
-	sortByName,			//Sort tasks by name
-	sortByStart,		//Sort tasks by start date time
-	sortByEnd			//Sort tasks by end date time
+	sortByName,			//Sort tasks by name in ascending order
+	sortByStart,		//Sort tasks by start date time in ascending order
+	sortByEnd,			//Sort tasks by end date time in ascending order
+	sortByNameDesc,		//Sort tasks by name in descending order
+	sortByStartDesc,	//Sort tasks by start date time in descending order
+	sortByEndDesc		//Sort tasks by end date time in descending order
 };
 
 class INDEX_NOT_FOUND_EXCEPTION : public std::exception {

@@ -1,3 +1,4 @@
+//@@author A0112218W
 #pragma once
 #include "Command.h"
 
@@ -14,4 +15,3 @@ public:
 	bool Command::canUndo();
 	~ImportCommand(void);
 };
-

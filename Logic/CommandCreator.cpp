@@ -1,3 +1,5 @@
+//@@author A0112218W
+
 #include "CommandCreator.h"
 
 INVALID_COMMAND_EXCEPTION::INVALID_COMMAND_EXCEPTION(std::string message) : std::exception(message.c_str()){
@@ -392,15 +394,34 @@ SearchNameCommand* CommandCreator::processSearchNameCommand(CommandTokens comman
 SortCommand* CommandCreator::processSortCommand(CommandTokens commandTokens) {
 	SortCommand* returnCommand;
 	CommandTokens::SecondaryCommandType type2 = commandTokens.getSecondaryCommand();
+	std::string sortOrder = commandTokens.getOtherCommandParameter();
 	switch (type2) {
 	case CommandTokens::SecondaryCommandType::Name:
-		returnCommand = new SortCommand(Sort_Type::sortByName);
+		if (sortOrder == ASCENDING_ORDER) {
+			returnCommand = new SortCommand(Sort_Type::sortByName);
+		} else if (sortOrder == DESCENDING_ORDER) {
+			returnCommand = new SortCommand(Sort_Type::sortByNameDesc);
+		} else {
+			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
+		}
 		break;
 	case CommandTokens::SecondaryCommandType::Start:
-		returnCommand = new SortCommand(Sort_Type::sortByStart);
+		if (sortOrder == ASCENDING_ORDER) {
+			returnCommand = new SortCommand(Sort_Type::sortByStart);
+		} else if (sortOrder == DESCENDING_ORDER) {
+			returnCommand = new SortCommand(Sort_Type::sortByStartDesc);
+		} else {
+			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
+		}
 		break;
 	case CommandTokens::SecondaryCommandType::End:
-		returnCommand = new SortCommand(Sort_Type::sortByEnd);
+		if (sortOrder == ASCENDING_ORDER) {
+			returnCommand = new SortCommand(Sort_Type::sortByEnd);
+		} else if (sortOrder == DESCENDING_ORDER) {
+			returnCommand = new SortCommand(Sort_Type::sortByEndDesc);
+		} else {
+			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
+		}
 		break;
 	default:
 		throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
