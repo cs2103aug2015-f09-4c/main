@@ -1,6 +1,5 @@
+//@@author A0124439E
 // This project is the testing of the components working together
-// The  catch blocks exist because logic may throw std::string exception or return normally
-// TODO: pending working refresh commands to refresh list of tasks and check changes
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
@@ -56,6 +55,7 @@ const std::string TAG_E = "#TAG_E";
 const std::string TAG_F = "#TAG_F";
 const std::string TAG_WITHSPACE = "#TAG hasSpace";
 
+// TODO: conform global macro names to C++ standards
 // Valid add commands that will be used by test methods
 const std::string addCommand1 = CMD_ADD + SPACE + TASK_A;
 const std::string addCommand2 = CMD_ADD + SPACE + TASK_B + SPACE + BY + DATE_TIME_1;
@@ -111,7 +111,7 @@ public:
 			feedback = logic.executeCommand(addCommand1);
 			Assert::AreEqual(false, true);
 
-		} catch (std::string e) {
+		} catch (std::string &e) {
 			Assert::AreEqual(CMD_DUPLICATE, e);
 		}
 
@@ -183,7 +183,7 @@ public:
 			feedback = logic.executeCommand(editCommand0);
 			Assert::AreEqual(false, true);
 
-		} catch (std::string e) {
+		} catch (std::string &e) {
 			Assert::AreEqual(ONLY_POSITIVE, e);
 		}
 
@@ -196,7 +196,7 @@ public:
 			feedback = logic.executeCommand(editCommand4);
 			Assert::AreEqual(false, true);
 
-		} catch (std::string e) {
+		} catch (std::string &e) {
 			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", e);
 		}
 
@@ -249,7 +249,7 @@ public:
 			feedback = logic.executeCommand(tagCommand1Space);
 			Assert::AreEqual(false, true);
 
-		} catch (std::string e) {
+		} catch (std::string &e) {
 			Assert::AreEqual(CMD_INVALID, e);
 		}
 
@@ -309,7 +309,7 @@ public:
 			feedback = logic.executeCommand(tagCommand1F);
 			Assert::AreEqual(false, true);
 
-		} catch (std::string e) {
+		} catch (std::string &e) {
 			Assert::AreEqual(MAX_TAGS, e);
 		}
 
@@ -326,7 +326,7 @@ public:
 			feedback = logic.executeCommand(tagCommand0);
 			Assert::AreEqual(false, true);
 
-		} catch (std::string e) {
+		} catch (std::string &e) {
 			Assert::AreEqual(ONLY_POSITIVE, e);
 		}
 
@@ -347,7 +347,7 @@ public:
 			feedback = logic.executeCommand(tagCommand4);
 			Assert::AreEqual(false, true);
 
-		} catch (std::string e) {
+		} catch (std::string &e) {
 			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", e);
 		}
 
@@ -383,7 +383,7 @@ public:
 			feedback = logic.executeCommand(untagCommand0);
 			Assert::AreEqual(false, true);
 
-		} catch (std::string e) {
+		} catch (std::string &e) {
 			Assert::AreEqual(ONLY_POSITIVE, e);
 		}
 
@@ -403,7 +403,7 @@ public:
 			feedback = logic.executeCommand(tagCommand4);
 			Assert::AreEqual(false, true);
 
-		} catch (std::string e) {
+		} catch (std::string &e) {
 			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", e);
 		}
 
@@ -447,7 +447,7 @@ public:
 			feedback = logic.executeCommand(completeCommand0);
 			Assert::AreEqual(false, true);
 
-		} catch (std::string e) {
+		} catch (std::string &e) {
 			Assert::AreEqual(ONLY_POSITIVE, e);
 		}
 
@@ -459,7 +459,7 @@ public:
 			feedback = logic.executeCommand(completeCommand4);
 			Assert::AreEqual(false, true);
 
-		} catch (std::string e) {
+		} catch (std::string &e) {
 			Assert::AreEqual(TASK_NOT_FOUND_AT + "4", e);
 		}
 
@@ -510,7 +510,7 @@ public:
 			feedback = logic.executeCommand(deleteCommand2);
 			Assert::AreEqual(false, true);
 
-		} catch (std::string e) {
+		} catch (std::string &e) {
 			Assert::AreEqual(TASK_NOT_FOUND_AT + "2", e);
 		}
 
@@ -526,7 +526,7 @@ public:
 			feedback = logic.executeCommand(deleteCommand0);
 			Assert::AreEqual(false, true);
 
-		} catch (std::string e) {
+		} catch (std::string &e) {
 			Assert::AreEqual(ONLY_POSITIVE, e);
 		}
 

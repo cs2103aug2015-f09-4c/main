@@ -1,3 +1,4 @@
+//@@author A0124439E
 #include "PhysicalStorageHandler.h"
 #include "Logger/Logger.h"
 
@@ -74,7 +75,7 @@ void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::st
 
 				try {
 					taskToAdd = new API::Task(taskText, startDateTime, endDateTime);
-				} catch (std::exception e) {
+				} catch (std::exception &e) {
 					logger->logERROR(e.what());
 
 					taskToAdd = new API::Task(taskText, notDateTime, notDateTime);
@@ -89,7 +90,7 @@ void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::st
 				while (!loadFile.eof() && taskIdentityString != tag) {
 					try {
 						taskToAdd->addTag(tag);
-					} catch (std::exception e) {
+					} catch (std::exception &e) {
 						logger->logDEBUG("Tag: " + tag + " Message: " + e.what());
 					}
 					std::getline(loadFile, tag);
@@ -112,20 +113,41 @@ void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::st
 
 void PhysicalStorageHandler::saveToFile(std::vector<API::Task>& tasks, std::string filePath) {
 	std::ofstream saveFile(filePath.c_str());
+
 	for (size_t i = 0 ; i < tasks.size() ; ++i) {
 		saveFile << taskIdentityString << std::endl;
+
 		saveFile << tasks[i].getTaskText() << std::endl;
+
 		saveFile << boost::posix_time::to_simple_string(tasks[i].getStartDateTime()) << std::endl;
+
 		saveFile << boost::posix_time::to_simple_string(tasks[i].getEndDateTime()) << std::endl;
+
 		if (tasks[i].isComplete()) {
 			saveFile << true << std::endl;
 		} else {
 			saveFile << false << std::endl;
 		}
+
 		std::set<std::string> tags = tasks[i].getTags();
 		std::set<std::string>::iterator iter;
 		for (iter = tags.begin() ; iter != tags.end() ; ++iter) {
 			saveFile << *iter << std::endl;
 		}
 	}
+}
+
+void specifySaveLocation(std::string filePath) {
+	if (CreateDirectory(filePath.c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError()) {
+		std::ofstream configFile(configPath.c_str());
+		configFile.clear();
+		if (configFile.is_open()) {
+			configFile << filePath;
+		}
+		configFile.close();
+	} else {
+		//throw INVALID_PATH_EXCEPTION(INVALID_PATH_ERROR_MESSAGE);
+	}
+
+	return;
 }

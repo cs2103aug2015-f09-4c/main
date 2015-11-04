@@ -1,3 +1,4 @@
+//@@author A0124439E
 #include "UI.h"
 
 using namespace System;
@@ -27,7 +28,9 @@ std::string UI::Swiftask::getStdStringCommand(void) {
 
 void UI::Swiftask::updateUI(void) {
 	updateResults();
-	updateOutputBox();
+
+	clearOutputBox();
+	displayInOutputBox();
 
 	return;
 }
@@ -37,13 +40,6 @@ void UI::Swiftask::updateResults(void) {
 	System::String^ managed = gcnew String((*feedback).getFeedbackMessage().c_str());
 	results->Text = managed;
 	delete managed;
-
-	return;
-}
-
-void UI::Swiftask::updateOutputBox(void) {
-	clearOutputBox();
-	displayInOutputBox();
 
 	return;
 }
@@ -66,23 +62,24 @@ void UI::Swiftask::displayInOutputBox(void) {
 	boost::posix_time::ptime posixStartDateTime;
 	boost::posix_time::ptime posixEndDateTime;
 	boost::posix_time::ptime posixNowDateTime;
-	int index = 0;
+	int rowIndex = 0;
 	bool isCompleted = false;
 	std::ostringstream convert;
 
 	for (std::vector<API::Task>::iterator it = (*feedback).getTasksForDisplay().begin(); it < (*feedback).getTasksForDisplay().end(); it++) {
-		// Index implemented ahead of Logic and update in UIfeedback.
-		// Logic is supposed to send tasks in order, 
-		// so potential logical error (wrong numbering of tasks) may arise here.
-		convert << (index + 1);
+		convert << (rowIndex + 1);
 		num = gcnew String(convert.str().c_str());
 		convert.str(std::string());
 
 		taskText = gcnew String((*it).getTaskText().c_str());
+
 		posixStartDateTime = (*it).getStartDateTime();
+
 		posixEndDateTime = (*it).getEndDateTime();
+
 		std::set<std::string> tagsList;
 		tagsList = (*it).getTags();
+
 		isCompleted = (*it).isComplete();
 
 		if (!posixStartDateTime.is_not_a_date_time()) {
@@ -111,10 +108,9 @@ void UI::Swiftask::displayInOutputBox(void) {
 
 		outputBox->Rows->Add(num, taskText, startDateTime, endDateTime, theTags);
 
-		// Colour Formats for outputBox
-		formatOutputBox(isCompleted, timePast(posixStartDateTime), timePast(posixEndDateTime), index);
+		formatOutputBox(isCompleted, timePast(posixStartDateTime), timePast(posixEndDateTime), rowIndex);
 
-		index++;
+		rowIndex++;
 
 		delete num;
 		delete taskText;
@@ -141,76 +137,76 @@ void UI::Swiftask::formatOutputBoxInitial() {
 
 	//outputBox->GridColor = colHeaderFore;
 
-	// To be done once in the code will do
 	outputBox->EnableHeadersVisualStyles = false;
 	return;
 }
 
-void UI::Swiftask::formatOutputBox(bool isCompleted, dateTimeStat start, dateTimeStat end, int index) {
-	formatOutputBoxRows(index);
-	formatOutputBoxStartEndColumn(isCompleted, start, end, index);
-	formatOutputBoxDoneColumn(isCompleted, index);
+void UI::Swiftask::formatOutputBox(bool isCompleted, dateTimeStat start, dateTimeStat end, int rowIndex) {
+
+	if (outputBox->RowCount < 1 || outputBox->RowCount != rowIndex + 1) {
+		return;
+	}
+
+	formatOutputBoxRow(rowIndex);
+	formatOutputBoxStartEndColumn(isCompleted, start, end, rowIndex);
+	formatOutputBoxDoneColumn(isCompleted, rowIndex);
 
 	return;
 }
 
-void UI::Swiftask::formatOutputBoxRows(int index) {
+void UI::Swiftask::formatOutputBoxRow(int rowIndex) {
 	Color oddRow = System::Drawing::ColorTranslator::FromHtml("#E8EAF6");	// Indigo50
 	Color evenRow = System::Drawing::ColorTranslator::FromHtml("#C5CAE9");	// Indigo100
 
 	DataGridViewCellStyle^ rowHeaderStyle = outputBox->RowHeadersDefaultCellStyle;
 
-	if (index%2) {
-		outputBox->Rows[index]->Cells[OutputBoxColumn::NUM]->Style->BackColor = oddRow;
-		outputBox->Rows[index]->Cells[OutputBoxColumn::TASKTEXT]->Style->BackColor = oddRow;
-		outputBox->Rows[index]->Cells[OutputBoxColumn::START]->Style->BackColor = oddRow;
-		outputBox->Rows[index]->Cells[OutputBoxColumn::END]->Style->BackColor = oddRow;
-		outputBox->Rows[index]->Cells[OutputBoxColumn::TAGS]->Style->BackColor = oddRow;
+	if (rowIndex % 2) {
+		outputBox->Rows[rowIndex]->Cells[OutputBoxColumn::NUM]->Style->BackColor = oddRow;
+		outputBox->Rows[rowIndex]->Cells[OutputBoxColumn::TASKTEXT]->Style->BackColor = oddRow;
+		outputBox->Rows[rowIndex]->Cells[OutputBoxColumn::START]->Style->BackColor = oddRow;
+		outputBox->Rows[rowIndex]->Cells[OutputBoxColumn::END]->Style->BackColor = oddRow;
+		outputBox->Rows[rowIndex]->Cells[OutputBoxColumn::TAGS]->Style->BackColor = oddRow;
 	} else {
-		outputBox->Rows[index]->Cells[OutputBoxColumn::NUM]->Style->BackColor = evenRow;
-		outputBox->Rows[index]->Cells[OutputBoxColumn::TASKTEXT]->Style->BackColor = evenRow;
-		outputBox->Rows[index]->Cells[OutputBoxColumn::START]->Style->BackColor = evenRow;
-		outputBox->Rows[index]->Cells[OutputBoxColumn::END]->Style->BackColor = evenRow;
-		outputBox->Rows[index]->Cells[OutputBoxColumn::TAGS]->Style->BackColor = evenRow;
+		outputBox->Rows[rowIndex]->Cells[OutputBoxColumn::NUM]->Style->BackColor = evenRow;
+		outputBox->Rows[rowIndex]->Cells[OutputBoxColumn::TASKTEXT]->Style->BackColor = evenRow;
+		outputBox->Rows[rowIndex]->Cells[OutputBoxColumn::START]->Style->BackColor = evenRow;
+		outputBox->Rows[rowIndex]->Cells[OutputBoxColumn::END]->Style->BackColor = evenRow;
+		outputBox->Rows[rowIndex]->Cells[OutputBoxColumn::TAGS]->Style->BackColor = evenRow;
 	}
 
 	return;
 }
 
-void UI::Swiftask::formatOutputBoxStartEndColumn(bool isCompleted, dateTimeStat start, dateTimeStat end, int index) {
+void UI::Swiftask::formatOutputBoxStartEndColumn(bool isCompleted, dateTimeStat start, dateTimeStat end, int rowIndex) {
 	Color green = System::Drawing::ColorTranslator::FromHtml("#4CAF50");	// Green500
 	Color red = System::Drawing::ColorTranslator::FromHtml("#E57373");		// Red300
 
 	boost::posix_time::ptime posixNowDateTime;
 	posixNowDateTime = boost::posix_time::second_clock::local_time();
 
-	if (!isCompleted && !start.isNotDateTime && start.hasPast) {
-		outputBox->Rows[index]->Cells[OutputBoxColumn::START]->Style->BackColor = green;
-	}
-
 	if (!isCompleted && !end.isNotDateTime) {
 		if (end.hasPast) {
-			outputBox->Rows[index]->Cells[OutputBoxColumn::END]->Style->BackColor = red;
+			outputBox->Rows[rowIndex]->Cells[OutputBoxColumn::END]->Style->BackColor = red;
 			if (!start.isNotDateTime) {
-				outputBox->Rows[index]->Cells[OutputBoxColumn::START]->Style->BackColor = red;
+				outputBox->Rows[rowIndex]->Cells[OutputBoxColumn::START]->Style->BackColor = red;
 			}
 		} else if (start.hasPast) {
-			outputBox->Rows[index]->Cells[OutputBoxColumn::END]->Style->BackColor = green;
-
+			outputBox->Rows[rowIndex]->Cells[OutputBoxColumn::START]->Style->BackColor = green;
+			outputBox->Rows[rowIndex]->Cells[OutputBoxColumn::END]->Style->BackColor = green;
 		}
 	}
 
 	return;
 }
 
-void UI::Swiftask::formatOutputBoxDoneColumn(bool isCompleted, int index) {
+void UI::Swiftask::formatOutputBoxDoneColumn(bool isCompleted, int rowIndex) {
 	Color green = System::Drawing::ColorTranslator::FromHtml("#4CAF50");	// Green500
 	Color red = System::Drawing::ColorTranslator::FromHtml("#E57373");		// Red300
 
 	if (isCompleted) {
-		outputBox->Rows[index]->Cells[OutputBoxColumn::DONE]->Style->BackColor = green;
+		outputBox->Rows[rowIndex]->Cells[OutputBoxColumn::DONE]->Style->BackColor = green;
 	} else {
-		outputBox->Rows[index]->Cells[OutputBoxColumn::DONE]->Style->BackColor = red;
+		outputBox->Rows[rowIndex]->Cells[OutputBoxColumn::DONE]->Style->BackColor = red;
 	}
 
 	return;
@@ -221,7 +217,7 @@ UI::dateTimeStat UI::Swiftask::timePast(boost::posix_time::ptime posixDateTime) 
 
 	if (posixDateTime.is_not_a_date_time()) {
 		dateTime.isNotDateTime = true;
-		dateTime.hasPast = false;		// Just to give it a value in case
+		dateTime.hasPast = false;		// Just to give it a value
 	} else {
 		dateTime.isNotDateTime = false;
 
