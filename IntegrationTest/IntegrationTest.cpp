@@ -55,11 +55,10 @@ const std::string TAG_E = "#TAG_E";
 const std::string TAG_F = "#TAG_F";
 const std::string TAG_WITHSPACE = "#TAG hasSpace";
 
-// TODO: conform global macro names to C++ standards
 // Valid add commands that will be used by test methods
-const std::string addCommand1 = CMD_ADD + SPACE + TASK_A;
-const std::string addCommand2 = CMD_ADD + SPACE + TASK_B + SPACE + BY + DATE_TIME_1;
-const std::string addCommand3 = CMD_ADD + SPACE + TASK_C + SPACE + FROM + DATE_TIME_2 + SPACE + TO + DATE_TIME_3;
+const std::string ADD_COMMAND_1 = CMD_ADD + SPACE + TASK_A;
+const std::string ADD_COMMAND_2 = CMD_ADD + SPACE + TASK_B + SPACE + BY + DATE_TIME_1;
+const std::string ADD_COMMAND_3 = CMD_ADD + SPACE + TASK_C + SPACE + FROM + DATE_TIME_2 + SPACE + TO + DATE_TIME_3;
 
 
 namespace UnitIntegrationTest {		
@@ -80,7 +79,7 @@ public:
 		// Not expecting to catch a bug
 
 		// Testing add floating tasks in valid partition
-		feedback = logic.executeCommand(addCommand1);
+		feedback = logic.executeCommand(ADD_COMMAND_1);
 		task = feedback.getTasksForDisplay()[0];
 
 		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
@@ -88,7 +87,7 @@ public:
 		Assert::AreEqual(TASK_A, task.getTaskText());
 
 		// Testing add tasks by deadline in valid partition
-		feedback = logic.executeCommand(addCommand2);
+		feedback = logic.executeCommand(ADD_COMMAND_2);
 		task = feedback.getTasksForDisplay()[1];
 
 		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
@@ -97,7 +96,7 @@ public:
 		Assert::AreEqual(DATE_TIME_1, boost::posix_time::to_simple_string(task.getEndDateTime()));
 
 		// Testing add tasks with duration in valid partition
-		feedback = logic.executeCommand(addCommand3);
+		feedback = logic.executeCommand(ADD_COMMAND_3);
 		task = feedback.getTasksForDisplay()[2];
 
 		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
@@ -108,7 +107,7 @@ public:
 
 		// Testing add duplicates in invalid partition
 		try {
-			feedback = logic.executeCommand(addCommand1);
+			feedback = logic.executeCommand(ADD_COMMAND_1);
 			Assert::AreEqual(false, true);
 
 		} catch (std::string &e) {
@@ -128,9 +127,9 @@ public:
 		feedback = logic.executeCommand(CMD_REFRESH);
 		Assert::AreEqual((size_t) 0, feedback.getTasksForDisplay().size());
 
-		feedback = logic.executeCommand(addCommand1);
-		feedback = logic.executeCommand(addCommand2);
-		feedback = logic.executeCommand(addCommand3);
+		feedback = logic.executeCommand(ADD_COMMAND_1);
+		feedback = logic.executeCommand(ADD_COMMAND_2);
+		feedback = logic.executeCommand(ADD_COMMAND_3);
 
 		// Testing refresh in the valid partition when there are tasks
 		feedback = logic.executeCommand(CMD_REFRESH);
@@ -153,9 +152,9 @@ public:
 		std::string editCommand0 = CMD_EDIT_END + " 0 " + DATE_TIME_2;
 		std::string editCommand4 = CMD_EDIT_START + " 4 " + DATE_TIME_1;
 
-		feedback = logic.executeCommand(addCommand1);
-		feedback = logic.executeCommand(addCommand2);
-		feedback = logic.executeCommand(addCommand3);
+		feedback = logic.executeCommand(ADD_COMMAND_1);
+		feedback = logic.executeCommand(ADD_COMMAND_2);
+		feedback = logic.executeCommand(ADD_COMMAND_3);
 
 		// Testing edit name and lower bound of valid partition
 		feedback = logic.executeCommand(editCommand1);
@@ -231,9 +230,9 @@ public:
 		std::string untagCommand0 = CMD_UNTAG + " 0 " + TAG_A;
 		std::string untagCommand4 = CMD_UNTAG + " 4 " + TAG_A; 
 
-		feedback = logic.executeCommand(addCommand1);
-		feedback = logic.executeCommand(addCommand2);
-		feedback = logic.executeCommand(addCommand3);
+		feedback = logic.executeCommand(ADD_COMMAND_1);
+		feedback = logic.executeCommand(ADD_COMMAND_2);
+		feedback = logic.executeCommand(ADD_COMMAND_3);
 
 		// Tag Tests
 		// Testing tag lower bound of valid partition
@@ -426,9 +425,9 @@ public:
 		std::string completeCommand3 = CMD_COMPLETE + SPACE + "3";
 		std::string completeCommand4 = CMD_COMPLETE + SPACE + "4";
 
-		feedback = logic.executeCommand(addCommand1);
-		feedback = logic.executeCommand(addCommand2);
-		feedback = logic.executeCommand(addCommand3);
+		feedback = logic.executeCommand(ADD_COMMAND_1);
+		feedback = logic.executeCommand(ADD_COMMAND_2);
+		feedback = logic.executeCommand(ADD_COMMAND_3);
 
 		// Testing complete lower bound of valid partition
 		feedback = logic.executeCommand(completeCommand1);
@@ -480,9 +479,9 @@ public:
 		std::string deleteCommand1 = CMD_DELETE + SPACE + "1";
 		std::string deleteCommand2 = CMD_DELETE + SPACE + "2";
 
-		feedback = logic.executeCommand(addCommand1);
-		feedback = logic.executeCommand(addCommand2);
-		feedback = logic.executeCommand(addCommand3);
+		feedback = logic.executeCommand(ADD_COMMAND_1);
+		feedback = logic.executeCommand(ADD_COMMAND_2);
+		feedback = logic.executeCommand(ADD_COMMAND_3);
 
 		// Testing delete task within valid parition
 		// May be trivial but leads to testing of deleting only one task
@@ -577,7 +576,7 @@ public:
 
 		// Testing manually added complete entry in the valid entries partition
 		std::ofstream saveFile(FILEPATH.c_str());
-		saveFile << taskIdentityString << "\n";
+		saveFile << TASK_IDENTITY_STRING << "\n";
 		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n" << "0" << "\n";
 		saveFile.close();
 
@@ -595,7 +594,7 @@ public:
 		// Testing manually added incomplete entry in the valid entries partition
 		remove(FILEPATH.c_str());
 		saveFile.open(FILEPATH.c_str());
-		saveFile << taskIdentityString << "\n";
+		saveFile << TASK_IDENTITY_STRING << "\n";
 		saveFile << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n";
 		saveFile.close();
 
@@ -613,9 +612,9 @@ public:
 
 		// Testing manually adding task with valid start but invalid end date-time in the valid entries partition
 		saveFile.open(FILEPATH.c_str());
-		saveFile << taskIdentityString << "\n";
+		saveFile << TASK_IDENTITY_STRING << "\n";
 		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << NOT_A_DATE_TIME << "\n" << "0" << "\n";
-		saveFile << taskIdentityString << "\n";
+		saveFile << TASK_IDENTITY_STRING << "\n";
 		saveFile << TASK_B << "\n" << DATE_TIME_2 << "\n" << TAG_A << "\n" << "0" << "\n";
 		saveFile.close();
 
@@ -639,7 +638,7 @@ public:
 
 		// Testing manually added 6th tag that is more than the maximum 5 tags in invalid partition
 		saveFile.open(FILEPATH.c_str());
-		saveFile << taskIdentityString << "\n";
+		saveFile << TASK_IDENTITY_STRING << "\n";
 		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n" << "0" << "\n";
 		saveFile << TAG_A << "\n" << TAG_B << "\n" << TAG_C << "\n" << TAG_D << "\n" << TAG_E << "\n";
 		saveFile << TAG_F << "\n";
@@ -668,10 +667,10 @@ public:
 		// Testing manually adding tag with length > 32 in invalid partition
 		const std::string longTag = "#01234567890123456789012345678912";
 		saveFile.open(FILEPATH.c_str());
-		saveFile << taskIdentityString << "\n";
+		saveFile << TASK_IDENTITY_STRING << "\n";
 		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n" << "0" << "\n";
 		saveFile << longTag << "\n";
-		saveFile << taskIdentityString << "\n";
+		saveFile << TASK_IDENTITY_STRING << "\n";
 		saveFile << TASK_B << "\n" << DATE_TIME_2 << "\n" << DATE_TIME_3 << "\n" << "0" << "\n";
 		saveFile.close();
 

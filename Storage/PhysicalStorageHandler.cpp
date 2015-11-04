@@ -3,6 +3,14 @@
 #include "Logger/Logger.h"
 
 
+INVALID_EXTENSION_EXCEPTION::INVALID_EXTENSION_EXCEPTION(const std::string eMessage) : std::exception(eMessage.c_str()){
+}
+
+
+INVALID_PATH_EXCEPTION::INVALID_PATH_EXCEPTION(const std::string eMessage) : std::exception(eMessage.c_str()){
+}
+
+
 PhysicalStorageHandler::PhysicalStorageHandler() {
 }
 
@@ -29,18 +37,18 @@ void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::st
 			while (!loadFile.eof()) {
 				API::Task *taskToAdd;
 
-				while (!loadFile.eof() && taskIdentityString != identityString) {
+				while (!loadFile.eof() && TASK_IDENTITY_STRING != identityString) {
 					std::getline(loadFile, identityString);
 				}
 
 				std::getline(loadFile, taskText);
-				if (taskIdentityString == taskText) {
+				if (TASK_IDENTITY_STRING == taskText) {
 					identityString = taskText;
 					continue;
 				}
 
 				std::getline(loadFile, startDateTimeString);
-				if (taskIdentityString == startDateTimeString) {
+				if (TASK_IDENTITY_STRING == startDateTimeString) {
 					identityString = startDateTimeString;
 					taskToAdd = new API::Task(taskText);
 					tasks.push_back(*taskToAdd);
@@ -48,7 +56,7 @@ void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::st
 				}
 
 				std::getline(loadFile, endDateTimeString);
-				if (taskIdentityString == endDateTimeString) {
+				if (TASK_IDENTITY_STRING == endDateTimeString) {
 					identityString = endDateTimeString;
 					taskToAdd = new API::Task(taskText);
 					tasks.push_back(*taskToAdd);
@@ -87,7 +95,7 @@ void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::st
 				}
 
 				std::getline(loadFile, tag);
-				while (!loadFile.eof() && taskIdentityString != tag) {
+				while (!loadFile.eof() && TASK_IDENTITY_STRING != tag) {
 					try {
 						taskToAdd->addTag(tag);
 					} catch (std::exception &e) {
@@ -115,7 +123,7 @@ void PhysicalStorageHandler::saveToFile(std::vector<API::Task>& tasks, std::stri
 	std::ofstream saveFile(filePath.c_str());
 
 	for (size_t i = 0 ; i < tasks.size() ; ++i) {
-		saveFile << taskIdentityString << std::endl;
+		saveFile << TASK_IDENTITY_STRING << std::endl;
 
 		saveFile << tasks[i].getTaskText() << std::endl;
 
@@ -137,17 +145,22 @@ void PhysicalStorageHandler::saveToFile(std::vector<API::Task>& tasks, std::stri
 	}
 }
 
-void specifySaveLocation(std::string filePath) {
+void PhysicalStorageHandler::setSaveLocation(std::string filePath) {
 	if (CreateDirectory(filePath.c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError()) {
-		std::ofstream configFile(configPath.c_str());
+		std::ofstream configFile(CONFIG_PATH.c_str());
 		configFile.clear();
 		if (configFile.is_open()) {
 			configFile << filePath;
 		}
 		configFile.close();
 	} else {
-		//throw INVALID_PATH_EXCEPTION(INVALID_PATH_ERROR_MESSAGE);
+		throw INVALID_PATH_EXCEPTION(INVALID_PATH_ERROR_MESSAGE);
 	}
 
 	return;
 }
+
+std::string PhysicalStorageHandler::getSaveLocation() {
+	return "";
+}
+
