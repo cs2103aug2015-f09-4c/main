@@ -22,7 +22,7 @@ UIFeedback ConfigureSaveLocationCommand::execute(RunTimeStorage* runTimeStorage)
 	_runTimeStorageExecuted = runTimeStorage;
 
 	char buffer[255];
-	sprintf_s(buffer, MESSAGE_CONFIG_SAVE_PATH_SUCCESS.c_str(), _newSavePath);
+	sprintf_s(buffer, MESSAGE_CONFIG_SAVE_PATH_SUCCESS.c_str(), _newSavePath.c_str());
 
 	return UIFeedback(runTimeStorage->getTasksToDisplay(), buffer);
 }

@@ -52,9 +52,7 @@ public:
 	// Throws INVALID_PATH_EXCEPTION if the path is invalid or unable to create folder
 	void setSaveLocation(std::string filePath = "");
 
-	std::string getFilePath() {
-		return _filePath;
-	}
+	std::string getFilePath(void);
 
 	virtual ~PhysicalStorageHandler(void);
 
@@ -68,9 +66,5 @@ private:
 	void configSaveLocation();
 
 	void splitFileName(std::string fileName, std::string &path, std::string &file);
-
-public:
-	std::string getFilePath(void);
-
 };
 
