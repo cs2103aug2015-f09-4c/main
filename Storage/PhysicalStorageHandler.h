@@ -44,9 +44,9 @@ public:
 	// existing files
 	void saveToFile(std::vector<API::Task> &tasks, std::string filePath = "");
 
-	// Setter function for filePath of data storage file
-	// Accepts filePath even if the file already exist. filePath is saved at CONFIG_PATH
-	// in the same directory as program.
+	// Setter function for filePath of data storage file. Accepts filePath even if 
+	// the file already exist. _filePath attribute is updated. filePath is saved at 
+	// CONFIG_PATH in the same directory as program.
 	//
 	// Throws an exception if the path is invalid.
 	// Throws an exception if extension of path is not .txt

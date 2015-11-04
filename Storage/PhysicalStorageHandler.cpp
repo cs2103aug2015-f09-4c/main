@@ -156,7 +156,6 @@ void PhysicalStorageHandler::setSaveLocation(std::string filePath) {
 
 		_filePath = filePath;
 
-		remove(filePath.c_str());
 		std::ofstream configFile(CONFIG_PATH.c_str());
 		configFile.clear();
 
