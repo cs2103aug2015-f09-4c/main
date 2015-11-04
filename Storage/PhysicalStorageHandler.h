@@ -1,9 +1,11 @@
 //@@author A0124439E
 #pragma once
 
+#include <assert.h>
 #include <fstream>
 #include <string>
 #include <vector>
+#include "Logger\Logger.h"
 #include "../Logic/Task.h"
 #include "../boost/date_time/posix_time/posix_time.hpp"
 
@@ -12,6 +14,7 @@ const std::string INVALID_PATH_ERROR_MESSAGE = "Failed to create directory. Plea
 
 const std::string DEFAULT_PATH = "defaultSaveFile.txt";
 const std::string CONFIG_PATH = "config.txt";
+const std::string VALID_FILE_EXTENSION = ".txt";
 const std::string TASK_IDENTITY_STRING = "--task--";
 
 class INVALID_EXTENSION_EXCEPTION : public std::exception {
@@ -28,20 +31,23 @@ class PhysicalStorageHandler {
 public:
 	PhysicalStorageHandler();
 
+	// TODO: Remove redundant std::string filePath from following two functions once logic adapts to new changes
+
 	// Loads parameter tasks from data stored in the file at filePath specified. If 
 	// filePath is not specified, loads tasks from file at DEFAULT_PATH. If file does 
 	// not exist no tasks are loaded.
-	void loadFromFile(std::vector<API::Task> &tasks, std::string filePath = DEFAULT_PATH);
+	void loadFromFile(std::vector<API::Task> &tasks, std::string filePath = "");
 
 	// Saves information about API::Task objects from parameter tasks into the file 
 	// at the filePath specified. If filePath is not specified, DEFAULT_PATH is used. 
 	// If file does not exist, a new file is created. Tasks data will be appended in 
 	// existing files
-	void saveToFile(std::vector<API::Task> &tasks, std::string filePath = DEFAULT_PATH);
+	void saveToFile(std::vector<API::Task> &tasks, std::string filePath = "");
 
 	// Setter function for filePath of data storage file
-	// Accepts filePath even if the file already exist. filePath is saved in config.txt
+	// Accepts filePath even if the file already exist. filePath is saved at CONFIG_PATH
 	// in the same directory as program.
+	//
 	// Throws an exception if the path is invalid.
 	// Throws an exception if extension of path is not .txt
 	void setSaveLocation(std::string filePath);
@@ -49,9 +55,12 @@ public:
 	virtual ~PhysicalStorageHandler(void);
 
 private:
-	// Getter function for filePath of data storage file
-	// Gets filePath stored in config.txt
-	// Throws an exception if file does not exist
-	std::string getSaveLocation();
+	Logger* _logger;
+
+	std::string _filePath;
+
+	// Gets filePath from CONFIG_PATH and store it in _filePath. If CONFIG_PATH cannot
+	// be opened or filePath gotten is invalid, sets _filePath as DEFAULT_PATH instead.
+	void configSaveLocation();
 };
 
