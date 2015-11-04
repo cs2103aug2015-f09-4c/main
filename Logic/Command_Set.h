@@ -29,4 +29,3 @@ public:
 	UIFeedback Command::undo();
 	bool canUndo();
 };
-

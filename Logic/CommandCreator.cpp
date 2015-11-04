@@ -13,6 +13,9 @@ Command* CommandCreator::processByPrimaryCommandType(CommandTokens commandTokens
 		case CommandTokens::PrimaryCommandType::Add:
 			returnCommand = processAddCommand(commandTokens);
 			break;
+		case CommandTokens::PrimaryCommandType::Configure:
+			returnCommand = processConfigureCommand(commandTokens);
+			break;
 		case CommandTokens::PrimaryCommandType::Delete:
 			returnCommand = processDeleteCommand(commandTokens);
 			break;
@@ -99,6 +102,13 @@ AddCommand* CommandCreator::processAddCommand(CommandTokens commandTokens) {
 	} catch (INVALID_COMMAND_EXCEPTION e) {
 		throw e;
 	}
+	return returnCommand;
+}
+
+ConfigureSaveLocationCommand* CommandCreator::processConfigureCommand(CommandTokens commandTokens) {
+	ConfigureSaveLocationCommand* returnCommand = NULL;
+	std::string savePath = commandTokens.getOtherCommandParameter();
+	returnCommand = new ConfigureSaveLocationCommand(savePath);
 	return returnCommand;
 }
 
@@ -352,6 +362,9 @@ SearchCommand* CommandCreator::processSearchCommand(CommandTokens commandTokens)
 SearchStartBeforeCommand* CommandCreator::processSearchStartBeforeCommand(CommandTokens commandTokens) {
 	SearchStartBeforeCommand* returnCommand;
 	ptime start = commandTokens.getStartDateTime();
+	if (start.is_special()) {
+		throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_DATE_TIME);
+	}
 	returnCommand = new SearchStartBeforeCommand(start);
 	return returnCommand;
 }
@@ -359,6 +372,9 @@ SearchStartBeforeCommand* CommandCreator::processSearchStartBeforeCommand(Comman
 SearchStartAfterCommand* CommandCreator::processSearchStartAfterCommand(CommandTokens commandTokens) {
 	SearchStartAfterCommand* returnCommand;
 	ptime start = commandTokens.getStartDateTime();
+	if (start.is_special()) {
+		throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_DATE_TIME);
+	}
 	returnCommand = new SearchStartAfterCommand(start);
 	return returnCommand;
 }
@@ -366,6 +382,9 @@ SearchStartAfterCommand* CommandCreator::processSearchStartAfterCommand(CommandT
 SearchEndBeforeCommand* CommandCreator::processSearchEndBeforeCommand(CommandTokens commandTokens) {
 	SearchEndBeforeCommand* returnCommand;
 	ptime end = commandTokens.getEndDateTime();
+	if (end.is_special()) {
+		throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_DATE_TIME);
+	}
 	returnCommand = new SearchEndBeforeCommand(end);
 	return returnCommand;
 }
@@ -373,6 +392,9 @@ SearchEndBeforeCommand* CommandCreator::processSearchEndBeforeCommand(CommandTok
 SearchEndAfterCommand* CommandCreator::processSearchEndAfterCommand(CommandTokens commandTokens) {
 	SearchEndAfterCommand* returnCommand;
 	ptime end = commandTokens.getEndDateTime();
+	if (end.is_special()) {
+		throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_DATE_TIME);
+	}
 	returnCommand = new SearchEndAfterCommand(end);
 	return returnCommand;
 }

@@ -22,48 +22,50 @@ class CommandCreator {
 private:
 	static Logger* logger;
 
-	static Command* processByPrimaryCommandType(CommandTokens commandTokens);
+	static Command* processByPrimaryCommandType(CommandTokens);
 
-	static AddCommand* processAddCommand(CommandTokens commandTokens);
+	static AddCommand* processAddCommand(CommandTokens);
 
-	static DeleteCommand* processDeleteCommand(CommandTokens commandTokens);
-	static DeleteIndexCommand* processDeleteIndexCommand(CommandTokens commandTokens);
-	static DeleteBeforeCommand* processDeleteBeforeCommand(CommandTokens commandTokens);
-	static DeleteFromToCommand* processDeleteFromToCommand(CommandTokens commandTokens);
-	static DeleteAllCommand* processDeleteAllCommand(CommandTokens commandTokens);
-	static DeleteCompleteCommand* processDeleteCompleteCommand(CommandTokens commandTokens);
+	static ConfigureSaveLocationCommand* processConfigureCommand(CommandTokens);
 
-	static DisplayCommand* processDisplayCommand(CommandTokens commandTokens);
+	static DeleteCommand* processDeleteCommand(CommandTokens);
+	static DeleteIndexCommand* processDeleteIndexCommand(CommandTokens);
+	static DeleteBeforeCommand* processDeleteBeforeCommand(CommandTokens);
+	static DeleteFromToCommand* processDeleteFromToCommand(CommandTokens);
+	static DeleteAllCommand* processDeleteAllCommand(CommandTokens);
+	static DeleteCompleteCommand* processDeleteCompleteCommand(CommandTokens);
 
-	static EditCommand* processEditCommand(CommandTokens commandTokens);
-	static EditNameCommand* processEditNameCommand(CommandTokens commandTokens);
-	static EditStartCommand* processEditStartCommand(CommandTokens commandTokens);
-	static EditEndCommand* processEditEndCommand(CommandTokens commandTokens);
+	static DisplayCommand* processDisplayCommand(CommandTokens);
 
-	static ExportCommand* processExportCommand(CommandTokens commandTokens);
+	static EditCommand* processEditCommand(CommandTokens);
+	static EditNameCommand* processEditNameCommand(CommandTokens);
+	static EditStartCommand* processEditStartCommand(CommandTokens);
+	static EditEndCommand* processEditEndCommand(CommandTokens);
 
-	static ImportCommand* processImportCommand(CommandTokens commandTokens);
+	static ExportCommand* processExportCommand(CommandTokens);
 
-	static RefreshCommand* processRefreshCommand(CommandTokens commandTokens);
+	static ImportCommand* processImportCommand(CommandTokens);
 
-	static SearchCommand* processSearchCommand(CommandTokens commandTokens);
-	static SearchStartBeforeCommand* processSearchStartBeforeCommand(CommandTokens commandTokens);
-	static SearchStartAfterCommand* processSearchStartAfterCommand(CommandTokens commandTokens);
-	static SearchEndBeforeCommand* processSearchEndBeforeCommand(CommandTokens commandTokens);
-	static SearchEndAfterCommand* processSearchEndAfterCommand(CommandTokens commandTokens);
-	static SearchTagsCommand* processSearchTagsCommand(CommandTokens commandTokens);
-	static SearchNameCommand* processSearchNameCommand(CommandTokens commandTokens);
+	static RefreshCommand* processRefreshCommand(CommandTokens);
 
-	static SetCompleteCommand* processSetCompleteCommand(CommandTokens commandTokens);
+	static SearchCommand* processSearchCommand(CommandTokens);
+	static SearchStartBeforeCommand* processSearchStartBeforeCommand(CommandTokens);
+	static SearchStartAfterCommand* processSearchStartAfterCommand(CommandTokens);
+	static SearchEndBeforeCommand* processSearchEndBeforeCommand(CommandTokens);
+	static SearchEndAfterCommand* processSearchEndAfterCommand(CommandTokens);
+	static SearchTagsCommand* processSearchTagsCommand(CommandTokens);
+	static SearchNameCommand* processSearchNameCommand(CommandTokens);
 
-	static SortCommand* processSortCommand(CommandTokens commandTokens);
+	static SetCompleteCommand* processSetCompleteCommand(CommandTokens);
 
-	static TagCommand* processTagCommand(CommandTokens commandTokens);
+	static SortCommand* processSortCommand(CommandTokens);
 
-	static UntagCommand* processUntagCommand(CommandTokens commandTokens);
+	static TagCommand* processTagCommand(CommandTokens);
+
+	static UntagCommand* processUntagCommand(CommandTokens);
 public:
 	CommandCreator();
-	Command* process(CommandTokens commandTokens);
+	Command* process(CommandTokens);
 
 	//Methods below are for unit testing which allows private method to be called when TESTMODE is defined
 
