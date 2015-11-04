@@ -1,4 +1,4 @@
-//@@ author A0097681N
+//@@author A0097681N
 #include "stdafx.h"
 #include "CppUnitTest.h"
 
@@ -565,22 +565,20 @@ namespace ParserTest {
 
 		TEST_METHOD(unitTest_parser_DateParser_DD_MM_YYYY_HHHH) {
 			std::string testUserInputDate = "13-05-1999 1320";
-			DateParser dateParser;
 
 			boost::posix_time::ptime expected(boost::posix_time::time_from_string("1999-05-13 13:20:00.000"));
 			boost::posix_time::ptime actual;
-			actual = dateParser.parse(testUserInputDate);
+			actual = DateParser::parse(testUserInputDate);
 
 			Assert::IsTrue(expected == actual);
 		}
 
 		TEST_METHOD(unitTest_parser_DateParser_DD_MM_YYYY) {
 			std::string testUserInputDate = "13-05-1999";
-			DateParser dateParser;
 
 			boost::posix_time::ptime expected(boost::posix_time::time_from_string("1999-05-13 00:00:00.000"));
 			boost::posix_time::ptime actual;
-			actual = dateParser.parse(testUserInputDate);
+			actual = DateParser::parse(testUserInputDate);
 
 			Assert::IsTrue(expected == actual);
 		}
@@ -588,11 +586,10 @@ namespace ParserTest {
 		// upper boundary case for valid date range partition
 		TEST_METHOD(unitTest_parser_DateParser_DD_MM_YYYY_HHHH_MaxRange) {
 			std::string testUserInputDate = "31-12-9999 2359";
-			DateParser dateParser;
 
 			boost::posix_time::ptime expected(boost::posix_time::time_from_string("9999-12-31 23:59:00.000"));
 			boost::posix_time::ptime actual;
-			actual = dateParser.parse(testUserInputDate);
+			actual = DateParser::parse(testUserInputDate);
 
 			Assert::IsTrue(expected == actual);
 		}
@@ -600,11 +597,10 @@ namespace ParserTest {
 		// lower boundary case for valid date range partition
 		TEST_METHOD(unitTest_parser_DateParser_DD_MM_YYYY_HHHH_MinRange) {
 			std::string testUserInputDate = "01-01-1400 0000";
-			DateParser dateParser;
 
 			boost::posix_time::ptime expected(boost::posix_time::time_from_string("1400-01-01 00:00:00.000"));
 			boost::posix_time::ptime actual;
-			actual = dateParser.parse(testUserInputDate);
+			actual = DateParser::parse(testUserInputDate);
 
 			Assert::IsTrue(expected == actual);
 		}
@@ -612,11 +608,10 @@ namespace ParserTest {
 		// edge cases partition: dates that are invalid because of non-uniform length of months
 		TEST_METHOD(unitTest_parser_DateParser_DD_MM_YYYY_HHHH_InvalidDate) {
 			std::string testUserInputDate = "29-02-1999 1345";
-			DateParser dateParser;
 
 			boost::posix_time::ptime expected;
 			boost::posix_time::ptime actual;
-			actual = dateParser.parse(testUserInputDate);
+			actual = DateParser::parse(testUserInputDate);
 
 			Assert::IsTrue(expected == actual);
 		}

@@ -1,4 +1,4 @@
-//@@ author A0097681N
+//@@author A0097681N
 #include "Parser.h"
 
 #include "CommandTokenisers\AddCommandTokeniser.h"
@@ -19,10 +19,11 @@
 Parser::Parser(void) {
 	_logger = Logger::getInstance();
 
-	_commandTokeniser = nullptr;
-	_invalidCommandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Invalid);
-	_invalidCommandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::None);
+	initialiseAllCommandTokenisers();
+	initialiseInvalidCommandTokens();
+}
 
+void Parser::initialiseAllCommandTokenisers() {
 	_commandTokenisers.push_back(new AddCommandTokeniser);
 	_commandTokenisers.push_back(new ConfigureCommandTokeniser);
 	_commandTokenisers.push_back(new CompleteCommandTokeniser);
@@ -39,17 +40,19 @@ Parser::Parser(void) {
 	_commandTokenisers.push_back(new UntagCommandTokeniser);
 }
 
+void Parser::initialiseInvalidCommandTokens() {
+	_invalidCommandTokens.setPrimaryCommand(CommandTokens::PrimaryCommandType::Invalid);
+	_invalidCommandTokens.setSecondaryCommand(CommandTokens::SecondaryCommandType::None);
+}
+
 CommandTokens Parser::parse(std::string userInput) {
 	_logger->logINFO("Parser::parse(std::string userInput):CommandTokens called with parameter userInput=\"" + userInput + "\"");
 
-	try {
-		_commandTokeniser = getCommandTokeniser(userInput);
-	} catch (CommandDoesNotExistException& e) {
-		_logger->logINFO(e.what());
+	CommandTokeniser* commandTokeniser = getCommandTokeniser(userInput);
+	if (commandTokeniser == nullptr) {
 		return _invalidCommandTokens;
 	}
-
-	return _commandTokeniser->tokeniseUserInput(userInput);
+	return commandTokeniser->tokeniseUserInput(userInput);
 }
 
 CommandTokeniser* Parser::getCommandTokeniser(std::string userInput) {
@@ -58,6 +61,5 @@ CommandTokeniser* Parser::getCommandTokeniser(std::string userInput) {
 			return commandTokeniser;
 		}
 	}
-
-	throw CommandDoesNotExistException();
+	return nullptr;
 }

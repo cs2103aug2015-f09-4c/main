@@ -1,5 +1,6 @@
-#include "Command_Refresh.h"
+//@@author A0112218W
 
+#include "Command_Refresh.h"
 
 RefreshCommand::RefreshCommand(void) : Command(CommandTokens::PrimaryCommandType::Refresh)
 {

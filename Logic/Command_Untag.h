@@ -1,4 +1,6 @@
+//@@author A0112218W
 #pragma once
+
 #include "Command.h"
 
 const std::string MESSAGE_UNTAG_SUCCESS = "Task at index %i have %i tag(s) removed.";
@@ -18,4 +20,3 @@ public:
 	bool Command::canUndo();
 	~UntagCommand(void);
 };
-

@@ -1,11 +1,12 @@
-//@@ author A0097681N
+//@@author A0097681N
 #pragma once
 #include <regex>
 #include "CommandTokens.h"
 #include "CommandTokeniser.h"
 #include "Logger\Logger.h"
 
-// facade class to provide uniform way to assess the various CommandTokenisers
+// facade class to provide uniform way to assess the various concrete
+// CommandTokeniser classes
 class Parser {
 public:
 	Parser(void);
@@ -15,8 +16,9 @@ private:
 	Logger* _logger;
 
 	std::vector<CommandTokeniser*> _commandTokenisers;
-	CommandTokeniser* _commandTokeniser;
 	CommandTokens _invalidCommandTokens;
 
+	void initialiseAllCommandTokenisers(void);
+	void initialiseInvalidCommandTokens(void);
 	CommandTokeniser* getCommandTokeniser(std::string userInput);
 };

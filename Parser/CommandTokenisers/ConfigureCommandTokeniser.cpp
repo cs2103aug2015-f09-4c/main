@@ -1,4 +1,4 @@
-//@@ author A0097681N
+//@@author A0097681N
 #include "ConfigureCommandTokeniser.h"
 
 ConfigureCommandTokeniser::ConfigureCommandTokeniser(void) {
@@ -29,18 +29,13 @@ CommandTokens ConfigureCommandTokeniser::tokeniseUserInput(std::string userInput
 }
 
 bool ConfigureCommandTokeniser::isConfigureSaveLocation(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("Configure Save Location [^ ]+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(&userInput, "CONFIGURE SAVE LOCATION [^ ]+");
 }
 
 void ConfigureCommandTokeniser::tokeniseConfigureSaveLocation(std::string userInput, CommandTokens* outputCommandTokens) {
 	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::SaveLocation);
 
-	std::smatch matchResults;
-	std::regex_match(userInput,
-	                 std::regex("Configure Save Location ([^ ]+)",
-	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
+	std::smatch matchResults = getRegexMatches(&userInput, "CONFIGURE SAVE LOCATION ([^ ]+)");
 
 	std::string saveLocation = matchResults[1];
 	outputCommandTokens->setOtherCommandParameter(saveLocation);

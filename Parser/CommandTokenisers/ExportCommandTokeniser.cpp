@@ -1,4 +1,4 @@
-//@@ author A0097681N
+//@@author A0097681N
 #include "ExportCommandTokeniser.h"
 
 ExportCommandTokeniser::ExportCommandTokeniser(void) {
@@ -29,17 +29,13 @@ CommandTokens ExportCommandTokeniser::tokeniseUserInput(std::string userInput) {
 }
 
 bool ExportCommandTokeniser::isExportToLocalDisk(std::string userInput) {
-	return std::regex_match(userInput, std::regex("EXPORT [^ ]+",
-	                                              std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(&userInput,"EXPORT [^ ]+");
 }
 
 void ExportCommandTokeniser::tokeniseExportToLocalDisk(std::string userInput, CommandTokens* outputCommandTokens) {
 	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::None);
 
-	std::smatch matchResults;
-	std::regex_match(userInput, matchResults,
-	                 std::regex("EXPORT ([^ ]+)",
-	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
+	std::smatch matchResults = getRegexMatches(&userInput, "EXPORT ([^ ]+)");
 
 	std::string exportPath = matchResults[1];
 	outputCommandTokens->setOtherCommandParameter(exportPath);

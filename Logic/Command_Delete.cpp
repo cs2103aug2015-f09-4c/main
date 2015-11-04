@@ -1,3 +1,5 @@
+//@@author A0112218W
+
 #include "Command_Delete.h"
 
 DeleteCommand::DeleteCommand(CommandTokens::SecondaryCommandType type2) : Command(CommandTokens::PrimaryCommandType::Delete) {

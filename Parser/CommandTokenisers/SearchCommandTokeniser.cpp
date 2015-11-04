@@ -1,4 +1,4 @@
-//@@ author A0097681N
+//@@author A0097681N
 #include "SearchCommandTokeniser.h"
 
 SearchCommandTokeniser::SearchCommandTokeniser(void) {
@@ -30,18 +30,25 @@ CommandTokens SearchCommandTokeniser::tokeniseUserInput(std::string userInput) {
 
 	if (isSearchFreeSlot(userInput)) {
 		tokeniseSearchFreeSlot(&tokenisedCommand);
+
 	} else if (isSearchName(userInput)) {
 		tokeniseSearchName(userInput, &tokenisedCommand);
+
 	} else if (isSearchFromTo(userInput)) {
 		tokeniseSearchFromTo(userInput, &tokenisedCommand);
+
 	} else if (isSearchStartBefore(userInput)) {
 		tokeniseSearchStartBefore(userInput, &tokenisedCommand);
+
 	} else if (isSearchStartAfter(userInput)) {
 		tokeniseSearchStartAfter(userInput, &tokenisedCommand);
+
 	} else if (isSearchEndBefore(userInput)) {
 		tokeniseSearchEndBefore(userInput, &tokenisedCommand);
+
 	} else if (isSearchEndAfter(userInput)) {
 		tokeniseSearchEndAfter(userInput, &tokenisedCommand);
+
 	} else if (isSearchTags(userInput)) {
 		tokeniseSearchTags(userInput, &tokenisedCommand);
 	}
@@ -50,51 +57,35 @@ CommandTokens SearchCommandTokeniser::tokeniseUserInput(std::string userInput) {
 }
 
 bool SearchCommandTokeniser::isSearchFreeSlot(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("SEARCH FREE",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(&userInput, "SEARCH FREE");
 }
 
 bool SearchCommandTokeniser::isSearchName(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("SEARCH NAME .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(&userInput, "SEARCH NAME .+");
 }
 
 bool SearchCommandTokeniser::isSearchFromTo(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("SEARCH FROM .+ TO .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(&userInput, "SEARCH FROM .+ TO .+");
 }
 
 bool SearchCommandTokeniser::isSearchStartBefore(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("SEARCH START BEFORE .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(&userInput, "SEARCH START BEFORE .+");
 }
 
 bool SearchCommandTokeniser::isSearchStartAfter(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("SEARCH START AFTER .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(&userInput, "SEARCH START AFTER .+");
 }
 
 bool SearchCommandTokeniser::isSearchEndBefore(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("SEARCH END BEFORE .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(&userInput, "SEARCH END BEFORE .+");
 }
 
 bool SearchCommandTokeniser::isSearchEndAfter(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("SEARCH END AFTER .+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(&userInput, "SEARCH END AFTER .+");
 }
 
 bool SearchCommandTokeniser::isSearchTags(std::string userInput) {
-	return std::regex_match(userInput,
-	                        std::regex("SEARCH TAGS( #[^ ]+)+",
-	                                   std::regex_constants::ECMAScript | std::regex_constants::icase));
+	return isRegexMatch(&userInput, "SEARCH TAGS( #[^ ]+)+");
 }
 
 void SearchCommandTokeniser::tokeniseSearchFreeSlot(CommandTokens* outputCommandTokens) {
@@ -104,10 +95,7 @@ void SearchCommandTokeniser::tokeniseSearchFreeSlot(CommandTokens* outputCommand
 void SearchCommandTokeniser::tokeniseSearchName(std::string userInput, CommandTokens* outputCommandTokens) {
 	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::Name);
 
-	std::smatch matchResults;
-	std::regex_match(userInput, matchResults,
-	                 std::regex("SEARCH NAME (.+)",
-	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
+	std::smatch matchResults = getRegexMatches(&userInput, "SEARCH NAME (.+)");
 
 	std::string taskNameToSearch = matchResults[1];
 	outputCommandTokens->setTaskName(taskNameToSearch);
@@ -116,10 +104,7 @@ void SearchCommandTokeniser::tokeniseSearchName(std::string userInput, CommandTo
 void SearchCommandTokeniser::tokeniseSearchFromTo(std::string userInput, CommandTokens* outputCommandTokens) {
 	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::FromTo);
 
-	std::smatch matchResults;
-	std::regex_match(userInput, matchResults,
-	                 std::regex("SEARCH FROM (.+) TO (.+)",
-	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
+	std::smatch matchResults = getRegexMatches(&userInput, "SEARCH FROM (.+) TO (.+)");
 
 	boost::posix_time::ptime startDateTime = parseUserInputDate(matchResults[1]);
 	boost::posix_time::ptime endDateTime = parseUserInputDate(matchResults[2]);
@@ -130,10 +115,7 @@ void SearchCommandTokeniser::tokeniseSearchFromTo(std::string userInput, Command
 void SearchCommandTokeniser::tokeniseSearchStartBefore(std::string userInput, CommandTokens* outputCommandTokens) {
 	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::StartBefore);
 
-	std::smatch matchResults;
-	std::regex_match(userInput, matchResults,
-	                 std::regex("SEARCH START BEFORE (.+)",
-	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
+	std::smatch matchResults = getRegexMatches(&userInput, "SEARCH START BEFORE (.+)");
 
 	boost::posix_time::ptime startDateTime = parseUserInputDate(matchResults[1]);
 	outputCommandTokens->setStartDateTime(startDateTime);
@@ -142,10 +124,7 @@ void SearchCommandTokeniser::tokeniseSearchStartBefore(std::string userInput, Co
 void SearchCommandTokeniser::tokeniseSearchStartAfter(std::string userInput, CommandTokens* outputCommandTokens) {
 	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::StartAfter);
 
-	std::smatch matchResults;
-	std::regex_match(userInput, matchResults,
-	                 std::regex("SEARCH START AFTER (.+)",
-	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
+	std::smatch matchResults = getRegexMatches(&userInput, "SEARCH START AFTER (.+)");
 
 	boost::posix_time::ptime startDateTime = parseUserInputDate(matchResults[1]);
 	outputCommandTokens->setStartDateTime(startDateTime);
@@ -154,10 +133,7 @@ void SearchCommandTokeniser::tokeniseSearchStartAfter(std::string userInput, Com
 void SearchCommandTokeniser::tokeniseSearchEndBefore(std::string userInput, CommandTokens* outputCommandTokens) {
 	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::EndBefore);
 
-	std::smatch matchResults;
-	std::regex_match(userInput, matchResults,
-	                 std::regex("SEARCH END BEFORE (.+)",
-	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
+	std::smatch matchResults = getRegexMatches(&userInput, "SEARCH END BEFORE (.+)");
 
 	boost::posix_time::ptime endDateTime = parseUserInputDate(matchResults[1]);
 	outputCommandTokens->setEndDateTime(endDateTime);
@@ -166,10 +142,7 @@ void SearchCommandTokeniser::tokeniseSearchEndBefore(std::string userInput, Comm
 void SearchCommandTokeniser::tokeniseSearchEndAfter(std::string userInput, CommandTokens* outputCommandTokens) {
 	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::EndAfter);
 
-	std::smatch matchResults;
-	std::regex_match(userInput, matchResults,
-	                 std::regex("SEARCH END AFTER (.+)",
-	                            std::regex_constants::ECMAScript | std::regex_constants::icase));
+	std::smatch matchResults = getRegexMatches(&userInput, "SEARCH END AFTER (.+)");
 
 	boost::posix_time::ptime endDateTime = parseUserInputDate(matchResults[1]);
 	outputCommandTokens->setEndDateTime(endDateTime);
