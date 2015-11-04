@@ -64,7 +64,7 @@ namespace UnitIntegrationTest {
 public:
 	TEST_METHOD(integrationAdd) {
 		// Important to do it here because logic keeps a copy of data on construction
-		remove(DEFAULT_PATH.c_str());
+		remove(DEFAULT_FILE.c_str());
 
 		Logic logic;
 		UIFeedback feedback;
@@ -116,7 +116,7 @@ public:
 	}
 
 	TEST_METHOD(integrationRefresh) {
-		remove(DEFAULT_PATH.c_str());
+		remove(DEFAULT_FILE.c_str());
 
 		Logic logic;
 		UIFeedback feedback;
@@ -135,7 +135,7 @@ public:
 	}
 
 	TEST_METHOD(integrationEdit) {
-		remove(DEFAULT_PATH.c_str());
+		remove(DEFAULT_FILE.c_str());
 
 		Logic logic;
 		UIFeedback feedback;
@@ -204,7 +204,7 @@ public:
 	}
 
 	TEST_METHOD(integrationTagUntag) {
-		remove(DEFAULT_PATH.c_str());
+		remove(DEFAULT_FILE.c_str());
 
 		Logic logic;
 		UIFeedback feedback;
@@ -412,7 +412,7 @@ public:
 	}
 
 	TEST_METHOD(integrationComplete) {
-		remove(DEFAULT_PATH.c_str());
+		remove(DEFAULT_FILE.c_str());
 
 		Logic logic;
 		UIFeedback feedback;
@@ -466,7 +466,7 @@ public:
 	}
 
 	TEST_METHOD(integrationDelete) {
-		remove(DEFAULT_PATH.c_str());
+		remove(DEFAULT_FILE.c_str());
 
 		Logic logic;
 		UIFeedback feedback;
@@ -543,7 +543,7 @@ public:
 	}
 
 	TEST_METHOD(integrationDateTimeFormat) {
-		remove(DEFAULT_PATH.c_str());
+		remove(DEFAULT_FILE.c_str());
 
 		// Tests flexible formats
 		// yyyy-mm-dd hh:mm
@@ -565,7 +565,7 @@ public:
 
 	// The following test method tests the program for changes in saved data by the user
 	TEST_METHOD(integrationSavedDataChanges) {
-		remove(DEFAULT_PATH.c_str());
+		remove(DEFAULT_FILE.c_str());
 
 		// Logic only loads from file at construction
 		Logic *logic;
@@ -573,7 +573,7 @@ public:
 		API::Task task;
 
 		// Testing manually added complete entry in the valid entries partition
-		std::ofstream saveFile(DEFAULT_PATH.c_str());
+		std::ofstream saveFile(DEFAULT_FILE.c_str());
 		saveFile << TASK_IDENTITY_STRING << "\n";
 		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n" << "0" << "\n";
 		saveFile.close();
@@ -590,8 +590,8 @@ public:
 		delete logic;
 
 		// Testing manually added incomplete entry in the valid entries partition
-		remove(DEFAULT_PATH.c_str());
-		saveFile.open(DEFAULT_PATH.c_str());
+		remove(DEFAULT_FILE.c_str());
+		saveFile.open(DEFAULT_FILE.c_str());
 		saveFile << TASK_IDENTITY_STRING << "\n";
 		saveFile << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n";
 		saveFile.close();
@@ -609,7 +609,7 @@ public:
 		delete logic;
 
 		// Testing manually adding task with valid start but invalid end date-time in the valid entries partition
-		saveFile.open(DEFAULT_PATH.c_str());
+		saveFile.open(DEFAULT_FILE.c_str());
 		saveFile << TASK_IDENTITY_STRING << "\n";
 		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << NOT_A_DATE_TIME << "\n" << "0" << "\n";
 		saveFile << TASK_IDENTITY_STRING << "\n";
@@ -635,7 +635,7 @@ public:
 		delete logic;
 
 		// Testing manually added 6th tag that is more than the maximum 5 tags in invalid partition
-		saveFile.open(DEFAULT_PATH.c_str());
+		saveFile.open(DEFAULT_FILE.c_str());
 		saveFile << TASK_IDENTITY_STRING << "\n";
 		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n" << "0" << "\n";
 		saveFile << TAG_A << "\n" << TAG_B << "\n" << TAG_C << "\n" << TAG_D << "\n" << TAG_E << "\n";
@@ -664,7 +664,7 @@ public:
 
 		// Testing manually adding tag with length > 32 in invalid partition
 		const std::string longTag = "#01234567890123456789012345678912";
-		saveFile.open(DEFAULT_PATH.c_str());
+		saveFile.open(DEFAULT_FILE.c_str());
 		saveFile << TASK_IDENTITY_STRING << "\n";
 		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n" << "0" << "\n";
 		saveFile << longTag << "\n";

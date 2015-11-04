@@ -3,7 +3,7 @@
 #include "Logger/Logger.h"
 
 
-INVALID_EXTENSION_EXCEPTION::INVALID_EXTENSION_EXCEPTION(const std::string eMessage) : std::exception(eMessage.c_str()) {
+INVALID_FILE_EXCEPTION::INVALID_FILE_EXCEPTION(const std::string eMessage) : std::exception(eMessage.c_str()) {
 }
 
 
@@ -38,6 +38,8 @@ void PhysicalStorageHandler::loadFromFile(std::vector<API::Task>& tasks, std::st
 		if (loadFile.is_open() && !loadFile.eof()) {
 			while (!loadFile.eof()) {
 				API::Task *taskToAdd;
+
+				_logger->logDEBUG("Loading Task...");
 
 				while (!loadFile.eof() && TASK_IDENTITY_STRING != identityString) {
 					std::getline(loadFile, identityString);
@@ -148,18 +150,29 @@ void PhysicalStorageHandler::saveToFile(std::vector<API::Task>& tasks, std::stri
 }
 
 void PhysicalStorageHandler::setSaveLocation(std::string filePath) {
-	if (CreateDirectory(filePath.c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError()) {
-		int validExtensionSize = VALID_FILE_EXTENSION.size();
-		if (0 != filePath.compare(filePath.size() - validExtensionSize, validExtensionSize, VALID_FILE_EXTENSION)) {
-			throw INVALID_EXTENSION_EXCEPTION(INVALID_EXTENSION_ERROR_MESSAGE);
-		}
+	std::string path = "";
+	std::string file = "";
+
+	splitFileName(filePath, path, file);
+
+	int validExtensionSize = VALID_FILE_EXTENSION.size();
+	if (file.size() <= validExtensionSize ||
+		0 != file.compare(file.size() - validExtensionSize, validExtensionSize, VALID_FILE_EXTENSION)) {
+			throw INVALID_FILE_EXCEPTION(INVALID_FILE_ERROR_MESSAGE);
+	}
+
+	std::fstream dataFile(filePath.c_str());
+
+	if (dataFile.good()) {
+		_filePath = filePath;
+	} else if (CreateDirectory(path.c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError()) {
 
 		_filePath = filePath;
 
-		std::ofstream configFile(CONFIG_PATH.c_str());
-		configFile.clear();
+		std::ofstream configFile(CONFIG_FILE.c_str());
 
 		if (configFile.is_open()) {
+			configFile.clear();
 			configFile << filePath;
 		}
 
@@ -172,7 +185,7 @@ void PhysicalStorageHandler::setSaveLocation(std::string filePath) {
 }
 
 void PhysicalStorageHandler::configSaveLocation() {
-	std::ifstream configFile(CONFIG_PATH.c_str());
+	std::ifstream configFile(CONFIG_FILE.c_str());
 	bool isSuccessful = true;
 
 	_logger->logDEBUG("Configuring _filePath from config.txt...");
@@ -183,7 +196,7 @@ void PhysicalStorageHandler::configSaveLocation() {
 
 		try {
 			setSaveLocation(filePath);
-		} catch (INVALID_EXTENSION_EXCEPTION e) {
+		} catch (INVALID_FILE_EXCEPTION e) {
 			_logger->logERROR(e.what());
 			isSuccessful = false;
 		} catch (INVALID_PATH_EXCEPTION e) {
@@ -197,8 +210,16 @@ void PhysicalStorageHandler::configSaveLocation() {
 	}
 
 	try {
-		setSaveLocation(DEFAULT_PATH);
-	} catch (INVALID_EXTENSION_EXCEPTION e) {
+		char buffer[MAX_PATH];
+		GetModuleFileName(NULL, buffer, MAX_PATH);
+
+		std::string currentLocation(buffer);
+		std::string path = "";
+		std::string file = "";
+		splitFileName(currentLocation, path, file);
+		file = DEFAULT_FILE;
+		setSaveLocation(path + file);
+	} catch (INVALID_FILE_EXCEPTION e) {
 		assert(false);
 	} catch (INVALID_PATH_EXCEPTION e) {
 		assert(false);
@@ -207,3 +228,11 @@ void PhysicalStorageHandler::configSaveLocation() {
 	return;
 }
 
+void PhysicalStorageHandler::splitFileName(std::string fileName, std::string &path ,std::string &file) {
+	std::size_t found = fileName.find_last_of("/\\");
+
+	path = fileName.substr(0, found + 1);
+	file = fileName.substr(found + 1);
+
+	return;
+}
