@@ -112,4 +112,6 @@ public:
 	void saveToFile(std::string filePath);
 	void loadFromFile();
 	void loadFromFile(std::string filePath);
+	void configureSaveLocation(std::string filePath);
+	std::string getFilePath();
 };

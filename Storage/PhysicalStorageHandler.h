@@ -52,6 +52,10 @@ public:
 	// Throws an exception if extension of path is not .txt
 	void setSaveLocation(std::string filePath = "");
 
+	std::string getFilePath() {
+		return _filePath;
+	}
+
 	virtual ~PhysicalStorageHandler(void);
 
 private:

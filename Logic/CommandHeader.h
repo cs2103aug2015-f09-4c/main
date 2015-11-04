@@ -5,6 +5,7 @@
 //A single header file to include all command classes.
 
 #include "Command_Add.h"
+#include "Command_Configure.h"
 #include "Command_Delete.h"
 #include "Command_Display.h"
 #include "Command_Edit.h"

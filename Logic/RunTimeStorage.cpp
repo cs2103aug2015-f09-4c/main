@@ -242,3 +242,18 @@ void RunTimeStorage::loadFromFile(std::string filePath) {
 	_physicalStorageHandler->loadFromFile(_tasks, filePath);
 	return;
 }
+
+void RunTimeStorage::configureSaveLocation(std::string filePath) {
+	try {
+		_physicalStorageHandler->setSaveLocation(filePath);
+	} catch (INVALID_FILE_EXCEPTION e) {
+		throw e;
+	} catch (INVALID_PATH_EXCEPTION e) {
+		throw e;
+	}
+	return;
+}
+
+std::string RunTimeStorage::getFilePath() {
+	return _physicalStorageHandler->getFilePath();
+}
