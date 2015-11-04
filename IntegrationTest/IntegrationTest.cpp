@@ -565,7 +565,11 @@ public:
 
 	// The following test method tests the program for changes in saved data by the user
 	TEST_METHOD(integrationSavedDataChanges) {
-		remove(DEFAULT_FILE.c_str());
+		PhysicalStorageHandler storage;
+		//storage = new PhysicalStorageHandler();
+		std::string dataFile = storage.getFilePath();
+
+		remove(dataFile.c_str());
 
 		// Logic only loads from file at construction
 		Logic *logic;
@@ -573,7 +577,7 @@ public:
 		API::Task task;
 
 		// Testing manually added complete entry in the valid entries partition
-		std::ofstream saveFile(DEFAULT_FILE.c_str());
+		std::ofstream saveFile(dataFile.c_str());
 		saveFile << TASK_IDENTITY_STRING << "\n";
 		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n" << "0" << "\n";
 		saveFile.close();
@@ -590,8 +594,8 @@ public:
 		delete logic;
 
 		// Testing manually added incomplete entry in the valid entries partition
-		remove(DEFAULT_FILE.c_str());
-		saveFile.open(DEFAULT_FILE.c_str());
+		remove(dataFile.c_str());
+		saveFile.open(dataFile.c_str());
 		saveFile << TASK_IDENTITY_STRING << "\n";
 		saveFile << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n";
 		saveFile.close();
@@ -609,7 +613,7 @@ public:
 		delete logic;
 
 		// Testing manually adding task with valid start but invalid end date-time in the valid entries partition
-		saveFile.open(DEFAULT_FILE.c_str());
+		saveFile.open(dataFile.c_str());
 		saveFile << TASK_IDENTITY_STRING << "\n";
 		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << NOT_A_DATE_TIME << "\n" << "0" << "\n";
 		saveFile << TASK_IDENTITY_STRING << "\n";
@@ -635,7 +639,7 @@ public:
 		delete logic;
 
 		// Testing manually added 6th tag that is more than the maximum 5 tags in invalid partition
-		saveFile.open(DEFAULT_FILE.c_str());
+		saveFile.open(dataFile.c_str());
 		saveFile << TASK_IDENTITY_STRING << "\n";
 		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n" << "0" << "\n";
 		saveFile << TAG_A << "\n" << TAG_B << "\n" << TAG_C << "\n" << TAG_D << "\n" << TAG_E << "\n";
@@ -664,7 +668,7 @@ public:
 
 		// Testing manually adding tag with length > 32 in invalid partition
 		const std::string longTag = "#01234567890123456789012345678912";
-		saveFile.open(DEFAULT_FILE.c_str());
+		saveFile.open(dataFile.c_str());
 		saveFile << TASK_IDENTITY_STRING << "\n";
 		saveFile << TASK_A << "\n" << DATE_TIME_1 << "\n" << DATE_TIME_2 << "\n" << "0" << "\n";
 		saveFile << longTag << "\n";

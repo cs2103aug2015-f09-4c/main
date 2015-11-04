@@ -48,8 +48,8 @@ public:
 	// the file already exist. _filePath attribute is updated. filePath is saved at 
 	// CONFIG_FILE in the same directory as program.
 	//
-	// Throws an exception if the path is invalid.
-	// Throws an exception if extension of path is not .txt
+	// Throws INVALID_FILE_EXCEPTION if the file name is invalid.
+	// Throws INVALID_PATH_EXCEPTION if the path is invalid or unable to create folder
 	void setSaveLocation(std::string filePath = "");
 
 	virtual ~PhysicalStorageHandler(void);
@@ -64,5 +64,9 @@ private:
 	void configSaveLocation();
 
 	void splitFileName(std::string fileName, std::string &path, std::string &file);
+
+public:
+	std::string getFilePath(void);
+
 };
 

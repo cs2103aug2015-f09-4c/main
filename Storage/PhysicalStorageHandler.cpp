@@ -188,7 +188,7 @@ void PhysicalStorageHandler::configSaveLocation() {
 	std::ifstream configFile(CONFIG_FILE.c_str());
 	bool isSuccessful = true;
 
-	_logger->logDEBUG("Configuring _filePath from config.txt...");
+	_logger->logDEBUG("Configuring _filePath from CONFIG_FILE...");
 
 	if (configFile.is_open()) {
 		std::string filePath;
@@ -235,4 +235,8 @@ void PhysicalStorageHandler::splitFileName(std::string fileName, std::string &pa
 	file = fileName.substr(found + 1);
 
 	return;
+}
+
+std::string PhysicalStorageHandler::getFilePath(void) {
+	return _filePath;
 }
