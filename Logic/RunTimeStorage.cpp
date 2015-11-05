@@ -9,7 +9,10 @@ RunTimeStorage::RunTimeStorage(){
 	_sortMode = Sort_Type::sortByEntryOrder;
 
 	_physicalStorageHandler = new PhysicalStorageHandler();
+	try {
 	_physicalStorageHandler->loadFromFile(_tasks);
+	} catch (INVALID_FILE_EXCEPTION e) {
+	}
 }
 
 //Getter
