@@ -29,13 +29,13 @@ CommandTokens ConfigureCommandTokeniser::tokeniseUserInput(std::string userInput
 }
 
 bool ConfigureCommandTokeniser::isConfigureSaveLocation(std::string userInput) {
-	return isRegexMatch(&userInput, "CONFIGURE SAVE LOCATION [^ ]+");
+	return isRegexMatch(&userInput, "CONFIGURE SAVE LOCATION .+");
 }
 
 void ConfigureCommandTokeniser::tokeniseConfigureSaveLocation(std::string userInput, CommandTokens* outputCommandTokens) {
 	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::SaveLocation);
 
-	std::smatch matchResults = getRegexMatches(&userInput, "CONFIGURE SAVE LOCATION ([^ ]+)");
+	std::smatch matchResults = getRegexMatches(&userInput, "CONFIGURE SAVE LOCATION (.+)");
 
 	std::string saveLocation = matchResults[1];
 	outputCommandTokens->setOtherCommandParameter(saveLocation);
