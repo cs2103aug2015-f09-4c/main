@@ -65,11 +65,11 @@ namespace UI {
 		// Resets the commandBox
 		std::string getStdStringCommand(void);
 
-		// A process to call specialised processes to update each UI component
+		// A method to call specialised methods to update each UI component
 		void updateUI(void);
 
-		// The three following processess update specific UI components
-		// Private attribute feedback of Swiftask is used in these processes
+		// The three following methods update specific UI components
+		// Private attribute feedback of Swiftask is used in these methods
 		void updateResults(void);
 		void clearOutputBox(void);
 		void displayInOutputBox(void);

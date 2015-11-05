@@ -16,6 +16,7 @@ const std::string DEFAULT_FILE = "defaultSaveFile.txt";
 const std::string CONFIG_FILE = "config.txt";
 const std::string VALID_FILE_EXTENSION = ".txt";
 const std::string TASK_IDENTITY_STRING = "--task--";
+const std::string NO_FILE_PATH_SPECIFIED = "No file specified";
 
 class INVALID_FILE_EXCEPTION : public std::exception {
 public:
@@ -31,18 +32,20 @@ class PhysicalStorageHandler {
 public:
 	PhysicalStorageHandler();
 
-	// TODO: Remove redundant std::string filePath from following two functions once logic adapts to new changes
-
 	// Loads parameter tasks from data stored in the file at filePath specified. If 
-	// filePath is not specified, loads tasks from file at DEFAULT_FILE. If file does 
+	// filePath is not specified, loads tasks from file at _filePath. If file does 
 	// not exist no tasks are loaded.
-	void loadFromFile(std::vector<API::Task> &tasks, std::string filePath = "");
+	//
+	// Throws INVALID_FILE_EXCEPTION when filePath is specified and file cannot be opened
+	void loadFromFile(std::vector<API::Task> &tasks, std::string filePath = NO_FILE_PATH_SPECIFIED);
 
 	// Saves information about API::Task objects from parameter tasks into the file 
-	// at the filePath specified. If filePath is not specified, DEFAULT_FILE is used. 
-	// If file does not exist, a new file is created. Tasks data will be appended in 
-	// existing files
-	void saveToFile(std::vector<API::Task> &tasks, std::string filePath = "");
+	// at the filePath specified. If filePath is not specified, _filePath is used. 
+	// If file does not exist, a new file is created. Tasks data will OVERWRITE 
+	// existing file
+	//
+	// Throws INVALID_PATH_EXCEPTION when file does not exist and cannot be created
+	void saveToFile(std::vector<API::Task> &tasks, std::string filePath = NO_FILE_PATH_SPECIFIED);
 
 	// Setter function for filePath of data storage file. Accepts filePath even if 
 	// the file already exist. _filePath attribute is updated. filePath is saved at 
