@@ -78,6 +78,16 @@ private:
 	std::string _searchString;
 public:
 	SearchNameCommand(std::string searchString);
-	UIFeedback SearchNameCommand::execute(RunTimeStorage*);
+	UIFeedback SearchCommand::execute(RunTimeStorage*);
 	virtual ~SearchNameCommand(void);
+};
+
+class SearchFromToCommand : public SearchCommand {
+private:
+	ptime _startDateTime;
+	ptime _endDateTime;
+public:
+	SearchFromToCommand(ptime start, ptime end);
+	UIFeedback SearchCommand::execute(RunTimeStorage*);
+	virtual ~SearchFromToCommand(void);
 };
