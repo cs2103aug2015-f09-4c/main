@@ -175,6 +175,8 @@ void PhysicalStorageHandler::setSaveLocation(std::string filePath) {
 	std::string path = "";
 	std::string file = "";
 
+	_logger->logDEBUG("Inside setSaveLocation");
+
 	splitFileName(filePath, path, file);
 
 	int validExtensionSize = VALID_FILE_EXTENSION.size();
@@ -188,20 +190,22 @@ void PhysicalStorageHandler::setSaveLocation(std::string filePath) {
 	if (dataFile.good()) {
 		_filePath = filePath;
 	} else if (CreateDirectory(path.c_str(), NULL) || ERROR_ALREADY_EXISTS == GetLastError()) {
-
 		_filePath = filePath;
-
-		std::ofstream configFile(CONFIG_FILE.c_str());
-
-		if (configFile.is_open()) {
-			configFile.clear();
-			configFile << filePath;
-		}
-
-		configFile.close();
+		_logger->logDEBUG("Folder created at new save location");
 	} else {
 		throw INVALID_PATH_EXCEPTION(INVALID_PATH_ERROR_MESSAGE);
 	}
+
+	std::ofstream configFile(CONFIG_FILE.c_str());
+
+	if (configFile.is_open()) {
+		configFile.clear();
+		configFile << filePath;
+	}
+
+	configFile.close();
+
+	_logger->logDEBUG("Exiting setSaveLocation");
 
 	return;
 }
@@ -246,6 +250,8 @@ void PhysicalStorageHandler::configSaveLocation() {
 	} catch (INVALID_PATH_EXCEPTION e) {
 		assert(false);
 	}
+
+	_logger->logDEBUG("Configuration completed");
 
 	return;
 }
