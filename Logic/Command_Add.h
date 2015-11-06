@@ -10,7 +10,7 @@ const std::string MESSAGE_ADD_EMPTY = "Task text cannot be empty. New task is no
 const std::string MESSAGE_UNDO_ADD = "Previous add operation is undoed succesfully";
 
 /**
- *	Command sub class that is responsible for adding task
+ *	Command sub class responsible for adding task
  */
 class AddCommand: public Command {
 private:

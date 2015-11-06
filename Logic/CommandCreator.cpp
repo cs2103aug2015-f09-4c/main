@@ -349,6 +349,9 @@ SearchCommand* CommandCreator::processSearchCommand(CommandTokens commandTokens)
 		case CommandTokens::SecondaryCommandType::Name:
 			returnCommand = processSearchNameCommand(commandTokens);
 			break;
+		case CommandTokens::SecondaryCommandType::FromTo:
+			returnCommand = processSearchFromToCommand(commandTokens);
+			break;
 		default:
 			throw INVALID_COMMAND_EXCEPTION(MESSAGE_INVALID_COMMAND);
 		}
@@ -410,6 +413,14 @@ SearchNameCommand* CommandCreator::processSearchNameCommand(CommandTokens comman
 	SearchNameCommand* returnCommand;
 	std::string searchString = commandTokens.getTaskName();
 	returnCommand = new SearchNameCommand(searchString);
+	return returnCommand;
+}
+
+SearchFromToCommand* CommandCreator::processSearchFromToCommand(CommandTokens commandTokens) {
+	SearchFromToCommand* returnCommand;
+	ptime start = commandTokens.getStartDateTime();
+	ptime end = commandTokens.getEndDateTime();
+	returnCommand = new SearchFromToCommand(start,end);
 	return returnCommand;
 }
 

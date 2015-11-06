@@ -55,6 +55,7 @@ private:
 	static SearchEndAfterCommand* processSearchEndAfterCommand(CommandTokens);
 	static SearchTagsCommand* processSearchTagsCommand(CommandTokens);
 	static SearchNameCommand* processSearchNameCommand(CommandTokens);
+	static SearchFromToCommand* processSearchFromToCommand(CommandTokens);
 
 	static SetCompleteCommand* processSetCompleteCommand(CommandTokens);
 
