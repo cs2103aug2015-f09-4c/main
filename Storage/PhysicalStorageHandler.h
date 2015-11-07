@@ -1,8 +1,6 @@
 //@@author A0124439E
 #pragma once
-#ifndef TESTMODE
-#define TESTMODE 0
-#endif
+
 #include <assert.h>
 #include <fstream>
 #include <string>
