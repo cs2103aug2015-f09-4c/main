@@ -65,7 +65,6 @@ public:
 	TEST_METHOD(integrationAdd) {
 		// Important to do it here because logic keeps a copy of data on construction
 		remove(DEFAULT_FILE.c_str());
-
 		PhysicalStorageHandler::setToTestMode();
 
 		Logic logic;
@@ -119,6 +118,7 @@ public:
 
 	TEST_METHOD(integrationRefresh) {
 		remove(DEFAULT_FILE.c_str());
+		PhysicalStorageHandler::setToTestMode();
 
 		Logic logic;
 		UIFeedback feedback;
@@ -138,6 +138,7 @@ public:
 
 	TEST_METHOD(integrationEdit) {
 		remove(DEFAULT_FILE.c_str());
+		PhysicalStorageHandler::setToTestMode();
 
 		Logic logic;
 		UIFeedback feedback;
@@ -208,6 +209,7 @@ public:
 	TEST_METHOD(integrationTagUntag) {
 		remove(DEFAULT_FILE.c_str());
 		PhysicalStorageHandler::setToTestMode();
+
 		Logic logic;
 		UIFeedback feedback;
 		std::set<std::string> tags;
@@ -415,6 +417,7 @@ public:
 
 	TEST_METHOD(integrationComplete) {
 		remove(DEFAULT_FILE.c_str());
+		PhysicalStorageHandler::setToTestMode();
 
 		Logic logic;
 		UIFeedback feedback;
@@ -469,6 +472,7 @@ public:
 
 	TEST_METHOD(integrationDelete) {
 		remove(DEFAULT_FILE.c_str());
+		PhysicalStorageHandler::setToTestMode();
 
 		Logic logic;
 		UIFeedback feedback;
@@ -546,6 +550,7 @@ public:
 
 	TEST_METHOD(integrationDateTimeFormat) {
 		remove(DEFAULT_FILE.c_str());
+		PhysicalStorageHandler::setToTestMode();
 
 		// Tests flexible formats
 		// yyyy-mm-dd hh:mm
@@ -567,6 +572,7 @@ public:
 
 	// The following test method tests the program for changes in saved data by the user
 	TEST_METHOD(integrationSavedDataChanges) {
+		PhysicalStorageHandler::setToTestMode();
 		PhysicalStorageHandler storage;
 		std::string dataFile = storage.getFilePath();
 

@@ -1,6 +1,5 @@
 //@@author A0124439E
 #include "PhysicalStorageHandler.h"
-#include "Logger/Logger.h"
 
 
 INVALID_FILE_EXCEPTION::INVALID_FILE_EXCEPTION(const std::string eMessage) : std::exception(eMessage.c_str()) {
