@@ -13,8 +13,11 @@ INVALID_PATH_EXCEPTION::INVALID_PATH_EXCEPTION(const std::string eMessage) : std
 
 PhysicalStorageHandler::PhysicalStorageHandler() {
 	_logger = Logger::getInstance();
-
+#ifdef TESTMODE
+	_filePath = DEFAULT_FILE;
+#else
 	configSaveLocation();
+#endif
 }
 
 

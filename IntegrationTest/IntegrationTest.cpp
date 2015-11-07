@@ -566,7 +566,6 @@ public:
 	// The following test method tests the program for changes in saved data by the user
 	TEST_METHOD(integrationSavedDataChanges) {
 		PhysicalStorageHandler storage;
-		//storage = new PhysicalStorageHandler();
 		std::string dataFile = storage.getFilePath();
 
 		remove(dataFile.c_str());
