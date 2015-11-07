@@ -26,6 +26,8 @@ UIFeedback Logic::executeCommand(std::string userString) {
 		throw std::string(e.what());
 	} catch (COMMAND_EXECUTION_EXCEPTION e) {
 		throw std::string(e.what());
+	} catch (std::exception e) {
+		throw std::string(e.what());
 	}
 	return feedback;
 }

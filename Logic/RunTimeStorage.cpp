@@ -10,7 +10,7 @@ RunTimeStorage::RunTimeStorage(){
 
 	_physicalStorageHandler = new PhysicalStorageHandler();
 	try {
-	_physicalStorageHandler->loadFromFile(_tasks);
+		_physicalStorageHandler->loadFromFile(_tasks);
 	} catch (INVALID_FILE_EXCEPTION e) {
 	}
 }
@@ -237,7 +237,13 @@ void RunTimeStorage::saveToFile(std::string filePath) {
 }
 
 void RunTimeStorage::loadFromFile() {
-	_physicalStorageHandler->loadFromFile(_tasks);
+	try {
+		_physicalStorageHandler->loadFromFile(_tasks);
+	} catch (INVALID_FILE_EXCEPTION e) {
+		throw e;
+	} catch (INVALID_PATH_EXCEPTION e) {
+		throw e;
+	}
 	return;
 }
 
