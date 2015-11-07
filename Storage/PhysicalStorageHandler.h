@@ -57,6 +57,10 @@ public:
 
 	std::string getFilePath(void);
 
+	static void setToTestMode() {
+		isTestMode = true;
+	}
+
 	virtual ~PhysicalStorageHandler(void);
 
 private:
@@ -69,5 +73,7 @@ private:
 	void configSaveLocation();
 
 	void splitFileName(std::string fileName, std::string &path, std::string &file);
+
+	static bool isTestMode;
 };
 

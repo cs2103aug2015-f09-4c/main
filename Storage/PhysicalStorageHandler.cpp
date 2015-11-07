@@ -10,14 +10,15 @@ INVALID_FILE_EXCEPTION::INVALID_FILE_EXCEPTION(const std::string eMessage) : std
 INVALID_PATH_EXCEPTION::INVALID_PATH_EXCEPTION(const std::string eMessage) : std::exception(eMessage.c_str()) {
 }
 
+bool PhysicalStorageHandler::isTestMode = false;
 
 PhysicalStorageHandler::PhysicalStorageHandler() {
 	_logger = Logger::getInstance();
-#ifdef TESTMODE
-	_filePath = DEFAULT_FILE;
-#else
-	configSaveLocation();
-#endif
+	if (isTestMode) {
+		_filePath = DEFAULT_FILE;
+	} else {
+		configSaveLocation();
+	}
 }
 
 

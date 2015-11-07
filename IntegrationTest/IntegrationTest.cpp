@@ -58,13 +58,15 @@ const std::string ADD_COMMAND_1 = CMD_ADD + SPACE + TASK_A;
 const std::string ADD_COMMAND_2 = CMD_ADD + SPACE + TASK_B + SPACE + BY + DATE_TIME_1;
 const std::string ADD_COMMAND_3 = CMD_ADD + SPACE + TASK_C + SPACE + FROM + DATE_TIME_2 + SPACE + TO + DATE_TIME_3;
 
-
 namespace UnitIntegrationTest {		
 	TEST_CLASS(UnitIntegrationTest) {
 public:
+
 	TEST_METHOD(integrationAdd) {
 		// Important to do it here because logic keeps a copy of data on construction
 		remove(DEFAULT_FILE.c_str());
+
+		PhysicalStorageHandler::setToTestMode();
 
 		Logic logic;
 		UIFeedback feedback;
@@ -205,7 +207,7 @@ public:
 
 	TEST_METHOD(integrationTagUntag) {
 		remove(DEFAULT_FILE.c_str());
-
+		PhysicalStorageHandler::setToTestMode();
 		Logic logic;
 		UIFeedback feedback;
 		std::set<std::string> tags;
