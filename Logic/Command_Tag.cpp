@@ -9,7 +9,7 @@ TagCommand::TagCommand(size_t index, std::vector<std::string> tags) : Command(Co
 }
 
 UIFeedback TagCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert(runTimeStorage!=NULL);
+	checkIsValidForExecute(runTimeStorage);
 	std::string feedbackMessage;
 	try {
 		Task& taskToTag = runTimeStorage->find(_index);
@@ -32,8 +32,7 @@ UIFeedback TagCommand::execute(RunTimeStorage* runTimeStorage) {
 	}
 
 	if (_successTags.size() > 0) {
-		_statusExecuted = true;
-		_runTimeStorageExecuted = runTimeStorage;
+		postExecutionAction(runTimeStorage);
 		char buffer[255];
 		sprintf_s(buffer, MESSAGE_TAG_SUCCESS.c_str(), _index, _successTags.size());
 		feedbackMessage += std::string(buffer);
@@ -43,12 +42,13 @@ UIFeedback TagCommand::execute(RunTimeStorage* runTimeStorage) {
 }
 
 UIFeedback TagCommand::undo() {
-	assert(_statusExecuted);
-	assert(_runTimeStorageExecuted!=NULL);
+	checkIsValidForUndo();
 	Task& taskToUntag = _runTimeStorageExecuted->getEntry(_tagIndex);
 	for (size_t i = 0 ; i < _successTags.size() ; ++i) {
 		taskToUntag.removeTag(_successTags[i]);
 	}
+	postUndoAction();
+
 	return UIFeedback(_runTimeStorageExecuted->refreshTasksToDisplay(), MESSAGE_TAG_UNDO);
 }
 

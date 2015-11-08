@@ -16,7 +16,7 @@ EditNameCommand::EditNameCommand(size_t index, std::string newTaskText):EditComm
 }
 
 UIFeedback EditNameCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert (runTimeStorage != NULL);
+	checkIsValidForExecute(runTimeStorage);
 
 	std::string feedbackMessage;
 
@@ -40,8 +40,7 @@ UIFeedback EditNameCommand::execute(RunTimeStorage* runTimeStorage) {
 		sprintf_s(buffer, MESSAGE_EDIT_NAME_SUCCESS.c_str(), _oldTaskText.c_str(), _newTaskText.c_str());
 		feedbackMessage = std::string(buffer);
 
-		_statusExecuted = true;
-		_runTimeStorageExecuted = runTimeStorage;
+		postExecutionAction(runTimeStorage);
 		return UIFeedback(runTimeStorage->refreshTasksToDisplay(), feedbackMessage);
 	} catch (INDEX_NOT_FOUND_EXCEPTION e){
 		throw COMMAND_EXECUTION_EXCEPTION(e.what());
@@ -51,16 +50,14 @@ UIFeedback EditNameCommand::execute(RunTimeStorage* runTimeStorage) {
 }
 
 UIFeedback EditNameCommand::undo() {
-	assert(_statusExecuted);
-	assert(_runTimeStorageExecuted!=NULL);
+	checkIsValidForUndo();
 
 	Task& taskToEdit = _runTimeStorageExecuted->getEntry(_editIndex);
 
 	taskToEdit.changeTaskText(_oldTaskText);
 
-	_statusExecuted = false;
 	std::vector<Task> taskToDisplay = _runTimeStorageExecuted->refreshTasksToDisplay();
-	_runTimeStorageExecuted = NULL;
+	postUndoAction();
 
 	return UIFeedback(taskToDisplay, MESSAGE_EDIT_UNDO);
 }
@@ -70,7 +67,7 @@ EditStartCommand::EditStartCommand(size_t index, ptime newStart) : EditCommand(C
 }
 
 UIFeedback EditStartCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert (runTimeStorage != NULL);
+	checkIsValidForExecute(runTimeStorage);
 
 	std::string feedbackMessage;
 
@@ -93,8 +90,7 @@ UIFeedback EditStartCommand::execute(RunTimeStorage* runTimeStorage) {
 		sprintf_s(buffer, MESSAGE_EDIT_START_SUCCESS.c_str(), taskToEdit.getTaskText().c_str(), newStartString.c_str());
 		feedbackMessage = std::string(buffer);
 
-		_statusExecuted = true;
-		_runTimeStorageExecuted = runTimeStorage;
+		postExecutionAction(runTimeStorage);
 		return UIFeedback(runTimeStorage->refreshTasksToDisplay(), feedbackMessage);
 	} catch (INDEX_NOT_FOUND_EXCEPTION e) {
 		throw COMMAND_EXECUTION_EXCEPTION(e.what());
@@ -106,16 +102,14 @@ UIFeedback EditStartCommand::execute(RunTimeStorage* runTimeStorage) {
 }
 
 UIFeedback EditStartCommand::undo() {
-	assert(_statusExecuted);
-	assert(_runTimeStorageExecuted!=NULL);
+	checkIsValidForUndo();
 
 	Task& taskToEdit = _runTimeStorageExecuted->getEntry(_editIndex);
 
 	taskToEdit.changeStartDateTime(_oldStart);
 
-	_statusExecuted = false;
 	std::vector<Task> taskToDisplay = _runTimeStorageExecuted->refreshTasksToDisplay();
-	_runTimeStorageExecuted = NULL;
+	postUndoAction();
 
 	return UIFeedback(taskToDisplay, MESSAGE_EDIT_UNDO);
 }
@@ -125,7 +119,7 @@ EditEndCommand::EditEndCommand(size_t index, ptime newEnd) : EditCommand(Command
 }
 
 UIFeedback EditEndCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert (runTimeStorage != NULL);
+	checkIsValidForExecute(runTimeStorage);
 	std::string feedbackMessage;
 	try {
 		Task& taskToEdit = runTimeStorage -> find(_index);
@@ -146,8 +140,7 @@ UIFeedback EditEndCommand::execute(RunTimeStorage* runTimeStorage) {
 		sprintf_s(buffer, MESSAGE_EDIT_END_SUCCESS.c_str(), taskToEdit.getTaskText().c_str(), newEndString.c_str());
 		feedbackMessage = std::string(buffer);
 
-		_statusExecuted = true;
-		_runTimeStorageExecuted = runTimeStorage;
+		postExecutionAction(runTimeStorage);
 
 		return UIFeedback(runTimeStorage->refreshTasksToDisplay(), feedbackMessage);
 	} catch(INDEX_NOT_FOUND_EXCEPTION e) {
@@ -160,16 +153,14 @@ UIFeedback EditEndCommand::execute(RunTimeStorage* runTimeStorage) {
 }
 
 UIFeedback EditEndCommand::undo() {
-	assert(_statusExecuted);
-	assert(_runTimeStorageExecuted!=NULL);
+	checkIsValidForUndo();
 
 	Task& taskToEdit = _runTimeStorageExecuted->getEntry(_editIndex);
 
 	taskToEdit.changeEndDateTime(_oldEnd);
 
-	_statusExecuted = false;
 	std::vector<Task> taskToDisplay = _runTimeStorageExecuted->refreshTasksToDisplay();
-	_runTimeStorageExecuted = NULL;
+	postUndoAction();
 
 	return UIFeedback(taskToDisplay, MESSAGE_EDIT_UNDO);
 }

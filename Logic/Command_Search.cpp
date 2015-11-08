@@ -34,7 +34,7 @@ SearchStartBeforeCommand::SearchStartBeforeCommand(ptime start) : SearchStartCom
 }
 
 UIFeedback SearchStartBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert(runTimeStorage!=NULL);
+	checkIsValidForExecute(runTimeStorage);
 	_searchResult.clear();
 	std::vector<Task>& tasks = runTimeStorage -> getAllTasks();
 
@@ -52,8 +52,9 @@ UIFeedback SearchStartBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
 	}
 
 	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByStartDateTimeAscending);
-
 	runTimeStorage -> setTasksToDisplay(_searchResult);
+
+	postExecutionAction(runTimeStorage);
 
 	char buffer[255];
 	sprintf_s(buffer, MESSAGE_SEARCH_SUCCESS.c_str(), _searchResult.size());
@@ -69,7 +70,7 @@ SearchStartAfterCommand::SearchStartAfterCommand(ptime start) : SearchStartComma
 }
 
 UIFeedback SearchStartAfterCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert(runTimeStorage!=NULL);
+	checkIsValidForExecute(runTimeStorage);
 	_searchResult.clear();
 	std::vector<Task>& tasks = runTimeStorage -> getAllTasks();
 
@@ -87,8 +88,9 @@ UIFeedback SearchStartAfterCommand::execute(RunTimeStorage* runTimeStorage) {
 	}
 
 	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByStartDateTimeAscending);
-
 	runTimeStorage -> setTasksToDisplay(_searchResult);
+
+	postExecutionAction(runTimeStorage);
 
 	char buffer[255];
 	sprintf_s(buffer, MESSAGE_SEARCH_SUCCESS.c_str(), _searchResult.size());
@@ -112,7 +114,7 @@ SearchEndBeforeCommand::SearchEndBeforeCommand(ptime end) : SearchEndCommand(end
 }
 
 UIFeedback SearchEndBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert(runTimeStorage!=NULL);
+	checkIsValidForExecute(runTimeStorage);
 	_searchResult.clear();
 	std::vector<Task>& tasks = runTimeStorage -> getAllTasks();
 
@@ -130,8 +132,9 @@ UIFeedback SearchEndBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
 	}
 
 	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByEndDateTimeAscending);
-
 	runTimeStorage -> setTasksToDisplay(_searchResult);
+
+	postExecutionAction(runTimeStorage);
 
 	char buffer[255];
 	sprintf_s(buffer, MESSAGE_SEARCH_SUCCESS.c_str(), _searchResult.size());
@@ -147,7 +150,7 @@ SearchEndAfterCommand::SearchEndAfterCommand(ptime end) : SearchEndCommand(end) 
 }
 
 UIFeedback SearchEndAfterCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert(runTimeStorage!=NULL);
+	checkIsValidForExecute(runTimeStorage);
 	_searchResult.clear();
 	std::vector<Task>& tasks = runTimeStorage -> getAllTasks();
 
@@ -165,8 +168,9 @@ UIFeedback SearchEndAfterCommand::execute(RunTimeStorage* runTimeStorage) {
 	}
 
 	std::stable_sort(_searchResult.begin(), _searchResult.end(), Task::sortByEndDateTimeAscending);
-
 	runTimeStorage -> setTasksToDisplay(_searchResult);
+
+	postExecutionAction(runTimeStorage);
 
 	char buffer[255];
 	sprintf_s(buffer, MESSAGE_SEARCH_SUCCESS.c_str(), _searchResult.size());
@@ -185,7 +189,7 @@ SearchTagsCommand::SearchTagsCommand(std::vector<std::string> tags) : SearchComm
 }
 
 UIFeedback SearchTagsCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert(runTimeStorage!=NULL);
+	checkIsValidForExecute(runTimeStorage);
 	std::set<std::string>::iterator iter;
 	std::vector<Task>& tasks = runTimeStorage->getAllTasks();
 	size_t numTask = tasks.size();
@@ -216,6 +220,8 @@ UIFeedback SearchTagsCommand::execute(RunTimeStorage* runTimeStorage) {
 	runTimeStorage->setTasksToDisplay(_searchResult);
 	delete[] taskCounter;
 
+	postExecutionAction(runTimeStorage);
+
 	char buffer[255];
 	sprintf_s(buffer, MESSAGE_SEARCH_SUCCESS.c_str(), _searchResult.size());
 
@@ -230,7 +236,7 @@ SearchNameCommand::SearchNameCommand(std::string searchString) {
 }
 
 UIFeedback SearchNameCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert(runTimeStorage!=NULL);
+	checkIsValidForExecute(runTimeStorage);
 	std::vector<Task>& tasks = runTimeStorage->getAllTasks();
 	size_t numTask = tasks.size();
 
@@ -252,6 +258,8 @@ UIFeedback SearchNameCommand::execute(RunTimeStorage* runTimeStorage) {
 
 	runTimeStorage -> setTasksToDisplay(_searchResult);
 
+	postExecutionAction(runTimeStorage);
+
 	sprintf_s(buffer, MESSAGE_SEARCH_SUCCESS.c_str(), _searchResult.size());
 
 	return UIFeedback(runTimeStorage->getTasksToDisplay(), std::string(buffer));
@@ -266,7 +274,7 @@ SearchFromToCommand::SearchFromToCommand(ptime start, ptime end) {
 }
 
 UIFeedback SearchFromToCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert(runTimeStorage!=NULL);
+	checkIsValidForExecute(runTimeStorage);
 
 	std::vector<Task>& tasks = runTimeStorage->getAllTasks();
 
@@ -287,6 +295,8 @@ UIFeedback SearchFromToCommand::execute(RunTimeStorage* runTimeStorage) {
 	}
 
 	runTimeStorage->setTasksToDisplay(_searchResult);
+
+	postExecutionAction(runTimeStorage);
 
 	char buffer[255];
 	sprintf_s(buffer, MESSAGE_SEARCH_SUCCESS.c_str(), _searchResult.size());

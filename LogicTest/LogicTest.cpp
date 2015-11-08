@@ -23,7 +23,6 @@ public:
 		Assert::AreEqual(true, command->getPrimaryCommandType() == CommandTokens::PrimaryCommandType::Add);
 		Assert::AreEqual(true, command->getSecondaryCommandType() == CommandTokens::SecondaryCommandType::Floating);
 		Assert::AreEqual(false, command->isExecuted());
-		Assert::AreEqual(true, command->isValid());
 		Assert::AreEqual(true, command->getTask() == task);
 
 		//empty string case
@@ -47,7 +46,6 @@ public:
 		Assert::AreEqual(true, command->getPrimaryCommandType() == CommandTokens::PrimaryCommandType::Add);
 		Assert::AreEqual(true, command->getSecondaryCommandType() == CommandTokens::SecondaryCommandType::Floating);
 		Assert::AreEqual(false, command->isExecuted());
-		Assert::AreEqual(true, command->isValid());
 		Assert::AreEqual(true, command->getTask() == Task(testString));
 
 		//Smaller character no. that exceed character limit
@@ -82,7 +80,6 @@ public:
 		Assert::AreEqual(true, command->getPrimaryCommandType() == CommandTokens::Add);
 		Assert::AreEqual(true, command->getSecondaryCommandType() == CommandTokens::By);
 		Assert::AreEqual(false, command->isExecuted());
-		Assert::AreEqual(true, command->isValid());
 		Assert::AreEqual(true, command->getTask() == task);
 
 		//empty string case
@@ -106,7 +103,6 @@ public:
 		Assert::AreEqual(true, command->getPrimaryCommandType() == CommandTokens::PrimaryCommandType::Add);
 		Assert::AreEqual(true, command->getSecondaryCommandType() == CommandTokens::SecondaryCommandType::By);
 		Assert::AreEqual(false, command->isExecuted());
-		Assert::AreEqual(true, command->isValid());
 		Assert::AreEqual(true, command->getTask() == Task(testString, boost::posix_time::time_from_string(timeString)));
 
 		//Smaller character no. that exceed character limit
@@ -142,7 +138,6 @@ public:
 		Assert::AreEqual(true, command->getPrimaryCommandType() == CommandTokens::Add);
 		Assert::AreEqual(true, command->getSecondaryCommandType() == CommandTokens::FromTo);
 		Assert::AreEqual(false, command->isExecuted());
-		Assert::AreEqual(true, command->isValid());
 		Assert::AreEqual(true, command->getTask() == task);
 
 		//empty string case
@@ -166,7 +161,6 @@ public:
 		Assert::AreEqual(true, command->getPrimaryCommandType() == CommandTokens::PrimaryCommandType::Add);
 		Assert::AreEqual(true, command->getSecondaryCommandType() == CommandTokens::SecondaryCommandType::FromTo);
 		Assert::AreEqual(false, command->isExecuted());
-		Assert::AreEqual(true, command->isValid());
 		Assert::AreEqual(true, command->getTask() == Task(testString, boost::posix_time::time_from_string(timeString1), boost::posix_time::time_from_string(timeString2)));
 
 		//Smaller character no. that exceed character limit
@@ -192,7 +186,6 @@ public:
 		Assert::AreEqual(true, command->getPrimaryCommandType() == CommandTokens::PrimaryCommandType::Add);
 		Assert::AreEqual(true, command->getSecondaryCommandType() == CommandTokens::SecondaryCommandType::FromTo);
 		Assert::AreEqual(false, command->isExecuted());
-		Assert::AreEqual(true, command->isValid());
 		Assert::AreEqual(true, command->getTask() == Task(testString, boost::posix_time::time_from_string(timeString2), boost::posix_time::time_from_string(timeString2)));
 
 		//endDateTime is less than startDateTime
@@ -220,7 +213,6 @@ public:
 		Assert::AreEqual(true , CommandTokens::Delete==command->getPrimaryCommandType());
 		Assert::AreEqual(true , CommandTokens::Index==command->getSecondaryCommandType());
 		Assert::AreEqual(false, command->isExecuted());
-		Assert::AreEqual(true, command->isValid());
 		Assert::AreEqual(size_t(1), command->getIndex());
 
 		//Invalid case
@@ -250,7 +242,6 @@ public:
 		Assert::AreEqual(true , CommandTokens::Delete==command->getPrimaryCommandType());
 		Assert::AreEqual(true , CommandTokens::By==command->getSecondaryCommandType());
 		Assert::AreEqual(false, command->isExecuted());
-		Assert::AreEqual(true, command->isValid());
 		Assert::AreEqual(expectedString.c_str(), boost::posix_time::to_simple_string(command->getEndDateTime()).c_str());
 
 		token.setEndDateTime(boost::posix_time::ptime());
@@ -283,7 +274,6 @@ public:
 		Assert::AreEqual(true , CommandTokens::Delete==command->getPrimaryCommandType());
 		Assert::AreEqual(true , CommandTokens::FromTo==command->getSecondaryCommandType());
 		Assert::AreEqual(false, command->isExecuted());
-		Assert::AreEqual(true, command->isValid());
 		Assert::AreEqual(expectedString1.c_str(), boost::posix_time::to_simple_string(command->getStartDateTime()).c_str());
 		Assert::AreEqual(expectedString2.c_str(), boost::posix_time::to_simple_string(command->getEndDateTime()).c_str());
 
@@ -329,8 +319,7 @@ public:
 		command = creator.testProcessDeleteAllCommand(token);
 		Assert::AreEqual(true , CommandTokens::Delete==command->getPrimaryCommandType());
 		Assert::AreEqual(true , CommandTokens::All==command->getSecondaryCommandType());
-		Assert::AreEqual(false, command->isExecuted());
-		Assert::AreEqual(true, command->isValid());		
+		Assert::AreEqual(false, command->isExecuted());	
 	}
 	};
 }

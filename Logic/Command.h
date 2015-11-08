@@ -66,6 +66,27 @@ protected:
 	 *	Undo method need to assert this variable is true before it can proceed to execution.
 	 */
 	bool _statusExecuted;
+
+	void checkIsValidForExecute(RunTimeStorage* runTimeStorage) {
+		assert(runTimeStorage != NULL);
+		assert(!_statusExecuted);
+	}
+
+	void checkIsValidForUndo() {
+		assert(_runTimeStorageExecuted!=NULL);
+		assert(_statusExecuted);
+	}
+
+	void postExecutionAction(RunTimeStorage* runTimeStorage) {
+		_statusExecuted = true;
+		_runTimeStorageExecuted = runTimeStorage;
+	}
+
+	void postUndoAction() {
+		_statusExecuted = false;
+		_runTimeStorageExecuted = NULL;
+	}
+
 public:
 	/**
 	 *	Constructor 

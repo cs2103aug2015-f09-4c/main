@@ -14,16 +14,20 @@ Task::Task() {
 }
 
 Task::Task(std::string taskText) {
-	if (!isValidName(taskText)) {
-		throw TASK_EXCEPTION(MESSAGE_EMPTY_TASK_TEXT);
+	try {
+		checkIsValidName(taskText);
+	} catch (TASK_EXCEPTION e) {
+		throw e;
 	}
 	_taskText = taskText;
 	_isComplete = false;
 }
 
 Task::Task(std::string taskText, ptime endDateTime) {
-	if (!isValidName(taskText)) {
-		throw TASK_EXCEPTION(MESSAGE_EMPTY_TASK_TEXT);
+	try {
+		checkIsValidName(taskText);
+	} catch (TASK_EXCEPTION e) {
+		throw e;
 	}
 	_taskText = taskText;
 	_endDateTime = endDateTime;
@@ -31,9 +35,13 @@ Task::Task(std::string taskText, ptime endDateTime) {
 }
 
 Task::Task(std::string taskText, ptime startDateTime, ptime endDateTime) {
-	if (!isValidName(taskText)) {
-		throw TASK_EXCEPTION(MESSAGE_EMPTY_TASK_TEXT);
-	} else if (isEndLessThanStart(startDateTime,endDateTime)) {
+	try {
+		checkIsValidName(taskText);
+	} catch (TASK_EXCEPTION e) {
+		throw e;
+	}
+
+	if (isEndLessThanStart(startDateTime,endDateTime)) {
 		throw TASK_EXCEPTION(MESSAGE_END_LESS_THAN_START.c_str());
 	} else if (endDateTime.is_special() && !startDateTime.is_special()) {
 		throw TASK_EXCEPTION(MESSAGE_EMPTY_END_DATE.c_str());
@@ -93,16 +101,15 @@ bool Task::isEndLessThanStart(ptime start, ptime end) {
 	}
 }
 
-bool Task::isValidName(std::string name) {
+void Task::checkIsValidName(std::string name) {
 	if (name.empty()) {
 		throw TASK_EXCEPTION(MESSAGE_EMPTY_TASK_TEXT.c_str());
 	} else if (!std::isalnum(name[0])) {
 		throw TASK_EXCEPTION(MESSAGE_INVALID_FIRST_CHARACTER.c_str());
 	} else if (name.size() > MAX_TASK_NAME_LENGTH) {
 		throw TASK_EXCEPTION(MESSAGE_LONG_TASK_TEXT.c_str());
-	} else {
-		return true;
 	}
+	return;
 }
 
 void Task::toggleComplete() {
@@ -111,9 +118,8 @@ void Task::toggleComplete() {
 
 void Task::changeTaskText(std::string newTaskText) {
 	try{
-		if (isValidName(newTaskText)) {
-			_taskText = newTaskText;
-		}
+		checkIsValidName(newTaskText);
+		_taskText = newTaskText;
 	} catch (TASK_EXCEPTION e) {
 		throw e;
 	}
@@ -183,8 +189,8 @@ bool Task::sortByStartDateTimeAscending (Task task1, Task task2) {
 }
 
 bool Task::sortByEndDateTimeAscending (Task task1, Task task2) {
-	boost::posix_time::ptime endDateTime1 = task1.getStartDateTime();
-	boost::posix_time::ptime endDateTime2 = task2.getStartDateTime();
+	boost::posix_time::ptime endDateTime1 = task1.getEndDateTime();
+	boost::posix_time::ptime endDateTime2 = task2.getEndDateTime();
 
 	if (endDateTime1.is_special() && endDateTime2.is_special()) {
 		return false;
@@ -239,8 +245,8 @@ bool Task::sortByStartDateTimeDescending (Task task1, Task task2) {
 }
 
 bool Task::sortByEndDateTimeDescending (Task task1, Task task2) {
-	boost::posix_time::ptime endDateTime1 = task1.getStartDateTime();
-	boost::posix_time::ptime endDateTime2 = task2.getStartDateTime();
+	boost::posix_time::ptime endDateTime1 = task1.getEndDateTime();
+	boost::posix_time::ptime endDateTime2 = task2.getEndDateTime();
 
 	if (endDateTime1.is_special() && endDateTime2.is_special()) {
 		return false;

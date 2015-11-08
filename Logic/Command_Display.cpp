@@ -7,26 +7,22 @@ DisplayCommand::DisplayCommand(Display_Type type) : Command (CommandTokens::Prim
 }
 
 UIFeedback DisplayCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert(runTimeStorage != NULL);
-	assert(!_statusExecuted);
+	checkIsValidForExecute(runTimeStorage);
 	_oldDisplayType = runTimeStorage->getDisplayType();
 	runTimeStorage->changeDisplayType(_newDisplayType);
 	
-	_runTimeStorageExecuted = runTimeStorage;
-	_statusExecuted = true;
+	postExecutionAction(runTimeStorage);
 
 	return UIFeedback(runTimeStorage->refreshTasksToDisplay(), MESSAGE_DISPLAY_SUCCESS); 
 }
 
 UIFeedback DisplayCommand::undo() {
-	assert(_statusExecuted);
-	assert(_runTimeStorageExecuted!=NULL);
+	checkIsValidForUndo();
 	_runTimeStorageExecuted->changeDisplayType(_oldDisplayType);
 
 	std::vector<Task> tasksToDisplay = _runTimeStorageExecuted->refreshTasksToDisplay();
 
-	_runTimeStorageExecuted = NULL;
-	_statusExecuted = false;
+	postUndoAction();
 
 	return UIFeedback(tasksToDisplay, MESSAGE_DISPLAY_UNDO);
 }

@@ -5,8 +5,7 @@ ConfigureSaveLocationCommand::ConfigureSaveLocationCommand(std::string savePath)
 }
 
 UIFeedback ConfigureSaveLocationCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert(runTimeStorage!=NULL);
-	assert(!_statusExecuted);
+	checkIsValidForExecute(runTimeStorage);
 	
 	_oldSavePath = runTimeStorage->getFilePath();
 
@@ -18,8 +17,7 @@ UIFeedback ConfigureSaveLocationCommand::execute(RunTimeStorage* runTimeStorage)
 		throw COMMAND_EXECUTION_EXCEPTION(e.what());
 	}
 
-	_statusExecuted = true;
-	_runTimeStorageExecuted = runTimeStorage;
+	postExecutionAction(runTimeStorage);
 
 	char buffer[255];
 	sprintf_s(buffer, MESSAGE_CONFIG_SAVE_PATH_SUCCESS.c_str(), _newSavePath.c_str());
@@ -28,15 +26,13 @@ UIFeedback ConfigureSaveLocationCommand::execute(RunTimeStorage* runTimeStorage)
 }
 
 UIFeedback ConfigureSaveLocationCommand::undo() {
-	assert(_runTimeStorageExecuted!=NULL);
-	assert(_statusExecuted);
+	checkIsValidForUndo();
 
 	_runTimeStorageExecuted->configureSaveLocation(_oldSavePath);
 
 	std::vector<Task> tasksToDisplay = _runTimeStorageExecuted->getTasksToDisplay(); 
 
-	_runTimeStorageExecuted = NULL;
-	_statusExecuted = false;
+	postUndoAction();
 
 	return UIFeedback(tasksToDisplay, MESSAGE_CONFIG_SAVE_PATH_UNDO);
 }

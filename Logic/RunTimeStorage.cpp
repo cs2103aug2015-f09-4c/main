@@ -227,12 +227,24 @@ void RunTimeStorage::updateDisplay() {
 }
 
 void RunTimeStorage::saveToFile() {
-	_physicalStorageHandler->saveToFile(_tasks);
+	try {
+		_physicalStorageHandler->saveToFile(_tasks);
+	} catch (INVALID_FILE_EXCEPTION e) {
+		throw e;
+	} catch (INVALID_PATH_EXCEPTION e) {
+		throw e;
+	}
 	return;
 }
 
 void RunTimeStorage::saveToFile(std::string filePath) {
-	_physicalStorageHandler->saveToFile(_tasks, filePath);
+	try {
+		_physicalStorageHandler->saveToFile(_tasks, filePath);
+	} catch (INVALID_FILE_EXCEPTION e) {
+		throw e;
+	} catch (INVALID_PATH_EXCEPTION e) {
+		throw e;
+	}
 	return;
 }
 
@@ -248,7 +260,13 @@ void RunTimeStorage::loadFromFile() {
 }
 
 void RunTimeStorage::loadFromFile(std::string filePath) {
-	_physicalStorageHandler->loadFromFile(_tasks, filePath);
+	try {
+		_physicalStorageHandler->loadFromFile(_tasks, filePath);
+	} catch (INVALID_FILE_EXCEPTION e) {
+		throw e;
+	} catch (INVALID_PATH_EXCEPTION e) {
+		throw e;
+	}
 	return;
 }
 

@@ -32,19 +32,22 @@ UIFeedback CommandExecutor::execute(Command* command) {
 
 UIFeedback CommandExecutor::undo() {
 	UIFeedback feedback;
+	if (_commandExecutedAndUndoable.empty()) {
+		throw UNDO_EXCEPTION(MESSAGE_UNDO_EMPTY);
+	} 
+
+	Command* command = _commandExecutedAndUndoable.top();
+
 	try {
-		if (_commandExecutedAndUndoable.empty()) {
-			throw UNDO_EXCEPTION(MESSAGE_UNDO_EMPTY);
-		} else {
-			Command* command = _commandExecutedAndUndoable.top();
-			_commandExecutedAndUndoable.pop();
-			assert(command->canUndo());
-			feedback = command -> undo();
-			_commandUndoed.push(command);
-		}
-	} catch (std::string errorMessage) {
-		feedback = UIFeedback(_runTimeStorage->getTasksToDisplay(), errorMessage);
+		_commandExecutedAndUndoable.pop();
+		assert(command->canUndo());
+		feedback = command -> undo();
+	} catch (std::exception e) {
+		throw e;
 	}
+
+	delete command;
+
 	return feedback;
 }
 
@@ -53,11 +56,6 @@ CommandExecutor::~CommandExecutor() {
 		delete _commandExecutedAndUndoable.top();
 		_commandExecutedAndUndoable.top() = NULL;
 		_commandExecutedAndUndoable.pop();
-	}
-	while (!_commandUndoed.empty()) {
-		delete _commandUndoed.top();
-		_commandUndoed.top() = NULL;
-		_commandUndoed.pop();
 	}
 	delete _runTimeStorage;
 	_runTimeStorage = NULL;

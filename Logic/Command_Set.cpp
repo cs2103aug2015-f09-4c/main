@@ -17,7 +17,7 @@ SetCompleteCommand::SetCompleteCommand(size_t index) : Command(CommandTokens::Pr
 }
 
 UIFeedback SetCompleteCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert (runTimeStorage != NULL);
+	checkIsValidForExecute(runTimeStorage);
 
 	UIFeedback feedback;
 
@@ -30,8 +30,9 @@ UIFeedback SetCompleteCommand::execute(RunTimeStorage* runTimeStorage) {
 			throw ALREADY_COMPLETE_EXCEPTION(_index);
 		}
 		taskToSet.toggleComplete();
-		_statusExecuted = true;
-		_runTimeStorageExecuted = runTimeStorage;
+		
+		postExecutionAction(runTimeStorage);
+
 		sprintf_s(buffer, MESSAGE_SET_COMPLETE_SUCCESS.c_str(), _index);
 
 		feedbackMessage = std::string(buffer);
@@ -45,13 +46,14 @@ UIFeedback SetCompleteCommand::execute(RunTimeStorage* runTimeStorage) {
 }
 
 UIFeedback SetCompleteCommand::undo() {
-	assert(_statusExecuted);
-	assert(_runTimeStorageExecuted!=NULL);
+	checkIsValidForUndo();
 
 	Task& taskToSet = _runTimeStorageExecuted->getEntry(_setIndex);
 
 	assert(taskToSet.isComplete());
 	taskToSet.toggleComplete();
+
+	postUndoAction();
 
 	return UIFeedback(_runTimeStorageExecuted->refreshTasksToDisplay(), MESSAGE_SET_UNDO);
 }

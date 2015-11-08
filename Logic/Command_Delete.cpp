@@ -6,14 +6,6 @@ DeleteCommand::DeleteCommand(CommandTokens::SecondaryCommandType type2) : Comman
 	_type2 = type2;
 }
 
-bool DeleteCommand::isValid() {
-	if (_type2 == CommandTokens::SecondaryCommandType::None) {
-		return false;
-	} else {
-		return Command::isValid();
-	}
-}
-
 bool DeleteCommand::canUndo() {
 	return true;
 }

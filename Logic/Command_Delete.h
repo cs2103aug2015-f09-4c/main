@@ -28,8 +28,6 @@ public:
 	virtual UIFeedback Command::execute(RunTimeStorage*) = 0;
 	virtual UIFeedback Command::undo() = 0;
 
-	bool isValid();
-
 	/**
 	 *	Return true all the time.
 	 */

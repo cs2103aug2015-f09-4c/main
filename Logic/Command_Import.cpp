@@ -10,10 +10,16 @@ ImportCommand::ImportCommand(std::string filePath) : Command(CommandTokens::Prim
 }
 
 UIFeedback ImportCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert(runTimeStorage != NULL);
-	runTimeStorage -> loadFromFile(_filePath);
-	_statusExecuted = true;
-	_runTimeStorageExecuted = runTimeStorage;
+	checkIsValidForExecute(runTimeStorage);
+	try {
+		runTimeStorage -> loadFromFile(_filePath);
+	} catch (INVALID_FILE_EXCEPTION e) {
+		throw COMMAND_EXECUTION_EXCEPTION(e.what());
+	} catch (INVALID_PATH_EXCEPTION e) {
+		throw COMMAND_EXECUTION_EXCEPTION(e.what());
+	}
+
+	postExecutionAction(runTimeStorage);
 
 	char buffer[255];
 	sprintf_s(buffer, MESSAGE_IMPORT_SUCCESS.c_str(), _filePath.c_str());

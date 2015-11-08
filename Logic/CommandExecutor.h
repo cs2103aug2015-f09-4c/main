@@ -19,7 +19,6 @@ public:
 class CommandExecutor {
 private:
 	std::stack<Command*> _commandExecutedAndUndoable;
-	std::stack<Command*> _commandUndoed;
 	RunTimeStorage* _runTimeStorage;
 
 public:

@@ -84,6 +84,6 @@ private:
 	std::set<std::string> _tags; 
 
 	static bool isEndLessThanStart(ptime start, ptime end);
-	static bool isValidName(std::string name);
+	static void checkIsValidName(std::string name);
 };
 }

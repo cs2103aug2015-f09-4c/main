@@ -9,7 +9,7 @@ UntagCommand::UntagCommand(size_t index, std::vector<std::string> untags) : Comm
 }
 
 UIFeedback UntagCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert(runTimeStorage!=NULL);
+	checkIsValidForExecute(runTimeStorage);
 	std::string feedbackMessage;
 	try {
 		Task& taskToUntag = runTimeStorage->find(_index);
@@ -30,8 +30,7 @@ UIFeedback UntagCommand::execute(RunTimeStorage* runTimeStorage) {
 	}
 
 	if (_successUntags.size() > 0) {
-		_statusExecuted = true;
-		_runTimeStorageExecuted = runTimeStorage;
+		postExecutionAction(runTimeStorage);
 		char buffer[255];
 		sprintf_s(buffer, MESSAGE_UNTAG_SUCCESS.c_str(), _index, _successUntags.size());
 		feedbackMessage += std::string(buffer);
@@ -40,12 +39,13 @@ UIFeedback UntagCommand::execute(RunTimeStorage* runTimeStorage) {
 	return UIFeedback(runTimeStorage->refreshTasksToDisplay(), feedbackMessage);	
 }
 UIFeedback UntagCommand::undo() {
-	assert(_statusExecuted);
-	assert(_runTimeStorageExecuted!=NULL);
+	checkIsValidForUndo();
 	Task& taskToUntag = _runTimeStorageExecuted->getEntry(_untagIndex);
 	for (size_t i = 0 ; i < _successUntags.size() ; ++i) {
 		taskToUntag.addTag(_successUntags[i]);
 	}
+	postUndoAction();
+
 	return UIFeedback(_runTimeStorageExecuted->refreshTasksToDisplay(), MESSAGE_UNTAG_UNDO);	
 }
 
