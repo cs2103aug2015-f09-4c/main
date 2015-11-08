@@ -262,8 +262,10 @@ void PhysicalStorageHandler::configSaveLocation() {
 void PhysicalStorageHandler::splitFileName(std::string fileName, std::string &path ,std::string &file) {
 	std::size_t found = fileName.find_last_of("/\\");
 
-	path = fileName.substr(0, found + 1);
-	file = fileName.substr(found + 1);
+	if (std::string::npos != found) {
+		path = fileName.substr(0, found + 1);
+		file = fileName.substr(found + 1);
+	}
 
 	return;
 }
