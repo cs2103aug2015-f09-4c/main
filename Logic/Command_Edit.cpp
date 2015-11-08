@@ -26,6 +26,14 @@ UIFeedback EditNameCommand::execute(RunTimeStorage* runTimeStorage) {
 		Task& taskToEdit = runTimeStorage -> find(_index);
 		_editIndex = runTimeStorage -> find(taskToEdit);
 		_oldTaskText = taskToEdit.getTaskText();
+
+		//Task object used to check for duplication after edit.
+		Task testTask = taskToEdit;
+		testTask.changeTaskText(_newTaskText);
+		if (runTimeStorage->isDuplicate(testTask)) {
+			throw COMMAND_EXECUTION_EXCEPTION(MESSAGE_EDIT_DUPLICATE);
+		}
+
 		taskToEdit.changeTaskText(_newTaskText);
 
 		char buffer[255];
@@ -37,6 +45,8 @@ UIFeedback EditNameCommand::execute(RunTimeStorage* runTimeStorage) {
 		return UIFeedback(runTimeStorage->refreshTasksToDisplay(), feedbackMessage);
 	} catch (INDEX_NOT_FOUND_EXCEPTION e){
 		throw COMMAND_EXECUTION_EXCEPTION(e.what());
+	} catch (COMMAND_EXECUTION_EXCEPTION e){
+		throw e;
 	}
 }
 
@@ -68,6 +78,14 @@ UIFeedback EditStartCommand::execute(RunTimeStorage* runTimeStorage) {
 		Task& taskToEdit = runTimeStorage -> find(_index);
 		_editIndex = runTimeStorage -> find(taskToEdit);
 		_oldStart = taskToEdit.getStartDateTime();
+
+		//Task object used to check for duplication after edit.
+		Task testTask = taskToEdit;
+		testTask.changeStartDateTime(_newStart);
+		if (runTimeStorage->isDuplicate(testTask)) {
+			throw COMMAND_EXECUTION_EXCEPTION(MESSAGE_EDIT_DUPLICATE);
+		}
+
 		taskToEdit.changeStartDateTime(_newStart);
 
 		char buffer[255];
@@ -82,6 +100,8 @@ UIFeedback EditStartCommand::execute(RunTimeStorage* runTimeStorage) {
 		throw COMMAND_EXECUTION_EXCEPTION(e.what());
 	} catch (TASK_EXCEPTION e) {
 		throw COMMAND_EXECUTION_EXCEPTION(e.what());
+	} catch (COMMAND_EXECUTION_EXCEPTION e){
+		throw e;
 	}
 }
 
@@ -111,6 +131,14 @@ UIFeedback EditEndCommand::execute(RunTimeStorage* runTimeStorage) {
 		Task& taskToEdit = runTimeStorage -> find(_index);
 		_editIndex = runTimeStorage -> find(taskToEdit);
 		_oldEnd = taskToEdit.getEndDateTime();
+
+		//Task object used to check for duplication after edit.
+		Task testTask = taskToEdit;
+		testTask.changeEndDateTime(_newEnd);
+		if (runTimeStorage->isDuplicate(testTask)) {
+			throw COMMAND_EXECUTION_EXCEPTION(MESSAGE_EDIT_DUPLICATE);
+		}
+
 		taskToEdit.changeEndDateTime(_newEnd);
 
 		char buffer[255];
@@ -126,6 +154,8 @@ UIFeedback EditEndCommand::execute(RunTimeStorage* runTimeStorage) {
 		throw COMMAND_EXECUTION_EXCEPTION(e.what());
 	} catch(TASK_EXCEPTION e) {
 		throw COMMAND_EXECUTION_EXCEPTION(e.what());
+	} catch (COMMAND_EXECUTION_EXCEPTION e){
+		throw e;
 	}
 }
 

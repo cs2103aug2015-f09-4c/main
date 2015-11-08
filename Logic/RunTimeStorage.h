@@ -68,13 +68,10 @@ private:
 	//If the task fit _displayMode, return true, else return false
 	bool isValidForDisplay(Task task);
 
-	//Filter tasks from Tasks into TasksToDisplay based on _displayMode
-	//Post-condition: Tasks in TasksToDisplay is sorted by entry order
+	//Filter tasks from _tasks into _tasksToDisplay based on _displayMode
 	void reformTasksToDisplay();
 
-	//Pre-condition : TasksToDisplay is in sortByEntryOrder
-	//Post-condition: TasksToDisplay is sorted according to _sortMode
-	//              : The sort is stable
+	//Sort _tasksToDisplay based on _sortMode
 	void sortTasksToDisplay();
 
 	//update TasksToDisplay based on _displayMode and _sortMode
@@ -82,25 +79,54 @@ private:
 
 public:
 	RunTimeStorage();
-
+	//return _tasks vector
 	std::vector<Task>& getAllTasks();
+
+	//return _tasksToDisplay vector
 	std::vector<Task>& getTasksToDisplay();
+
+	//update _tasksToDisplay and return the vector
 	std::vector<Task>& refreshTasksToDisplay();
+
+	//overwrite _tasksToDisplay with provided Task vector
 	void setTasksToDisplay(std::vector<Task>);
 
+	//add a task to _tasks vector at the end
 	void add(Task task);
+
+	//add a task to _tasks vector at index position provided.
+	//If index is invalid, throw INDEX_NOT_FOUND_EXCEPTION
 	void insert(Task task, size_t index);
 
+	//remove task at the last position of _tasks
 	void removeLastEntry();
+
+	//remove task at the index position provided.
+	//If index is invalid, throw INDEX_NOT_FOUND_EXCEPTION
 	Task remove(size_t index);
+
+	//remove task at the index position provided.
+	//If index is invalid, throw INDEX_NOT_FOUND_EXCEPTION
 	void removeEntry(size_t index);
+
+	//remove all tasks in _tasks
 	void removeAll();	
 
+	//return the task in _tasksToDisplay based on index provided(1-based)
+	//If index is invalid, throw INDEX_NOT_FOUND_EXCEPTION
 	Task& find(size_t index);
+
+	//return the index of task in _tasks (0-based)
+	//if task is not found, return an invalid index which is size of _tasks
 	size_t find(Task& task);
+
+	//return the task in _tasks based on index provided (0-based)
 	Task& getEntry(size_t index);
 
+	//Check whether a duplicate task exist in _tasks
 	bool isDuplicate(Task task);
+
+	//Check whether an index is valid for _tasks or not
 	bool isValidIndex(size_t index);
 
 	Display_Type getDisplayType();
