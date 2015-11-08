@@ -34,7 +34,7 @@ bool ImportCommandTokeniser::isImportLocal(std::string userInput) {
 void ImportCommandTokeniser::tokeniseImportLocal(std::string userInput, CommandTokens* outputCommandTokens) {
 	outputCommandTokens->setSecondaryCommand(CommandTokens::SecondaryCommandType::None);
 
-	std::smatch matchResults = getRegexMatches(&userInput, "IMPORT .+");
+	std::smatch matchResults = getRegexMatches(&userInput, "IMPORT (.+)");
 
 	std::string importFilePath = matchResults[1];
 	outputCommandTokens->setOtherCommandParameter(importFilePath);

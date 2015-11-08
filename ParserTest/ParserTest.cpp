@@ -659,6 +659,7 @@ namespace ParserTest {
 			Assert::IsTrue(expected.getStartDateTime() == actual.getStartDateTime());
 			Assert::IsTrue(expected.getEndDateTime() == actual.getEndDateTime());
 			Assert::AreEqual(expected.getIndex(), actual.getIndex());
+			Assert::AreEqual(expected.getOtherCommandParameter(), actual.getOtherCommandParameter());
 
 			std::vector<std::string> expectedTags, actualTags;
 			expectedTags = expected.getTags();
