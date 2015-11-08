@@ -7,6 +7,7 @@ const std::string MESSAGE_EDIT_NAME_SUCCESS = "Task \"%s\" have been changed to 
 const std::string MESSAGE_EDIT_NAME_EMPTY = "Task text cannot be empty. Task text is not changed.";
 const std::string MESSAGE_EDIT_START_SUCCESS = "Task \"%s\" 's start date and time have been changed to \"%s\".";
 const std::string MESSAGE_EDIT_END_SUCCESS = "Task \"%s\" 's end date and time have been changed to \"%s\".";
+const std::string MESSAGE_EDIT_DUPLICATE = "Edit will cause task duplication, edit cannot be performed.";
 
 const std::string MESSAGE_EDIT_UNDO = "Previous edit operation have been undoed successfully.";
 
