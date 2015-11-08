@@ -143,7 +143,8 @@ void UI::Swiftask::formatOutputBoxInitial() {
 
 void UI::Swiftask::formatOutputBox(bool isCompleted, dateTimeStat start, dateTimeStat end, int rowIndex) {
 
-	if (outputBox->RowCount < 1 || outputBox->RowCount != rowIndex + 1) {
+	if (0 > rowIndex || outputBox->RowCount <= rowIndex) {
+		logger->logDEBUG("rowIndex given out of bounds");
 		return;
 	}
 

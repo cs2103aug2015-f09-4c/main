@@ -37,6 +37,7 @@ namespace UI {
 	private: 
 		Logic* logic;
 		UIFeedback* feedback;
+		Logger* logger;
 
 	private: 
 		//@@author generated
@@ -52,6 +53,8 @@ namespace UI {
 		Swiftask(void) {
 			InitializeComponent();
 
+			logger = Logger::getInstance();
+
 			formatOutputBoxInitial();
 
 			logic = new Logic();
@@ -65,10 +68,10 @@ namespace UI {
 		// Resets the commandBox
 		std::string getStdStringCommand(void);
 
-		// A method to call specialised methods to update each UI component
+		// A method to call specialised methods to update parts of UI component
 		void updateUI(void);
 
-		// The three following methods update specific UI components
+		// The three following methods update specific parts of UI component
 		// These methods takes information from private attribute feedback for update
 		void updateResults(void);
 		void clearOutputBox(void);
@@ -79,19 +82,22 @@ namespace UI {
 
 		// A method to call specialised methods to format colours for fonts and backgrounds in outputBox
 		// Colours formatting is done row by row
-		// Does nothing if index given is out of bounds
+		// Pre-condition:	rowIndex given should not be out of bounds
 		void formatOutputBox(bool isCompleted, dateTimeStat start, dateTimeStat end, int rowIndex);
 
 		// This method set the background of odd rows of outputBox in one colour
 		// and even rows in another colour
+		// Pre-condition:	rowIndex given should not be out of bounds
 		void formatOutputBoxRow(int rowIndex);
 
 		// This method colours cells under start and end column according to current system time
 		// Pre-condition:	start and end are based on startDateTime and endDateTime respectively.
 		//					startDateTime should happen chronologically before endDateTime.
+		//					rowIndex given should not be out of bounds
 		void formatOutputBoxStartEndColumn(bool isCompleted, dateTimeStat start, dateTimeStat end, int rowIndex);
 
 		// This method colours the cell under done column according to isCompleted
+		// Pre-condition:	rowIndex given should not be out of bounds
 		void formatOutputBoxDoneColumn(bool isCompleted, int rowIndex);
 
 		// Helper function for determining if the given posix time is a date time
@@ -283,7 +289,6 @@ namespace UI {
 
 				assert(feedback != NULL);
 
-				Logger* logger = Logger::getInstance();
 				logger->logDEBUG("UI calling Logic for : " + commandString);
 
 				try {
