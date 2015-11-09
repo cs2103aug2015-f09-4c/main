@@ -16,7 +16,7 @@ DeleteIndexCommand::DeleteIndexCommand(size_t index) : DeleteCommand(CommandToke
 }
 
 UIFeedback DeleteIndexCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert (runTimeStorage != NULL);
+	checkIsValidForExecute(runTimeStorage);
 	UIFeedback feedback;
 	try {
 		Task taskToDelete = runTimeStorage->find(_index);
@@ -30,8 +30,7 @@ UIFeedback DeleteIndexCommand::execute(RunTimeStorage* runTimeStorage) {
 			sprintf_s(buffer,MESSAGE_DELETE_INDEX_SUCCESS.c_str(),_index);
 			std::string feedbackMessage(buffer);
 			feedback = UIFeedback(runTimeStorage->refreshTasksToDisplay(),feedbackMessage);
-			_statusExecuted = true;
-			_runTimeStorageExecuted = runTimeStorage;
+			postExecutionAction(runTimeStorage);
 		} 
 	} catch (INDEX_NOT_FOUND_EXCEPTION e) {
 		throw COMMAND_EXECUTION_EXCEPTION(e.what());
@@ -40,11 +39,11 @@ UIFeedback DeleteIndexCommand::execute(RunTimeStorage* runTimeStorage) {
 }
 
 UIFeedback DeleteIndexCommand::undo() {
-	assert(_statusExecuted);
-	assert(_runTimeStorageExecuted!=NULL);
+	checkIsValidForUndo();
 	_runTimeStorageExecuted -> insert(_taskDeleted, _entryIndex);
 	_taskDeleted = Task();
 	_entryIndex = std::numeric_limits<size_t>::infinity();
+	postUndoAction();
 	return UIFeedback(_runTimeStorageExecuted->refreshTasksToDisplay(), MESSAGE_DELETE_UNDO);
 }
 
@@ -57,7 +56,7 @@ DeleteBeforeCommand::DeleteBeforeCommand(ptime endDateTime) : DeleteCommand(Comm
 }
 
 UIFeedback DeleteBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert (runTimeStorage != NULL);
+	checkIsValidForExecute(runTimeStorage);
 	try {
 		std::vector<Task> tasks = runTimeStorage ->getAllTasks();
 		int numTask = tasks.size();
@@ -87,8 +86,7 @@ UIFeedback DeleteBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
 		throw e;
 	}
 
-	_runTimeStorageExecuted = runTimeStorage;
-	_statusExecuted = true;
+	postExecutionAction(runTimeStorage);
 	std::string feedbackMessage;
 	char buffer[255];
 	sprintf_s(buffer,
@@ -99,8 +97,7 @@ UIFeedback DeleteBeforeCommand::execute(RunTimeStorage* runTimeStorage) {
 }
 
 UIFeedback DeleteBeforeCommand::undo(void) {
-	assert (_statusExecuted);
-	assert(_runTimeStorageExecuted!=NULL);
+	checkIsValidForUndo();
 	assert(!_tasksDeleted.empty());
 	assert(_tasksDeleted.size() == _indexTaskDeleted.size());
 
@@ -110,6 +107,7 @@ UIFeedback DeleteBeforeCommand::undo(void) {
 
 	_tasksDeleted.clear();
 	_indexTaskDeleted.clear();
+	postUndoAction();
 
 	return UIFeedback(_runTimeStorageExecuted -> refreshTasksToDisplay(), MESSAGE_DELETE_UNDO);
 }
@@ -127,7 +125,7 @@ DeleteFromToCommand::DeleteFromToCommand(ptime startDateTime, ptime endDateTime)
 }
 
 UIFeedback DeleteFromToCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert (runTimeStorage != NULL);
+	checkIsValidForExecute(runTimeStorage);
 	try {
 		std::vector<Task> tasks = runTimeStorage ->getAllTasks();
 		int numTask = tasks.size();
@@ -158,8 +156,7 @@ UIFeedback DeleteFromToCommand::execute(RunTimeStorage* runTimeStorage) {
 		throw e;
 	}
 
-	_runTimeStorageExecuted = runTimeStorage;
-	_statusExecuted = true;
+	postExecutionAction(runTimeStorage);
 	std::string feedbackMessage;
 	char buffer[255];
 	sprintf_s(buffer,
@@ -171,8 +168,7 @@ UIFeedback DeleteFromToCommand::execute(RunTimeStorage* runTimeStorage) {
 }
 
 UIFeedback DeleteFromToCommand::undo(void) {
-	assert (_statusExecuted);
-	assert(_runTimeStorageExecuted!=NULL);
+	checkIsValidForUndo();
 	assert(!_tasksDeleted.empty());
 	assert(_tasksDeleted.size() == _indexTaskDeleted.size());
 
@@ -182,6 +178,7 @@ UIFeedback DeleteFromToCommand::undo(void) {
 
 	_tasksDeleted.clear();
 	_indexTaskDeleted.clear();
+	postUndoAction();
 
 	return UIFeedback(_runTimeStorageExecuted -> refreshTasksToDisplay(), MESSAGE_DELETE_UNDO);
 }
@@ -193,15 +190,14 @@ DeleteAllCommand::DeleteAllCommand(void) : DeleteCommand(CommandTokens::Secondar
 }
 
 UIFeedback DeleteAllCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert (runTimeStorage != NULL);
+	checkIsValidForExecute(runTimeStorage);
 	assert (_tasksDeleted.empty());
 	UIFeedback feedback;
 	try {
 		_tasksDeleted = runTimeStorage->getAllTasks();
 		runTimeStorage->removeAll();
 		feedback = UIFeedback(runTimeStorage->refreshTasksToDisplay(), MESSAGE_DELETE_ALL_SUCCESS);
-		_statusExecuted = true;
-		_runTimeStorageExecuted = runTimeStorage;
+		postExecutionAction(runTimeStorage);
 	} catch (EMPTY_STORAGE_EXCEPTION e) {
 		throw COMMAND_EXECUTION_EXCEPTION(e.what());
 	}
@@ -210,14 +206,14 @@ UIFeedback DeleteAllCommand::execute(RunTimeStorage* runTimeStorage) {
 }
 
 UIFeedback DeleteAllCommand::undo() {
-	assert(_statusExecuted);
-	assert(_runTimeStorageExecuted!=NULL);
+	checkIsValidForUndo();
 	assert(!_tasksDeleted.empty());
 	for (size_t i = 0 ; i < _tasksDeleted.size() ; ++i){
 		_runTimeStorageExecuted -> add(_tasksDeleted[i]);
 	}
 
 	_tasksDeleted.clear();
+	postUndoAction();
 	return UIFeedback(_runTimeStorageExecuted->refreshTasksToDisplay(), MESSAGE_DELETE_UNDO);
 }
 
@@ -228,7 +224,7 @@ DeleteCompleteCommand::DeleteCompleteCommand (void) : DeleteCommand(CommandToken
 }
 
 UIFeedback DeleteCompleteCommand::execute(RunTimeStorage* runTimeStorage) {
-	assert (runTimeStorage != NULL);
+	checkIsValidForExecute(runTimeStorage);
 	assert (_tasksDeleted.empty());
 	UIFeedback feedback;
 	try {
@@ -255,8 +251,7 @@ UIFeedback DeleteCompleteCommand::execute(RunTimeStorage* runTimeStorage) {
 		throw e;
 	}
 
-	_statusExecuted = true;
-	_runTimeStorageExecuted = runTimeStorage;
+	postExecutionAction(runTimeStorage);
 
 	char buffer[255];
 	sprintf_s(buffer, MESSAGE_DELETE_COMPLETE_SUCCESS.c_str());
@@ -265,8 +260,7 @@ UIFeedback DeleteCompleteCommand::execute(RunTimeStorage* runTimeStorage) {
 }
 
 UIFeedback DeleteCompleteCommand::undo(void) {
-	assert (_statusExecuted);
-	assert(_runTimeStorageExecuted!=NULL);
+	checkIsValidForUndo();
 	assert(!_tasksDeleted.empty());
 	assert(_tasksDeleted.size() == _indexTaskDeleted.size());
 
@@ -276,6 +270,7 @@ UIFeedback DeleteCompleteCommand::undo(void) {
 
 	_tasksDeleted.clear();
 	_indexTaskDeleted.clear();
+	postUndoAction();
 
 	return UIFeedback(_runTimeStorageExecuted -> refreshTasksToDisplay(), MESSAGE_DELETE_UNDO);
 }
