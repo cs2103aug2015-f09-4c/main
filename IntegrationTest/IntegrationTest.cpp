@@ -662,27 +662,6 @@ public:
 		//Testing DELETE FROM command
 		feedback = logic.executeCommand(ADD_COMMAND_3);
 
-		// Testing DELETE FROM command in the ineffective partition
-		try {
-		feedback = logic.executeCommand(deleteFromCommandNoEffect);
-		Assert::AreEqual(false, true);
-
-		} catch (std::string &e) {
-		Assert::AreEqual(NO_TASKS_WITH_CONDITION, e);
-		}
-		Assert::AreNotEqual(CMD_INVALID, feedback.getFeedbackMessage());
-		Assert::AreEqual((size_t) 1, feedback.getTasksForDisplay().size());
-		task = feedback.getTasksForDisplay()[0];
-
-		Assert::AreEqual(TASK_C, task.getTaskText());
-		Assert::AreEqual(DATE_TIME_2, boost::posix_time::to_simple_string(task.getStartDateTime()));
-		Assert::AreEqual(DATE_TIME_3, boost::posix_time::to_simple_string(task.getEndDateTime()));
-
-		// Testing DELETE FROM command in the effective partition
-		feedback = logic.executeCommand(deleteFromCommandEffect);
-
-		Assert::AreEqual((size_t) 0, feedback.getTasksForDisplay().size());
-		
 		// Testing DELETE ALL command
 		feedback = logic.executeCommand(ADD_COMMAND_1);
 		feedback = logic.executeCommand(ADD_COMMAND_2);

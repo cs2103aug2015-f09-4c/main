@@ -139,10 +139,10 @@ namespace UI {
 			// 
 			// commandBox
 			// 
-			this->commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(50) {L"ADD taskname FROM datetime TO datetime (tags)", 
+			this->commandBox->AutoCompleteCustomSource->AddRange(gcnew cli::array< System::String^  >(49) {L"ADD taskname FROM datetime TO datetime (tags)", 
 				L"ADD taskname BY datetime (tags)", L"ADD taskname (tags)", L"", L"COMPLETE index", L"", L"CONFIGURE SAVE LOCATION saveLocation", 
-				L"", L"DELETE ALL", L"DELETE COMPLETED", L"DELETE index", L"DELETE BY datetime", L"DELETE FROM datetime TO datetime", L"DELETE FROM datetime", 
-				L"", L"DISPLAY ALL", L"DISPLAY ACTIVITY", L"DISPLAY TODO", L"DISPLAY FLOATING", L"", L"EDIT NAME index newName", L"EDIT START index newStartDatetime", 
+				L"", L"DELETE ALL", L"DELETE COMPLETED", L"DELETE index", L"DELETE BY datetime", L"DELETE FROM datetime TO datetime", L"", L"DISPLAY ALL", 
+				L"DISPLAY ACTIVITY", L"DISPLAY TODO", L"DISPLAY FLOATING", L"", L"EDIT NAME index newName", L"EDIT START index newStartDatetime", 
 				L"EDIT END index newEndDatetime", L"", L"EXPORT exportLocation", L"", L"IMPORT importLocation", L"", L"REFRESH", L"", L"SEARCH NAME queryName", 
 				L"SEARCH FROM datetime TO datetime", L"SEARCH START BEFORE queryDatetime", L"SEARCH START AFTER queryDatetime", L"SEARCH END BEFORE queryDatetime", 
 				L"SEARCH END AFTER queryDatetime", L"SEARCH TAGS tags", L"", L"SORT NAME", L"SORT NAME DESC", L"SORT START", L"SORT START DESC", 
