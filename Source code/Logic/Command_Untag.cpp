@@ -44,9 +44,10 @@ UIFeedback UntagCommand::undo() {
 	for (size_t i = 0 ; i < _successUntags.size() ; ++i) {
 		taskToUntag.addTag(_successUntags[i]);
 	}
+	std::vector<Task> tasksToDisplay = _runTimeStorageExecuted->refreshTasksToDisplay();
 	postUndoAction();
 
-	return UIFeedback(_runTimeStorageExecuted->refreshTasksToDisplay(), MESSAGE_UNTAG_UNDO);	
+	return UIFeedback(tasksToDisplay, MESSAGE_UNTAG_UNDO);	
 }
 
 bool UntagCommand::canUndo() {

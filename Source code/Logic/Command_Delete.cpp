@@ -43,8 +43,9 @@ UIFeedback DeleteIndexCommand::undo() {
 	_runTimeStorageExecuted -> insert(_taskDeleted, _entryIndex);
 	_taskDeleted = Task();
 	_entryIndex = std::numeric_limits<size_t>::infinity();
+	std::vector<Task> tasksToDisplay = _runTimeStorageExecuted->refreshTasksToDisplay();
 	postUndoAction();
-	return UIFeedback(_runTimeStorageExecuted->refreshTasksToDisplay(), MESSAGE_DELETE_UNDO);
+	return UIFeedback(tasksToDisplay, MESSAGE_DELETE_UNDO);
 }
 
 DeleteIndexCommand::~DeleteIndexCommand() {
@@ -107,9 +108,10 @@ UIFeedback DeleteBeforeCommand::undo(void) {
 
 	_tasksDeleted.clear();
 	_indexTaskDeleted.clear();
+	std::vector<Task> tasksToDisplay = _runTimeStorageExecuted->refreshTasksToDisplay();
 	postUndoAction();
 
-	return UIFeedback(_runTimeStorageExecuted -> refreshTasksToDisplay(), MESSAGE_DELETE_UNDO);
+	return UIFeedback(tasksToDisplay, MESSAGE_DELETE_UNDO);
 }
 
 DeleteBeforeCommand::~DeleteBeforeCommand(void) {
@@ -178,9 +180,10 @@ UIFeedback DeleteFromToCommand::undo(void) {
 
 	_tasksDeleted.clear();
 	_indexTaskDeleted.clear();
+	std::vector<Task> tasksToDisplay = _runTimeStorageExecuted->refreshTasksToDisplay();
 	postUndoAction();
 
-	return UIFeedback(_runTimeStorageExecuted -> refreshTasksToDisplay(), MESSAGE_DELETE_UNDO);
+	return UIFeedback(tasksToDisplay, MESSAGE_DELETE_UNDO);
 }
 
 DeleteFromToCommand::~DeleteFromToCommand(void) {
@@ -213,8 +216,9 @@ UIFeedback DeleteAllCommand::undo() {
 	}
 
 	_tasksDeleted.clear();
+	std::vector<Task> tasksToDisplay = _runTimeStorageExecuted->refreshTasksToDisplay();
 	postUndoAction();
-	return UIFeedback(_runTimeStorageExecuted->refreshTasksToDisplay(), MESSAGE_DELETE_UNDO);
+	return UIFeedback(tasksToDisplay, MESSAGE_DELETE_UNDO);
 }
 
 DeleteAllCommand::~DeleteAllCommand() {
@@ -270,9 +274,10 @@ UIFeedback DeleteCompleteCommand::undo(void) {
 
 	_tasksDeleted.clear();
 	_indexTaskDeleted.clear();
+	std::vector<Task> tasksToDisplay = _runTimeStorageExecuted->refreshTasksToDisplay();
 	postUndoAction();
 
-	return UIFeedback(_runTimeStorageExecuted -> refreshTasksToDisplay(), MESSAGE_DELETE_UNDO);
+	return UIFeedback(tasksToDisplay, MESSAGE_DELETE_UNDO);
 }
 
 DeleteCompleteCommand::~DeleteCompleteCommand(void) {
