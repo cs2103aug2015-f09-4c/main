@@ -1,12 +1,6 @@
-//@@author A0124439E
-// The UI of Swiftask uses .NET framework to create a Windows Form application
-// Limit length of commandBox to 144 chars because of buffer limit in logic
-#pragma once
-#include <msclr/marshal_cppstd.h>
-#include <sstream>
-#include "../Logic/Logic.h"
-#include "Logger/Logger.h"
-//@@author generated
+# generated
+###### UI\UI.h
+``` h
 namespace UI {
 
 	using namespace System;
@@ -20,27 +14,9 @@ namespace UI {
 	/// Summary for Swiftask
 	/// </summary>
 
-	//@@authorA0124439E
-	// Command called during construction of Swiftask to obtain saved data
-	const std::string initialisingCommand = "refresh";
-
-	enum OutputBoxColumn {
-		NUM, TASKTEXT, START, END, TAGS, DONE
-	};
-
-	struct dateTimeStat {
-		bool isNotDateTime;
-		bool hasPast;
-	};
-
-	public ref class Swiftask : public System::Windows::Forms::Form {
-	private: 
-		Logic* logic;
-		UIFeedback* feedback;
-		Logger* logger;
-
-	private: 
-		//@@author generated
+```
+###### UI\UI.h
+``` h
 		System::Windows::Forms::DataGridViewTextBoxColumn^  number;
 		System::Windows::Forms::DataGridViewTextBoxColumn^  tasks;
 		System::Windows::Forms::DataGridViewTextBoxColumn^  start;
@@ -49,76 +25,9 @@ namespace UI {
 		System::Windows::Forms::DataGridViewTextBoxColumn^  done;
 
 	public:
-		//@@author A0124439E
-		Swiftask(void) {
-			InitializeComponent();
-
-			logger = Logger::getInstance();
-
-			formatOutputBoxInitial();
-
-			logic = new Logic();
-			feedback = new UIFeedback;
-
-			(*feedback) = logic->executeCommand(initialisingCommand);
-			displayInOutputBox();
-		}
-	private: 
-		// Gets user command input from commandBox and return it in std::string
-		// Resets the commandBox
-		std::string getStdStringCommand(void);
-
-		// A method to call specialised methods to update parts of UI component
-		void updateUI(void);
-
-		// The three following methods update specific parts of UI component
-		// These methods takes information from private attribute feedback for update
-		void updateResults(void);
-		void clearOutputBox(void);
-		void displayInOutputBox(void);
-
-		// Format colours of headers in outputBox
-		void formatOutputBoxInitial(void);
-
-		// A method to call specialised methods to format colours for fonts and backgrounds in outputBox
-		// Colours formatting is done row by row
-		// Pre-condition:	rowIndex given should not be out of bounds
-		void formatOutputBox(bool isCompleted, dateTimeStat start, dateTimeStat end, int rowIndex);
-
-		// This method set the background of odd rows of outputBox in one colour
-		// and even rows in another colour
-		// Pre-condition:	rowIndex given should not be out of bounds
-		void formatOutputBoxRow(int rowIndex);
-
-		// This method colours cells under start and end column according to current system time
-		// Pre-condition:	start and end are based on startDateTime and endDateTime respectively.
-		//					startDateTime should happen chronologically before endDateTime.
-		//					rowIndex given should not be out of bounds
-		void formatOutputBoxStartEndColumn(bool isCompleted, dateTimeStat start, dateTimeStat end, int rowIndex);
-
-		// This method colours the cell under done column according to isCompleted
-		// Pre-condition:	rowIndex given should not be out of bounds
-		void formatOutputBoxDoneColumn(bool isCompleted, int rowIndex);
-
-		// Helper function for determining if the given posix time is a date time
-		// If it is a date time, checks if the time has past
-		// Information is returned in a struct dateTimeStat
-		dateTimeStat timePast(boost::posix_time::ptime posixDateTime);
-
-	protected:
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		~Swiftask()
-		{
-			if (components)
-			{
-				delete components;
-				delete logic;
-			}
-		}
-	private: 
-		//@@author generated
+```
+###### UI\UI.h
+``` h
 		System::Windows::Forms::DataGridView^  outputBox;
 		System::Windows::Forms::TextBox^  commandBox;
 		System::Windows::Forms::Label^  results;
@@ -278,42 +187,4 @@ namespace UI {
 
 
 	private: 
-		//@@author A0124439E
-		// When the enter key is pressed, UI will take in the command string and pass it to the Logic component
-		// for execution. An UIFeedback object is returned from Logic and the UI is updated.
-		System::Void commandBox_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
-			if (e->KeyCode == Keys::Enter) {
-				bool isValid = true;
-				std::string eMessage;
-				std::string commandString = getStdStringCommand();
-
-				assert(feedback != NULL);
-
-				logger->logDEBUG("UI calling Logic for : " + commandString);
-
-				try {
-					(*feedback) = logic->executeCommand(commandString);
-				} catch (std::string &e) {
-					isValid = false;
-					eMessage = e;
-					logger->logDEBUG("UI caught std::string : " + eMessage);
-				} catch (std::exception &e) {
-					isValid = false;
-					eMessage = e.what();
-					logger->logDEBUG("UI caught std::string : " + eMessage);
-				}
-
-				logger->logDEBUG("UIFeedback returned from logic");
-
-				if (isValid) {
-					updateUI();
-				} else {
-					System::String^ managed = gcnew String(eMessage.c_str());
-					results->Text = managed;
-				}
-			}
-
-			return;
-		}
-	};
-}
+```
