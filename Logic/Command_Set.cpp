@@ -53,9 +53,10 @@ UIFeedback SetCompleteCommand::undo() {
 	assert(taskToSet.isComplete());
 	taskToSet.toggleComplete();
 
+	std::vector<Task> tasksToDisplay = _runTimeStorageExecuted->refreshTasksToDisplay();
 	postUndoAction();
 
-	return UIFeedback(_runTimeStorageExecuted->refreshTasksToDisplay(), MESSAGE_SET_UNDO);
+	return UIFeedback(tasksToDisplay, MESSAGE_SET_UNDO);
 }
 
 bool SetCompleteCommand::canUndo() {
