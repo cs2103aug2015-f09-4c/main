@@ -112,7 +112,7 @@ public:
 	DeleteBeforeCommand(ptime end);
 
 	/**
-	 *	Execution method of DeleteBeforeCommand.
+	 *	Execution method of DeleteEndBeforeCommand.
 	 *	Delete all tasks that end before _endDateTime.
 	 */
 	UIFeedback DeleteCommand::execute(RunTimeStorage*);

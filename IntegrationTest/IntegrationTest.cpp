@@ -658,9 +658,6 @@ public:
 		feedback = logic.executeCommand(deleteFromToCommandEffect);
 
 		Assert::AreEqual((size_t) 0, feedback.getTasksForDisplay().size());
-		
-		//Testing DELETE FROM command
-		feedback = logic.executeCommand(ADD_COMMAND_3);
 
 		// Testing DELETE ALL command
 		feedback = logic.executeCommand(ADD_COMMAND_1);
