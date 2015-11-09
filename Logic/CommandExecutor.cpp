@@ -48,6 +48,7 @@ UIFeedback CommandExecutor::undo() {
 
 	delete command;
 
+	_runTimeStorage->saveToFile();
 	return feedback;
 }
 

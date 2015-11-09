@@ -182,7 +182,7 @@ void PhysicalStorageHandler::setSaveLocation(std::string filePath) {
 
 	splitFileName(filePath, path, file);
 
-	int validExtensionSize = VALID_FILE_EXTENSION.size();
+	unsigned int validExtensionSize = VALID_FILE_EXTENSION.size();
 	if (file.size() <= validExtensionSize ||
 		0 != file.compare(file.size() - validExtensionSize, validExtensionSize, VALID_FILE_EXTENSION)) {
 			throw INVALID_FILE_EXCEPTION(INVALID_FILE_ERROR_MESSAGE);
